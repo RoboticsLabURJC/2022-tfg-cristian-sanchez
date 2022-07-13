@@ -1,0 +1,5 @@
+drones/drone_circuit_assets
+/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/drone_circuit_assets/cmake.lock /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/./cmake.lock
+/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/drone_circuit_assets/lib/pkgconfig/drone_circuit_assets.pc /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/pkgconfig/drone_circuit_assets.pc
+/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/drone_circuit_assets/share/drone_circuit_assets/cmake/drone_circuit_assetsConfig-version.cmake /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/share/drone_circuit_assets/cmake/drone_circuit_assetsConfig-version.cmake
+/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/drone_circuit_assets/share/drone_circuit_assets/cmake/drone_circuit_assetsConfig.cmake /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/share/drone_circuit_assets/cmake/drone_circuit_assetsConfig.cmake

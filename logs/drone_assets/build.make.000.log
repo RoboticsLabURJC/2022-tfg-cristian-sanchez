@@ -1,0 +1,16 @@
+[35m[1mScanning dependencies of target wall4plugin[0m
+[35m[1mScanning dependencies of target wall2plugin[0m
+[35m[1mScanning dependencies of target wall1plugin[0m
+[ 12%] [32mBuilding CXX object CMakeFiles/wall1plugin.dir/plugins/wall1.cc.o[0m
+[ 25%] [32mBuilding CXX object CMakeFiles/wall4plugin.dir/plugins/wall4.cc.o[0m
+[ 37%] [32mBuilding CXX object CMakeFiles/wall2plugin.dir/plugins/wall2.cc.o[0m
+[35m[1mScanning dependencies of target wall3plugin[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/wall3plugin.dir/plugins/wall3.cc.o[0m
+[ 62%] [32m[1mLinking CXX shared library /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/drone_assets/lib/libwall1plugin.so[0m
+[ 75%] [32m[1mLinking CXX shared library /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/drone_assets/lib/libwall4plugin.so[0m
+[ 87%] [32m[1mLinking CXX shared library /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/drone_assets/lib/libwall2plugin.so[0m
+[100%] [32m[1mLinking CXX shared library /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/drone_assets/lib/libwall3plugin.so[0m
+[100%] Built target wall4plugin
+[100%] Built target wall1plugin
+[100%] Built target wall2plugin
+[100%] Built target wall3plugin

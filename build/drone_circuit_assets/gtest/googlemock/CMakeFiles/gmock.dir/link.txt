@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC   -shared -Wl,-soname,libgmock.so -o ../lib/libgmock.so CMakeFiles/gmock.dir/src/gmock-all.cc.o  -Wl,-rpath,/home/csanrod/TFG/2022-tfg-cristian-sanchez/build/drone_circuit_assets/gtest/lib ../lib/libgtest.so -lpthread 

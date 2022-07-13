@@ -1,0 +1,8 @@
+prefix=/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/drone_circuit_assets
+
+Name: drone_circuit_assets
+Description: Description of drone_circuit_assets
+Version: 1.4.2
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

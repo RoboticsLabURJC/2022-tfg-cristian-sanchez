@@ -1,0 +1,12 @@
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/./local_setup.zsh
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/./env.sh
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/./setup.zsh
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/./local_setup.bash
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/./cmake.lock
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/./setup.sh
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/./_setup_util.py
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/./setup.bash
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/./local_setup.sh
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/pkgconfig/catkin_tools_prebuild.pc
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig-version.cmake
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig.cmake

@@ -1,0 +1,6 @@
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/libmavros_extras.so
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/pkgconfig/mavros_extras.pc
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/mavros_extras/servo_state_publisher
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/mavros_extras/visualization
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/share/mavros_extras/cmake/mavros_extrasConfig-version.cmake
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/share/mavros_extras/cmake/mavros_extrasConfig.cmake

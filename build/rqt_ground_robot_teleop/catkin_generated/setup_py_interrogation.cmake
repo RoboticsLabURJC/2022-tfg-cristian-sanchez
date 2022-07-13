@@ -1,0 +1,7 @@
+set(rqt_ground_robot_teleop_SETUP_PY_SETUP_MODULE "setuptools")
+set(rqt_ground_robot_teleop_SETUP_PY_VERSION "1.4.2")
+set(rqt_ground_robot_teleop_SETUP_PY_SCRIPTS "")
+set(rqt_ground_robot_teleop_SETUP_PY_PACKAGES "rqt_ground_robot_teleop")
+set(rqt_ground_robot_teleop_SETUP_PY_PACKAGE_DIRS "src/rqt_ground_robot_teleop")
+set(rqt_ground_robot_teleop_SETUP_PY_MODULES "")
+set(rqt_ground_robot_teleop_SETUP_PY_MODULE_DIRS "")

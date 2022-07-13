@@ -1,0 +1,5 @@
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/libmavconn.so
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/pkgconfig/libmavconn.pc
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/share/libmavconn/cmake/libmavconnConfig.cmake
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/share/libmavconn/cmake/libmavconn-extras.cmake
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/share/libmavconn/cmake/libmavconnConfig-version.cmake

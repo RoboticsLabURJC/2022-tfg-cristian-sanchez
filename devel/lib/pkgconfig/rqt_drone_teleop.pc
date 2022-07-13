@@ -1,0 +1,1 @@
+/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/rqt_drone_teleop/lib/pkgconfig/rqt_drone_teleop.pc

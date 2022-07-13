@@ -1,0 +1,8 @@
+prefix=/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/tello_driver
+
+Name: tello_driver
+Description: Description of tello_driver
+Version: 1.4.2
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

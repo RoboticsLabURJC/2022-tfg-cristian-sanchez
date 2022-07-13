@@ -1,0 +1,5 @@
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/libmavros_sitl_test.so
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/test_mavros/sitl_test_node
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/pkgconfig/test_mavros.pc
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/share/test_mavros/cmake/test_mavrosConfig-version.cmake
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/share/test_mavros/cmake/test_mavrosConfig.cmake

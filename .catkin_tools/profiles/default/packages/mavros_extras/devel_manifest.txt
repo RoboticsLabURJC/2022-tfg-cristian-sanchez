@@ -1,0 +1,8 @@
+mavros/mavros_extras
+/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/mavros_extras/cmake.lock /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/./cmake.lock
+/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/mavros_extras/lib/libmavros_extras.so /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/libmavros_extras.so
+/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/mavros_extras/lib/pkgconfig/mavros_extras.pc /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/pkgconfig/mavros_extras.pc
+/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/mavros_extras/lib/mavros_extras/servo_state_publisher /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/mavros_extras/servo_state_publisher
+/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/mavros_extras/lib/mavros_extras/visualization /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/mavros_extras/visualization
+/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/mavros_extras/share/mavros_extras/cmake/mavros_extrasConfig-version.cmake /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/share/mavros_extras/cmake/mavros_extrasConfig-version.cmake
+/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/mavros_extras/share/mavros_extras/cmake/mavros_extrasConfig.cmake /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/share/mavros_extras/cmake/mavros_extrasConfig.cmake

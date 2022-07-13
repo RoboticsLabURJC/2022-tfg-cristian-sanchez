@@ -1,0 +1,6 @@
+drones/drone_wrapper
+/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/drone_wrapper/cmake.lock /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/./cmake.lock
+/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/drone_wrapper/lib/python3/dist-packages/drone_wrapper/__init__.py /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/python3/dist-packages/drone_wrapper/__init__.py
+/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/drone_wrapper/lib/pkgconfig/drone_wrapper.pc /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/pkgconfig/drone_wrapper.pc
+/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/drone_wrapper/share/drone_wrapper/cmake/drone_wrapperConfig-version.cmake /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/share/drone_wrapper/cmake/drone_wrapperConfig-version.cmake
+/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/drone_wrapper/share/drone_wrapper/cmake/drone_wrapperConfig.cmake /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/share/drone_wrapper/cmake/drone_wrapperConfig.cmake

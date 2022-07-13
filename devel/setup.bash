@@ -1,0 +1,1 @@
+/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/catkin_tools_prebuild/setup.bash

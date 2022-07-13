@@ -1,0 +1,4 @@
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/python3/dist-packages/rqt_ground_robot_teleop/__init__.py
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/pkgconfig/rqt_ground_robot_teleop.pc
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/share/rqt_ground_robot_teleop/cmake/rqt_ground_robot_teleopConfig.cmake
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/share/rqt_ground_robot_teleop/cmake/rqt_ground_robot_teleopConfig-version.cmake

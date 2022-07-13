@@ -1,0 +1,6 @@
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/python3/dist-packages/rqt_vel_teleop/__init__.py
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/python3/dist-packages/rqt_cam_viewer/__init__.py
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/python3/dist-packages/rqt_pos_teleop/__init__.py
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/lib/pkgconfig/rqt_drone_teleop.pc
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/share/rqt_drone_teleop/cmake/rqt_drone_teleopConfig.cmake
+Symlinking /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/share/rqt_drone_teleop/cmake/rqt_drone_teleopConfig-version.cmake

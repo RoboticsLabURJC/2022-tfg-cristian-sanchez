@@ -1,0 +1,826 @@
+[35m[1mScanning dependencies of target tf2_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target actionlib_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target std_srvs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target trajectory_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target actionlib_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target actionlib_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target trajectory_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target trajectory_msgs_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target tf2_msgs_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target tf2_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target std_srvs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target std_srvs_generate_messages_eus[0m
+[  0%] Built target std_srvs_generate_messages_lisp
+[  0%] Built target std_srvs_generate_messages_nodejs
+[  0%] Built target trajectory_msgs_generate_messages_nodejs
+[  0%] Built target trajectory_msgs_generate_messages_lisp
+[  0%] Built target tf2_msgs_generate_messages_nodejs
+[  0%] Built target actionlib_msgs_generate_messages_nodejs
+[  0%] Built target trajectory_msgs_generate_messages_cpp
+[  0%] Built target tf2_msgs_generate_messages_lisp
+[  0%] Built target actionlib_generate_messages_cpp
+[  0%] Built target tf2_msgs_generate_messages_cpp
+[  0%] Built target actionlib_generate_messages_nodejs
+[  0%] Built target std_srvs_generate_messages_eus
+[35m[1mScanning dependencies of target nav_msgs_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target geometry_msgs_generate_messages_eus[0m
+[35m[1mScanning dependencies of target trajectory_msgs_generate_messages_eus[0m
+[35m[1mScanning dependencies of target std_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target actionlib_msgs_generate_messages_eus[0m
+[35m[1mScanning dependencies of target geometry_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target geometry_msgs_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_py[0m
+[35m[1mScanning dependencies of target roscpp_generate_messages_py[0m
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target roscpp_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target actionlib_generate_messages_lisp[0m
+[  0%] Built target rosgraph_msgs_generate_messages_py
+[  0%] Built target geometry_msgs_generate_messages_nodejs
+[  0%] Built target geometry_msgs_generate_messages_eus
+[  0%] Built target roscpp_generate_messages_lisp
+[  0%] Built target rosgraph_msgs_generate_messages_lisp
+[  0%] Built target trajectory_msgs_generate_messages_eus
+[  0%] Built target actionlib_msgs_generate_messages_eus
+[  0%] Built target std_msgs_generate_messages_nodejs
+[  0%] Built target nav_msgs_generate_messages_cpp
+[  0%] Built target geometry_msgs_generate_messages_cpp
+[  0%] Built target roscpp_generate_messages_py
+[  0%] Built target actionlib_generate_messages_lisp
+[35m[1mScanning dependencies of target nav_msgs_generate_messages_eus[0m
+[35m[1mScanning dependencies of target diagnostic_msgs_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target diagnostic_msgs_generate_messages_eus[0m
+[35m[1mScanning dependencies of target mavros_msgs_generate_messages_eus[0m
+[35m[1mScanning dependencies of target std_msgs_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target roscpp_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target actionlib_generate_messages_py[0m
+[35m[1mScanning dependencies of target std_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target std_msgs_generate_messages_py[0m
+[35m[1mScanning dependencies of target diagnostic_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target std_srvs_generate_messages_cpp[0m
+[  0%] Built target roscpp_generate_messages_cpp
+[  0%] Built target actionlib_generate_messages_py
+[  0%] Built target diagnostic_msgs_generate_messages_eus
+[  0%] Built target diagnostic_msgs_generate_messages_cpp
+[  0%] Built target nav_msgs_generate_messages_eus
+[  0%] Built target std_msgs_generate_messages_py
+[  0%] Built target mavros_msgs_generate_messages_eus
+[  0%] Built target diagnostic_msgs_generate_messages_lisp
+[  0%] Built target std_msgs_generate_messages_cpp
+[35m[1mScanning dependencies of target geometry_msgs_generate_messages_lisp[0m
+[  0%] Built target std_msgs_generate_messages_lisp
+[  0%] Built target std_srvs_generate_messages_cpp
+[  0%] Built target geometry_msgs_generate_messages_lisp
+[35m[1mScanning dependencies of target uuid_msgs_generate_messages_eus[0m
+[35m[1mScanning dependencies of target mavros_msgs_generate_messages_py[0m
+[35m[1mScanning dependencies of target diagnostic_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target roscpp_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target trajectory_msgs_generate_messages_py[0m
+[35m[1mScanning dependencies of target uuid_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target actionlib_generate_messages_eus[0m
+[35m[1mScanning dependencies of target roscpp_generate_messages_eus[0m
+[35m[1mScanning dependencies of target uuid_msgs_generate_messages_cpp[0m
+[  0%] Built target trajectory_msgs_generate_messages_py
+[  0%] Built target roscpp_generate_messages_nodejs
+[  0%] Built target rosgraph_msgs_generate_messages_cpp
+[  0%] Built target diagnostic_msgs_generate_messages_nodejs
+[  0%] Built target actionlib_generate_messages_eus
+[35m[1mScanning dependencies of target geometry_msgs_generate_messages_py[0m
+[35m[1mScanning dependencies of target tf2_msgs_generate_messages_eus[0m
+[  0%] Built target mavros_msgs_generate_messages_py
+[  0%] Built target uuid_msgs_generate_messages_lisp
+[  0%] Built target uuid_msgs_generate_messages_eus
+[  0%] Built target roscpp_generate_messages_eus
+[  0%] Built target geometry_msgs_generate_messages_py
+[35m[1mScanning dependencies of target sensor_msgs_generate_messages_py[0m
+[35m[1mScanning dependencies of target nav_msgs_generate_messages_py[0m
+[  0%] Built target tf2_msgs_generate_messages_eus
+[35m[1mScanning dependencies of target geographic_msgs_generate_messages_eus[0m
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target geographic_msgs_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_eus[0m
+[  0%] Built target uuid_msgs_generate_messages_cpp
+[35m[1mScanning dependencies of target std_srvs_generate_messages_py[0m
+[35m[1mScanning dependencies of target diagnostic_msgs_generate_messages_py[0m
+[35m[1mScanning dependencies of target nav_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target sensor_msgs_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target geographic_msgs_generate_messages_lisp[0m
+[  0%] Built target geographic_msgs_generate_messages_eus
+[  0%] Built target nav_msgs_generate_messages_py
+[  0%] Built target sensor_msgs_generate_messages_py
+[  0%] Built target rosgraph_msgs_generate_messages_eus
+[  0%] Built target nav_msgs_generate_messages_nodejs
+[  0%] Built target rosgraph_msgs_generate_messages_nodejs
+[  0%] Built target std_srvs_generate_messages_py
+[  0%] Built target diagnostic_msgs_generate_messages_py
+[35m[1mScanning dependencies of target geographic_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target sensor_msgs_generate_messages_eus[0m
+[  0%] Built target geographic_msgs_generate_messages_lisp
+[  0%] Built target sensor_msgs_generate_messages_cpp
+[35m[1mScanning dependencies of target geographic_msgs_generate_messages_py[0m
+[  0%] Built target geographic_msgs_generate_messages_cpp
+[35m[1mScanning dependencies of target sensor_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target tf2_msgs_generate_messages_py[0m
+[35m[1mScanning dependencies of target uuid_msgs_generate_messages_py[0m
+[35m[1mScanning dependencies of target actionlib_msgs_generate_messages_py[0m
+[35m[1mScanning dependencies of target uuid_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target mavros_msgs_generate_messages_cpp[0m
+[  0%] Built target geographic_msgs_generate_messages_nodejs
+[35m[1mScanning dependencies of target mavros_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target mavros_msgs_generate_messages_nodejs[0m
+[  0%] Built target geographic_msgs_generate_messages_py
+[35m[1mScanning dependencies of target sensor_msgs_generate_messages_nodejs[0m
+[  0%] Built target sensor_msgs_generate_messages_eus
+[  0%] Built target uuid_msgs_generate_messages_nodejs
+[  0%] Built target sensor_msgs_generate_messages_lisp
+[  0%] Built target uuid_msgs_generate_messages_py
+[  0%] Built target tf2_msgs_generate_messages_py
+[  0%] Built target mavros_msgs_generate_messages_lisp
+[  0%] Built target actionlib_msgs_generate_messages_py
+[35m[1mScanning dependencies of target nav_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target actionlib_msgs_generate_messages_cpp[0m
+[  0%] Built target sensor_msgs_generate_messages_nodejs
+[  0%] Built target mavros_msgs_generate_messages_cpp
+[  0%] Built target mavros_msgs_generate_messages_nodejs
+[35m[1mScanning dependencies of target actionlib_msgs_generate_messages_lisp[0m
+[  0%] Built target nav_msgs_generate_messages_lisp
+[35m[1mScanning dependencies of target std_msgs_generate_messages_eus[0m
+[  0%] Built target actionlib_msgs_generate_messages_cpp
+[  0%] Built target actionlib_msgs_generate_messages_lisp
+[  0%] Built target std_msgs_generate_messages_eus
+[35m[1mScanning dependencies of target mavros[0m
+[  4%] [32mBuilding CXX object CMakeFiles/mavros.dir/src/lib/enum_to_string.cpp.o[0m
+[  4%] [32mBuilding CXX object CMakeFiles/mavros.dir/src/lib/ftf_frame_conversions.cpp.o[0m
+[  6%] [32mBuilding CXX object CMakeFiles/mavros.dir/src/lib/enum_sensor_orientation.cpp.o[0m
+[  8%] [32mBuilding CXX object CMakeFiles/mavros.dir/src/lib/mavlink_diag.cpp.o[0m
+[ 10%] [32mBuilding CXX object CMakeFiles/mavros.dir/src/lib/ftf_quaternion_utils.cpp.o[0m
+[ 13%] [32mBuilding CXX object CMakeFiles/mavros.dir/src/lib/mavros.cpp.o[0m
+[ 15%] [32mBuilding CXX object CMakeFiles/mavros.dir/src/lib/rosconsole_bridge.cpp.o[0m
+[ 17%] [32mBuilding CXX object CMakeFiles/mavros.dir/src/lib/uas_data.cpp.o[0m
+[ 19%] [32mBuilding CXX object CMakeFiles/mavros.dir/src/lib/uas_timesync.cpp.o[0m
+[ 21%] [32mBuilding CXX object CMakeFiles/mavros.dir/src/lib/uas_stringify.cpp.o[0m
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/enum_sensor_orientation.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/enum_sensor_orientation.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/enum_to_string.cpp:19[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/enum_to_string.cpp:19[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/ftf_frame_conversions.cpp:[m[K In function ‘[01m[KEigen::Quaterniond mavros::ftf::detail::transform_orientation(const Quaterniond&, mavros::ftf::StaticTF)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/ftf_frame_conversions.cpp:93:1:[m[K [01;35m[Kwarning: [m[Kcontrol reaches end of non-void function [[01;35m[K-Wreturn-type[m[K]
+   93 | [01;35m[K}[m[K
+      | [01;35m[K^[m[K
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/ftf_frame_conversions.cpp:[m[K In function ‘[01m[KEigen::Vector3d mavros::ftf::detail::transform_static_frame(const Vector3d&, mavros::ftf::StaticTF)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/ftf_frame_conversions.cpp:107:1:[m[K [01;35m[Kwarning: [m[Kcontrol reaches end of non-void function [[01;35m[K-Wreturn-type[m[K]
+  107 | [01;35m[K}[m[K
+      | [01;35m[K^[m[K
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/ftf_frame_conversions.cpp:[m[K In function ‘[01m[Kmavros::ftf::Covariance3d mavros::ftf::detail::transform_static_frame(const Covariance3d&, mavros::ftf::StaticTF)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/ftf_frame_conversions.cpp:127:1:[m[K [01;35m[Kwarning: [m[Kcontrol reaches end of non-void function [[01;35m[K-Wreturn-type[m[K]
+  127 | [01;35m[K}[m[K
+      | [01;35m[K^[m[K
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/ftf_frame_conversions.cpp:[m[K In function ‘[01m[Kmavros::ftf::Covariance6d mavros::ftf::detail::transform_static_frame(const Covariance6d&, mavros::ftf::StaticTF)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/ftf_frame_conversions.cpp:158:1:[m[K [01;35m[Kwarning: [m[Kcontrol reaches end of non-void function [[01;35m[K-Wreturn-type[m[K]
+  158 | [01;35m[K}[m[K
+      | [01;35m[K^[m[K
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/ftf_frame_conversions.cpp:[m[K In function ‘[01m[Kmavros::ftf::Covariance9d mavros::ftf::detail::transform_static_frame(const Covariance9d&, mavros::ftf::StaticTF)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/ftf_frame_conversions.cpp:191:1:[m[K [01;35m[Kwarning: [m[Kcontrol reaches end of non-void function [[01;35m[K-Wreturn-type[m[K]
+  191 | [01;35m[K}[m[K
+      | [01;35m[K^[m[K
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/ftf_frame_conversions.cpp:[m[K In function ‘[01m[KEigen::Vector3d mavros::ftf::detail::transform_static_frame(const Vector3d&, const Vector3d&, mavros::ftf::StaticEcefTF)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/ftf_frame_conversions.cpp:232:1:[m[K [01;35m[Kwarning: [m[Kcontrol reaches end of non-void function [[01;35m[K-Wreturn-type[m[K]
+  232 | [01;35m[K}[m[K
+      | [01;35m[K^[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/uas_data.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/uas_data.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/uas_stringify.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/uas_stringify.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/uas_timesync.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/uas_timesync.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros.h:24[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/mavros.cpp:15[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros.h:24[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/lib/mavros.cpp:15[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+[ 23%] [32m[1mLinking CXX shared library /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/mavros/lib/libmavros.so[0m
+[ 23%] Built target mavros
+[35m[1mScanning dependencies of target gcs_bridge[0m
+[35m[1mScanning dependencies of target mavros_node[0m
+[35m[1mScanning dependencies of target mavros_plugins[0m
+[ 26%] [32mBuilding CXX object CMakeFiles/gcs_bridge.dir/src/gcs_bridge.cpp.o[0m
+[ 28%] [32mBuilding CXX object CMakeFiles/mavros_node.dir/src/mavros_node.cpp.o[0m
+[ 34%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/3dr_radio.cpp.o[0m
+[ 34%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/altitude.cpp.o[0m
+[ 34%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/actuator_control.cpp.o[0m
+[ 36%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/command.cpp.o[0m
+[ 39%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/dummy.cpp.o[0m
+[ 45%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/ftp.cpp.o[0m
+[ 45%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/geofence.cpp.o[0m
+[ 45%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/global_position.cpp.o[0m
+[ 47%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/home_position.cpp.o[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/hil.cpp.o[0m
+[ 52%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/imu.cpp.o[0m
+[ 58%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/mission_protocol_base.cpp.o[0m
+[ 58%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/local_position.cpp.o[0m
+[ 58%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/manual_control.cpp.o[0m
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/gcs_bridge.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/gcs_bridge.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/hil.cpp:19[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/hil.cpp:19[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mission_protocol_base.h:27[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/mission_protocol_base.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mission_protocol_base.h:27[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/mission_protocol_base.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/ftp.cpp:20[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/ftp.cpp:20[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/3dr_radio.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/3dr_radio.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mission_protocol_base.h:27[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/geofence.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mission_protocol_base.h:27[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/geofence.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros.h:24[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/mavros_node.cpp:14[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros.h:24[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/mavros_node.cpp:14[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/home_position.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/home_position.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/manual_control.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/manual_control.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/altitude.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/altitude.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/local_position.cpp:19[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/local_position.cpp:19[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/imu.cpp:18[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/imu.cpp:18[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/dummy.cpp:18[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/dummy.cpp:18[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/global_position.cpp:20[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/global_position.cpp:20[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/actuator_control.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/actuator_control.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/command.cpp:19[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/command.cpp:19[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+[ 60%] [32m[1mLinking CXX executable /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/mavros/lib/mavros/gcs_bridge[0m
+[ 60%] Built target gcs_bridge
+[ 63%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/nav_controller_output.cpp.o[0m
+[ 65%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/param.cpp.o[0m
+[ 67%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/rallypoint.cpp.o[0m
+[ 69%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/rc_io.cpp.o[0m
+[ 71%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/safety_area.cpp.o[0m
+[ 73%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/setpoint_accel.cpp.o[0m
+[ 76%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/setpoint_attitude.cpp.o[0m
+[ 78%] [32m[1mLinking CXX executable /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/mavros/lib/mavros/mavros_node[0m
+[ 80%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/setpoint_position.cpp.o[0m
+[ 82%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/setpoint_raw.cpp.o[0m
+[ 84%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/setpoint_velocity.cpp.o[0m
+[ 84%] Built target mavros_node
+[ 86%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/setpoint_trajectory.cpp.o[0m
+[ 89%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/sys_status.cpp.o[0m
+[ 91%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/sys_time.cpp.o[0m
+[ 93%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/vfr_hud.cpp.o[0m
+[ 95%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/waypoint.cpp.o[0m
+[ 97%] [32mBuilding CXX object CMakeFiles/mavros_plugins.dir/src/plugins/wind_estimation.cpp.o[0m
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/nav_controller_output.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/nav_controller_output.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/setpoint_accel.cpp:18[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/setpoint_accel.cpp:18[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/param.cpp:19[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/param.cpp:19[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/rc_io.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/rc_io.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mission_protocol_base.h:27[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/rallypoint.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mission_protocol_base.h:27[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/rallypoint.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/safety_area.cpp:18[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/safety_area.cpp:18[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/setpoint_raw.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/setpoint_raw.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/setpoint_velocity.cpp:18[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/setpoint_velocity.cpp:18[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/setpoint_trajectory.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/setpoint_trajectory.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/sys_status.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/sys_status.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/setpoint_attitude.cpp:18[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/setpoint_attitude.cpp:18[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/setpoint_position.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/setpoint_position.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/sys_time.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/sys_time.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/vfr_hud.cpp:18[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/vfr_hud.cpp:18[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mission_protocol_base.h:27[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/waypoint.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mission_protocol_base.h:27[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/waypoint.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/wind_estimation.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const Mavlink&, mavlink::mavlink_message_t&)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:74:63:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+   74 |  std::copy(rmsg.payload64.begin(), rmsg.payload64.end(), [01;35m[Kmmsg.payload64[m[K);
+      |                                                          [01;35m[K~~~~~^~~~~~~~~[m[K
+In file included from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/utils.h:22[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_uas.h:30[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/include/mavros/mavros_plugin.h:25[m[K,
+                 from [01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros/src/plugins/wind_estimation.cpp:17[m[K:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:[m[K In function ‘[01m[Kbool mavros_msgs::mavlink::convert(const mavlink_message_t&, mavros_msgs::Mavlink&, uint8_t)[m[K’:
+[01m[K/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/mavros/mavros_msgs/include/mavros_msgs/mavlink_convert.h:108:62:[m[K [01;35m[Kwarning: [m[Ktaking address of packed member of ‘[01m[Kmavlink::__mavlink_message[m[K’ may result in an unaligned pointer value [[01;35m[K-Waddress-of-packed-member[m[K]
+  108 |  rmsg.payload64 = mavros_msgs::Mavlink::_payload64_type([01;35m[Kmmsg.payload64[m[K, mmsg.payload64 + payload64_len);
+      |                                                         [01;35m[K~~~~~^~~~~~~~~[m[K
+[100%] [32m[1mLinking CXX shared library /home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/mavros/lib/libmavros_plugins.so[0m
+[100%] Built target mavros_plugins
