@@ -1,1 +1,1 @@
-/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/./cmake.lock 12
+/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/./cmake.lock 24
