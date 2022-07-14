@@ -1,1 +1,8 @@
-/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/teleop/lib/pkgconfig/teleop.pc
+prefix=/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel
+
+Name: teleop
+Description: Description of teleop
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

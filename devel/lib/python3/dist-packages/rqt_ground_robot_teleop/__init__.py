@@ -1,1 +1,0 @@
-/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/rqt_ground_robot_teleop/lib/python3/dist-packages/rqt_ground_robot_teleop/__init__.py
