@@ -7,7 +7,5 @@
 # new environment variables
 
 # modified environment variables
-export PKG_CONFIG_PATH='/opt/ros/noetic/lib/pkgconfig'
 export PWD='/home/csanrod/TFG/2022-tfg-cristian-sanchez/build'
-export PYTHONPATH='/opt/ros/noetic/lib/python3/dist-packages'
 export ROS_PACKAGE_PATH='/home/csanrod/TFG/2022-tfg-cristian-sanchez/src:/opt/ros/noetic/share'
