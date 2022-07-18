@@ -5,6 +5,64 @@ from geometry_msgs.msg import PoseStamped, Twist
 from mavros_msgs.msg import State
 from mavros_msgs.srv import CommandBool, CommandBoolRequest, SetMode, SetModeRequest
 
+import sys
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+
+import threading
+
+# ------------------------------------------------------------------------------ #
+
+#######
+# GUI #
+#######
+
+Z_MIN = 0
+Z_MAX = 100
+STEP = 1
+V_Z = 0.0
+
+class sliderdemo(QWidget):
+    def __init__(self, parent = None):
+        super(sliderdemo, self).__init__(parent)
+
+        layout = QVBoxLayout()
+        
+        # Title for slider
+        self.l1 = QLabel("linear_z")
+        layout.addWidget(self.l1)
+        
+        # Slider
+        self.sl = QSlider(Qt.Vertical)
+        self.sl.setMinimum(Z_MIN)
+        self.sl.setMaximum(Z_MAX)
+        self.sl.setValue(Z_MIN)
+        self.sl.setTickPosition(QSlider.TicksBelow)
+        self.sl.setTickInterval(STEP)        
+        layout.addWidget(self.sl)
+
+        # Set all
+        self.sl.valueChanged.connect(self.valuechange)
+        self.setLayout(layout)
+        self.setWindowTitle("Drone controller")
+        self.setGeometry(100, 100, 50, 400)
+
+        self.show()
+
+    def valuechange(self):
+        V_Z = self.sl.value()/Z_MAX
+
+def GUI_function(app):
+    # Threading tests (not working)
+    app.exec_()
+
+# ------------------------------------------------------------------------------ #
+
+#############
+# PX4 DRONE #
+#############
+
 current_state = State()
 
 # Callback to check the connection --> Drone armed + OFFBOARD
@@ -13,7 +71,36 @@ def state_cb(msg):
     current_state = msg
 
 
+
 if __name__ == "__main__":
+
+
+
+
+
+
+
+    
+
+    # ---- GUI instances ---- #
+    rospy.loginfo("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+    app = QApplication(sys.argv)
+    # ex = sliderdemo()
+    # ex.show()
+    GUI_thread = threading.Thread(target=GUI_function, args=(app,))
+    GUI_thread.start()
+    rospy.loginfo("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
+
+
+
+
+
+
+
+
+
+    
+    # ---- ROS part ---- #
     rospy.init_node("px4_example_py")
 
     # Mavros name??
@@ -47,7 +134,7 @@ if __name__ == "__main__":
     vel = Twist()
     vel.linear.x = 0.0
     vel.linear.y = 0.0
-    vel.linear.z = 5.0
+    vel.linear.z = 0.0
 
     vel.angular.x = 0.0
     vel.angular.x = 0.0
@@ -92,6 +179,15 @@ if __name__ == "__main__":
 
         # Pub without checking offboard mode and drone armed??
         # local_pos_pub.publish(pose)
+
+        rospy.loginfo("v_z: %s", str(V_Z))
+        vel.linear.x = 0.0
+        vel.linear.y = 0.0
+        vel.linear.z = V_Z
+
+        vel.angular.x = 0.0
+        vel.angular.x = 0.0
+        vel.angular.x = 0.0
         local_vel_pub.publish(vel)
 
         # Faster than 2Hz
