@@ -19,7 +19,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/teleop/package.xml"
   "/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/teleop/scripts/pub.py"
   "/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/teleop/scripts/px4_example.py"
-  "/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/teleop/scripts/rc_controller.py"
+  "/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/teleop/scripts/radio_control.py"
   "/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/teleop/scripts/sub.py"
   "/opt/ros/noetic/share/catkin/cmake/all.cmake"
   "/opt/ros/noetic/share/catkin/cmake/assert.cmake"

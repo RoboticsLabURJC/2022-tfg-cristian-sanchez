@@ -21,6 +21,6 @@ catkin_install_python(PROGRAMS
   scripts/pub.py 
   scripts/sub.py
   scripts/px4_example.py
-  scripts/rc_controller.py
+  scripts/radio_control.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

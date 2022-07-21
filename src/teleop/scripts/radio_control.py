@@ -31,13 +31,11 @@ def angular_z_change(val):
 if __name__ == '__main__':
     try:
         vel = Twist()
-        pub = rospy.Publisher('rc_controller_vel', Twist, queue_size=10)
-        rospy.init_node('rc_controller', anonymous=True)
-
-        pub.publish(vel)
+        pub = rospy.Publisher('rc_vel', Twist, queue_size=10)
+        rospy.init_node('rc_node', anonymous=True)
 
         blank_image = np.zeros(shape=[512, 512, 3], dtype=np.uint8) 
-        windowName = 'RC Controller'
+        windowName = 'Radio Control'
 
         cv2.imshow(windowName, blank_image)
 

@@ -65,6 +65,6 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/teleop" TYPE PROGRAM FILES "/home/csanrod/TFG/2022-tfg-cristian-sanchez/build/teleop/catkin_generated/installspace/rc_controller.py")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/teleop" TYPE PROGRAM FILES "/home/csanrod/TFG/2022-tfg-cristian-sanchez/build/teleop/catkin_generated/installspace/radio_control.py")
 endif()
 
