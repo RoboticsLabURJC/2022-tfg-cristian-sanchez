@@ -1,7 +1,6 @@
-#! /usr/bin/env python
-
+#!/usr/bin/env python3
 import rospy
-from geometry_msgs.msg import PoseStamped, Twist
+from geometry_msgs.msg import Twist
 from mavros_msgs.msg import State
 from mavros_msgs.srv import CommandBool, CommandBoolRequest, SetMode, SetModeRequest
 
@@ -22,15 +21,12 @@ def rc_cb(vel):
     velocities = vel
 
 if __name__ == "__main__":
-    # ---- ROS part ---- #
-    
-    rospy.init_node("px4_example_py")
+    rospy.init_node("px4_controller")
 
     # Mavros name??
     # msg sub/pub
     state_sub = rospy.Subscriber("mavros/state", State, callback = state_cb)
     rc_sub = rospy.Subscriber("rc_vel", Twist, callback = rc_cb)
-    local_pos_pub = rospy.Publisher("mavros/setpoint_position/local", PoseStamped, queue_size=10)
     local_vel_pub = rospy.Publisher("mavros/setpoint_velocity/cmd_vel_unstamped", Twist, queue_size=10)
     
     # services
@@ -48,13 +44,7 @@ if __name__ == "__main__":
     while(not rospy.is_shutdown() and not current_state.connected):
         rate.sleep()
 
-    # Once connected, elevate 2 m
-    pose = PoseStamped()
-
-    pose.pose.position.x = 0
-    pose.pose.position.y = 0
-    pose.pose.position.z = 2
-    
+    # Once connected    
     # Send a few setpoints before starting
     # otherwise mode will be rejected ??
     for i in range(100):   
@@ -92,7 +82,6 @@ if __name__ == "__main__":
                 last_req = rospy.Time.now()
 
         # Pub without checking offboard mode and drone armed??
-        # local_pos_pub.publish(pose)
         local_vel_pub.publish(velocities)
 
         # Faster than 2Hz

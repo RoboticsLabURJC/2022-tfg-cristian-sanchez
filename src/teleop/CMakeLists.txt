@@ -3,7 +3,8 @@ project(teleop)
 
 find_package(catkin REQUIRED)
 find_package(rospy REQUIRED)
-find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(mavros_msgs REQUIRED)
 
 catkin_package(
 #  INCLUDE_DIRS include
@@ -18,9 +19,7 @@ include_directories(
 )
 
 catkin_install_python(PROGRAMS 
-  scripts/pub.py 
-  scripts/sub.py
-  scripts/px4_example.py
+  scripts/px4_controller.py
   scripts/radio_control.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
