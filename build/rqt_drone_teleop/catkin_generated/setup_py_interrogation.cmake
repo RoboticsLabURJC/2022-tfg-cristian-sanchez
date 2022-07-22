@@ -1,7 +1,0 @@
-set(rqt_drone_teleop_SETUP_PY_SETUP_MODULE "setuptools")
-set(rqt_drone_teleop_SETUP_PY_VERSION "1.4.2")
-set(rqt_drone_teleop_SETUP_PY_SCRIPTS "")
-set(rqt_drone_teleop_SETUP_PY_PACKAGES "rqt_cam_viewer;rqt_pos_teleop;rqt_vel_teleop")
-set(rqt_drone_teleop_SETUP_PY_PACKAGE_DIRS "src/rqt_cam_viewer;src/rqt_pos_teleop;src/rqt_vel_teleop")
-set(rqt_drone_teleop_SETUP_PY_MODULES "")
-set(rqt_drone_teleop_SETUP_PY_MODULE_DIRS "")

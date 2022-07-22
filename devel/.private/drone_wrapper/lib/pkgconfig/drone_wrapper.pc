@@ -1,8 +1,0 @@
-prefix=/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/drone_wrapper
-
-Name: drone_wrapper
-Description: Description of drone_wrapper
-Version: 1.4.2
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

@@ -1,1 +1,0 @@
-/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/drone_wrapper/share/drone_wrapper/cmake/drone_wrapperConfig.cmake

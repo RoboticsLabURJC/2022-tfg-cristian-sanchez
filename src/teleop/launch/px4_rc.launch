@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+	<!-- Include the MAVROS node with SITL and Gazebo -->
+	<include file="$(find px4)/launch/mavros_posix_sitl.launch">
+	</include>
+
+	<!-- Our node to control the drone -->
+	<node pkg="teleop" type="px4_controller.py" name="px4_controller" required="true" output="screen" />
+
+	<!-- Our node to teleoperate the drone -->
+	<node pkg="teleop" type="radio_control.py" name="rc_node" required="true" output="screen" />
+</launch>

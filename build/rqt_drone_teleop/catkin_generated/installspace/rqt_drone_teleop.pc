@@ -1,8 +1,0 @@
-prefix=/home/csanrod/TFG/2022-tfg-cristian-sanchez/install
-
-Name: rqt_drone_teleop
-Description: Description of rqt_drone_teleop
-Version: 1.4.2
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

@@ -1,1 +1,0 @@
-/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/.private/drone_wrapper/lib/python3/dist-packages/drone_wrapper/__init__.py
