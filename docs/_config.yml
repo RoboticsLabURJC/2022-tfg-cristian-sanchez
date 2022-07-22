@@ -13,7 +13,7 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: TFG 2022 David Tapiador (Weblog)
+title: TFG 2022 Cristian Sanchez (Weblog)
 email: datadeve@hotmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Write an awesome description for your new site here. You can edit this
@@ -70,7 +70,7 @@ author:
       url: "https://github.com/tapi1300"
     - label: "TFG GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/RoboticsLabURJC/2022-tfg-david-tapiador"
+      url: "https://roboticslaburjc.github.io/2022-tfg-cristian-sanchez/"
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
       url: "https://instagram.com/tapi1300"
