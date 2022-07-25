@@ -3,6 +3,8 @@ permalink: /about me/
 title: "About me"
 ---
 
-My name is David Tapiador. I'm actually studying Software Robotics engineering.
+Hello, my name is Cristian and I'm currently finishing my degree in Robotics engineering in URJC.
 
-My hobbies are playing videogames (FPS, Mobas, metroidvanias...), having fun with my friends and enjoying programming 😎.
+I'm a passionate about programming and everything related to electronics and hardware. Presently improving my knownledge about ROS, C++, Python, AI, Git, ...etc.
+
+I like to describe myself as someone analytical, self-critical and perfectionist, always trying to advance to be competent on what I do.

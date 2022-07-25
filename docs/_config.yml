@@ -14,13 +14,13 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 title: TFG 2022 Cristian Sanchez (Weblog)
-email: datadeve@hotmail.com
+email: c.sanchezro.2018@alumnos.urjc.es
 description: >- # this means to ignore newlines until "baseurl:"
   Write an awesome description for your new site here. You can edit this
   line in _config.yml. It will appear in your document head meta (for
   Google search results) and in your feed.xml site description.
-twitter_username: tapii1300
-github_username: tapi1300
+twitter_username: csanrobotics
+github_username: csanrod
 minimal_mistakes_skin: dark
 search: true
 
@@ -58,34 +58,28 @@ plugins:
   - jekyll-include-cache
 
 author:
-  name   : "David Tapiador"
+  name   : "Cristian Sanchez"
   avatar : "/assets/images/bio-photo.jpg"
-  bio    : "Software robotics engineer.\nWeblog for my bachelor thesis"
+  bio    : "Software robotics engineer.\nBitacora for my TFG"
   links:
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/tapii1300"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/tapi1300"
+      url: "https://github.com/csanrod"
     - label: "TFG GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://roboticslaburjc.github.io/2022-tfg-cristian-sanchez/"
-    - label: "Instagram"
-      icon: "fab fa-fw fa-instagram"
-      url: "https://instagram.com/tapi1300"
+    - label: "Twitter"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://twitter.com/csanrobotics"
 
 footer:
   links:
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/tapii1300"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/tapi1300"
-    - label: "Instagram"
-      icon: "fab fa-fw fa-instagram"
-      url: "https://instagram.com/tapi1300"
+      url: "https://github.com/csanrod"
+    - label: "Twitter"
+      icon: "fab fa-fw fa-twitter-square"
+      url: "https://twitter.com/csanrobotics"
 
 defaults:
   # _posts
