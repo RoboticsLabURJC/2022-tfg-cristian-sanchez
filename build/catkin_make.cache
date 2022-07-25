@@ -1,2 +1,0 @@
-teleop
--DCATKIN_DEVEL_PREFIX=/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel -DCMAKE_INSTALL_PREFIX=/home/csanrod/TFG/2022-tfg-cristian-sanchez/install -G Unix Makefiles
