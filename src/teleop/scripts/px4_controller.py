@@ -8,8 +8,37 @@ from mavros_msgs.srv import CommandBool, CommandBoolRequest, SetMode, SetModeReq
 # PX4 DRONE #
 #############
 
+# -- GLOBAL VARIABLES -- #
 current_state = State()
 velocities = Twist()
+
+# -- METHODS -- #
+def avoid_rejection(vel):
+    # To avoid rejections
+    for i in range(100):   
+        if(rospy.is_shutdown()):
+            break
+
+        # local_pos_pub.publish(pose)
+        local_vel_pub.publish(vel)
+        rate.sleep()
+
+def system_check(mode, arm):
+    global last_req
+    # 5s between request to avoid flooding the system
+    if(current_state.mode != "OFFBOARD" and (rospy.Time.now() - last_req) > rospy.Duration(5.0)):
+        # OFFBOARD mode
+        if(set_mode_client.call(mode).mode_sent == True):
+            rospy.loginfo("OFFBOARD enabled")
+        
+        last_req = rospy.Time.now()
+    else:
+        if(not current_state.armed and (rospy.Time.now() - last_req) > rospy.Duration(5.0)):
+            # Drone armed
+            if(arming_client.call(arm).success == True):
+                rospy.loginfo("Vehicle armed")
+        
+            last_req = rospy.Time.now()
 
 # Callback to check the connection --> Drone armed + OFFBOARD
 def state_cb(msg):
@@ -20,23 +49,22 @@ def rc_cb(vel):
     global velocities
     velocities = vel
 
+
+# -- MAIN -- #
 if __name__ == "__main__":
     rospy.init_node("px4_controller")
 
-    # Mavros name??
-    # msg sub/pub
+    # Msgs
     state_sub = rospy.Subscriber("mavros/state", State, callback = state_cb)
     rc_sub = rospy.Subscriber("rc_vel", Twist, callback = rc_cb)
     local_vel_pub = rospy.Publisher("mavros/setpoint_velocity/cmd_vel_unstamped", Twist, queue_size=10)
     
-    # services
+    # Services
     rospy.wait_for_service("/mavros/cmd/arming")
-    arming_client = rospy.ServiceProxy("mavros/cmd/arming", CommandBool)    
-
+    arming_client = rospy.ServiceProxy("mavros/cmd/arming", CommandBool)
     rospy.wait_for_service("/mavros/set_mode")
     set_mode_client = rospy.ServiceProxy("mavros/set_mode", SetMode)
     
-
     # Setpoint publishing MUST be faster than 2Hz
     rate = rospy.Rate(20)
 
@@ -44,45 +72,22 @@ if __name__ == "__main__":
     while(not rospy.is_shutdown() and not current_state.connected):
         rate.sleep()
 
-    # Once connected    
-    # Send a few setpoints before starting
-    # otherwise mode will be rejected ??
-    for i in range(100):   
-        if(rospy.is_shutdown()):
-            break
+    avoid_rejection(velocities)
 
-        # local_pos_pub.publish(pose)
-        local_vel_pub.publish(velocities)
-        rate.sleep()
-
-    # Init OFFBOARD request
+    # Initializations
+    # OFFBOARD mode request
     offb_set_mode = SetModeRequest()
     offb_set_mode.custom_mode = 'OFFBOARD'
 
-    # Init arm request
+    # Arm request
     arm_cmd = CommandBoolRequest()
     arm_cmd.value = True
 
+    # Timer for requesting
     last_req = rospy.Time.now()
 
-    # 5s between request to avoid flooding the system
+    # Operating loop
     while(not rospy.is_shutdown()):
-        if(current_state.mode != "OFFBOARD" and (rospy.Time.now() - last_req) > rospy.Duration(5.0)):
-            # OFFBOARD mode
-            if(set_mode_client.call(offb_set_mode).mode_sent == True):
-                rospy.loginfo("OFFBOARD enabled")
-            
-            last_req = rospy.Time.now()
-        else:
-            if(not current_state.armed and (rospy.Time.now() - last_req) > rospy.Duration(5.0)):
-                # Drone armed
-                if(arming_client.call(arm_cmd).success == True):
-                    rospy.loginfo("Vehicle armed")
-            
-                last_req = rospy.Time.now()
-
-        # Pub without checking offboard mode and drone armed??
+        system_check(offb_set_mode, arm_cmd)
         local_vel_pub.publish(velocities)
-
-        # Faster than 2Hz
         rate.sleep()
