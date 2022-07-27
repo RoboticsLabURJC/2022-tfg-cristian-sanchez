@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 import rospy
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import Twist, PoseStamped
 from mavros_msgs.msg import State
 from mavros_msgs.srv import CommandBool, CommandBoolRequest, SetMode, SetModeRequest
 
@@ -11,6 +11,8 @@ from mavros_msgs.srv import CommandBool, CommandBoolRequest, SetMode, SetModeReq
 # -- GLOBAL VARIABLES -- #
 current_state = State()
 velocities = Twist()
+positions = PoseStamped()
+auto_mode = False   # If any button is pressed, velocities are set to off
 
 # -- METHODS -- #
 def avoid_rejection(vel):
@@ -45,9 +47,15 @@ def state_cb(msg):
     global current_state
     current_state = msg
 
-def rc_cb(vel):
-    global velocities
+def rc_vel_cb(vel):
+    global velocities, auto_mode
+    auto_mode = False
     velocities = vel
+
+def rc_pos_cb(pos):
+    global positions, auto_mode
+    auto_mode = True
+    positions = pos
 
 
 # -- MAIN -- #
@@ -56,8 +64,11 @@ if __name__ == "__main__":
 
     # Msgs
     state_sub = rospy.Subscriber("mavros/state", State, callback = state_cb)
-    rc_sub = rospy.Subscriber("rc_vel", Twist, callback = rc_cb)
+    rc_vel_sub = rospy.Subscriber("rc/vel", Twist, callback = rc_vel_cb)
+    rc_pos_sub = rospy.Subscriber("rc/pos", PoseStamped, callback = rc_pos_cb)
+
     local_vel_pub = rospy.Publisher("mavros/setpoint_velocity/cmd_vel_unstamped", Twist, queue_size=10)
+    local_pos_pub = rospy.Publisher("mavros/setpoint_position/local", PoseStamped, queue_size=10)
     
     # Services
     rospy.wait_for_service("/mavros/cmd/arming")
@@ -89,5 +100,10 @@ if __name__ == "__main__":
     # Operating loop
     while(not rospy.is_shutdown()):
         system_check(offb_set_mode, arm_cmd)
-        local_vel_pub.publish(velocities)
+
+        if auto_mode:
+            local_pos_pub.publish(positions)
+        else:
+            local_vel_pub.publish(velocities)
+
         rate.sleep()

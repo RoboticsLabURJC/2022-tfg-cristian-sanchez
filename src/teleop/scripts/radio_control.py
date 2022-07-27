@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import cv2
 import rospy
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import Twist, PoseStamped
 
 MAX = 100
 MID = 50
@@ -26,17 +26,22 @@ def angular_z_change(val):
     vel.angular.z = (val * ANGULAR_FACTOR) - (MID * ANGULAR_FACTOR)
     vel_pub.publish(vel)
 
-def launch_switch(button):
-    print(button)
+# def launch_switch(button):
+#     print(button)
 
-def land_switch(button):
-    print(button)
+# def land_switch(button):
+#     print(button)
 
-def turn_cw_switch(button):
-    print(button)
+# def turn_cw_switch(button):
+#     print(button)
 
-def turn_acw_switch(button):
-    print(button)
+# def turn_acw_switch(button):
+#     print(button)
+
+def launch_button(*args):
+    set_sliders_to_default()
+    pos.pose.position.z = 2
+    pos_pub.publish(pos)
 
 def set_sliders_to_default():
     sliderNames = ('Vx', 'Vy', 'Vz', 'Wz')
@@ -47,7 +52,11 @@ def set_sliders_to_default():
 if __name__ == '__main__':
     try:
         vel = Twist()
-        vel_pub = rospy.Publisher('rc_vel', Twist, queue_size=10)
+        pos = PoseStamped()
+
+        vel_pub = rospy.Publisher('rc/vel', Twist, queue_size=10)
+        pos_pub = rospy.Publisher('rc/pos', PoseStamped, queue_size=10)
+
         rospy.init_node('rc_node', anonymous=True)
 
         cv2.namedWindow(WINDOWNAME)
@@ -59,10 +68,13 @@ if __name__ == '__main__':
         cv2.createTrackbar('Wz', WINDOWNAME, MID, MAX, angular_z_change)
 
         # Switches
-        cv2.createTrackbar('Launch', WINDOWNAME, 0, 1, launch_switch)
-        cv2.createTrackbar('Land', WINDOWNAME, 0, 1, land_switch)
-        cv2.createTrackbar('Turn 90º', WINDOWNAME, 0, 1, turn_cw_switch)
-        cv2.createTrackbar('Turn -90º', WINDOWNAME, 0, 1, turn_acw_switch)
+        cv2.createButton('Launch', launch_button, None, cv2.QT_PUSH_BUTTON, 1)
+
+
+        # cv2.createTrackbar('Launc', WINDOWNAME, 0, 1, launch_switch)
+        # cv2.createTrackbar('Land', WINDOWNAME, 0, 1, land_switch)
+        # cv2.createTrackbar('Turn 90º', WINDOWNAME, 0, 1, turn_cw_switch)
+        # cv2.createTrackbar('Turn -90º', WINDOWNAME, 0, 1, turn_acw_switch)
 
 
         cv2.waitKey(0)
