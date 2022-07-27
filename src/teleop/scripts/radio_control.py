@@ -12,23 +12,32 @@ ANGULAR_FACTOR = (2 * PI) / 100
 WINDOWNAME = 'Radio Control'
 
 yaw = 0
+current_pos = PoseStamped()
 
 # -- SLIDERS -- # 
 def linear_x_change(val):
+    global pos
     vel.linear.x = (val * LINEAR_FACTOR) - (MID * LINEAR_FACTOR)
     vel_pub.publish(vel)
+    pos = current_pos
 
 def linear_y_change(val):
+    global pos
     vel.linear.y = (val * LINEAR_FACTOR) - (MID * LINEAR_FACTOR)
     vel_pub.publish(vel)
+    pos = current_pos
 
 def linear_z_change(val):
+    global pos
     vel.linear.z = (val * LINEAR_FACTOR) - (MID * LINEAR_FACTOR)
     vel_pub.publish(vel)
+    pos = current_pos
 
 def angular_z_change(val):
+    global pos
     vel.angular.z = (val * ANGULAR_FACTOR) - (MID * ANGULAR_FACTOR)
     vel_pub.publish(vel)
+    pos = current_pos
 
 # -- BUTTONS -- #
 def launch_button(*args):
@@ -115,11 +124,16 @@ def set_sliders_to_default():
     for name in sliderNames:
         cv2.setTrackbarPos(name, WINDOWNAME, MID)
 
+def current_pos_cb(pose):
+    global current_pos
+    current_pos = pose
+
 if __name__ == '__main__':
     try:
         vel = Twist()
         pos = PoseStamped()
         
+        current_pos_sub = rospy.Subscriber("/mavros/local_position/pose", PoseStamped, callback = current_pos_cb)
 
         vel_pub = rospy.Publisher('rc/vel', Twist, queue_size=10)
         pos_pub = rospy.Publisher('rc/pos', PoseStamped, queue_size=10)
