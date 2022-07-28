@@ -17,8 +17,6 @@ current_pos = PoseStamped()
 
 # -- SLIDERS -- # 
 def linear_FB_change(val):
-    global pos
-
     orientation_list = [current_pos.pose.orientation.x, 
                         current_pos.pose.orientation.y,
                         current_pos.pose.orientation.z,
@@ -30,11 +28,8 @@ def linear_FB_change(val):
     vel.linear.y = ((val * LINEAR_FACTOR) - (MID * LINEAR_FACTOR))* math.sin(y) 
 
     vel_pub.publish(vel)
-    pos = current_pos
 
 def linear_LR_change(val):
-    global pos
-
     orientation_list = [current_pos.pose.orientation.x, 
                         current_pos.pose.orientation.y,
                         current_pos.pose.orientation.z,
@@ -46,19 +41,14 @@ def linear_LR_change(val):
     vel.linear.y = ((val * LINEAR_FACTOR) - (MID * LINEAR_FACTOR))* math.sin(y - PI/2) 
 
     vel_pub.publish(vel)
-    pos = current_pos
 
 def linear_z_change(val):
-    global pos
     vel.linear.z = (val * LINEAR_FACTOR) - (MID * LINEAR_FACTOR)
     vel_pub.publish(vel)
-    pos = current_pos
 
 def angular_z_change(val):
-    global pos
     vel.angular.z = -((val * ANGULAR_FACTOR) - (MID * ANGULAR_FACTOR))
     vel_pub.publish(vel)
-    pos = current_pos
 
 # -- BUTTONS -- #
 def launch_button(*args):
@@ -141,8 +131,14 @@ def BW_button(*args):
 
     pos_pub.publish(pos)
 
+def stop_button(*args):
+    set_sliders_to_default()
+    pos_pub.publish(current_pos)
+
 # -- OTHER -- #
 def set_sliders_to_default():
+    global pos
+    pos = current_pos
     sliderNames = ('Back|Front',
                    'Left|Right', 
                    'Down|Up', 
@@ -182,6 +178,7 @@ if __name__ == '__main__':
         cv2.createButton('90 deg', turnACW_button, None, cv2.QT_PUSH_BUTTON, 1)
         cv2.createButton('Fordward 2m', FW_button, None, cv2.QT_PUSH_BUTTON, 1)
         cv2.createButton('Backward 2m', BW_button, None, cv2.QT_PUSH_BUTTON, 1)
+        cv2.createButton('STOP', stop_button, None, cv2.QT_PUSH_BUTTON, 1)
 
         cv2.waitKey(0)
         cv2.destroyAllWindows()
