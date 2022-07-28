@@ -16,15 +16,35 @@ yaw = 0
 current_pos = PoseStamped()
 
 # -- SLIDERS -- # 
-def linear_x_change(val):
+def linear_FB_change(val):
     global pos
-    vel.linear.x = (val * LINEAR_FACTOR) - (MID * LINEAR_FACTOR)
+
+    orientation_list = [current_pos.pose.orientation.x, 
+                        current_pos.pose.orientation.y,
+                        current_pos.pose.orientation.z,
+                        current_pos.pose.orientation.w]
+
+    r, p, y = tf.transformations.euler_from_quaternion(orientation_list)
+    
+    vel.linear.x = ((val * LINEAR_FACTOR) - (MID * LINEAR_FACTOR))* math.cos(y) 
+    vel.linear.y = ((val * LINEAR_FACTOR) - (MID * LINEAR_FACTOR))* math.sin(y) 
+
     vel_pub.publish(vel)
     pos = current_pos
 
-def linear_y_change(val):
+def linear_LR_change(val):
     global pos
-    vel.linear.y = (val * LINEAR_FACTOR) - (MID * LINEAR_FACTOR)
+
+    orientation_list = [current_pos.pose.orientation.x, 
+                        current_pos.pose.orientation.y,
+                        current_pos.pose.orientation.z,
+                        current_pos.pose.orientation.w]
+
+    r, p, y = tf.transformations.euler_from_quaternion(orientation_list)
+    
+    vel.linear.x = ((val * LINEAR_FACTOR) - (MID * LINEAR_FACTOR))* math.cos(y - PI/2) 
+    vel.linear.y = ((val * LINEAR_FACTOR) - (MID * LINEAR_FACTOR))* math.sin(y - PI/2) 
+
     vel_pub.publish(vel)
     pos = current_pos
 
@@ -36,7 +56,7 @@ def linear_z_change(val):
 
 def angular_z_change(val):
     global pos
-    vel.angular.z = (val * ANGULAR_FACTOR) - (MID * ANGULAR_FACTOR)
+    vel.angular.z = -((val * ANGULAR_FACTOR) - (MID * ANGULAR_FACTOR))
     vel_pub.publish(vel)
     pos = current_pos
 
@@ -123,7 +143,10 @@ def BW_button(*args):
 
 # -- OTHER -- #
 def set_sliders_to_default():
-    sliderNames = ('Vx', 'Vy', 'Vz', 'Wz')
+    sliderNames = ('Back|Front',
+                   'Left|Right', 
+                   'Down|Up', 
+                   'ACW|CW')
     
     for name in sliderNames:
         cv2.setTrackbarPos(name, WINDOWNAME, MID)
@@ -147,16 +170,16 @@ if __name__ == '__main__':
         cv2.namedWindow(WINDOWNAME)
 
         # Sliders
-        cv2.createTrackbar('Vx', WINDOWNAME, MID, MAX, linear_x_change)
-        cv2.createTrackbar('Vy', WINDOWNAME, MID, MAX, linear_y_change)
-        cv2.createTrackbar('Vz', WINDOWNAME, MID, MAX, linear_z_change)
-        cv2.createTrackbar('Wz', WINDOWNAME, MID, MAX, angular_z_change)
+        cv2.createTrackbar('Back|Front', WINDOWNAME, MID, MAX, linear_FB_change)
+        cv2.createTrackbar('Left|Right', WINDOWNAME, MID, MAX, linear_LR_change)
+        cv2.createTrackbar('Down|Up', WINDOWNAME, MID, MAX, linear_z_change)
+        cv2.createTrackbar('ACW|CW', WINDOWNAME, MID, MAX, angular_z_change)
 
-        # Switches
+        # Buttons
         cv2.createButton('Launch', launch_button, None, cv2.QT_PUSH_BUTTON, 1)
         cv2.createButton('Land', land_button, None, cv2.QT_PUSH_BUTTON, 1)
-        cv2.createButton('90 deg', turnCW_button, None, cv2.QT_PUSH_BUTTON, 1)
-        cv2.createButton('-90 deg', turnACW_button, None, cv2.QT_PUSH_BUTTON, 1)
+        cv2.createButton('-90 deg', turnCW_button, None, cv2.QT_PUSH_BUTTON, 1)
+        cv2.createButton('90 deg', turnACW_button, None, cv2.QT_PUSH_BUTTON, 1)
         cv2.createButton('Fordward 2m', FW_button, None, cv2.QT_PUSH_BUTTON, 1)
         cv2.createButton('Backward 2m', BW_button, None, cv2.QT_PUSH_BUTTON, 1)
 
