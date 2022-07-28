@@ -2,6 +2,7 @@
 import cv2
 import rospy
 import tf
+import math
 from geometry_msgs.msg import Twist, PoseStamped
 
 MAX = 100
@@ -46,21 +47,23 @@ def launch_button(*args):
     pos_pub.publish(pos)
 
 def land_button(*args):
-    # Not working...
+    # Negative z?
     set_sliders_to_default()
-    pos.pose.position.z = 0
+    pos.pose.position.z = -0.5
     pos_pub.publish(pos)
 
 def turnCW_button(*args):
-    global yaw
     set_sliders_to_default()
 
-    yaw += PI/2
+    # More than 2 PI?
+    orientation_list = [current_pos.pose.orientation.x, 
+                        current_pos.pose.orientation.y,
+                        current_pos.pose.orientation.z,
+                        current_pos.pose.orientation.w]
 
-    if yaw == 2*PI:
-        yaw = 0
+    r, p, y = tf.transformations.euler_from_quaternion(orientation_list)
 
-    quaternion = tf.transformations.quaternion_from_euler(0, 0, yaw)
+    quaternion = tf.transformations.quaternion_from_euler(r, p, y + PI/2)
 
     pos.pose.orientation.x = quaternion[0]
     pos.pose.orientation.y = quaternion[1]
@@ -70,15 +73,16 @@ def turnCW_button(*args):
     pos_pub.publish(pos)
 
 def turnACW_button(*args):
-    global yaw
     set_sliders_to_default()
 
-    yaw -= PI/2
+    orientation_list = [current_pos.pose.orientation.x, 
+                        current_pos.pose.orientation.y,
+                        current_pos.pose.orientation.z,
+                        current_pos.pose.orientation.w]
 
-    if yaw == -2*PI:
-        yaw = 0
+    r, p, y = tf.transformations.euler_from_quaternion(orientation_list)
 
-    quaternion = tf.transformations.quaternion_from_euler(0, 0, yaw)
+    quaternion = tf.transformations.quaternion_from_euler(r, p, y - PI/2)
 
     pos.pose.orientation.x = quaternion[0]
     pos.pose.orientation.y = quaternion[1]
@@ -88,32 +92,32 @@ def turnACW_button(*args):
     pos_pub.publish(pos)
 
 def FW_button(*args):
-    global yaw
     set_sliders_to_default()
 
-    if yaw == 0:
-        pos.pose.position.x += 2
-    elif yaw == PI/2 or yaw == -(3*PI)/2:
-        pos.pose.position.y += 2
-    elif yaw == PI or yaw == -PI:
-        pos.pose.position.x -= 2
-    elif yaw == (3*PI)/2 or yaw == -PI/2:
-        pos.pose.position.y -= 2
+    orientation_list = [current_pos.pose.orientation.x, 
+                        current_pos.pose.orientation.y,
+                        current_pos.pose.orientation.z,
+                        current_pos.pose.orientation.w]
+
+    r, p, y = tf.transformations.euler_from_quaternion(orientation_list)
+    
+    pos.pose.position.x += 2 * math.cos(y) 
+    pos.pose.position.y += 2 * math.sin(y)
 
     pos_pub.publish(pos)
 
 def BW_button(*args):
-    global yaw
     set_sliders_to_default()
 
-    if yaw == 0:
-        pos.pose.position.x -= 2
-    elif yaw == PI/2 or yaw == -(3*PI)/2:
-        pos.pose.position.y -= 2
-    elif yaw == PI or yaw == -PI:
-        pos.pose.position.x += 2
-    elif yaw == (3*PI)/2 or yaw == -PI/2:
-        pos.pose.position.y += 2
+    orientation_list = [current_pos.pose.orientation.x, 
+                        current_pos.pose.orientation.y,
+                        current_pos.pose.orientation.z,
+                        current_pos.pose.orientation.w]
+
+    r, p, y = tf.transformations.euler_from_quaternion(orientation_list)
+    
+    pos.pose.position.x -= 2 * math.cos(y) 
+    pos.pose.position.y -= 2 * math.sin(y)
 
     pos_pub.publish(pos)
 
