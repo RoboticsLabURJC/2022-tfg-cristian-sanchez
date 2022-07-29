@@ -4,6 +4,8 @@ import rospy
 import tf
 import math
 from geometry_msgs.msg import Twist, PoseStamped
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge
 
 MAX = 100
 MID = 50
@@ -12,7 +14,7 @@ LINEAR_FACTOR = 2 / 100
 ANGULAR_FACTOR = (2 * PI) / 100
 WINDOWNAME = 'Radio Control'
 
-yaw = 0
+bridge = CvBridge()
 current_pos = PoseStamped()
 
 # -- SLIDERS -- # 
@@ -151,11 +153,16 @@ def current_pos_cb(pose):
     global current_pos
     current_pos = pose
 
+def image_cb(img_msg):
+    cv_image = bridge.imgmsg_to_cv2(img_msg, "passthrough")
+    cv2.imshow(WINDOWNAME, cv_image)
+
 if __name__ == '__main__':
     try:
         vel = Twist()
         pos = PoseStamped()
         
+        image_sub = rospy.Subscriber("/iris/usb_cam/image_raw", Image, callback = image_cb)
         current_pos_sub = rospy.Subscriber("/mavros/local_position/pose", PoseStamped, callback = current_pos_cb)
 
         vel_pub = rospy.Publisher('rc/vel', Twist, queue_size=10)
