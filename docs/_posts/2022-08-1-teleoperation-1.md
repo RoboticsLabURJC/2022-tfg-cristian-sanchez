@@ -29,3 +29,7 @@ The next week, I started developing a simple teleoperator for Iris drone. I trie
 The goal, was to be able to command velocities using sliders, so the first idea was to move in the XYZ axes.
 
 On the other hand, I was introduce into kanban method, similar to scrum, wich objective is to manage and organice the tasks of the project. 
+
+<p align="center">
+<img src="/2022-tfg-cristian-sanchez/images/axes_rc.png" alt="drone" width="500"/>
+</p>
