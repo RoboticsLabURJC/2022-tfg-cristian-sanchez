@@ -59,7 +59,7 @@ plugins:
 
 author:
   name   : "Cristian Sanchez"
-  avatar : "/assets/images/bio-photo.jpg"
+  avatar : "/assets/images/bio-photo.jpeg"
   bio    : "Software robotics engineer.\nBitacora for my TFG"
   links:
     - label: "GitHub"

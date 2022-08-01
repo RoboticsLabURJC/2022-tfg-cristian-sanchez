@@ -1,6 +1,6 @@
 ---
 title: "Week 1-2. Getting started"
-last_modified_at: 2022-04-11T19:43:00
+last_modified_at: 2022-08-01T19:43:00
 categories:
   - Blog
 tags:
@@ -22,8 +22,6 @@ Once that was done, I installed all the software needs to start coding and make 
 <p align="center">
 <img src="/2022-tfg-cristian-sanchez/images/px4_drone_gz.png" alt="drone" width="500"/>
 </p>
-
-<!-- ![](/2022-tfg-david-tapiador/images/RQT_Full.png) -->
 
 ## Week 2
 The next week, I started developing a simple teleoperator for Iris drone. I tried  some libraries (tkinter, pyqt5, ...etc) but openCV was the best option, because it was simple and easy to work with it.
