@@ -11,6 +11,7 @@ tags:
 ---
 
 ## Week 1
+
 The first week, I dedicated my time to look into some information inside [Antonio's TFM](https://github.com/RoboticsLabURJC/2020-tfm-antonio-triguero) about drones and the infrastructure behind. Also, I set up my TFG github repository to ensure the traceability of the project.
 
 Once that was done, I installed all the software needs to start coding and make sure that it was working properly:
@@ -24,6 +25,7 @@ Once that was done, I installed all the software needs to start coding and make 
 </p>
 
 ## Week 2
+
 The next week, I started developing a simple teleoperator for Iris drone. I tried  some libraries (tkinter, pyqt5, ...etc) but openCV was the best option, because it was simple and easy to work with it.
 
 The goal, was to be able to command velocities using sliders, so the first idea was to move in the XYZ axes.
