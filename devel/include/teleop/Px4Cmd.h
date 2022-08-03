@@ -24,17 +24,17 @@ struct Px4Cmd_
   typedef Px4Cmd_<ContainerAllocator> Type;
 
   Px4Cmd_()
-    : land(false)  {
+    : cmd(0)  {
     }
   Px4Cmd_(const ContainerAllocator& _alloc)
-    : land(false)  {
+    : cmd(0)  {
   (void)_alloc;
     }
 
 
 
-   typedef uint8_t _land_type;
-  _land_type land;
+   typedef uint8_t _cmd_type;
+  _cmd_type cmd;
 
 
 
@@ -65,7 +65,7 @@ return s;
 template<typename ContainerAllocator1, typename ContainerAllocator2>
 bool operator==(const ::teleop::Px4Cmd_<ContainerAllocator1> & lhs, const ::teleop::Px4Cmd_<ContainerAllocator2> & rhs)
 {
-  return lhs.land == rhs.land;
+  return lhs.cmd == rhs.cmd;
 }
 
 template<typename ContainerAllocator1, typename ContainerAllocator2>
@@ -122,12 +122,12 @@ struct MD5Sum< ::teleop::Px4Cmd_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "2082f282fb525dbaba0ae95502684c61";
+    return "26f05c6e9fb9de81f12f2b92304c2961";
   }
 
   static const char* value(const ::teleop::Px4Cmd_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0x2082f282fb525dbaULL;
-  static const uint64_t static_value2 = 0xba0ae95502684c61ULL;
+  static const uint64_t static_value1 = 0x26f05c6e9fb9de81ULL;
+  static const uint64_t static_value2 = 0xf12f2b92304c2961ULL;
 };
 
 template<class ContainerAllocator>
@@ -146,7 +146,7 @@ struct Definition< ::teleop::Px4Cmd_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "bool land\n"
+    return "uint8 cmd\n"
 ;
   }
 
@@ -165,7 +165,7 @@ namespace serialization
   {
     template<typename Stream, typename T> inline static void allInOne(Stream& stream, T m)
     {
-      stream.next(m.land);
+      stream.next(m.cmd);
     }
 
     ROS_DECLARE_ALLINONE_SERIALIZER
@@ -184,8 +184,8 @@ struct Printer< ::teleop::Px4Cmd_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::teleop::Px4Cmd_<ContainerAllocator>& v)
   {
-    s << indent << "land: ";
-    Printer<uint8_t>::stream(s, indent + "  ", v.land);
+    s << indent << "cmd: ";
+    Printer<uint8_t>::stream(s, indent + "  ", v.cmd);
   }
 };
 

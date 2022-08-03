@@ -1,1 +1,1 @@
-bool land
+uint8 cmd

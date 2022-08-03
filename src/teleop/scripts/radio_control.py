@@ -8,12 +8,22 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 from teleop.msg import Px4Cmd
 
+# -- CTE -- #
+# Topics
+IMAGE_TOPIC = '/iris/usb_cam/image_raw'
+LOCAL_POSE_TOPIC = '/mavros/local_position/pose'
+RADIO_CONTROL_VEL_TOPIC = 'radio_control/vel'
+RADIO_CONTROL_POS_TOPIC = 'radio_control/pos'
+RADIO_CONTROL_CMD_TOPIC = 'radio_control/cmd'
+
+# Other
 MAX = 100
 MID = 50
 PI = 3.1416
 LINEAR_FACTOR = 2 / 100
 ANGULAR_FACTOR = (2 * PI) / 100
 WINDOWNAME = 'Radio Control'
+NODENAME = 'rc_node'
 
 # Px4Cmd
 IDLE = 0
@@ -21,9 +31,6 @@ TAKEOFF = 1
 LAND = 2
 POSITION = 3
 VELOCITY = 4
-
-bridge = CvBridge()
-current_pos = PoseStamped()
 
 # -- SLIDERS -- # 
 def linear_FB_change(val):
@@ -62,19 +69,19 @@ def angular_z_change(val):
 
 # -- BUTTONS -- #
 def launch_button(*args):
-    set_sliders_to_default()
+    reset_sliders_update_pose()
     pos.pose.position.z = 2
     pos_pub.publish(pos)
 
 def land_button(*args):
-    set_sliders_to_default()
+    reset_sliders_update_pose()
 
     cmd = Px4Cmd()
     cmd.cmd = LAND
     cmd_pub.publish(cmd)
 
 def turnCW_button(*args):
-    set_sliders_to_default()
+    reset_sliders_update_pose()
 
     orientation_list = [current_pos.pose.orientation.x, 
                         current_pos.pose.orientation.y,
@@ -93,7 +100,7 @@ def turnCW_button(*args):
     pos_pub.publish(pos)
 
 def turnACW_button(*args):
-    set_sliders_to_default()
+    reset_sliders_update_pose()
 
     orientation_list = [current_pos.pose.orientation.x, 
                         current_pos.pose.orientation.y,
@@ -112,7 +119,7 @@ def turnACW_button(*args):
     pos_pub.publish(pos)
 
 def FW_button(*args):
-    set_sliders_to_default()
+    reset_sliders_update_pose()
 
     orientation_list = [current_pos.pose.orientation.x, 
                         current_pos.pose.orientation.y,
@@ -127,7 +134,7 @@ def FW_button(*args):
     pos_pub.publish(pos)
 
 def BW_button(*args):
-    set_sliders_to_default()
+    reset_sliders_update_pose()
 
     orientation_list = [current_pos.pose.orientation.x, 
                         current_pos.pose.orientation.y,
@@ -142,13 +149,14 @@ def BW_button(*args):
     pos_pub.publish(pos)
 
 def stop_button(*args):
-    set_sliders_to_default()
+    reset_sliders_update_pose()
     pos_pub.publish(current_pos)
 
 # -- OTHER -- #
-def set_sliders_to_default():
+def reset_sliders_update_pose():
     global pos
     pos = current_pos
+    
     sliderNames = ('Back|Front',
                    'Left|Right', 
                    'Down|Up', 
@@ -157,6 +165,7 @@ def set_sliders_to_default():
     for name in sliderNames:
         cv2.setTrackbarPos(name, WINDOWNAME, MID)
 
+# Callback
 def current_pos_cb(pose):
     global current_pos
     current_pos = pose
@@ -165,20 +174,27 @@ def image_cb(img_msg):
     cv_image = bridge.imgmsg_to_cv2(img_msg, "passthrough")
     cv2.imshow(WINDOWNAME, cv_image)
 
+# -- MAIN -- #
 if __name__ == '__main__':
     try:
+        rospy.init_node(NODENAME, anonymous=True)
+
         vel = Twist()
-        pos = PoseStamped()
+        pos = PoseStamped() 
+        bridge = CvBridge()
+        current_pos = PoseStamped()
         
-        image_sub = rospy.Subscriber("/iris/usb_cam/image_raw", Image, callback = image_cb)
-        current_pos_sub = rospy.Subscriber("/mavros/local_position/pose", PoseStamped, callback = current_pos_cb)
+        # Msgs
+        ## Subscribers
+        image_sub = rospy.Subscriber(IMAGE_TOPIC, Image, callback = image_cb)
+        current_pos_sub = rospy.Subscriber(LOCAL_POSE_TOPIC, PoseStamped, callback = current_pos_cb)
 
-        vel_pub = rospy.Publisher('radio_control/vel', Twist, queue_size=10)
-        pos_pub = rospy.Publisher('radio_control/pos', PoseStamped, queue_size=10)
-        cmd_pub = rospy.Publisher('radio_control/cmd', Px4Cmd, queue_size=10)
+        ## Publishers
+        vel_pub = rospy.Publisher(RADIO_CONTROL_VEL_TOPIC, Twist, queue_size=10)
+        pos_pub = rospy.Publisher(RADIO_CONTROL_POS_TOPIC, PoseStamped, queue_size=10)
+        cmd_pub = rospy.Publisher(RADIO_CONTROL_CMD_TOPIC, Px4Cmd, queue_size=10)
 
-        rospy.init_node('rc_node', anonymous=True)
-
+        # -- OPENCV -- #
         cv2.namedWindow(WINDOWNAME)
 
         # Sliders

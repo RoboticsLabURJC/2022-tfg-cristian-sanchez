@@ -18,22 +18,22 @@ class Px4Cmd {
   constructor(initObj={}) {
     if (initObj === null) {
       // initObj === null is a special case for deserialization where we don't initialize fields
-      this.land = null;
+      this.cmd = null;
     }
     else {
-      if (initObj.hasOwnProperty('land')) {
-        this.land = initObj.land
+      if (initObj.hasOwnProperty('cmd')) {
+        this.cmd = initObj.cmd
       }
       else {
-        this.land = false;
+        this.cmd = 0;
       }
     }
   }
 
   static serialize(obj, buffer, bufferOffset) {
     // Serializes a message object of type Px4Cmd
-    // Serialize message field [land]
-    bufferOffset = _serializer.bool(obj.land, buffer, bufferOffset);
+    // Serialize message field [cmd]
+    bufferOffset = _serializer.uint8(obj.cmd, buffer, bufferOffset);
     return bufferOffset;
   }
 
@@ -41,8 +41,8 @@ class Px4Cmd {
     //deserializes a message object of type Px4Cmd
     let len;
     let data = new Px4Cmd(null);
-    // Deserialize message field [land]
-    data.land = _deserializer.bool(buffer, bufferOffset);
+    // Deserialize message field [cmd]
+    data.cmd = _deserializer.uint8(buffer, bufferOffset);
     return data;
   }
 
@@ -57,13 +57,13 @@ class Px4Cmd {
 
   static md5sum() {
     //Returns md5sum for a message object
-    return '2082f282fb525dbaba0ae95502684c61';
+    return '26f05c6e9fb9de81f12f2b92304c2961';
   }
 
   static messageDefinition() {
     // Returns full string definition for message
     return `
-    bool land
+    uint8 cmd
     `;
   }
 
@@ -73,11 +73,11 @@ class Px4Cmd {
       msg = {};
     }
     const resolved = new Px4Cmd(null);
-    if (msg.land !== undefined) {
-      resolved.land = msg.land;
+    if (msg.cmd !== undefined) {
+      resolved.cmd = msg.cmd;
     }
     else {
-      resolved.land = false
+      resolved.cmd = 0
     }
 
     return resolved;

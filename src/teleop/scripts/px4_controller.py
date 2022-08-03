@@ -9,6 +9,23 @@ from teleop.msg import Px4Cmd
 # PX4 DRONE #
 #############
 
+# -- CTE -- #
+# Other
+NODENAME = 'px4_controller'
+
+# Topics
+STATE_TOPIC = 'mavros/state'
+RADIO_CONTROL_VEL_TOPIC = 'radio_control/vel'
+RADIO_CONTROL_POS_TOPIC = 'radio_control/pos'
+RADIO_CONTROL_CMD_TOPIC = 'radio_control/cmd'
+SET_VEL_TOPIC = 'mavros/setpoint_velocity/cmd_vel_unstamped'
+SET_POS_TOPIC = 'mavros/setpoint_position/local'
+
+# Services
+ARM_SRV = '/mavros/cmd/arming'   
+SET_MODE_SRV= '/mavros/set_mode'
+LAND_CMD_SRV = '/mavros/cmd/land'
+
 # Px4Cmd
 IDLE = 0
 TAKEOFF = 1
@@ -73,24 +90,26 @@ def rc_cmd_cb(cmd):
 
 # -- MAIN -- #
 if __name__ == "__main__":
-    rospy.init_node("px4_controller")
+    rospy.init_node(NODENAME)
 
     # Msgs
-    state_sub = rospy.Subscriber("mavros/state", State, callback = state_cb)
-    rc_vel_sub = rospy.Subscriber("radio_control/vel", Twist, callback = rc_vel_cb)
-    rc_pos_sub = rospy.Subscriber("radio_control/pos", PoseStamped, callback = rc_pos_cb)
-    rc_cmd_sub = rospy.Subscriber("radio_control/cmd", Px4Cmd, callback = rc_cmd_cb)
+    ## Subscribers
+    state_sub = rospy.Subscriber(STATE_TOPIC, State, callback = state_cb)
+    rc_vel_sub = rospy.Subscriber(RADIO_CONTROL_VEL_TOPIC, Twist, callback = rc_vel_cb)
+    rc_pos_sub = rospy.Subscriber(RADIO_CONTROL_POS_TOPIC, PoseStamped, callback = rc_pos_cb)
+    rc_cmd_sub = rospy.Subscriber(RADIO_CONTROL_CMD_TOPIC, Px4Cmd, callback = rc_cmd_cb)
 
-    local_vel_pub = rospy.Publisher("mavros/setpoint_velocity/cmd_vel_unstamped", Twist, queue_size=10)
-    local_pos_pub = rospy.Publisher("mavros/setpoint_position/local", PoseStamped, queue_size=10)
+    ## Publishers
+    local_vel_pub = rospy.Publisher(SET_VEL_TOPIC, Twist, queue_size=10)
+    local_pos_pub = rospy.Publisher(SET_POS_TOPIC, PoseStamped, queue_size=10)
     
     # Services
-    rospy.wait_for_service("/mavros/cmd/arming")
-    arming_client = rospy.ServiceProxy("mavros/cmd/arming", CommandBool)
-    rospy.wait_for_service("/mavros/set_mode")
-    set_mode_client = rospy.ServiceProxy("mavros/set_mode", SetMode)
-    rospy.wait_for_service("/mavros/cmd/land")
-    land_client = rospy.ServiceProxy("/mavros/cmd/land", CommandTOL)
+    rospy.wait_for_service(ARM_SRV)
+    arming_client = rospy.ServiceProxy(ARM_SRV, CommandBool)
+    rospy.wait_for_service(SET_MODE_SRV)
+    set_mode_client = rospy.ServiceProxy(SET_MODE_SRV, SetMode)
+    rospy.wait_for_service(LAND_CMD_SRV)
+    land_client = rospy.ServiceProxy(LAND_CMD_SRV, CommandTOL)
     
     # Setpoint publishing MUST be faster than 2Hz
     rate = rospy.Rate(20)

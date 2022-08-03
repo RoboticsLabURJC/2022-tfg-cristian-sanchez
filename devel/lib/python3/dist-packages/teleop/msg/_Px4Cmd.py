@@ -8,12 +8,12 @@ import struct
 
 
 class Px4Cmd(genpy.Message):
-  _md5sum = "2082f282fb525dbaba0ae95502684c61"
+  _md5sum = "26f05c6e9fb9de81f12f2b92304c2961"
   _type = "teleop/Px4Cmd"
   _has_header = False  # flag to mark the presence of a Header object
-  _full_text = """bool land"""
-  __slots__ = ['land']
-  _slot_types = ['bool']
+  _full_text = """uint8 cmd"""
+  __slots__ = ['cmd']
+  _slot_types = ['uint8']
 
   def __init__(self, *args, **kwds):
     """
@@ -23,7 +23,7 @@ class Px4Cmd(genpy.Message):
     changes.  You cannot mix in-order arguments and keyword arguments.
 
     The available fields are:
-       land
+       cmd
 
     :param args: complete set of field values, in .msg order
     :param kwds: use keyword arguments corresponding to message field names
@@ -32,10 +32,10 @@ class Px4Cmd(genpy.Message):
     if args or kwds:
       super(Px4Cmd, self).__init__(*args, **kwds)
       # message fields cannot be None, assign default values for those that are
-      if self.land is None:
-        self.land = False
+      if self.cmd is None:
+        self.cmd = 0
     else:
-      self.land = False
+      self.cmd = 0
 
   def _get_types(self):
     """
@@ -49,7 +49,7 @@ class Px4Cmd(genpy.Message):
     :param buff: buffer, ``StringIO``
     """
     try:
-      _x = self.land
+      _x = self.cmd
       buff.write(_get_struct_B().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
@@ -65,8 +65,7 @@ class Px4Cmd(genpy.Message):
       end = 0
       start = end
       end += 1
-      (self.land,) = _get_struct_B().unpack(str[start:end])
-      self.land = bool(self.land)
+      (self.cmd,) = _get_struct_B().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
@@ -79,7 +78,7 @@ class Px4Cmd(genpy.Message):
     :param numpy: numpy python module
     """
     try:
-      _x = self.land
+      _x = self.cmd
       buff.write(_get_struct_B().pack(_x))
     except struct.error as se: self._check_types(struct.error("%s: '%s' when writing '%s'" % (type(se), str(se), str(locals().get('_x', self)))))
     except TypeError as te: self._check_types(ValueError("%s: '%s' when writing '%s'" % (type(te), str(te), str(locals().get('_x', self)))))
@@ -96,8 +95,7 @@ class Px4Cmd(genpy.Message):
       end = 0
       start = end
       end += 1
-      (self.land,) = _get_struct_B().unpack(str[start:end])
-      self.land = bool(self.land)
+      (self.cmd,) = _get_struct_B().unpack(str[start:end])
       return self
     except struct.error as e:
       raise genpy.DeserializationError(e)  # most likely buffer underfill
