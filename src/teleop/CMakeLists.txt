@@ -6,16 +6,23 @@ find_package(rospy REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(mavros_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(message_generation REQUIRED)
+
+add_message_files(
+  FILES
+  Px4Cmd.msg
+)
+
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
 
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES teleop
-#  CATKIN_DEPENDS rospy
-#  DEPENDS system_lib
+  CATKIN_DEPENDS message_runtime
 )
 
 include_directories(
-# include
   ${catkin_INCLUDE_DIRS}
 )
 

@@ -2,17 +2,26 @@
 import rospy
 from geometry_msgs.msg import Twist, PoseStamped
 from mavros_msgs.msg import State
-from mavros_msgs.srv import CommandBool, CommandBoolRequest, SetMode, SetModeRequest
+from mavros_msgs.srv import CommandBool, CommandBoolRequest, SetMode, SetModeRequest, CommandTOL, CommandTOLRequest
+from teleop.msg import Px4Cmd
 
 #############
 # PX4 DRONE #
 #############
 
+# Px4Cmd
+IDLE = 0
+TAKEOFF = 1
+LAND = 2
+POSITION = 3
+VELOCITY = 4
+
 # -- GLOBAL VARIABLES -- #
 current_state = State()
 velocities = Twist()
 positions = PoseStamped()
-auto_mode = False   # If any button is pressed, velocities are set to off
+commands = Px4Cmd()
+mode = VELOCITY
 
 # -- METHODS -- #
 def avoid_rejection(vel):
@@ -25,7 +34,7 @@ def avoid_rejection(vel):
         local_vel_pub.publish(vel)
         rate.sleep()
 
-def system_check(mode, arm):
+def ok_to_fly (mode, arm):
     global last_req
     # 5s between request to avoid flooding the system
     if(current_state.mode != "OFFBOARD" and (rospy.Time.now() - last_req) > rospy.Duration(5.0)):
@@ -48,15 +57,19 @@ def state_cb(msg):
     current_state = msg
 
 def rc_vel_cb(vel):
-    global velocities, auto_mode
-    auto_mode = False
+    global velocities, mode
+    mode = VELOCITY
     velocities = vel
 
 def rc_pos_cb(pos):
-    global positions, auto_mode
-    auto_mode = True
+    global positions, mode
+    mode = POSITION
     positions = pos
 
+def rc_cmd_cb(cmd):
+    global mode
+    commands = cmd
+    mode = commands.cmd
 
 # -- MAIN -- #
 if __name__ == "__main__":
@@ -64,8 +77,9 @@ if __name__ == "__main__":
 
     # Msgs
     state_sub = rospy.Subscriber("mavros/state", State, callback = state_cb)
-    rc_vel_sub = rospy.Subscriber("rc/vel", Twist, callback = rc_vel_cb)
-    rc_pos_sub = rospy.Subscriber("rc/pos", PoseStamped, callback = rc_pos_cb)
+    rc_vel_sub = rospy.Subscriber("radio_control/vel", Twist, callback = rc_vel_cb)
+    rc_pos_sub = rospy.Subscriber("radio_control/pos", PoseStamped, callback = rc_pos_cb)
+    rc_cmd_sub = rospy.Subscriber("radio_control/cmd", Px4Cmd, callback = rc_cmd_cb)
 
     local_vel_pub = rospy.Publisher("mavros/setpoint_velocity/cmd_vel_unstamped", Twist, queue_size=10)
     local_pos_pub = rospy.Publisher("mavros/setpoint_position/local", PoseStamped, queue_size=10)
@@ -75,6 +89,8 @@ if __name__ == "__main__":
     arming_client = rospy.ServiceProxy("mavros/cmd/arming", CommandBool)
     rospy.wait_for_service("/mavros/set_mode")
     set_mode_client = rospy.ServiceProxy("mavros/set_mode", SetMode)
+    rospy.wait_for_service("/mavros/cmd/land")
+    land_client = rospy.ServiceProxy("/mavros/cmd/land", CommandTOL)
     
     # Setpoint publishing MUST be faster than 2Hz
     rate = rospy.Rate(20)
@@ -94,16 +110,28 @@ if __name__ == "__main__":
     arm_cmd = CommandBoolRequest()
     arm_cmd.value = True
 
+    # Land request
+    land_cmd = CommandTOLRequest()
+    land_cmd.min_pitch = 0
+    land_cmd.yaw = 0
+    land_cmd.latitude = 0
+    land_cmd.longitude = 0
+    land_cmd.altitude = 0
+
     # Timer for requesting
-    last_req = rospy.Time.now()
+    last_req = rospy.Time.now()    
 
     # Operating loop
     while(not rospy.is_shutdown()):
-        system_check(offb_set_mode, arm_cmd)
+        ok_to_fly(offb_set_mode, arm_cmd)
 
-        if auto_mode:
+        if mode == POSITION:
             local_pos_pub.publish(positions)
-        else:
+        elif mode == VELOCITY:
             local_vel_pub.publish(velocities)
+        elif mode == LAND:
+            if(rospy.Time.now() - last_req) > rospy.Duration(5.0):
+                response = land_client.call(land_cmd)
+                last_req = rospy.Time.now()
 
         rate.sleep()

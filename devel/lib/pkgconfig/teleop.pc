@@ -3,6 +3,6 @@ prefix=/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel
 Name: teleop
 Description: Description of teleop
 Version: 0.0.0
-Cflags: 
+Cflags: -I/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/include
 Libs: -L${prefix}/lib 
-Requires: 
+Requires: message_runtime

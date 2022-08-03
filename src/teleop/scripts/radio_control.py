@@ -6,6 +6,7 @@ import math
 from geometry_msgs.msg import Twist, PoseStamped
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
+from teleop.msg import Px4Cmd
 
 MAX = 100
 MID = 50
@@ -13,6 +14,13 @@ PI = 3.1416
 LINEAR_FACTOR = 2 / 100
 ANGULAR_FACTOR = (2 * PI) / 100
 WINDOWNAME = 'Radio Control'
+
+# Px4Cmd
+IDLE = 0
+TAKEOFF = 1
+LAND = 2
+POSITION = 3
+VELOCITY = 4
 
 bridge = CvBridge()
 current_pos = PoseStamped()
@@ -59,15 +67,15 @@ def launch_button(*args):
     pos_pub.publish(pos)
 
 def land_button(*args):
-    # Negative z?
     set_sliders_to_default()
-    pos.pose.position.z = -0.5
-    pos_pub.publish(pos)
+
+    cmd = Px4Cmd()
+    cmd.cmd = LAND
+    cmd_pub.publish(cmd)
 
 def turnCW_button(*args):
     set_sliders_to_default()
 
-    # More than 2 PI?
     orientation_list = [current_pos.pose.orientation.x, 
                         current_pos.pose.orientation.y,
                         current_pos.pose.orientation.z,
@@ -165,8 +173,9 @@ if __name__ == '__main__':
         image_sub = rospy.Subscriber("/iris/usb_cam/image_raw", Image, callback = image_cb)
         current_pos_sub = rospy.Subscriber("/mavros/local_position/pose", PoseStamped, callback = current_pos_cb)
 
-        vel_pub = rospy.Publisher('rc/vel', Twist, queue_size=10)
-        pos_pub = rospy.Publisher('rc/pos', PoseStamped, queue_size=10)
+        vel_pub = rospy.Publisher('radio_control/vel', Twist, queue_size=10)
+        pos_pub = rospy.Publisher('radio_control/pos', PoseStamped, queue_size=10)
+        cmd_pub = rospy.Publisher('radio_control/cmd', Px4Cmd, queue_size=10)
 
         rospy.init_node('rc_node', anonymous=True)
 
