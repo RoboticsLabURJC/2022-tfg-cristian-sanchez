@@ -10,7 +10,7 @@ This repository contains my bachelor's degree final project, which final goal is
 
 However, before doing that, the first steps are to simulate properly simple tasks, using **Gazebo 11** and **ROS Noetic for Ubuntu 20.04 LTS**.
 
-The objective is to  solve simple problems, in order to scale into more complex behaviors. All these developments are contained [here](https://roboticslaburjc.github.io/2022-tfg-cristian-sanchez/) which is a bitacora where I post week by week all progress.
+The objective is to  solve simple problems, in order to scale into more complex behaviors. All these developments are contained [here](https://roboticslaburjc.github.io/2022-tfg-cristian-sanchez/), which is a bitacora where I post week by week all progress.
 
 ## Installation
 
@@ -84,7 +84,7 @@ echo 'export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:~/repos/PX4-Autopilot/Tools/sitl
 source ~/.bashrc
 ```
 
-8. Try PX4 (optional)
+8. (OPTIONAL) Try PX4 
 ```
 roslaunch px4 mavros_posix_sitl.launch
 pxh> commander arm # when launching finishes
@@ -112,8 +112,7 @@ roscd
 catkin_make
 ```
 
-4. Try it! (optional)
-At this point, you should be able to run the code inside this repository.
+4. (OPTIONAL) Try it! At this point, you should be able to run the code inside this repository.
 
 ```
 roslaunch teleop px4_rc.launch
