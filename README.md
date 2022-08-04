@@ -1,4 +1,4 @@
-# Tracking drone for the detection of RF signals
+# RADIO FREQUENCY DETECTOR - DRONE
 
 <p align="center">
 <img src="https://github.com/RoboticsLabURJC/2022-tfg-cristian-sanchez/blob/main/res/real_drone.jpeg" alt="Real drone" width="600"/>
@@ -101,7 +101,7 @@ git clone https://github.com/RoboticsLabURJC/2022-tfg-cristian-sanchez.git
 2. Environment variables
 
 ```
-echo 'export ROS_WORKSPACE=~/TFG/2022-tfg-cristian-sanchez' >> ~/.bashrc
+echo 'export ROS_WORKSPACE=~/2022-tfg-cristian-sanchez' >> ~/.bashrc
 source ~/.bashrc
 ```
 
