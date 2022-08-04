@@ -14,7 +14,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Robotics Lab URJC
+title: ROBOTICS LAB URJC
 email: c.sanchezro.2018@alumnos.urjc.es
 description: "Bitacora for my bachelor's degree final project"
 twitter_username: csanrobotics
