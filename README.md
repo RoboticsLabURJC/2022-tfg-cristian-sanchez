@@ -1,5 +1,9 @@
 # Tracking drone for the detection of RF signals
 
+<p align="center">
+<img src="https://github.com/RoboticsLabURJC/2022-tfg-cristian-sanchez/blob/main/res/real_drone.jpeg" alt="Real drone" width="600"/>
+</p>
+
 ## Introduction
 
 This repository contains my bachelor's degree final project, which final goal is to implement a real drone system that can locate and navigate throught a RF signal.
