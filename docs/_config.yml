@@ -13,16 +13,15 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: TFG 2022 Cristian Sanchez (Weblog)
+
+title: Robotics Lab URJC
 email: c.sanchezro.2018@alumnos.urjc.es
-description: >- # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+description: "Bitacora for my bachelor's degree final project"
 twitter_username: csanrobotics
 github_username: csanrod
 minimal_mistakes_skin: dark
 search: true
+logo: ./logo.png
 
 # Build settings
 markdown: kramdown
@@ -58,22 +57,25 @@ plugins:
   - jekyll-include-cache
 
 author:
-  name   : "Cristian Sanchez"
+  name   : "Cristian Sanchez Rodriguez"
   avatar : "/assets/images/bio-photo.jpeg"
-  bio    : "Software robotics engineer.\nBitacora for my TFG"
+  bio    : "Software robotics engineer at URJC"
   links:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/csanrod"
-    - label: "TFG GitHub"
-      icon: "fab fa-fw fa-github"
-      url: "https://roboticslaburjc.github.io/2022-tfg-cristian-sanchez/"
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/csanrod/"
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
       url: "https://twitter.com/csanrobotics"
 
 footer:
   links:
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/csanrod/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/csanrod"
