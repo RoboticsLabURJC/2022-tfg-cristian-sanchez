@@ -10,6 +10,8 @@ tags:
   - openCV
 ---
 
+Continuing with the project, this weeks aimed to improve the radio control and complete the documentation of the proccess.
+
 ## Week 3
 
 Once the teleoperation functionality was working properly, we planned to improve it, adding a video screen (editing the SDF model file and including the pluging) that is responsible for showing a front view inside the drone, and also added some buttons for the drone to perform some simple tasks:

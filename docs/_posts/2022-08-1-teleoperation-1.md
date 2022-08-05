@@ -10,6 +10,8 @@ tags:
   - openCV
 ---
 
+This weeks were to create the workspace, install all needs and start developing a simple radio control.
+
 ## Week 1
 
 The first week, I dedicated my time to look into some information inside [Antonio's TFM](https://github.com/RoboticsLabURJC/2020-tfm-antonio-triguero) about drones and the infrastructure behind. Also, I set up my TFG github repository to ensure the traceability of the project.
