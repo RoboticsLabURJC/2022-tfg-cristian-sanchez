@@ -1,6 +1,6 @@
 [![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/PyCQA/pylint)
 
-# <p style="text-align: center;">RADIO FREQUENCY DETECTOR - DRONE</p>
+<h1 align="center">RADIO FREQUENCY DETECTOR - DRONE</h1>
 
 <p align="center">
 <img src="https://github.com/RoboticsLabURJC/2022-tfg-cristian-sanchez/blob/main/res/real_drone.jpeg" alt="Real drone" width="600"/>
