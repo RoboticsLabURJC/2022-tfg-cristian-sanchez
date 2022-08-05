@@ -1,8 +1,29 @@
 #! /usr/bin/env python
+'''
+PX4 CONTROLLER
+
+This module is made to communicate with the Iris drone, using MavROS.
+
+It allows to Send:
+    Poses
+    Velocities
+    Specific commands (Land request)
+
+And receive:
+    States
+    Responses
+'''
 import rospy
 from geometry_msgs.msg import Twist, PoseStamped
 from mavros_msgs.msg import State
-from mavros_msgs.srv import CommandBool, CommandBoolRequest, SetMode, SetModeRequest, CommandTOL, CommandTOLRequest
+from mavros_msgs.srv import (
+        CommandBool,
+        CommandBoolRequest,
+        SetMode,
+        SetModeRequest,
+        CommandTOL,
+        CommandTOLRequest
+    )
 from teleop.msg import Px4Cmd
 
 #############
@@ -22,7 +43,7 @@ SET_VEL_TOPIC = 'mavros/setpoint_velocity/cmd_vel_unstamped'
 SET_POS_TOPIC = 'mavros/setpoint_position/local'
 
 # Services
-ARM_SRV = '/mavros/cmd/arming'   
+ARM_SRV = '/mavros/cmd/arming'
 SET_MODE_SRV= '/mavros/set_mode'
 LAND_CMD_SRV = '/mavros/cmd/land'
 
@@ -42,48 +63,66 @@ mode = VELOCITY
 
 # -- METHODS -- #
 def avoid_rejection(vel):
+    '''
+    Compatibility purposes, necesary to communicate with Mavlink stuff.
+    '''
     # To avoid rejections
-    for i in range(100):   
-        if(rospy.is_shutdown()):
+    for _ in range(100):
+        if rospy.is_shutdown():
             break
 
         # local_pos_pub.publish(pose)
         local_vel_pub.publish(vel)
         rate.sleep()
 
-def ok_to_fly (mode, arm):
+def ok_to_fly (mod, arm):
+    '''
+    Puts the drone in OFFBOARD mode and armed via requests.
+    '''
     global last_req
     # 5s between request to avoid flooding the system
     if(current_state.mode != "OFFBOARD" and (rospy.Time.now() - last_req) > rospy.Duration(5.0)):
         # OFFBOARD mode
-        if(set_mode_client.call(mode).mode_sent == True):
+        if set_mode_client.call(mod).mode_sent is True:
             rospy.loginfo("OFFBOARD enabled")
-        
+
         last_req = rospy.Time.now()
     else:
         if(not current_state.armed and (rospy.Time.now() - last_req) > rospy.Duration(5.0)):
             # Drone armed
-            if(arming_client.call(arm).success == True):
+            if arming_client.call(arm).success is True:
                 rospy.loginfo("Vehicle armed")
-        
+
             last_req = rospy.Time.now()
 
 # Callback to check the connection --> Drone armed + OFFBOARD
 def state_cb(msg):
+    '''
+    State callback
+    '''
     global current_state
     current_state = msg
 
 def rc_vel_cb(vel):
+    '''
+    Velocity callback
+    '''
     global velocities, mode
     mode = VELOCITY
     velocities = vel
 
 def rc_pos_cb(pos):
+    '''
+    Pose callback
+    '''
     global positions, mode
     mode = POSITION
     positions = pos
 
 def rc_cmd_cb(cmd):
+    '''
+    Command callback
+    '''
     global mode
     commands = cmd
     mode = commands.cmd
@@ -102,7 +141,7 @@ if __name__ == "__main__":
     ## Publishers
     local_vel_pub = rospy.Publisher(SET_VEL_TOPIC, Twist, queue_size=10)
     local_pos_pub = rospy.Publisher(SET_POS_TOPIC, PoseStamped, queue_size=10)
-    
+
     # Services
     rospy.wait_for_service(ARM_SRV)
     arming_client = rospy.ServiceProxy(ARM_SRV, CommandBool)
@@ -110,7 +149,7 @@ if __name__ == "__main__":
     set_mode_client = rospy.ServiceProxy(SET_MODE_SRV, SetMode)
     rospy.wait_for_service(LAND_CMD_SRV)
     land_client = rospy.ServiceProxy(LAND_CMD_SRV, CommandTOL)
-    
+
     # Setpoint publishing MUST be faster than 2Hz
     rate = rospy.Rate(20)
 
@@ -138,10 +177,10 @@ if __name__ == "__main__":
     land_cmd.altitude = 0
 
     # Timer for requesting
-    last_req = rospy.Time.now()    
+    last_req = rospy.Time.now()
 
     # Operating loop
-    while(not rospy.is_shutdown()):
+    while not rospy.is_shutdown():
         ok_to_fly(offb_set_mode, arm_cmd)
 
         if mode == POSITION:
