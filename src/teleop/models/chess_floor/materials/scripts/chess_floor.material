@@ -1,0 +1,13 @@
+material floorMat/Image
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture pattern.png
+      }
+    }
+  }
+}
