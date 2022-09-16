@@ -35,7 +35,7 @@ from teleop.msg import Px4Cmd
 
 # -- CTE -- #
 # Topics
-IMAGE_TOPIC = '/iris/usb_cam/image_raw'
+IMAGE_TOPIC = '/iris_vision/usb_cam/image_raw'
 LOCAL_POSE_TOPIC = '/mavros/local_position/pose'
 RADIO_CONTROL_VEL_TOPIC = 'radio_control/vel'
 RADIO_CONTROL_POS_TOPIC = 'radio_control/pos'
