@@ -2,7 +2,6 @@
 
   <!-- 
   SUPPORTED VEHICLES
-    3dr_iris
     iris_irlock 
     iris_rtps 
     iris_vision_velocity
@@ -15,7 +14,7 @@
     iris_opt_flow_mockup 
   -->
 
-  <arg name="vehicle" default="iris_vision"/>
+  <arg name="vehicle" default="iris"/>
   <arg name="x" default="0"/>
   <arg name="y" default="0"/>
   <arg name="z" default="0"/>

@@ -114,7 +114,14 @@ roscd
 catkin_make
 ```
 
-4. (OPTIONAL) Try it! At this point, you should be able to run the code inside this repository.
+4. Change default iris model to our custom one
+
+```
+roscd irisdrone_gazebo/models/custom_iris
+mv iris.sdf ~/repos/PX4-Autopilot/Tools/sitl_gazebo/models/iris
+```
+
+5. (OPTIONAL) Try it! At this point, you should be able to run the code inside this repository.
 
 ```
 roslaunch teleop px4_rc.launch
