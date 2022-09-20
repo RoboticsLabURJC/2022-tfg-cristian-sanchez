@@ -1,0 +1,8 @@
+prefix=/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel
+
+Name: heatmap_util
+Description: Description of heatmap_util
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

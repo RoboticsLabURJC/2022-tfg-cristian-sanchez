@@ -1,0 +1,8 @@
+prefix=/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel
+
+Name: irisdrone_gazebo
+Description: Description of irisdrone_gazebo
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
