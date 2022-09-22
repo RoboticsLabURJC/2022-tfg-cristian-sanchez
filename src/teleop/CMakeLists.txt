@@ -29,5 +29,6 @@ include_directories(
 catkin_install_python(PROGRAMS 
   scripts/px4_controller.py
   scripts/radio_control.py
+  scripts/c2c_control.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
