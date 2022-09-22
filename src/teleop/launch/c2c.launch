@@ -1,9 +1,5 @@
 <?xml version="1.0"?>
 <launch>
-	<!-- Include the MAVROS node with SITL and Gazebo
-	<include file="$(find px4)/launch/mavros_posix_sitl.launch">
-	</include> -->
-
 	<arg name="vehicle" default="iris"/>
 	<arg name="x" default="0"/>
 	<arg name="y" default="0"/>
@@ -16,6 +12,12 @@
 	<arg name="est" default="ekf2"/>
 	<env name="PX4_SIM_MODEL" value="$(arg vehicle)" />
 	<env name="PX4_ESTIMATOR" value="$(arg est)" />
+
+	<!-- MAVROS configs -->
+    <arg name="fcu_url" default="udp://:14540@localhost:14557"/>
+    <arg name="respawn_mavros" default="false"/>
+
+
 	<!-- PX4 configs -->
 	<arg name="interactive" default="true"/>
 	<!-- PX4 SITL -->
@@ -33,6 +35,14 @@
 	<!-- gazebo model -->
 	<node name="$(anon vehicle_spawn)" pkg="gazebo_ros" type="spawn_model" output="screen" 
 		args="-sdf -file $(arg sdf) -model $(arg vehicle) -x $(arg x) -y $(arg y) -z $(arg z) -R $(arg R) -P $(arg P) -Y $(arg Y)"/>
+
+	<!-- MAVROS -->
+    <include file="$(find mavros)/launch/px4.launch">
+        <!-- GCS link is provided by SITL -->
+        <arg name="gcs_url" value=""/>
+        <arg name="fcu_url" value="$(arg fcu_url)"/>
+        <arg name="respawn_mavros" value="$(arg respawn_mavros)"/>
+    </include>
 
 	<!-- Our node to control the drone -->
 	<node pkg="teleop" type="px4_controller.py" name="px4_controller" required="true" output="screen" />
