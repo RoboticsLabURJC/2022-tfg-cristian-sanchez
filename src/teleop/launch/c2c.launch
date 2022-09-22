@@ -1,12 +1,48 @@
 <?xml version="1.0"?>
 <launch>
-	<!-- Include the MAVROS node with SITL and Gazebo -->
+	<!-- Include the MAVROS node with SITL and Gazebo
 	<include file="$(find px4)/launch/mavros_posix_sitl.launch">
+	</include> -->
+
+	<arg name="vehicle" default="iris"/>
+	<arg name="x" default="0"/>
+	<arg name="y" default="0"/>
+	<arg name="z" default="0"/>
+	<arg name="R" default="0"/>
+	<arg name="P" default="0"/>
+	<arg name="Y" default="0"/>
+	<arg name="sdf" default="$(find mavlink_sitl_gazebo)/models/$(arg vehicle)/$(arg vehicle).sdf"/>
+
+	<arg name="est" default="ekf2"/>
+	<env name="PX4_SIM_MODEL" value="$(arg vehicle)" />
+	<env name="PX4_ESTIMATOR" value="$(arg est)" />
+	<!-- PX4 configs -->
+	<arg name="interactive" default="true"/>
+	<!-- PX4 SITL -->
+	<arg unless="$(arg interactive)" name="px4_command_arg1" value="-d"/>
+	<arg     if="$(arg interactive)" name="px4_command_arg1" value=""/>
+	<node name="sitl" pkg="px4" type="px4" output="screen"
+		args="$(find px4)/ROMFS/px4fmu_common -s etc/init.d-posix/rcS $(arg px4_command_arg1)" required="true"/>
+
+	<!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<!-- <arg name="world_name" value="$(find irisdrone_gazebo)/worlds/irisdrone.world"/> -->
+		<!-- more default parameters can be changed here -->
 	</include>
+
+	<!-- gazebo model -->
+	<node name="$(anon vehicle_spawn)" pkg="gazebo_ros" type="spawn_model" output="screen" 
+		args="-sdf -file $(arg sdf) -model $(arg vehicle) -x $(arg x) -y $(arg y) -z $(arg z) -R $(arg R) -P $(arg P) -Y $(arg Y)"/>
 
 	<!-- Our node to control the drone -->
 	<node pkg="teleop" type="px4_controller.py" name="px4_controller" required="true" output="screen" />
 
 	<!-- Our node to teleoperate the drone -->
 	<node pkg="teleop" type="c2c_control.py" name="c2c_node" required="true" output="screen" />
+
+	<!-- rviz -->
+	<node type="rviz" name="rviz" pkg="rviz" />
+
+	<!-- Our node for debugging purposes in rviz -->
+	<node pkg="heatmap_util" type="heatmap.py" name="heatmap_node" required="true" output="screen" />
 </launch>
