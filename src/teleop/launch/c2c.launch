@@ -51,7 +51,7 @@
 	<node pkg="teleop" type="c2c_control.py" name="c2c_node" required="true" output="screen" />
 
 	<!-- rviz -->
-	<node type="rviz" name="rviz" pkg="rviz" />
+	<node type="rviz" name="rviz" pkg="rviz" args="-d $(find heatmap_util)/config/heatmap.rviz" />
 
 	<!-- Our node for debugging purposes in rviz -->
 	<node pkg="heatmap_util" type="heatmap.py" name="heatmap_node" required="true" output="screen" />

@@ -1,9 +1,9 @@
 #! /usr/bin/env python
 
-from queue import Empty
 import rospy
 from visualization_msgs.msg import Marker, MarkerArray
 from geometry_msgs.msg import PoseStamped
+import random
 
 NODENAME = 'heatmap_node'
 MARKER_TOPIC = 'heatmap_markers'
@@ -51,10 +51,11 @@ def init_marker():
 
     return marker
 
-def set_marker_rgb(marker, R, G, B):  
-    marker.color.r = R
-    marker.color.g = G
-    marker.color.b = B
+def set_marker_rgb(marker):
+    marker.color.r = random.random()
+    marker.color.g = random.random()
+    marker.color.b = random.random()
+
 
 def set_marker_pose(marker, x, y, z):
     # Same pose fix ??
@@ -72,8 +73,6 @@ def scan_cell():
     global unique_marker_id
     global current_pos
     global markers
-
-    
     
     if unique_marker_id == 0:
         marker = init_marker()
@@ -83,7 +82,7 @@ def scan_cell():
         marker_pose.pose.position.y = 0.0
         marker_pose.pose.position.z = 0.0
 
-        set_marker_rgb(marker, 1.0, 0.0, 0.0)
+        set_marker_rgb(marker)
         set_marker_pose(marker, 
                         marker_pose.pose.position.x, 
                         marker_pose.pose.position.y, 
@@ -121,7 +120,7 @@ def scan_cell():
                 else:
                     marker_pose.pose.position.y = markers_pose[i].pose.position.y - 2
 
-            set_marker_rgb(marker, 1.0, 0.0, 0.0)
+            set_marker_rgb(marker)
             set_marker_pose(marker, 
                             marker_pose.pose.position.x, 
                             marker_pose.pose.position.y, 
