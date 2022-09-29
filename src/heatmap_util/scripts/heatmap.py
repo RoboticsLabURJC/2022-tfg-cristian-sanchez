@@ -7,10 +7,10 @@ markers inside rviz, following px4 trayectory.
 
 Is made to work with center 2 center control script.
 '''
+import random
 import rospy
 from visualization_msgs.msg import Marker, MarkerArray
 from geometry_msgs.msg import PoseStamped
-import random
 
 # -- CTE -- #
 NODENAME = 'heatmap_node'
@@ -73,13 +73,13 @@ def set_marker_rgb(marker):
     marker.color.b = random.random()
 
 
-def set_marker_pose(marker, x, y, z):
+def set_marker_pose(marker, x_pos, y_pos, z_pos):
     '''
     Set rviz marker position
     '''
-    marker.pose.position.x = x
-    marker.pose.position.y = y
-    marker.pose.position.z = z
+    marker.pose.position.x = x_pos
+    marker.pose.position.y = y_pos
+    marker.pose.position.z = z_pos
 
 def scan_cell():
     '''
@@ -93,7 +93,7 @@ def scan_cell():
 
     if unique_marker_id == 0:
         # Origin marker placement
-        marker = init_marker() 
+        marker = init_marker()
         set_marker_rgb(marker)
         set_marker_pose(marker, 0, 0, 0)
 
@@ -101,36 +101,36 @@ def scan_cell():
         poses.append((0, 0))
     else:
         # Last x, y visited
-        x = poses[i][0]
-        y = poses[i][1]
+        last_visited_x = poses[i][0]
+        last_visited_y = poses[i][1]
 
         # Inside last cell marked conditions
-        inside_cell_x = (x - 1) <= current_pos.pose.position.x <= (x + 1)
-        inside_cell_y = (y - 1) <= current_pos.pose.position.y <= (y + 1)
+        inside_cell_x = (last_visited_x - 1) <= current_pos.pose.position.x <= (last_visited_x + 1)
+        inside_cell_y = (last_visited_y - 1) <= current_pos.pose.position.y <= (last_visited_y + 1)
 
-        if not inside_cell_x or not inside_cell_y:           
+        if not inside_cell_x or not inside_cell_y:
             if not inside_cell_x:
                 # y CTE if x is out of range
-                new_y = y
+                new_y = last_visited_y
                 # Condition to evalue if drone is inside right cell or not (left cell).
-                inside_right_cell = current_pos.pose.position.x > (x + 1)                
+                inside_right_cell = current_pos.pose.position.x > (last_visited_x + 1)
                 if inside_right_cell:
-                    new_x = x + 2
+                    new_x = last_visited_x + 2
                 else:
-                    new_x = x - 2
+                    new_x = last_visited_x - 2
 
             elif not inside_cell_y:
                 # x CTE if y is out of range
-                new_x = x
+                new_x = last_visited_x
                 # Condition to evalue if drone is inside upper cell or not (bottom cell).
-                inside_upper_cell = current_pos.pose.position.y > (y + 1)
+                inside_upper_cell = current_pos.pose.position.y > (last_visited_y + 1)
                 if inside_upper_cell:
-                    new_y = y + 2
+                    new_y = last_visited_y + 2
                 else:
-                    new_y = y - 2
+                    new_y = last_visited_y - 2
 
             if (new_x, new_y) not in poses:
-                marker = init_marker() 
+                marker = init_marker()
                 set_marker_rgb(marker)
                 set_marker_pose(marker, new_x, new_y, 0)
 
