@@ -4,6 +4,7 @@ project(heatmap_util)
 find_package(catkin REQUIRED)
 find_package(rospy REQUIRED)
 find_package(visualization_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
 catkin_package(
 )
