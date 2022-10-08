@@ -55,4 +55,7 @@
 
 	<!-- Our node for debugging purposes in rviz -->
 	<node pkg="heatmap_util" type="heatmap.py" name="heatmap_node" required="true" output="screen" />
+
+	<!-- Our node for debugging purposes in rviz -->
+	<node pkg="heatmap_util" type="path_marker.py" name="path_node" required="true" output="screen" />
 </launch>

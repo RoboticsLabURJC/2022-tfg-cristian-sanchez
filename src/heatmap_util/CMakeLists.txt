@@ -15,5 +15,6 @@ include_directories(
 
 catkin_install_python(PROGRAMS 
   scripts/heatmap.py
+  scripts/path_marker.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

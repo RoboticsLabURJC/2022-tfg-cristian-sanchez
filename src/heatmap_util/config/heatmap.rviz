@@ -85,6 +85,14 @@ Visualization Manager:
       Topic: /mavros/local_position/pose
       Unreliable: false
       Value: true
+    - Class: rviz/Marker
+      Enabled: true
+      Marker Topic: /path_markers
+      Name: Marker
+      Namespaces:
+        Line Strip: true
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
