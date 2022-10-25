@@ -16,5 +16,6 @@ include_directories(
 catkin_install_python(PROGRAMS 
   scripts/heatmap.py
   scripts/path_marker.py
+  scripts/friss_simple_formula.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
