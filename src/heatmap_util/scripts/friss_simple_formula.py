@@ -5,7 +5,7 @@ import numpy as np
 P_t = 10    # Trasmitter power (Watts)
 G_t = 1     # Gain of transmitter (Watts)
 G_r = 1     # Gain of receiver (Watts)
-lmd = 1     # Wavelength
+lmd = 1     # Wavelength (250/260 MHz)
 L = 1       # Other losses factors L = 1 --> no losses
 n = 2       # Path Loss Exponent (for different environments)
 
