@@ -1,6 +1,11 @@
 #! /usr/bin/env python
 import numpy as np
 import matplotlib.pylab as plt
+from matplotlib.widgets import Slider, Button
+
+ROWS = 50
+COLS = 50
+SIGNAL_ORIGIN = (20, 20)
         
 class Friss:
     C = 3.0 * (10 ** 8)
@@ -14,6 +19,13 @@ class Friss:
         self.__losses_f = losses_factor                 # L
         self.__losses_p = losses_path                   # n
 
+    def set_values(self, power_tras, gain_tras, gain_recv, freq, losses_factor, losses_path):
+        self.__power_t = power_tras                     # Pt
+        self.__gain_t = gain_tras                       # Gt
+        self.__gain_r = gain_recv                       # Gr
+        self.__lambda = self.__get_lambda(freq)         # Lambda
+        self.__losses_f = losses_factor                 # L
+        self.__losses_p = losses_path                   # n
 
     def __get_lambda(self, freq):
         return self.C/freq
@@ -48,7 +60,8 @@ class Friss:
 
         # norm_data = data / np.linalg.norm(data)
         # self.__show_data(norm_data)
-        self.__show_data(data)
+        # self.__show_data(data)
+        return data
 
     def model_signal_losses(self, rows, cols, origin=(0,0)):
         x_origin, y_origin = origin
@@ -74,25 +87,89 @@ class Friss:
     def __rcv_power_with_ref(self, d_ref, d_final):
         power_recv = self.__friss_formula(d_ref) + 20 * np.log10(d_ref/d_final)
         return power_recv
+
+    def __print_all(self):
+        print("****************")
+        print("Current Friss values:")
+        print("\tPt:",self.__power_t, "W")
+        print("\tGt:",self.__gain_t, "W")
+        print("\tGr:",self.__gain_r, "W")
+        print("\tLm:",self.__lambda)
+        print("\tl:",self.__losses_f)
+        print("\tn:",self.__losses_p)
+        print("****************")
                  
-    def __show_data(self, data):
+    def show_data(self, data):
         plt.pcolormesh(data, cmap = 'winter')
         plt.title('Heatmap')
         plt.show()
 
     def test(self, dist, new_dist):
+        self.__print_all()
         print("Pt (", dist, "m ):", self.__W_to_dBm(self.__power_t), "dBm")
         print("Pt (", dist, "m ):", self.__W_to_dB(self.__power_t), "dB")
         print("Pr (", dist, "m ):", self.__friss_formula(dist), "dBm")
         print("Pr (", new_dist, "m ), without friss:", self.__rcv_power_with_ref(dist, new_dist), "dBm")
         print("Pr (", new_dist, "m ), with friss:", self.__friss_formula(new_dist), "dBm")
-
-
+        print("\n")
 
 if __name__ ==  "__main__":
-    my_model = Friss(power_tras=50.0, gain_tras=1, gain_recv=2)
+    plt.figure("Heatmap")
+
+    Pt = 1.0
+    Gt = 1.0
+    Gr = 1.0
+    Fq = 250.0 * (10**6)
+    l = 1.0
+    n = 2.0
+
+    my_model = Friss(Pt, Gt, Gr, Fq, l, n)
+
     my_model.test(100, 10 * (10**3))
-    print(" --------- ")
-    my_model.test(10, 100)
-    my_model.model_power_signal(100, 100, (20, 20))
-    # my_model.model_signal_losses(25, 25, (20, 20))
+    # my_model.test(10, 100)
+
+    data = my_model.model_power_signal(ROWS, COLS, SIGNAL_ORIGIN)
+
+    ax = plt.subplot(211)
+    plt.pcolormesh(data, cmap = 'winter')
+
+    ax_Pt = plt.axes([0.25, 0.3, 0.65, 0.03])
+    ax_Gt = plt.axes([0.25, 0.25, 0.65, 0.03])
+    ax_Gr = plt.axes([0.25, 0.2, 0.65, 0.03])
+    ax_Fq = plt.axes([0.25, 0.15, 0.65, 0.03])
+    ax_l = plt.axes([0.25, 0.1, 0.65, 0.03])
+    ax_n = plt.axes([0.25, 0.05, 0.65, 0.03])    
+    
+    power_t = Slider(ax_Pt, 'Pt (W)', 0.0, 100.0, Pt)
+    gain_t = Slider(ax_Gt, 'Gt (W)', 0.0, 100.0, Gt)
+    gain_r = Slider(ax_Gr, 'Gr (W)', 0.0, 100.0, Gr)
+    freq = Slider(ax_Fq, 'Fq (Hz)', 0, 10**10, Fq)
+    losses_factor = Slider(ax_l, 'L', 0.0, 10.0, l)
+    loss_exp = Slider(ax_n, 'n', 1.6, 6.0, n)    
+
+    def update(val):
+        Pt = power_t.val
+        Gt = gain_t.val
+        Gr = gain_r.val
+        Fq = freq.val
+        l = losses_factor.val
+        n = loss_exp.val
+
+        my_model.set_values(Pt, Gt, Gr, Fq, l, n)
+        data = my_model.model_power_signal(ROWS, COLS, SIGNAL_ORIGIN)
+        ax.pcolormesh(data, cmap = 'winter')
+
+        my_model.test(100, 10 * (10**3))
+        # my_model.test(10, 100)
+    
+    power_t.on_changed(update)
+    gain_t.on_changed(update)
+    gain_r.on_changed(update)
+    freq.on_changed(update)
+    losses_factor.on_changed(update)
+    loss_exp.on_changed(update)
+
+    manager = plt.get_current_fig_manager()
+    manager.full_screen_toggle()
+
+    plt.show()
