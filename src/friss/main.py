@@ -6,6 +6,32 @@ from matplotlib.widgets import Slider, Button
 ROWS = 50
 COLS = 50
 SIGNAL_ORIGIN = (20, 20)
+CUSTOM_RANGE = (0, 50)
+
+# Common frequency profiles
+FREQ_WIFI = 2.4 * (10**9)
+FREQ_5G = 30 * (10**9)
+FREQ_FM = 100 * (10**6)
+
+def scale_value(value, org_range, dst_range):
+    '''
+    Transform a value in terms of [min, max] to an scaled value in terms of [a, b].
+    '''
+    min, max = org_range
+    a, b = dst_range    
+
+    factor = (b - a)/(max - min)
+    scaled_value = factor * (value - min) + a
+
+    return scaled_value
+
+def scale_array(data, org_range, dst_range):
+    '''
+    Transform data into the range we want.
+    '''
+    for x in range(ROWS):
+        for y in range(COLS):
+            data[x, y] = scale_value(data[x, y], org_range, dst_range)
         
 class Friss:
     C = 3.0 * (10 ** 8)
@@ -58,12 +84,12 @@ class Friss:
                 pwr_recv = self.__friss_formula(dist_to_origin)
                 data[x, y] = pwr_recv
 
-        # norm_data = data / np.linalg.norm(data)
-        # self.__show_data(norm_data)
-        # self.__show_data(data)
+        current_range = (np.min(data), np.max(data))
+        scale_array(data, current_range, CUSTOM_RANGE)
         return data
 
     def model_signal_losses(self, rows, cols, origin=(0,0)):
+        # NEED TO BE UPDATED!!!!!!!!!!!!!!
         x_origin, y_origin = origin
         data = np.zeros((rows, cols))
         for x in range(rows):
@@ -85,6 +111,7 @@ class Friss:
         return dB
 
     def __rcv_power_with_ref(self, d_ref, d_final):
+        # Calibrated
         power_recv = self.__friss_formula(d_ref) + 20 * np.log10(d_ref/d_final)
         return power_recv
 
@@ -125,13 +152,14 @@ if __name__ ==  "__main__":
 
     my_model = Friss(Pt, Gt, Gr, Fq, l, n)
 
-    my_model.test(100, 10 * (10**3))
+    my_model.test(2, 10)
     # my_model.test(10, 100)
 
     data = my_model.model_power_signal(ROWS, COLS, SIGNAL_ORIGIN)
 
     ax = plt.subplot(211)
-    plt.pcolormesh(data, cmap = 'winter')
+    plot = plt.pcolormesh(data, cmap = 'viridis')
+    plt.colorbar(plot)
 
     ax_Pt = plt.axes([0.25, 0.3, 0.65, 0.03])
     ax_Gt = plt.axes([0.25, 0.25, 0.65, 0.03])
@@ -157,9 +185,10 @@ if __name__ ==  "__main__":
 
         my_model.set_values(Pt, Gt, Gr, Fq, l, n)
         data = my_model.model_power_signal(ROWS, COLS, SIGNAL_ORIGIN)
-        ax.pcolormesh(data, cmap = 'winter')
+        plot = ax.pcolormesh(data, cmap = 'viridis')
+        plt.colorbar(plot)
 
-        my_model.test(100, 10 * (10**3))
+        my_model.test(2, 10)
         # my_model.test(10, 100)
     
     power_t.on_changed(update)
@@ -169,7 +198,7 @@ if __name__ ==  "__main__":
     losses_factor.on_changed(update)
     loss_exp.on_changed(update)
 
-    manager = plt.get_current_fig_manager()
-    manager.full_screen_toggle()
+    # manager = plt.get_current_fig_manager()
+    # manager.full_screen_toggle()
 
     plt.show()
