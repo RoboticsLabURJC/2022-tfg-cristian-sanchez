@@ -6,38 +6,41 @@ from matplotlib.widgets import Slider, Button
 ROWS = 50
 COLS = 50
 SIGNAL_ORIGIN = (20, 20)
-CUSTOM_RANGE = (0, 50)
+CUSTOM_RANGE = (-40, 40)
 
 # Common frequency profiles
 FREQ_WIFI = 2.4 * (10**9)
 FREQ_5G = 30 * (10**9)
 FREQ_FM = 100 * (10**6)
 
-def scale_value(value, org_range, dst_range):
+fig = plt.figure("Heatmap")
+raw_data = np.empty((ROWS, COLS))
+
+def scale_value(value, old_range, new_range):
     '''
-    Transform a value in terms of [min, max] to an scaled value in terms of [a, b].
+    Transform a value in terms of [old_min, old_max] to an scaled value in terms of [new_min, new_max].
     '''
-    min, max = org_range
-    a, b = dst_range    
+    old_min, old_max = old_range
+    new_min, new_max = new_range
 
-    factor = (b - a)/(max - min)
-    scaled_value = factor * (value - min) + a
+    norm = (value - old_min)/(old_max - old_min)
+    new_value = (norm * (new_max - new_min)) + new_min
 
-    return scaled_value
+    return new_value
 
-def scale_array(data, org_range, dst_range):
+def scale_array(data, old_range, new_range):
     '''
     Transform data into the range we want.
     '''
     for x in range(ROWS):
         for y in range(COLS):
-            data[x, y] = scale_value(data[x, y], org_range, dst_range)
+            data[x, y] = scale_value(data[x, y], old_range, new_range)
         
 class Friss:
     C = 3.0 * (10 ** 8)
     DIST_FACTOR = 1.0
 
-    def __init__(self, power_tras, gain_tras, gain_recv, freq=900.0 * (10 ** 6), losses_factor=1.0, losses_path=2.0):
+    def __init__(self, power_tras=1.0, gain_tras=1.0, gain_recv=1.0, freq=FREQ_WIFI, losses_factor=1.0, losses_path=2.0):
         self.__power_t = power_tras                     # Pt
         self.__gain_t = gain_tras                       # Gt
         self.__gain_r = gain_recv                       # Gr
@@ -76,6 +79,8 @@ class Friss:
         pass
 
     def model_power_signal(self, rows, cols, origin=(0,0)):
+        global raw_data # For debugging
+
         x_origin, y_origin = origin
         data = np.zeros((rows, cols))
         for x in range(rows):
@@ -84,8 +89,10 @@ class Friss:
                 pwr_recv = self.__friss_formula(dist_to_origin)
                 data[x, y] = pwr_recv
 
+                raw_data[x, y] = pwr_recv # For debugging
+
         current_range = (np.min(data), np.max(data))
-        scale_array(data, current_range, CUSTOM_RANGE)
+        # scale_array(data, current_range, CUSTOM_RANGE)
         return data
 
     def model_signal_losses(self, rows, cols, origin=(0,0)):
@@ -132,64 +139,67 @@ class Friss:
         plt.show()
 
     def test(self, dist, new_dist):
+        global raw_data
+
         self.__print_all()
-        print("Pt (", dist, "m ):", self.__W_to_dBm(self.__power_t), "dBm")
-        print("Pt (", dist, "m ):", self.__W_to_dB(self.__power_t), "dB")
-        print("Pr (", dist, "m ):", self.__friss_formula(dist), "dBm")
-        print("Pr (", new_dist, "m ), without friss:", self.__rcv_power_with_ref(dist, new_dist), "dBm")
-        print("Pr (", new_dist, "m ), with friss:", self.__friss_formula(new_dist), "dBm")
+        print("P transmiter (", dist, "m ):", self.__W_to_dBm(self.__power_t), "dBm")
+        print("P receiver (", dist, "m ):", self.__friss_formula(dist), "dBm")
+        print("P transmiter (", new_dist, "m ):", self.__W_to_dBm(self.__power_t), "dBm")
+        print("P receiver (", new_dist, "m ):", self.__friss_formula(new_dist), "dBm")
+
+        current_range = (np.min(raw_data), np.max(raw_data))
+        Pr = self.__friss_formula(new_dist)
+        Pr_sc = scale_value(Pr, current_range, CUSTOM_RANGE)
+        print("\nFor", new_dist,"m in dBm:")
+        print("\tPr:", Pr,"in range", current_range)
+        print("\tPr scaled:", Pr_sc, "in range", CUSTOM_RANGE)
         print("\n")
 
 if __name__ ==  "__main__":
-    plt.figure("Heatmap")
-
-    Pt = 1.0
-    Gt = 1.0
-    Gr = 1.0
-    Fq = 250.0 * (10**6)
-    l = 1.0
-    n = 2.0
-
-    my_model = Friss(Pt, Gt, Gr, Fq, l, n)
-
-    my_model.test(2, 10)
-    # my_model.test(10, 100)
+    my_model = Friss()
 
     data = my_model.model_power_signal(ROWS, COLS, SIGNAL_ORIGIN)
+    my_model.test(2, 10)
 
-    ax = plt.subplot(211)
-    plot = plt.pcolormesh(data, cmap = 'viridis')
-    plt.colorbar(plot)
+    ax = fig.add_subplot(111)
+    fig.subplots_adjust(bottom=0.4)
+    mesh_min, mesh_max = CUSTOM_RANGE
+    im = ax.imshow(data, cmap = 'viridis', aspect='equal', origin='lower', 
+                    vmin=mesh_min, vmax=mesh_max)
+    fig.colorbar(im)
 
-    ax_Pt = plt.axes([0.25, 0.3, 0.65, 0.03])
-    ax_Gt = plt.axes([0.25, 0.25, 0.65, 0.03])
-    ax_Gr = plt.axes([0.25, 0.2, 0.65, 0.03])
-    ax_Fq = plt.axes([0.25, 0.15, 0.65, 0.03])
-    ax_l = plt.axes([0.25, 0.1, 0.65, 0.03])
-    ax_n = plt.axes([0.25, 0.05, 0.65, 0.03])    
+    ax_Pt = fig.add_axes([0.15, 0.3, 0.65, 0.03])
+    ax_Gt = fig.add_axes([0.15, 0.25, 0.65, 0.03])
+    ax_Gr = fig.add_axes([0.15, 0.2, 0.65, 0.03])
+    ax_Fq = fig.add_axes([0.15, 0.15, 0.65, 0.03])
+    ax_l = fig.add_axes([0.15, 0.1, 0.65, 0.03])
+    ax_n = fig.add_axes([0.15, 0.05, 0.65, 0.03]) 
     
-    power_t = Slider(ax_Pt, 'Pt (W)', 0.0, 100.0, Pt)
-    gain_t = Slider(ax_Gt, 'Gt (W)', 0.0, 100.0, Gt)
-    gain_r = Slider(ax_Gr, 'Gr (W)', 0.0, 100.0, Gr)
-    freq = Slider(ax_Fq, 'Fq (Hz)', 0, 10**10, Fq)
-    losses_factor = Slider(ax_l, 'L', 0.0, 10.0, l)
-    loss_exp = Slider(ax_n, 'n', 1.6, 6.0, n)    
+    power_t = Slider(ax_Pt, 'Pt (W)', 0.01, 100.0, 1.0)
+    gain_t = Slider(ax_Gt, 'Gt (W)', 0.01, 100.0, 1.0)
+    gain_r = Slider(ax_Gr, 'Gr (W)', 0.01, 100.0, 1.0)
+    freq = Slider(ax_Fq, 'Fq (GHz)', 0.01, 10.0, FREQ_WIFI/(10**9))
+    losses_factor = Slider(ax_l, 'L', 0.01, 10.0, 1.0)
+    loss_exp = Slider(ax_n, 'n', 1.6, 6.0, 2.0)    
 
     def update(val):
+        global fig
+
         Pt = power_t.val
         Gt = gain_t.val
         Gr = gain_r.val
-        Fq = freq.val
+        Fq = freq.val * (10**9)
         l = losses_factor.val
         n = loss_exp.val
 
         my_model.set_values(Pt, Gt, Gr, Fq, l, n)
         data = my_model.model_power_signal(ROWS, COLS, SIGNAL_ORIGIN)
-        plot = ax.pcolormesh(data, cmap = 'viridis')
-        plt.colorbar(plot)
+
+        mesh_min, mesh_max = CUSTOM_RANGE
+        ax.imshow(data, cmap = 'viridis', aspect='equal', origin='lower', 
+                  vmin=mesh_min, vmax=mesh_max)
 
         my_model.test(2, 10)
-        # my_model.test(10, 100)
     
     power_t.on_changed(update)
     gain_t.on_changed(update)
@@ -197,8 +207,5 @@ if __name__ ==  "__main__":
     freq.on_changed(update)
     losses_factor.on_changed(update)
     loss_exp.on_changed(update)
-
-    # manager = plt.get_current_fig_manager()
-    # manager.full_screen_toggle()
 
     plt.show()
