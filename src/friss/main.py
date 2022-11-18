@@ -1,10 +1,10 @@
 #! /usr/bin/env python
 import numpy as np
 import matplotlib.pylab as plt
-from matplotlib.widgets import Slider, Button
+from matplotlib.widgets import Slider, CheckButtons
 
-ROWS = 50
-COLS = 50
+ROWS = 100
+COLS = 100
 SIGNAL_ORIGIN = (20, 20)
 CUSTOM_RANGE = (-40, 40)
 
@@ -155,18 +155,42 @@ class Friss:
         print("\tPr scaled:", Pr_sc, "in range", CUSTOM_RANGE)
         print("\n")
 
+
 if __name__ ==  "__main__":
     my_model = Friss()
 
     data = my_model.model_power_signal(ROWS, COLS, SIGNAL_ORIGIN)
-    my_model.test(2, 10)
+    # my_model.test(2, 10)
 
     ax = fig.add_subplot(111)
     fig.subplots_adjust(bottom=0.4)
     mesh_min, mesh_max = CUSTOM_RANGE
-    im = ax.imshow(data, cmap = 'viridis', aspect='equal', origin='lower', 
-                    vmin=mesh_min, vmax=mesh_max)
-    fig.colorbar(im)
+
+    im_default = ax.imshow(data, cmap = 'viridis', aspect='equal', origin='lower')
+    im_fixed = ax.imshow(data, cmap = 'viridis', aspect='equal', origin='lower', 
+                    vmin=mesh_min, vmax=mesh_max, visible=False)
+    
+    
+
+
+    # fig.colorbar(im_default)
+    # fig.colorbar(im_fixed)
+
+    fig.subplots_adjust(left=0.2)
+
+    # CheckButton draw
+    rax = fig.add_axes([0.15, 0.6, 0.1, 0.15])
+    check = CheckButtons(rax, ["Fixed"], [im_fixed.get_visible()])
+
+
+    def func(label):
+        im_fixed.set_visible(not im_fixed.get_visible())
+        im_default.set_visible(not im_default.get_visible())
+        plt.draw()
+        # plt.show()
+
+    
+
 
     ax_Pt = fig.add_axes([0.15, 0.3, 0.65, 0.03])
     ax_Gt = fig.add_axes([0.15, 0.25, 0.65, 0.03])
@@ -196,10 +220,14 @@ if __name__ ==  "__main__":
         data = my_model.model_power_signal(ROWS, COLS, SIGNAL_ORIGIN)
 
         mesh_min, mesh_max = CUSTOM_RANGE
-        ax.imshow(data, cmap = 'viridis', aspect='equal', origin='lower', 
-                  vmin=mesh_min, vmax=mesh_max)
 
-        my_model.test(2, 10)
+        ax.imshow(data, cmap = 'viridis', aspect='equal', origin='lower', visible=im_default.get_visible())
+        ax.imshow(data, cmap = 'viridis', aspect='equal', origin='lower', 
+                  vmin=mesh_min, vmax=mesh_max, visible=im_fixed.get_visible())
+
+        # my_model.test(2, 10)
+
+    check.on_clicked(func)
     
     power_t.on_changed(update)
     gain_t.on_changed(update)
