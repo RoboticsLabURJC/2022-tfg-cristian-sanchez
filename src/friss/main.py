@@ -13,7 +13,8 @@ FREQ_WIFI = 2.4 * (10**9)
 FREQ_5G = 30 * (10**9)
 FREQ_FM = 100 * (10**6)
 
-fig = plt.figure("Heatmap")
+FREQ_DEFAULT = FREQ_WIFI
+
 raw_data = np.empty((ROWS, COLS))
 
 def scale_value(value, old_range, new_range):
@@ -40,7 +41,7 @@ class Friss:
     C = 3.0 * (10 ** 8)
     DIST_FACTOR = 1.0
 
-    def __init__(self, power_tras=1.0, gain_tras=1.0, gain_recv=1.0, freq=FREQ_WIFI, losses_factor=1.0, losses_path=2.0):
+    def __init__(self, power_tras=1.0, gain_tras=1.0, gain_recv=1.0, freq=FREQ_DEFAULT, losses_factor=1.0, losses_path=2.0):
         self.__power_t = power_tras                     # Pt
         self.__gain_t = gain_tras                       # Gt
         self.__gain_r = gain_recv                       # Gr
@@ -158,40 +159,29 @@ class Friss:
 
 if __name__ ==  "__main__":
     my_model = Friss()
-
     data = my_model.model_power_signal(ROWS, COLS, SIGNAL_ORIGIN)
+    mesh_min, mesh_max = CUSTOM_RANGE
     # my_model.test(2, 10)
 
-    ax = fig.add_subplot(111)
-    fig.subplots_adjust(bottom=0.4)
-    mesh_min, mesh_max = CUSTOM_RANGE
+    # Display 
+    fig = plt.figure("Heatmap")
+    ax_def = fig.add_subplot(221)
+    ax_fix = fig.add_subplot(222)
 
-    im_default = ax.imshow(data, cmap = 'viridis', aspect='equal', origin='lower')
-    im_fixed = ax.imshow(data, cmap = 'viridis', aspect='equal', origin='lower', 
-                    vmin=mesh_min, vmax=mesh_max, visible=False)
-    
-    
+    ax_def.set_title("Default")
+    title = "Fixed limits (" + str(mesh_min) + ", " + str(mesh_max) +")"
+    ax_fix.set_title(title)
 
+    im_default = ax_def.imshow(data, cmap = 'afmhot', aspect='equal', origin='lower')
+    cbar_def = plt.colorbar(im_default, ax=ax_def)
 
-    # fig.colorbar(im_default)
-    # fig.colorbar(im_fixed)
+    im_fixed = ax_fix.imshow(data, cmap = 'afmhot', aspect='equal', origin='lower', 
+                          vmin=mesh_min, vmax=mesh_max)
+    cbar_fix = plt.colorbar(im_fixed, ax=ax_fix)
 
-    fig.subplots_adjust(left=0.2)
+    fixed_selected = False
 
-    # CheckButton draw
-    rax = fig.add_axes([0.15, 0.6, 0.1, 0.15])
-    check = CheckButtons(rax, ["Fixed"], [im_fixed.get_visible()])
-
-
-    def func(label):
-        im_fixed.set_visible(not im_fixed.get_visible())
-        im_default.set_visible(not im_default.get_visible())
-        plt.draw()
-        # plt.show()
-
-    
-
-
+    # -- SLIDERS -- #
     ax_Pt = fig.add_axes([0.15, 0.3, 0.65, 0.03])
     ax_Gt = fig.add_axes([0.15, 0.25, 0.65, 0.03])
     ax_Gr = fig.add_axes([0.15, 0.2, 0.65, 0.03])
@@ -202,13 +192,14 @@ if __name__ ==  "__main__":
     power_t = Slider(ax_Pt, 'Pt (W)', 0.01, 100.0, 1.0)
     gain_t = Slider(ax_Gt, 'Gt (W)', 0.01, 100.0, 1.0)
     gain_r = Slider(ax_Gr, 'Gr (W)', 0.01, 100.0, 1.0)
-    freq = Slider(ax_Fq, 'Fq (GHz)', 0.01, 10.0, FREQ_WIFI/(10**9))
+    freq = Slider(ax_Fq, 'Fq (GHz)', 0.01, 10.0, FREQ_DEFAULT/(10**9))
     losses_factor = Slider(ax_l, 'L', 0.01, 10.0, 1.0)
     loss_exp = Slider(ax_n, 'n', 1.6, 6.0, 2.0)    
 
     def update(val):
-        global fig
-
+        global im_default, im_fixed, cbar_def, fixed_selected
+        
+        # Data extraction
         Pt = power_t.val
         Gt = gain_t.val
         Gr = gain_r.val
@@ -219,16 +210,15 @@ if __name__ ==  "__main__":
         my_model.set_values(Pt, Gt, Gr, Fq, l, n)
         data = my_model.model_power_signal(ROWS, COLS, SIGNAL_ORIGIN)
 
-        mesh_min, mesh_max = CUSTOM_RANGE
-
-        ax.imshow(data, cmap = 'viridis', aspect='equal', origin='lower', visible=im_default.get_visible())
-        ax.imshow(data, cmap = 'viridis', aspect='equal', origin='lower', 
-                  vmin=mesh_min, vmax=mesh_max, visible=im_fixed.get_visible())
+        # Update display
+        if fixed_selected:
+            im_fixed.set_data(data)
+        else:
+            im_default.set_data(data)
+            cbar_def.mappable.autoscale()
 
         # my_model.test(2, 10)
 
-    check.on_clicked(func)
-    
     power_t.on_changed(update)
     gain_t.on_changed(update)
     gain_r.on_changed(update)
@@ -236,4 +226,13 @@ if __name__ ==  "__main__":
     losses_factor.on_changed(update)
     loss_exp.on_changed(update)
 
+    # -- CHECKBUTTON -- #    
+    button_ax = fig.add_axes([0.4, 0.37, 0.18, 0.1])
+    check = CheckButtons(button_ax, ["Fixed limits"], [fixed_selected])
+
+    def checkbox(label): 
+        global fixed_selected
+        fixed_selected = not fixed_selected
+
+    check.on_clicked(checkbox)
     plt.show()
