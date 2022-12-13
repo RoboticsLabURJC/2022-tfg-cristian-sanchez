@@ -7,9 +7,9 @@ FREQ_5G = 30 * (10**9)
 FREQ_FM = 100 * (10**6)
 
 class Friss:
-    C = 3.0 * (10 ** 8)
-    DIST_FACTOR = 1.0
-    CUSTOM_RANGE = (-40, 40)
+    C = 3.0 * (10 ** 8)         # Light speed
+    DIST_FACTOR = 1.0           # Step distance, 1 = 1 m
+    CUSTOM_RANGE = (-40, 40)    # Fixed maximun and minimun
 
     def __init__(self, power_tras=1.0, gain_tras=1.0, gain_recv=1.0, 
                  freq=FREQ_WIFI, losses_factor=1.0, losses_path=2.0, 
@@ -25,6 +25,9 @@ class Friss:
         self.__raw_data = np.empty(sz)
 
     def set_values(self, power_tras, gain_tras, gain_recv, freq, losses_factor, losses_path):
+        '''
+        Allows the modification of the friss formula parameters.
+        '''
         self.__power_t = power_tras                     # Pt
         self.__gain_t = gain_tras                       # Gt
         self.__gain_r = gain_recv                       # Gr
@@ -33,9 +36,15 @@ class Friss:
         self.__losses_p = losses_path                   # n
 
     def __get_lambda(self, freq):
+        '''
+        Returns lambda.
+        '''
         return self.C/freq
 
     def __friss_formula(self, dist):
+        '''
+        Returns received power in a certain distances in dBm.
+        '''
         if dist == 0:
             dist = 0.9 * self.DIST_FACTOR
 
@@ -43,7 +52,18 @@ class Friss:
         power_recv_dBm = self.__W_to_dBm(power_recv)
         return power_recv_dBm
 
+    def __rcv_power_with_ref(self, d_ref, d_final):
+        '''
+        Obtain the received power with references.
+        '''
+        # Calibrated
+        power_recv = self.__friss_formula(d_ref) + 20 * np.log10(d_ref/d_final)
+        return power_recv
+
     def __propagation_path_loss(self, dist):
+        '''
+        Returns loss in a certain distances in dB.
+        '''
         if dist == 0:
             dist = 0.9 * self.DIST_FACTOR
 
@@ -51,10 +71,10 @@ class Friss:
         loss = -10 * np.log10((self.__lambda**2)/((4 * np.pi * dist)**2))   
         return loss
 
-    def __del__(self):
-        pass
-
     def model_power_signal(self, origin=(0,0)):
+        '''
+        Fills data using friss formula and returns it.
+        '''
         x_origin, y_origin = origin
         rows, cols = self.__raw_data.shape
         data = np.zeros((rows, cols))
@@ -70,6 +90,9 @@ class Friss:
         return data
 
     def model_signal_losses(self, origin=(0,0)):
+        '''
+        Fills data using propagation path loss formula and returns it.
+        '''
         x_origin, y_origin = origin
         rows, cols = self.__raw_data.shape
         data = np.zeros((rows, cols))
@@ -85,20 +108,24 @@ class Friss:
 
     # Revise!!
     def __W_to_dBm(self, value_in_w):
+        '''
+        Transform from W to dBm.
+        '''
         dBm = 10 * np.log10(value_in_w / 0.001)
         return dBm
 
     def __W_to_dB(self, value_in_w):
+        '''
+        Transform from W to dB.
+        '''
         dB = 10 * np.log10(value_in_w)
         return dB
 
-    def __rcv_power_with_ref(self, d_ref, d_final):
-        # Calibrated
-        power_recv = self.__friss_formula(d_ref) + 20 * np.log10(d_ref/d_final)
-        return power_recv
-
     # -- DEBUG -- #
-    def __print_all(self):
+    def print_all(self):
+        '''
+        Shows every friss parameter used in the formulas.
+        '''
         print("****************")
         print("Current Friss values:")
         print("\tPt:",self.__power_t, "W")
@@ -111,7 +138,10 @@ class Friss:
                  
 
     def test(self, dist, new_dist):
-        self.__print_all()
+        '''
+        Function used for testing purposes.
+        '''
+        self.print_all()
         print("P transmiter (", dist, "m ):", self.__W_to_dBm(self.__power_t), "dBm")
         print("P receiver (", dist, "m ):", self.__friss_formula(dist), "dBm")
         print("P transmiter (", new_dist, "m ):", self.__W_to_dBm(self.__power_t), "dBm")
@@ -122,3 +152,6 @@ class Friss:
         print("\nFor", new_dist,"m in dBm:")
         print("\tPr:", Pr,"in range", current_range)
         print("\n")
+
+    def __del__(self):
+        pass
