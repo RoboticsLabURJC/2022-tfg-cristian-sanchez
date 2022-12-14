@@ -100,6 +100,7 @@ if __name__ ==  "__main__":
     # Terminal debugging
     my_model.test(2, 10)
     
-    # Display app
+    # Display app (press q to quit)
+    mng = plt.get_current_fig_manager()
+    mng.full_screen_toggle()
     plt.show()
-    
