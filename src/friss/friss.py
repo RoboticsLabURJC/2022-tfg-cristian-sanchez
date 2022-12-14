@@ -8,12 +8,12 @@ FREQ_FM = 100 * (10**6)
 
 class Friss:
     C = 3.0 * (10 ** 8)         # Light speed
-    DIST_FACTOR = 1.0           # Step distance, 1 = 1 m
+    #DIST_FACTOR = 1.0           # Step distance, 1 = 1 m
     CUSTOM_RANGE = (-40, 40)    # Fixed maximun and minimun
 
     def __init__(self, power_tras=1.0, gain_tras=1.0, gain_recv=1.0, 
                  freq=FREQ_WIFI, losses_factor=1.0, losses_path=2.0, 
-                 sz=(100, 100)):
+                 world_sz=(100, 100), resolution=1.0):
 
         self.__power_t = power_tras                     # Pt
         self.__gain_t = gain_tras                       # Gt
@@ -22,7 +22,19 @@ class Friss:
         self.__losses_f = losses_factor                 # L
         self.__losses_p = losses_path                   # n
 
-        self.__raw_data = np.empty(sz)
+        # Generar mundo con la resolución
+        self.__resolution = resolution                  # units per cell, 0.5 means that every cell side measures 0.5 m
+        self.__world_sz = world_sz                      # defines ticks in x, y (20, 20) is a 20 x 20 m map
+        self.__raw_data = self.__generate_data_grid()   # data grid
+
+    def __generate_data_grid(self):
+        l_magnitude, _ = self.__world_sz
+        l_grid = int(l_magnitude / self.__resolution)
+
+        return np.empty((l_grid, l_grid))
+
+    def get_world_sz(self):
+        return self.__world_sz
 
     def set_values(self, power_tras, gain_tras, gain_recv, freq, losses_factor, losses_path):
         '''
@@ -46,7 +58,7 @@ class Friss:
         Returns received power in a certain distances in dBm.
         '''
         if dist == 0:
-            dist = 0.9 * self.DIST_FACTOR
+            dist = 0.9 * self.__resolution
 
         power_recv = self.__power_t * (self.__gain_t * self.__gain_r * (self.__lambda)**2)/(((4 * np.pi)**2) * (dist**self.__losses_p) * self.__losses_f)
         power_recv_dBm = self.__W_to_dBm(power_recv)
@@ -65,7 +77,7 @@ class Friss:
         Returns loss in a certain distances in dB.
         '''
         if dist == 0:
-            dist = 0.9 * self.DIST_FACTOR
+            dist = 0.9 * self.__resolution
 
         # Empty space case
         loss = -10 * np.log10((self.__lambda**2)/((4 * np.pi * dist)**2))   
@@ -81,7 +93,7 @@ class Friss:
 
         for x in range(rows):
             for y in range(cols):
-                dist_to_origin = (((x - x_origin)**2 + (y - y_origin)**2) ** (1/2)) * self.DIST_FACTOR
+                dist_to_origin = (((x - x_origin)**2 + (y - y_origin)**2) ** (1/2)) * self.__resolution
                 pwr_recv = self.__friss_formula(dist_to_origin)
                 data[x, y] = pwr_recv
 

@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 import friss as fr
+import numpy as np
 import matplotlib.pylab as plt
 from matplotlib.widgets import Slider, CheckButtons
 
@@ -16,7 +17,7 @@ def update(val):
 
     # Recalculate data with the new values
     my_model.set_values(Pt, Gt, Gr, Fq, l, n)
-    data = my_model.model_power_signal((20, 20))
+    data = my_model.model_power_signal(origin)
 
     # Only update the one that is selected
     if fixed_selected:
@@ -34,9 +35,14 @@ def checkbox(label):
 
 if __name__ ==  "__main__":
     # -- INIT DATA -- #
-    my_model = fr.Friss()
-    data = my_model.model_power_signal((20, 20))
+    world_size = (50, 50)
+    res = 2
+    origin = (20/res, 20/res)
+
+    my_model = fr.Friss(world_sz=world_size, resolution=res)
+    data = my_model.model_power_signal(origin)
     mesh_min, mesh_max = my_model.CUSTOM_RANGE
+    x_ticks, y_ticks = world_size
 
     # -- INIT FOR DISPLAY -- #
     fig = plt.figure("Heatmap")
@@ -47,10 +53,20 @@ if __name__ ==  "__main__":
     ax_fix.set_title(title)
 
     # -- SHOW DATA & COLORBARS -- #
-    im_default = ax_def.imshow(data, cmap = 'afmhot', aspect='equal', origin='lower')
+    im_default = ax_def.imshow(data, cmap = 'afmhot', aspect='equal', origin='lower')    
+    ax_def.set_xticks(np.arange(start=0, stop=(x_ticks - 1)/res, step=(x_ticks/res)/5))
+    ax_def.set_xticklabels(np.arange(start=0, stop=(x_ticks - 1), step=x_ticks/5))
+    ax_def.set_yticks(np.arange(start=0, stop=(x_ticks - 1)/res, step=(x_ticks/res)/5))
+    ax_def.set_yticklabels(np.arange(start=0, stop=(x_ticks - 1), step=x_ticks/5))
     cbar_def = plt.colorbar(im_default, ax=ax_def)
+
+
     im_fixed = ax_fix.imshow(data, cmap = 'afmhot', aspect='equal', origin='lower', 
-                          vmin=mesh_min, vmax=mesh_max)
+                             vmin=mesh_min, vmax=mesh_max)
+    ax_fix.set_xticks(np.arange(start=0, stop=(x_ticks - 1)/res, step=(x_ticks/res)/5))
+    ax_fix.set_xticklabels(np.arange(start=0, stop=(x_ticks - 1), step=x_ticks/5))
+    ax_fix.set_yticks(np.arange(start=0, stop=(x_ticks - 1)/res, step=(x_ticks/res)/5))
+    ax_fix.set_yticklabels(np.arange(start=0, stop=(x_ticks - 1), step=x_ticks/5))
     cbar_fix = plt.colorbar(im_fixed, ax=ax_fix)
 
     # -- SLIDERS -- #
