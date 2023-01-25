@@ -114,4 +114,18 @@ This class let us to generate the RF signal data and modify every parameter in t
 
 ## GUI
 
-ToDo... 
+The next goal was to be able to see the changes dynamically, in order to be able to model faster later on. In this case, I decided to develop a graphic interface with a representation of the results, after changing any relevant parameter.
+
+To make that possible, I used matplotlib. The idea was to make some reactive sliders and buttons, and display the result using a colormap. Here we can see the evolution:
+
+... photo evolution GUI ...
+
+And after adjusting everything, here is an example of a **Wifi signal in an empty space**:
+
+... gif final result ...
+
+It is worth to mention that, for coding reasons, I decided to use two displays:
+
+1. Default, which changes the values range.
+2. Fixed, which let us see how the values changes by fixing upper and lower limits.
+
