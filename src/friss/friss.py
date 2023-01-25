@@ -33,6 +33,11 @@ class Friss:
 
         return np.empty((l_grid, l_grid))
 
+    def reset_world(self, resolution, size):
+        self.__resolution = resolution                  
+        self.__world_sz = size                          
+        self.__raw_data = self.__generate_data_grid()   
+
     def get_world_sz(self):
         return self.__world_sz
 
