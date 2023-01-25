@@ -48,7 +48,7 @@ But wasn't enough to see it's effect, so I used a numpy matrix simulating differ
 
 I decided to make a separated module (without using ROS), to create an app that permits, whoever, to modify and see changes dinamically by using the Friss model.
 
-So I created a Friss class that haves this API:
+So I created a **Friss class** that haves this **API**:
 
 ```Python3
 # Common frequency profiles
@@ -109,3 +109,9 @@ class Friss:
         '''
         pass
 ```
+
+This class let us to generate the RF signal data and modify every parameter in the equation. Also provides an extension to make a path loss model and some debugging options to see what is happening.
+
+## GUI
+
+ToDo... 
