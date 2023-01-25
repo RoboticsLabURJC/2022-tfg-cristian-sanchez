@@ -118,7 +118,13 @@ The next goal was to be able to see the changes dynamically, in order to be able
 
 To make that possible, I used matplotlib. The idea was to make some reactive sliders and buttons, and display the result using a colormap. Here we can see the evolution:
 
-... photo evolution GUI ...
+<p align="center">
+<img src="/2022-tfg-cristian-sanchez/images/Friss_firstGUI.png" alt="First GUI" width="400"/>
+</p>
+
+<p align="center">
+<img src="/2022-tfg-cristian-sanchez/images/Friss_endGUI.png" alt="Advanced GUI" width="400"/>
+</p>
 
 And after adjusting everything, here is an example of a **Wifi signal in an empty space**:
 
@@ -128,4 +134,3 @@ It is worth to mention that, for coding reasons, I decided to use two displays:
 
 1. Default, which changes the values range.
 2. Fixed, which let us see how the values changes by fixing upper and lower limits.
-
