@@ -95,6 +95,7 @@ if __name__ ==  "__main__":
     ax_resolution = fig.add_axes([0.15, 0.05, 0.7, 0.01])
     ax_world_sz = fig.add_axes([0.15, 0.04, 0.7, 0.01])
     
+    # power_t = Slider(ax_Pt, 'Pt (W)', 0.0, 100.0, 1.0, valstep=1.0)
     power_t = Slider(ax_Pt, 'Pt (W)', 0.01, 100.0, 1.0)
     gain_t = Slider(ax_Gt, 'Gt (W)', 0.01, 100.0, 1.0)
     gain_r = Slider(ax_Gr, 'Gr (W)', 0.01, 100.0, 1.0)
