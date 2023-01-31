@@ -95,16 +95,16 @@ if __name__ ==  "__main__":
     ax_resolution = fig.add_axes([0.15, 0.05, 0.7, 0.01])
     ax_world_sz = fig.add_axes([0.15, 0.04, 0.7, 0.01])
     
-    # power_t = Slider(ax_Pt, 'Pt (W)', 0.0, 100.0, 1.0, valstep=1.0)
-    power_t = Slider(ax_Pt, 'Pt (W)', 0.01, 100.0, 1.0)
-    gain_t = Slider(ax_Gt, 'Gt (W)', 0.01, 100.0, 1.0)
-    gain_r = Slider(ax_Gr, 'Gr (W)', 0.01, 100.0, 1.0)
-    freq = Slider(ax_Fq, 'Fq (GHz)', 0.01, 10.0, fr.FREQ_WIFI/(10**9))
-    losses_factor = Slider(ax_l, 'L', 0.01, 10.0, 1.0)
-    loss_exp = Slider(ax_n, 'n', 1.6, 6.0, 2.0)
 
-    res_sl = Slider(ax_resolution, 'resolution', 0.5, world_size[0]/2, 1.0)
-    world_sz_sl = Slider(ax_world_sz, 'size (val x val)', 10.0, 100.0, world_size[0])
+    power_t = Slider(ax_Pt, 'Pt (W)', 0.00001, 100.0, 1.0, valstep=1)
+    gain_t = Slider(ax_Gt, 'Gt (W)', 0.00001, 100.0, 1.0, valstep=1.0)
+    gain_r = Slider(ax_Gr, 'Gr (W)', 0.00001, 100.0, 1.0, valstep=1.0)
+    freq = Slider(ax_Fq, 'Fq (GHz)', 0.00001, 10.0, fr.FREQ_WIFI/(10**9), valstep=0.1)
+    losses_factor = Slider(ax_l, 'L', 1.0, 10.0, 1.0, valstep=0.1)
+    loss_exp = Slider(ax_n, 'n', 1.6, 6.0, 2.0, valstep=0.1)
+
+    res_sl = Slider(ax_resolution, 'resolution', 0.5, world_size[0]/2, 1.0, valstep=0.5)
+    world_sz_sl = Slider(ax_world_sz, 'size (val x val)', 10.0, 100.0, world_size[0], valstep=1.0)
 
     power_t.on_changed(update)
     gain_t.on_changed(update)
