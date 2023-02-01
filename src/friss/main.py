@@ -15,9 +15,6 @@ def update(val):
     l = losses_factor.val
     n = loss_exp.val
 
-    # res = res_sl.val
-    # world_size = (world_sz_sl.val, world_sz_sl.val)
-
     # Recalculate data with the new values
     my_model.set_values(Pt, Gt, Gr, Fq, l, n)
     data = my_model.model_power_signal(origin)
@@ -41,7 +38,7 @@ def checkbox(label):
     fixed_selected = not fixed_selected
 
 def button_function(val):
-    global res, world_size, my_model, cbar_def
+    global res, world_size, my_model, cbar_def, ax_def
 
     res = res_sl.val
     world_size = (world_sz_sl.val, world_sz_sl.val)
@@ -50,12 +47,21 @@ def button_function(val):
     my_model.reset_world(res,  (int(world_size[0]), int(world_size[0])))
     data = my_model.model_power_signal(origin)
 
+    x_ticks, y_ticks = world_size
+
+    ax_def.set_xticklabels(np.arange(start=0, stop=(x_ticks - 1), step=x_ticks/5))
+    ax_def.set_yticklabels(np.arange(start=0, stop=(y_ticks - 1), step=y_ticks/5))
+
+    ax_fix.set_xticklabels(np.arange(start=0, stop=(x_ticks - 1), step=x_ticks/5))
+    ax_fix.set_yticklabels(np.arange(start=0, stop=(y_ticks - 1), step=y_ticks/5))
+
     im_fixed.set_data(data)
     im_default.set_data(data)
     cbar_def.mappable.autoscale()
 
-    print("NEW RESOLUTION:", res)
-    print("NEW SIZE:", int(world_size[0]))
+    # Debug
+    # print("NEW RESOLUTION:", res)
+    # print("NEW SIZE:", int(world_size[0]))
 
 if __name__ ==  "__main__":
     # -- INIT DATA -- #
@@ -80,8 +86,8 @@ if __name__ ==  "__main__":
     im_default = ax_def.imshow(data, cmap = 'afmhot', aspect='equal', origin='lower')    
     ax_def.set_xticks(np.arange(start=0, stop=(x_ticks - 1)/res, step=(x_ticks/res)/5))
     ax_def.set_xticklabels(np.arange(start=0, stop=(x_ticks - 1), step=x_ticks/5))
-    ax_def.set_yticks(np.arange(start=0, stop=(x_ticks - 1)/res, step=(x_ticks/res)/5))
-    ax_def.set_yticklabels(np.arange(start=0, stop=(x_ticks - 1), step=x_ticks/5))
+    ax_def.set_yticks(np.arange(start=0, stop=(y_ticks - 1)/res, step=(y_ticks/res)/5))
+    ax_def.set_yticklabels(np.arange(start=0, stop=(y_ticks - 1), step=y_ticks/5))
     cbar_def = plt.colorbar(im_default, ax=ax_def)
 
 
@@ -89,8 +95,8 @@ if __name__ ==  "__main__":
                              vmin=mesh_min, vmax=mesh_max)
     ax_fix.set_xticks(np.arange(start=0, stop=(x_ticks - 1)/res, step=(x_ticks/res)/5))
     ax_fix.set_xticklabels(np.arange(start=0, stop=(x_ticks - 1), step=x_ticks/5))
-    ax_fix.set_yticks(np.arange(start=0, stop=(x_ticks - 1)/res, step=(x_ticks/res)/5))
-    ax_fix.set_yticklabels(np.arange(start=0, stop=(x_ticks - 1), step=x_ticks/5))
+    ax_fix.set_yticks(np.arange(start=0, stop=(y_ticks - 1)/res, step=(y_ticks/res)/5))
+    ax_fix.set_yticklabels(np.arange(start=0, stop=(y_ticks - 1), step=y_ticks/5))
     cbar_fix = plt.colorbar(im_fixed, ax=ax_fix)
 
     # -- SLIDERS -- #
