@@ -15,8 +15,8 @@ def update(val):
     l = losses_factor.val
     n = loss_exp.val
 
-    res = res_sl.val
-    world_size = (world_sz_sl.val, world_sz_sl.val)
+    # res = res_sl.val
+    # world_size = (world_sz_sl.val, world_sz_sl.val)
 
     # Recalculate data with the new values
     my_model.set_values(Pt, Gt, Gr, Fq, l, n)
@@ -30,7 +30,11 @@ def update(val):
         cbar_def.mappable.autoscale()
 
     # Terminal debugging
-    my_model.test(2, 10)
+    # my_model.test(2, 10)
+
+def update_res_sz(val):
+    pass
+
 
 def checkbox(label): 
     global fixed_selected
@@ -38,20 +42,25 @@ def checkbox(label):
 
 def button_function(val):
     global res, world_size, my_model, cbar_def
-    print("RESOLUTION:", np.round(res, 1))
-    print("SIZE:", int(world_size[0]))
 
-    my_model.reset_world(np.round(res, 1),  (int(world_size[0]), int(world_size[0])))
+    res = res_sl.val
+    world_size = (world_sz_sl.val, world_sz_sl.val)
+    origin = (20/res, 20/res)
+
+    my_model.reset_world(res,  (int(world_size[0]), int(world_size[0])))
     data = my_model.model_power_signal(origin)
-    
+
     im_fixed.set_data(data)
     im_default.set_data(data)
     cbar_def.mappable.autoscale()
 
+    print("NEW RESOLUTION:", res)
+    print("NEW SIZE:", int(world_size[0]))
+
 if __name__ ==  "__main__":
     # -- INIT DATA -- #
     world_size = (100, 100)
-    res = 0.5
+    res = 1.0
     origin = (20/res, 20/res)
 
     my_model = fr.Friss(world_sz=world_size, resolution=res)
@@ -96,14 +105,14 @@ if __name__ ==  "__main__":
     ax_world_sz = fig.add_axes([0.15, 0.04, 0.7, 0.01])
     
 
-    power_t = Slider(ax_Pt, 'Pt (W)', 0.00001, 100.0, 1.0, valstep=1)
+    power_t = Slider(ax_Pt, 'Pt (W)', 0.00001, 100.0, 1.0, valstep=1.0)
     gain_t = Slider(ax_Gt, 'Gt (W)', 0.00001, 100.0, 1.0, valstep=1.0)
     gain_r = Slider(ax_Gr, 'Gr (W)', 0.00001, 100.0, 1.0, valstep=1.0)
     freq = Slider(ax_Fq, 'Fq (GHz)', 0.00001, 10.0, fr.FREQ_WIFI/(10**9), valstep=0.1)
     losses_factor = Slider(ax_l, 'L', 1.0, 10.0, 1.0, valstep=0.1)
     loss_exp = Slider(ax_n, 'n', 1.6, 6.0, 2.0, valstep=0.1)
 
-    res_sl = Slider(ax_resolution, 'resolution', 0.5, world_size[0]/2, 1.0, valstep=0.5)
+    res_sl = Slider(ax_resolution, 'resolution', 0.5, world_size[0]/2, res, valstep=0.5)
     world_sz_sl = Slider(ax_world_sz, 'size (val x val)', 10.0, 100.0, world_size[0], valstep=1.0)
 
     power_t.on_changed(update)
@@ -113,8 +122,8 @@ if __name__ ==  "__main__":
     losses_factor.on_changed(update)
     loss_exp.on_changed(update)
 
-    res_sl.on_changed(update)
-    world_sz_sl.on_changed(update)
+    res_sl.on_changed(update_res_sz)
+    world_sz_sl.on_changed(update_res_sz)
 
     # -- CHECKBUTTON -- # 
     fixed_selected = False   
@@ -129,7 +138,7 @@ if __name__ ==  "__main__":
     b_set_res_and_sz.on_clicked(button_function)
 
     # Terminal debugging
-    my_model.test(2, 10)
+    # my_model.test(2, 10)
     
     # Display app (press q to quit)
     mng = plt.get_current_fig_manager()
