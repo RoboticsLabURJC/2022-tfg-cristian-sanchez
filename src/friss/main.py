@@ -70,9 +70,7 @@ def button_function(val):
     world_size = (int(world_sz_sl.val), int(world_sz_sl.val))
     res = res_sl.val
     origin = (int(np.round(DEFAULT_ORIGIN[0]/res)), int(np.round(DEFAULT_ORIGIN[1]/res)))
-    print(origin)
     check_origin_range()
-    print(origin)
 
     my_model.reset_world(res, (world_size[0], world_size[1]))
     current_data = my_model.model_power_signal(origin)

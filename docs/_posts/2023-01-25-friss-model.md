@@ -51,63 +51,16 @@ I decided to make a separated module (without using ROS), to create an app that 
 So I created a **Friss class** that haves this **API**:
 
 ```Python3
-# Common frequency profiles
-FREQ_WIFI = 2.4 * (10**9)
-FREQ_5G = 30 * (10**9)
-FREQ_FM = 100 * (10**6)
-
 class Friss:
-    C = 3.0 * (10 ** 8)         # Light speed
-    #DIST_FACTOR = 1.0           # Step distance, 1 = 1 m
-    CUSTOM_RANGE = (-40, 40)    # Fixed maximun and minimun
-
-    def reset_world(self, resolution, size):
-        '''
-        Resets current world to create a new one with new resolution and/or size.
-        '''
-        pass
-
-
-    def get_world_sz(self):
-        '''
-        Returns world size.
-        '''
-        pass
-
-
-    def set_values(self, power_tras, gain_tras, gain_recv, freq, losses_factor, losses_path):
-        '''
-        Allows the modification of the friss formula parameters.
-        '''
-        pass
-
-
-    def model_power_signal(self, origin=(0,0)):
-        '''
-        Fills data using friss formula and returns it.
-        '''
-        pass
-
-
-    def model_signal_losses(self, origin=(0,0)):
-        '''
-        Fills data using propagation path loss formula and returns it.
-        '''
-        pass
-
-
-    def print_all(self):
-        '''
-        Shows every friss parameter used in the formulas.
-        '''
-        pass
-
-                 
-    def test(self, dist, new_dist):
-        '''
-        Function used for testing purposes.
-        '''
-        pass
+    '''
+    reset_world         --> Resets current world.
+    get_world_sz        --> Returns world size.
+    set_values          --> Set friss formula parameters.
+    model_power_signal  --> Fills power data.
+    model_signal_losses --> Fills losses data.
+    print_all           --> Prints all parameters.
+    test                --> Model some cases.
+    '''
 ```
 
 This class let us to generate the RF signal data and modify every parameter in the equation. Also provides an extension to make a path loss model and some debugging options to see what is happening.
@@ -133,4 +86,7 @@ It is worth to mention that, for coding reasons, I decided to use two displays:
 
 And after adjusting everything, here is an example of a **Wifi signal in an empty space**:
 
-... gif final result ...
+<p align="center">
+<img src="/2022-tfg-cristian-sanchez/images/friss_app.gif" alt="Final results" width="400"/>
+</p>
+
