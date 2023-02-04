@@ -1,4 +1,10 @@
 #! /usr/bin/env python
+'''
+FRISS
+
+With this module, you are able to simulate a radio frequency
+signal, by using the friss theory.
+'''
 import numpy as np
 
 # Common frequency profiles
@@ -7,13 +13,25 @@ FREQ_5G = 30 * (10**9)
 FREQ_FM = 100 * (10**6)
 
 class Friss:
-    C = 3.0 * (10 ** 8)         # Light speed
-    #DIST_FACTOR = 1.0           # Step distance, 1 = 1 m
-    CUSTOM_RANGE = (-40, 40)    # Fixed maximun and minimun
+    '''
+    Here is a summary of the API:
 
-    def __init__(self, power_tras=1.0, gain_tras=1.0, gain_recv=1.0, 
-                 freq=FREQ_WIFI, losses_factor=1.0, losses_path=2.0, 
+        reset_world         --> Resets current world.
+        get_world_sz        --> Returns world size.
+        set_values          --> Set friss formula parameters.
+        model_power_signal  --> Fills power data.
+        model_signal_losses --> Fills losses data.
+        print_all           --> Prints all parameters.
+        test                --> Model some cases.
+    '''
+    C = 3.0 * (10 ** 8) # Light speed
+
+    def __init__(self, power_tras=1.0, gain_tras=1.0, gain_recv=1.0,
+                 freq=FREQ_WIFI, losses_factor=1.0, losses_path=2.0,
                  world_sz=(100, 100), resolution=1.0):
+        '''
+        Constructor. Here it's filled all parameters to create a Friss model.
+        '''
 
         self.__power_t = power_tras                     # Pt
         self.__gain_t = gain_tras                       # Gt
@@ -22,12 +40,15 @@ class Friss:
         self.__losses_f = losses_factor                 # L
         self.__losses_p = losses_path                   # n
 
-        # Generar mundo con la resolución
-        self.__resolution = resolution                  # units per cell, 0.5 means that every cell side measures 0.5 m
-        self.__world_sz = world_sz                      # defines ticks in x, y (20, 20) is a 20 x 20 m map
-        self.__raw_data = self.__generate_data_grid()   # data grid
+        self.__resolution = resolution # units per cell, 0.5 =cell side is 0.5 m
+        self.__world_sz = world_sz # defines ticks in x, y (20, 20) = 20x20 map
+        self.__raw_data = self.__generate_data_grid() # data grid
+
 
     def __generate_data_grid(self):
+        '''
+        Creates a grid with empty data to fill.
+        '''
         l_magnitude, _ = self.__world_sz
         l_grid = int(l_magnitude / self.__resolution)
 
@@ -37,15 +58,17 @@ class Friss:
         '''
         Resets current world to create a new one with new resolution and/or size.
         '''
-        self.__resolution = resolution                  
-        self.__world_sz = size                          
-        self.__raw_data = self.__generate_data_grid()   
+        self.__resolution = resolution
+        self.__world_sz = size
+        self.__raw_data = self.__generate_data_grid()
+
 
     def get_world_sz(self):
         '''
         Returns world size.
         '''
         return self.__world_sz
+
 
     def set_values(self, power_tras, gain_tras, gain_recv, freq, losses_factor, losses_path):
         '''
@@ -58,11 +81,13 @@ class Friss:
         self.__losses_f = losses_factor                 # L
         self.__losses_p = losses_path                   # n
 
+
     def __get_lambda(self, freq):
         '''
         Returns lambda.
         '''
         return self.C/freq
+
 
     def __friss_formula(self, dist):
         '''
@@ -75,13 +100,6 @@ class Friss:
         power_recv_dBm = self.__W_to_dBm(power_recv)
         return power_recv_dBm
 
-    def __rcv_power_with_ref(self, d_ref, d_final):
-        '''
-        Obtain the received power with references.
-        '''
-        # Calibrated
-        power_recv = self.__friss_formula(d_ref) + 20 * np.log10(d_ref/d_final)
-        return power_recv
 
     def __propagation_path_loss(self, dist):
         '''
@@ -91,8 +109,9 @@ class Friss:
             dist = 0.9 * self.__resolution
 
         # Empty space case
-        loss = -10 * np.log10((self.__lambda**2)/((4 * np.pi * dist)**2))   
+        loss = -10 * np.log10((self.__lambda**2)/((4 * np.pi * dist)**2))
         return loss
+
 
     def model_power_signal(self, origin=(0,0)):
         '''
@@ -112,6 +131,7 @@ class Friss:
 
         return data
 
+
     def model_signal_losses(self, origin=(0,0)):
         '''
         Fills data using propagation path loss formula and returns it.
@@ -121,7 +141,7 @@ class Friss:
         data = np.zeros((rows, cols))
         for x in range(rows):
             for y in range(cols):
-                dist_to_origin = (((x - x_origin)**2 + (y - y_origin)**2) ** (1/2)) * self.DIST_FACTOR
+                dist_to_origin = (((x - x_origin)**2 + (y - y_origin)**2) ** (1/2)) * self.__resolution
                 losses = self.__propagation_path_loss(dist_to_origin)
                 data[x, y] = losses
 
@@ -129,7 +149,7 @@ class Friss:
 
         return data
 
-    # Revise!!
+
     def __W_to_dBm(self, value_in_w):
         '''
         Transform from W to dBm.
@@ -137,12 +157,6 @@ class Friss:
         dBm = 10 * np.log10(value_in_w / 0.001)
         return dBm
 
-    def __W_to_dB(self, value_in_w):
-        '''
-        Transform from W to dB.
-        '''
-        dB = 10 * np.log10(value_in_w)
-        return dB
 
     # -- DEBUG -- #
     def print_all(self):
@@ -158,7 +172,7 @@ class Friss:
         print("\tl:",self.__losses_f)
         print("\tn:",self.__losses_p)
         print("****************")
-                 
+
 
     def test(self, dist, new_dist):
         '''
