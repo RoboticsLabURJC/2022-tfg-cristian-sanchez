@@ -87,6 +87,6 @@ It is worth to mention that, for coding reasons, I decided to use two displays:
 And after adjusting everything, here is an example of a **Wifi signal in an empty space**:
 
 <p align="center">
-<img src="/2022-tfg-cristian-sanchez/images/friss_app.gif" alt="Final results" width="400"/>
+<img src="/2022-tfg-cristian-sanchez/images/friss_app.gif" alt="Final results" width="800"/>
 </p>
 
