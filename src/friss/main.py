@@ -76,10 +76,13 @@ def button_function(val):
     current_data = my_model.model_power_signal(origin)
 
     x_ticks_loc, y_ticks_loc = world_size
-    ax_def.set_xticklabels(np.arange(start=0, stop=(x_ticks_loc - 1), step=x_ticks_loc/5))
-    ax_def.set_yticklabels(np.arange(start=0, stop=(y_ticks_loc - 1), step=y_ticks_loc/5))
-    ax_fix.set_xticklabels(np.arange(start=0, stop=(x_ticks_loc - 1), step=x_ticks_loc/5))
-    ax_fix.set_yticklabels(np.arange(start=0, stop=(y_ticks_loc - 1), step=y_ticks_loc/5))
+    ticks_x_ar = np.around(np.arange(start=0, stop=(x_ticks_loc-1), step=x_ticks_loc/5), decimals=1)
+    ticks_y_ar = np.around(np.arange(start=0, stop=(y_ticks_loc-1), step=y_ticks_loc/5), decimals=1)
+
+    ax_def.set_xticklabels(ticks_x_ar)
+    ax_def.set_yticklabels(ticks_y_ar)
+    ax_fix.set_xticklabels(ticks_x_ar)
+    ax_fix.set_yticklabels(ticks_y_ar)
 
     im_fixed.set_data(current_data)
     im_default.set_data(current_data)
@@ -97,9 +100,11 @@ def check_origin_range():
     new_o_row, new_o_col = origin
 
     if rows < o_row or o_row < 0:
+        print("Warning, x origin out of range --> new x is now total_x/2")
         new_o_row = int(np.round(rows/2))
 
     if cols < o_col or o_col < 0:
+        print("Warning, y origin out of range --> new y is now total_y/2")
         new_o_col = int(np.round(cols/2))
 
     origin = (new_o_row, new_o_col)
@@ -126,18 +131,22 @@ if __name__ ==  "__main__":
     ax_fix.set_title(title)
 
     # -- SHOW DATA & COLORBARS -- #
+    # To avoid infinite decimals
+    ticks_x = np.around(np.arange(start=0, stop=(x_ticks-1)/res, step=(x_ticks/res)/5), decimals=1)
+    ticks_y = np.around(np.arange(start=0, stop=(y_ticks-1)/res, step=(y_ticks/res)/5), decimals=1)
+
     im_default = ax_def.imshow(data, cmap = 'afmhot', aspect='equal', origin='lower')
-    ax_def.set_xticks(np.arange(start=0, stop=(x_ticks - 1)/res, step=(x_ticks/res)/5))
+    ax_def.set_xticks(ticks_x)
     ax_def.set_xticklabels(np.arange(start=0, stop=(x_ticks - 1), step=x_ticks/5))
-    ax_def.set_yticks(np.arange(start=0, stop=(y_ticks - 1)/res, step=(y_ticks/res)/5))
+    ax_def.set_yticks(ticks_y)
     ax_def.set_yticklabels(np.arange(start=0, stop=(y_ticks - 1), step=y_ticks/5))
     cbar_def = plt.colorbar(im_default, ax=ax_def)
 
     im_fixed = ax_fix.imshow(data, cmap = 'afmhot', aspect='equal', origin='lower',
                              vmin=mesh_min, vmax=mesh_max)
-    ax_fix.set_xticks(np.arange(start=0, stop=(x_ticks - 1)/res, step=(x_ticks/res)/5))
+    ax_fix.set_xticks(ticks_x)
     ax_fix.set_xticklabels(np.arange(start=0, stop=(x_ticks - 1), step=x_ticks/5))
-    ax_fix.set_yticks(np.arange(start=0, stop=(y_ticks - 1)/res, step=(y_ticks/res)/5))
+    ax_fix.set_yticks(ticks_y)
     ax_fix.set_yticklabels(np.arange(start=0, stop=(y_ticks - 1), step=y_ticks/5))
     cbar_fix = plt.colorbar(im_fixed, ax=ax_fix)
 
@@ -151,14 +160,14 @@ if __name__ ==  "__main__":
     ax_resolution = fig.add_axes([0.15, 0.05, 0.7, 0.01])
     ax_world_sz = fig.add_axes([0.15, 0.04, 0.7, 0.01])
 
-    power_t = Slider(ax_Pt, 'Pt (W)', 0.00001, 100.0, 1.0, valstep=1.0)
-    gain_t = Slider(ax_Gt, 'Gt (W)', 0.00001, 100.0, 1.0, valstep=1.0)
-    gain_r = Slider(ax_Gr, 'Gr (W)', 0.00001, 100.0, 1.0, valstep=1.0)
-    freq = Slider(ax_Fq, 'Fq (GHz)', 0.00001, 10.0, fr.FREQ_WIFI/(10**9), valstep=0.1)
-    losses_factor = Slider(ax_l, 'L', 1.0, 10.0, 1.0, valstep=0.1)
-    loss_exp = Slider(ax_n, 'n', 1.6, 6.0, 2.0, valstep=0.1)
-    res_sl = Slider(ax_resolution, 'resolution', 0.5, world_size[0]/2, res, valstep=0.5)
-    world_sz_sl = Slider(ax_world_sz, 'size (val x val)', 10.0, 100.0, world_size[0], valstep=1.0)
+    power_t = Slider(ax_Pt, 'PowerTransmitter (W)', 0.00001, 100.0, 1.0, valstep=1.0)
+    gain_t = Slider(ax_Gt, 'GainTransmitter (W)', 0.00001, 100.0, 1.0, valstep=1.0)
+    gain_r = Slider(ax_Gr, 'GainReceiver (W)', 0.00001, 100.0, 1.0, valstep=1.0)
+    freq = Slider(ax_Fq, 'Frequency (GHz)', 0.00001, 10.0, fr.FREQ_WIFI/(10**9), valstep=0.1)
+    losses_factor = Slider(ax_l, 'OtherLosses [L]', 1.0, 10.0, 1.0, valstep=0.1)
+    loss_exp = Slider(ax_n, 'PathLossExponent [n]', 1.6, 6.0, 2.0, valstep=0.1)
+    res_sl = Slider(ax_resolution, 'MapResolution', 0.5, world_size[0]/2, res, valstep=0.5)
+    world_sz_sl = Slider(ax_world_sz, 'MapSize (AxA)', 10.0, 100.0, world_size[0], valstep=1.0)
 
     power_t.on_changed(update)
     gain_t.on_changed(update)
