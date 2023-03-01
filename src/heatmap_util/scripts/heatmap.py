@@ -12,11 +12,20 @@ import rospy
 from visualization_msgs.msg import Marker, MarkerArray
 from geometry_msgs.msg import PoseStamped
 
+# Importing friss
+import friss as fr
+import matplotlib as mpl
+import numpy as np
+
 # -- CTE -- #
 NODENAME = 'heatmap_node'
 MARKER_TOPIC = 'heatmap_markers'
 FRAME_ID = 'map'
 LOCAL_POSE_TOPIC = '/mavros/local_position/pose'
+
+# -- CONSTANTS -- #
+DEFAULT_WORLD_SIZE = (10, 10)   # size range --> 10 <= (a x a) <= 100
+DEFAULT_ORIGIN = (0, 0)         # Origin of the signal
 
 # -- GLOBAL VARIABLES -- #
 unique_marker_id = 0
@@ -64,13 +73,21 @@ def init_marker():
 
     return marker
 
-def set_marker_rgb(marker):
+def set_marker_random_rgb(marker):
     '''
     Set rviz marker color, in this case random
     '''
     marker.color.r = random.random()
     marker.color.g = random.random()
     marker.color.b = random.random()
+
+def set_marker_rgb(marker, red, green, blue):
+    '''
+    Set rviz marker color, in this case random
+    '''
+    marker.color.r = red
+    marker.color.g = green
+    marker.color.b = blue
 
 
 def set_marker_pose(marker, x_pos, y_pos, z_pos):
@@ -94,7 +111,7 @@ def scan_cell():
     if unique_marker_id == 0:
         # Origin marker placement
         marker = init_marker()
-        set_marker_rgb(marker)
+        set_marker_random_rgb(marker)
         set_marker_pose(marker, 0, 0, 0)
 
         markers.markers.append(marker)
@@ -131,7 +148,7 @@ def scan_cell():
 
             if (new_x, new_y) not in poses:
                 marker = init_marker()
-                set_marker_rgb(marker)
+                set_marker_random_rgb(marker)
                 set_marker_pose(marker, new_x, new_y, 0)
 
                 markers.markers.append(marker)
@@ -148,16 +165,48 @@ def current_pos_cb(pose):
     global current_pos
     current_pos = pose
 
+def expand_rf_signal(origin):
+    global markers
+
+    my_model = fr.Friss(world_sz=DEFAULT_WORLD_SIZE, power_tras=0.05, gain_tras=100, gain_recv=1000)
+    #data = normalize_2d(my_model.model_power_signal(origin)) # [0-1]
+    data = my_model.model_power_signal(origin)
+    print(data)
+
+    afmhot = mpl.colormaps['afmhot'].resampled(8)
+
+    rows, cols = data.shape
+
+    for x in range(rows):
+        for y in range(cols):
+            r, g, b, _ = afmhot(data[x, y])
+            marker = init_marker()
+            set_marker_rgb(marker, r, g, b)
+            set_marker_pose(marker, x, y, 0)
+
+            markers.markers.append(marker)
+            poses.append((x, y))
+
+            
+def normalize_2d(matrix):
+    norm = np.linalg.norm(matrix)
+    matrix = matrix/norm
+    return matrix
+
 # -- MAIN -- #
 if __name__ == '__main__':
     rospy.init_node(NODENAME, anonymous=True)
 
     # ROS pub/sub
     markers_pub = rospy.Publisher(MARKER_TOPIC, MarkerArray, queue_size=10)
-    current_pos_sub = rospy.Subscriber(LOCAL_POSE_TOPIC, PoseStamped, callback = current_pos_cb)
+    # current_pos_sub = rospy.Subscriber(LOCAL_POSE_TOPIC, PoseStamped, callback = current_pos_cb)
+
+    expand_rf_signal(DEFAULT_ORIGIN)
 
     rate = rospy.Rate(10)
     while not rospy.is_shutdown():
-        markers_pub.publish(scan_cell())
+        # markers_pub.publish(scan_cell())
+        markers_pub.publish(markers)
+        # print(".")
         rate = rospy.Rate(10)
         rate.sleep()
