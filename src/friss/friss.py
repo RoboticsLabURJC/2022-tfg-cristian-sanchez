@@ -27,8 +27,8 @@ class Friss:
     C = 3.0 * (10 ** 8) # Light speed
 
     def __init__(self, power_tras=1.0, gain_tras=1.0, gain_recv=1.0,
-                 freq=FREQ_WIFI, losses_factor=1.0, losses_path=2.0,
-                 world_sz=(100, 100), resolution=1.0):
+                 freq=FREQ_WIFI, losses_factor=2.4, losses_path=2.0,
+                 world_sz=(50, 50), resolution=1.0):
         '''
         Constructor. Here it's filled all parameters to create a Friss model.
         '''

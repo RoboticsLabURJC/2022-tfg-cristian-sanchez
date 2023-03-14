@@ -24,8 +24,8 @@ FRAME_ID = 'map'
 LOCAL_POSE_TOPIC = '/mavros/local_position/pose'
 
 # -- CONSTANTS -- #
-DEFAULT_WORLD_SIZE = (10, 10)   # size range --> 10 <= (a x a) <= 100
-DEFAULT_ORIGIN = (0, 0)         # Origin of the signal
+DEFAULT_ORIGIN = (5, 5)         # Origin of the signal
+WORLD_SIZE = (100, 100)
 
 # -- GLOBAL VARIABLES -- #
 unique_marker_id = 0
@@ -81,13 +81,14 @@ def set_marker_random_rgb(marker):
     marker.color.g = random.random()
     marker.color.b = random.random()
 
-def set_marker_rgb(marker, red, green, blue):
+def set_marker_rgb(marker, red, green, blue, alpha):
     '''
     Set rviz marker color, in this case random
     '''
     marker.color.r = red
     marker.color.g = green
     marker.color.b = blue
+    marker.color.a = alpha
 
 
 def set_marker_pose(marker, x_pos, y_pos, z_pos):
@@ -168,20 +169,30 @@ def current_pos_cb(pose):
 def expand_rf_signal(origin):
     global markers
 
-    my_model = fr.Friss(world_sz=DEFAULT_WORLD_SIZE, power_tras=0.05, gain_tras=100, gain_recv=1000)
-    #data = normalize_2d(my_model.model_power_signal(origin)) # [0-1]
+    my_model = fr.Friss(world_sz=WORLD_SIZE)
+    # data = normalize_2d(my_model.model_power_signal(origin)) # [0-1]
     data = my_model.model_power_signal(origin)
-    print(data)
+    # print(data)
 
-    afmhot = mpl.colormaps['afmhot'].resampled(8)
+    data_min = np.min(data)
+    data_max = np.max(data)
+
+    # print(translate(data[0,0], data_min, data_max, 0, 765))
+
+    # afmhot = mpl.colormaps['afmhot'].resampled(1024)
+    # afmhot = mpl.colormaps['afmhot']
 
     rows, cols = data.shape
 
     for x in range(rows):
         for y in range(cols):
-            r, g, b, _ = afmhot(data[x, y])
+            # r, g, b, a = afmhot(data[x, y])
+
+            # r, g, b = extract_rgb(translate(data[x, y], data_min, data_max, 0, 765))
+            # r, g, b = extract_rgb(translate(data[x, y], data_min, data_max, 0, WORLD_SIZE[0]*WORLD_SIZE[1]))
+            r, g, b = extract_rgb(translate(data[x, y], -40, 40, 0, WORLD_SIZE[0]*WORLD_SIZE[1]))
             marker = init_marker()
-            set_marker_rgb(marker, r, g, b)
+            set_marker_rgb(marker, r, g, b, 0.5)
             set_marker_pose(marker, x, y, 0)
 
             markers.markers.append(marker)
@@ -192,6 +203,92 @@ def normalize_2d(matrix):
     norm = np.linalg.norm(matrix)
     matrix = matrix/norm
     return matrix
+
+def translate(value, leftMin, leftMax, rightMin, rightMax):
+    # Figure out how 'wide' each range is
+    leftSpan = leftMax - leftMin
+    rightSpan = rightMax - rightMin
+
+    # Convert the left range into a 0-1 range (float)
+    valueScaled = float(value - leftMin) / float(leftSpan)
+
+    # Convert the 0-1 range into a value in the right range.
+    return int(np.round(rightMin + (valueScaled * rightSpan)))
+
+def extract_rgb(value):
+    surf = WORLD_SIZE[0]*WORLD_SIZE[1]
+
+    it = 12
+    while (it > 0):
+        if surf*((it-1)/12) <= value <= surf*(it/12):
+            break
+        it -= 1
+
+    r, g, b = (0,0,0)
+    if it == 12:
+        r = translate(value, 0, surf, 230, 242)
+        g = translate(value, 0, surf, 218, 242)
+        b = translate(value, 0, surf, 138, 159)
+
+    elif it == 11:
+        r = translate(value, 0, surf, 217, 230)
+        g = translate(value, 0, surf, 194, 218)
+        b = translate(value, 0, surf, 120, 138)
+
+    elif it == 10:
+        r = translate(value, 0, surf, 204, 217)
+        g = translate(value, 0, surf, 171, 194)
+        b = translate(value, 0, surf, 102, 120)
+
+    elif it == 9:
+        r = translate(value, 0, surf, 189, 204)
+        g = translate(value, 0, surf, 149, 171)
+        b = translate(value, 0, surf, 87, 102)
+
+    elif it == 8:
+        r = translate(value, 0, surf, 189, 174)
+        g = translate(value, 0, surf, 149, 127)
+        b = translate(value, 0, surf, 87, 72)
+
+    elif it == 7:
+        r = translate(value, 0, surf, 158, 174)
+        g = translate(value, 0, surf, 106, 149)
+        b = translate(value, 0, surf, 59, 72)
+
+    elif it == 6:
+        r = translate(value, 0, surf, 141, 158)
+        g = translate(value, 0, surf, 85, 106)
+        b = translate(value, 0, surf, 48, 59)
+
+    elif it == 5:
+        r = translate(value, 0, surf, 124, 141)
+        g = translate(value, 0, surf, 65, 85)
+        b = translate(value, 0, surf, 37, 48)
+
+    elif it == 4:
+        r = translate(value, 0, surf, 106, 124)
+        g = translate(value, 0, surf, 46, 65)
+        b = translate(value, 0, surf, 27, 37)
+
+    elif it == 3:
+        r = translate(value, 0, surf, 88, 106)
+        g = translate(value, 0, surf, 26, 46)
+        b = translate(value, 0, surf, 18, 27)
+
+    elif it == 2:
+        r = translate(value, 0, surf, 70, 88)
+        g = translate(value, 0, surf, 5, 26)
+        b = translate(value, 0, surf, 5, 18)
+
+    else:
+        r = translate(value, 0, surf, 0, 70)
+        g = translate(value, 0, surf, 0, 5)
+        b = translate(value, 0, surf, 0, 5)
+
+    # print(it, (r,g,b), value)   
+
+    return (r, g, b)
+
 
 # -- MAIN -- #
 if __name__ == '__main__':
