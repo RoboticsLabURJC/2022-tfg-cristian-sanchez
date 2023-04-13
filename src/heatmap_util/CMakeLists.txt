@@ -42,6 +42,9 @@ find_package(OpenCV REQUIRED
 
 find_package(octomap REQUIRED)
 
+find_package(Qt5 COMPONENTS Core Widgets REQUIRED)
+
+
 add_action_files(DIRECTORY action FILES RvizFriss.action DroneFriss.action)
 generate_messages(DEPENDENCIES actionlib_msgs)
 
@@ -58,14 +61,26 @@ include_directories(
 )
 
 add_executable(heat src/heat.cpp)
+add_executable(button src/button.cpp)
 
 target_link_libraries(
   heat
   ${catkin_LIBRARIES}
 )
 
+target_link_libraries(
+  button
+  Qt5::Widgets
+  ${catkin_LIBRARIES}
+)
+
+add_dependencies(
+  heat
+  ${heatmap_util_EXPORTED_TARGETS}
+)
+
 catkin_install_python(PROGRAMS 
   scripts/path_marker.py
-  scripts/rf_heatmap.py
+  scripts/rf_data_server.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

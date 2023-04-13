@@ -1,4 +1,4 @@
-int8[] index
+int16[] index
 ---
 float64 data
 ---

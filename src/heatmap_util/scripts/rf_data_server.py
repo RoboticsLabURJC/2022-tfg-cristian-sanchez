@@ -17,8 +17,8 @@ import actionlib
 from heatmap_util.msg import RvizFrissAction, RvizFrissResult, DroneFrissAction, DroneFrissResult
 
 # -- CTE -- #
-NODENAME = 'heatmap_server_node'
-DEFAULT_ORIGIN = (0, 0)         # Origin of the signal
+NODENAME = 'heatmap_data_server_node'
+DEFAULT_ORIGIN = (5, 5)         # Origin of the signal
 WORLD_SIZE = (10, 10)
 WORLD_SIZE_RVIZ = (WORLD_SIZE[0] + 1, WORLD_SIZE[1] + 1)
 
@@ -37,6 +37,7 @@ class MyActionServer:
         rospy.loginfo("rviz data requested!")
         if goal.get_data:
             self._rviz_result.data = self.__get_rviz_data()
+            self._rviz_result.size = WORLD_SIZE_RVIZ[0]
             self._rviz_server.set_succeeded(self._rviz_result)
             rospy.loginfo("Response sent to rviz!")
         else:
