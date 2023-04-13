@@ -3,6 +3,6 @@ prefix=/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel
 Name: heatmap_util
 Description: Description of heatmap_util
 Version: 0.0.0
-Cflags: 
+Cflags: -I/home/csanrod/TFG/2022-tfg-cristian-sanchez/devel/include -I/home/csanrod/TFG/2022-tfg-cristian-sanchez/src/heatmap_util/include
 Libs: -L${prefix}/lib 
-Requires: 
+Requires: roscpp std_msgs
