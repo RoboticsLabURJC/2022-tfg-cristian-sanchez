@@ -12,10 +12,3 @@ from ._RvizFrissActionResult import *
 from ._RvizFrissFeedback import *
 from ._RvizFrissGoal import *
 from ._RvizFrissResult import *
-from ._frissAction import *
-from ._frissActionFeedback import *
-from ._frissActionGoal import *
-from ._frissActionResult import *
-from ._frissFeedback import *
-from ._frissGoal import *
-from ._frissResult import *
