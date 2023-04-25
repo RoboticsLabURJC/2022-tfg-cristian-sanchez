@@ -47,6 +47,7 @@ int main(int argc, char** argv)
       Position position;
       map.getPosition(*it, position);
       map.at("elevation", *it) = data.data[i];
+      // ROS_INFO("Data: %f", data.data[i]);
       i++;
     }
 

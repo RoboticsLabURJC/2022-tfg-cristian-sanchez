@@ -14,7 +14,7 @@ roslib.load_manifest('heatmap_util')
 import rospy
 import friss as fr
 import actionlib
-from heatmap_util.msg import RvizFrissAction, RvizFrissResult, DroneFrissAction, DroneFrissResult
+from heatmap_util.msg import RvizFrissAction, RvizFrissResult, GetPowerFrissAction, GetPowerFrissResult
 
 # -- CTE -- #
 NODENAME = 'heatmap_data_server_node'
@@ -22,7 +22,7 @@ NODENAME = 'heatmap_data_server_node'
 class MyActionServer:
     def __init__(self):
         self._rviz_server = actionlib.SimpleActionServer('rviz_friss_action', RvizFrissAction, self.__response_rviz, False)
-        self._drone_server = actionlib.SimpleActionServer('drone_friss_action', DroneFrissAction, self.__response_drone, False)
+        self._power_server = actionlib.SimpleActionServer('drone_friss_action', GetPowerFrissAction, self.__response_drone, False)
 
         self._size = rospy.get_param('~map_size')
         self._rviz_size = [self._size[0] + 1, self._size[1] + 1]
@@ -30,10 +30,10 @@ class MyActionServer:
         self._res = rospy.get_param('~resolution')
 
         self._rviz_server.start()
-        self._drone_server.start()
+        self._power_server.start()
 
         self._rviz_result = RvizFrissResult()
-        self._drone_result = DroneFrissResult() 
+        self._power_result = GetPowerFrissResult() 
 
     def __response_rviz(self, goal):
         rospy.loginfo("rviz data requested!")
@@ -52,14 +52,14 @@ class MyActionServer:
         # Checks if index is not valid ([x,y] positive integers or 0s)
         if len(goal.index) != 2 and not all(isinstance(x, int) and x>=0 for x in goal):
             rospy.logwarn("wrong format for index, please introduce [x, y]")
-            self._drone_server.set_aborted()
+            self._power_server.set_aborted()
         else:
-            self._drone_result.data = self.__get_drone_data(goal.index)
-            self._drone_server.set_succeeded(self._drone_result)
+            self._power_result.data = self.__get_drone_data(goal.index)
+            self._power_server.set_succeeded(self._power_result)
             rospy.loginfo("Response sent to drone!")
 
     def __get_rviz_data(self):
-        model = fr.Friss(world_sz=self._rviz_size)
+        model = fr.Friss(world_sz=self._rviz_size, resolution=self._res)
         data = model.model_power_signal(self._origin)
         return list(data.flatten())
     

@@ -42,7 +42,7 @@ find_package(OpenCV REQUIRED
 
 find_package(octomap REQUIRED)
 
-add_action_files(DIRECTORY action FILES RvizFriss.action DroneFriss.action)
+add_action_files(DIRECTORY action FILES RvizFriss.action GetPowerFriss.action)
 generate_messages(DEPENDENCIES actionlib_msgs)
 
 catkin_package(
@@ -57,15 +57,15 @@ include_directories(
   ${OCTOMAP_INCLUDE_DIR}
 )
 
-add_executable(heat src/heat.cpp)
+add_executable(paint_heatmap_rviz src/paint_heatmap_rviz.cpp)
 
 target_link_libraries(
-  heat
+  paint_heatmap_rviz
   ${catkin_LIBRARIES}
 )
 
 add_dependencies(
-  heat
+  paint_heatmap_rviz
   ${heatmap_util_EXPORTED_TARGETS}
 )
 

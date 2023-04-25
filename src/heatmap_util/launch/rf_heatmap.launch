@@ -4,5 +4,5 @@
     <rosparam command="load" file="$(find heatmap_util)/config/heatmap.yaml"/>
   </node>
   <node pkg="rviz" type="rviz" name="rviz" args="-d $(find heatmap_util)/rviz/heatmap_rviz.rviz"/>
-  <node pkg="heatmap_util" type="heat" name="grid_map_simple_demo" output="screen"/>
+  <node pkg="heatmap_util" type="paint_heatmap_rviz" name="grid_map_simple_demo" output="screen"/>
 </launch>
