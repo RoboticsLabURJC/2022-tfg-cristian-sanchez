@@ -24,10 +24,10 @@ class MyActionServer:
         self._rviz_server = actionlib.SimpleActionServer('rviz_friss_action', RvizFrissAction, self.__response_rviz, False)
         self._power_server = actionlib.SimpleActionServer('drone_friss_action', GetPowerFrissAction, self.__response_drone, False)
 
-        self._size = rospy.get_param('~map_size')
+        self._size = rospy.get_param('map_size')
         self._rviz_size = [self._size[0] + 1, self._size[1] + 1]
-        self._origin = rospy.get_param('~radio_origin')
-        self._res = rospy.get_param('~resolution')
+        self._origin = rospy.get_param('radio_origin')
+        self._res = rospy.get_param('resolution')
 
         self._rviz_server.start()
         self._power_server.start()

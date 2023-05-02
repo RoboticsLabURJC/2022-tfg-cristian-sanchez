@@ -15,7 +15,14 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "grid_map_simple_demo");
   ros::NodeHandle nh("~");
   ros::Publisher publisher = nh.advertise<grid_map_msgs::GridMap>("grid_map", 1, true);
-  
+
+  // Parameter extraction.
+  int res = 1;
+  if (ros::param::has("/resolution")) 
+    nh.getParam("/resolution", res);
+  else
+    ROS_WARN("parameter not found...");
+
   // Requesting map for Rviz to the action server
   actionlib::SimpleActionClient<heatmap_util::RvizFrissAction> heatmap_client("rviz_friss_action", true);
   ROS_INFO("Waiting for action server to start...");
@@ -31,15 +38,19 @@ int main(int argc, char** argv)
 
   if (heatmap_client.getState() == actionlib::SimpleClientGoalState::SUCCEEDED) {
     // Extract result from request
-    const auto& result = heatmap_client.getResult()->data;
+    ROS_INFO("Extracting info from result...");
+    const auto &result = heatmap_client.getResult()->data;
     std_msgs::Float64MultiArray data;
     data.data.insert(data.data.end(), result.begin(), result.end());
     int16_t world_sz = heatmap_client.getResult()->size;
 
     // Create gridmap
+    ROS_INFO("Info extracted! Creating grid map...");
     GridMap map({"elevation"});
-    map.setFrameId("map");    
-    map.setGeometry(Length(world_sz, world_sz), 1);
+    map.setFrameId("map"); 
+    ROS_INFO("\tFrameId --> map");   
+    map.setGeometry(Length(world_sz, world_sz), res);
+    ROS_INFO("\tgeometry --> (%d,%d), %d", world_sz, world_sz, res); 
 
     // Fill gridmap
     int i = 0;
@@ -47,16 +58,18 @@ int main(int argc, char** argv)
       Position position;
       map.getPosition(*it, position);
       map.at("elevation", *it) = data.data[i];
-      // ROS_INFO("Data: %f", data.data[i]);
+      //ROS_INFO("Data: %f", data.data[i]);
       i++;
     }
 
     // Publish gridmap
+    ROS_INFO("Done! Publishing into rviz");
     ros::Time time = ros::Time::now();
     map.setTimestamp(time.toNSec());
     grid_map_msgs::GridMap message;
     GridMapRosConverter::toMessage(map, message);
     publisher.publish(message);
+    ROS_INFO("Publish OK!");
   } else {
     ROS_ERROR("Action failed: %s", heatmap_client.getState().toString().c_str());
     return 1;
