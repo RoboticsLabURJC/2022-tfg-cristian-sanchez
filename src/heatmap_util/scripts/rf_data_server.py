@@ -55,6 +55,7 @@ class MyActionServer:
             self._power_server.set_aborted()
         else:
             self._power_result.data = self.__get_drone_data(goal.index)
+            self._power_result.size = self._size[0]
             self._power_server.set_succeeded(self._power_result)
             rospy.loginfo("Response sent to drone!")
 

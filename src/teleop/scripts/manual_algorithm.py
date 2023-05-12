@@ -2,6 +2,12 @@
 '''
 ToDo...
 '''
+
+# version 1 finalizada (cond final)
+# version 2 conocimiento de celdas (visit/not)
+# añadir tiempo para encontrar el transmisor para ambas versiones
+# grabar video de ambas versiones
+
 import rospy
 from geometry_msgs.msg import PoseStamped
 from teleop.msg import Px4Cmd
@@ -16,10 +22,10 @@ RADIO_CONTROL_CMD_TOPIC = 'radio_control/cmd'
 
 # Other
 NODENAME = 'manual_algorithm_node'
-TOLERANCE = 0.1
+TOLERANCE = 0.075
 CELLSIZE = 1.0
 TIMEOUT = 0.1
-H = 2.0
+H = 1.0
 
 # Px4Cmd
 IDLE = 0
@@ -43,6 +49,11 @@ class Drone:
         self.pwr_client.wait_for_server()
 
         self.pwr_goal = GetPowerFrissGoal()
+        self.pwr_goal.index = [0, 0]
+
+        self.pwr_client.send_goal(self.pwr_goal)
+        self.pwr_client.wait_for_result()
+        self.size = self.pwr_client.get_result().size
 
         self.current_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
         self.target_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
@@ -58,6 +69,16 @@ class Drone:
             self.current_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
 
         rospy.loginfo("Takeoff OK!")
+
+    def land(self):
+        cmd = Px4Cmd()
+        cmd.cmd = LAND
+    
+        self.target_pos.pose.position.z = 0.0
+        while not self.h_reached(self.current_pos):
+            rospy.loginfo("Landing...")   
+            self.cmd_pub.publish(cmd)         
+            self.current_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
         
     def h_reached(self, current_pose):
         current_z = current_pose.pose.position.z
@@ -92,7 +113,7 @@ class Drone:
             self.target_pos = pose
         
         while not self.centered(self.current_pos):
-            rospy.loginfo("Moving...")
+            # rospy.loginfo("Moving...")
             self.pos_pub.publish(self.target_pos)
             self.current_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
 
@@ -101,8 +122,8 @@ class Drone:
     def gzcoords_to_heatmapcoords(self, gzcoords):
         gz_x, gz_y = gzcoords
         
-        heat_x = round(4 - gz_x)
-        heat_y = round(4 - gz_y)
+        heat_x = round((self.size / 2) - 1 - gz_x)
+        heat_y = round((self.size / 2) - 1 - gz_y)
 
         return [heat_x, heat_y]
 
@@ -117,10 +138,16 @@ class Drone:
 
     def manual_algorithm(self):
         readings = []
+        readings_prev = []  
         readings_coords = []
-        origin = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
+        signal_found = False
+        next_pose = PoseStamped()
 
-        while True:
+        while not signal_found:
+            read, coord = self.read_pwr()
+            readings.append(read)
+            readings_coords.append(coord)
+
             self.move_to("FRONT")
             read, coord = self.read_pwr()
             readings.append(read)
@@ -161,14 +188,31 @@ class Drone:
             readings.append(read)
             readings_coords.append(coord)
 
-            self.move_to("INITIAL POSE", pose=origin)
-            read, coord = self.read_pwr()
-            readings.append(read)
-            readings_coords.append(coord)
+            next_pose.pose.position.x = readings_coords[readings.index(max(readings))][0]
+            next_pose.pose.position.y = readings_coords[readings.index(max(readings))][1]  
+            next_pose.pose.position.z = H
 
-            origin.pose.position.x = readings_coords[readings.index(max(readings))][0]
-            origin.pose.position.y = readings_coords[readings.index(max(readings))][1]
-            self.move_to("NEXT", pose=origin)
+            self.move_to("NEXT", pose=next_pose)
+
+            # rospy.logwarn(readings)
+            # rospy.logwarn(readings_prev)
+
+            for i in range(len(readings)):
+                if len(readings_prev) == 0:
+                    readings_prev = readings.copy()
+                    break
+                elif readings[i] != readings_prev[i]:
+                    signal_found = False
+                    readings_prev = readings.copy()
+                    break
+                else:
+                    signal_found = True
+
+            readings.clear()
+            readings_coords.clear()
+
+        self.land()
+
 
 # -- MAIN -- #
 if __name__ == '__main__':
