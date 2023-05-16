@@ -58,8 +58,6 @@ class Drone:
         self.current_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
         self.target_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
 
-        self.takeoff()
-
     def takeoff(self):
         rospy.loginfo("Takeoff detected!")
         self.target_pos.pose.position.z = H
@@ -151,6 +149,8 @@ class Drone:
         signal_found = False
         next_pose = PoseStamped()
 
+        self.takeoff()
+        start_time = rospy.Time.now()
         while not signal_found:
             read, coord = self.read_pwr()
             readings.append(read)
@@ -216,6 +216,9 @@ class Drone:
             readings.clear()
             readings_coords.clear()
 
+        elapsed_time = rospy.Time.now() - start_time
+        rospy.loginfo("Time: {:.6f} seconds".format(elapsed_time.to_sec()))
+
         self.land()
 
     def manual_algorithm_optimized(self):
@@ -230,6 +233,8 @@ class Drone:
         goal_pose.pose.position.z = H
         next_pose.pose.position.z = H
 
+        self.takeoff()
+        start_time = rospy.Time.now()
         while not signal_found:
             read, coord = self.read_pwr()
             hm_coords = self.gzcoords_to_heatmapcoords(coord)
@@ -267,10 +272,11 @@ class Drone:
 
             readings.clear()
             readings_coords.clear()
+
+        elapsed_time = rospy.Time.now() - start_time
+        rospy.loginfo("Time: {:.6f} seconds".format(elapsed_time.to_sec()))
         self.land()
 
-
-            
             
     def get_next_positions(self, current_cell, visited_cells):
         x, y = current_cell
@@ -293,12 +299,15 @@ class Drone:
         if [x - 1, y - 1] not in visited_cells:
             next_poses.append(self.heatmapcoords_to_gzcoords([x - 1, y - 1]))
 
+        rospy.loginfo(current_cell)
+        rospy.loginfo(next_poses)
+
         return next_poses
         
-        
-
 
 # -- MAIN -- #
 if __name__ == '__main__':
     iris = Drone()
+    # iris.manual_algorithm()
     iris.manual_algorithm_optimized()
+    rospy.spin()
