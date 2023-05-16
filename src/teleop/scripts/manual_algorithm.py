@@ -22,7 +22,7 @@ RADIO_CONTROL_CMD_TOPIC = 'radio_control/cmd'
 
 # Other
 NODENAME = 'manual_algorithm_node'
-TOLERANCE = 0.075
+TOLERANCE = 0.0625
 CELLSIZE = 1.0
 TIMEOUT = 0.1
 H = 1.0
@@ -123,7 +123,7 @@ class Drone:
         heat_x = round((self.size / 2) - 1 - gz_x)
         heat_y = round((self.size / 2) - 1 - gz_y)
 
-        return [heat_x, heat_y]
+        return (heat_x, heat_y)
     
     def heatmapcoords_to_gzcoords(self, hmcoords):
         hm_x, hm_y = hmcoords
@@ -131,7 +131,7 @@ class Drone:
         gz_x = (self.size / 2) - 1 - hm_x
         gz_y = (self.size / 2) - 1 - hm_y
 
-        return [gz_x, gz_y]
+        return (gz_x, gz_y)
 
     
     def read_pwr(self):
@@ -146,117 +146,28 @@ class Drone:
         readings = []
         readings_prev = []  
         readings_coords = []
-        signal_found = False
-        next_pose = PoseStamped()
-
-        self.takeoff()
-        start_time = rospy.Time.now()
-        while not signal_found:
-            read, coord = self.read_pwr()
-            readings.append(read)
-            readings_coords.append(coord)
-
-            self.move_to("FRONT")
-            read, coord = self.read_pwr()
-            readings.append(read)
-            readings_coords.append(coord)
-
-            self.move_to("RIGHT")
-            read, coord = self.read_pwr()
-            readings.append(read)
-            readings_coords.append(coord)
-
-            self.move_to("BACK")
-            read, coord = self.read_pwr()
-            readings.append(read)
-            readings_coords.append(coord)
-
-            self.move_to("BACK")
-            read, coord = self.read_pwr()
-            readings.append(read)
-            readings_coords.append(coord)
-
-            self.move_to("LEFT")
-            read, coord = self.read_pwr()
-            readings.append(read)
-            readings_coords.append(coord)
-
-            self.move_to("LEFT")
-            read, coord = self.read_pwr()
-            readings.append(read)
-            readings_coords.append(coord)
-
-            self.move_to("FRONT")
-            read, coord = self.read_pwr()
-            readings.append(read)
-            readings_coords.append(coord)
-
-            self.move_to("FRONT")
-            read, coord = self.read_pwr()
-            readings.append(read)
-            readings_coords.append(coord)
-
-            next_pose.pose.position.x = readings_coords[readings.index(max(readings))][0]
-            next_pose.pose.position.y = readings_coords[readings.index(max(readings))][1]  
-            next_pose.pose.position.z = H
-
-            self.move_to("NEXT", pose=next_pose)
-
-            for i in range(len(readings)):
-                if len(readings_prev) == 0:
-                    readings_prev = readings.copy()
-                    break
-                elif readings[i] != readings_prev[i]:
-                    signal_found = False
-                    readings_prev = readings.copy()
-                    break
-                else:
-                    signal_found = True
-
-            readings.clear()
-            readings_coords.clear()
-
-        elapsed_time = rospy.Time.now() - start_time
-        rospy.loginfo("Time: {:.6f} seconds".format(elapsed_time.to_sec()))
-
-        self.land()
-
-    def manual_algorithm_optimized(self):
-        readings = []
-        visited = []
-        readings_prev = []  
-        readings_coords = []
         goal_pose = PoseStamped()
-        next_pose = PoseStamped()
-        signal_found = False
 
+        signal_found = False
         goal_pose.pose.position.z = H
-        next_pose.pose.position.z = H
+        neighbors = ("FRONT", "RIGHT", "BACK", "BACK", "LEFT", "LEFT", "FRONT", "FRONT")
 
         self.takeoff()
         start_time = rospy.Time.now()
         while not signal_found:
-            read, coord = self.read_pwr()
-            hm_coords = self.gzcoords_to_heatmapcoords(coord)
-
-            readings.append(read)
-            readings_coords.append(coord)
-            visited.append(hm_coords)
-            
-            path = self.get_next_positions(hm_coords, visited)
-
-            for x, y in path:
-                next_pose.pose.position.x = x
-                next_pose.pose.position.y = y
-
-                self.move_to("NEXT", pose=next_pose)
+            for neigh in neighbors:
                 read, coord = self.read_pwr()
                 readings.append(read)
                 readings_coords.append(coord)
+                self.move_to(neigh)
+
+            read, coord = self.read_pwr()
+            readings.append(read)
+            readings_coords.append(coord)
 
             goal_pose.pose.position.x = readings_coords[readings.index(max(readings))][0]
             goal_pose.pose.position.y = readings_coords[readings.index(max(readings))][1]  
-        
+
             self.move_to("GOAL", pose=goal_pose)
 
             for i in range(len(readings)):
@@ -277,30 +188,77 @@ class Drone:
         rospy.loginfo("Time: {:.6f} seconds".format(elapsed_time.to_sec()))
         self.land()
 
+
+    def manual_algorithm_optimized(self):
+        readings = []
+        visited = set() 
+        readings_coords = []
+        goal_pose = PoseStamped()
+        next_pose = PoseStamped()
+        goal_pose.pose.position.z = H
+        next_pose.pose.position.z = H
+        last_goal = 0
+
+        self.takeoff()
+        start_time = rospy.Time.now()
+        while True:
+            read, coord = self.read_pwr()
+            hm_coords = self.gzcoords_to_heatmapcoords(coord)
+
+            readings.append(read)
+            readings_coords.append(coord)
+            visited.add(hm_coords)
+            
+            path = self.get_next_positions(hm_coords, visited)
+
+            for x, y in path:
+                next_pose.pose.position.x = x
+                next_pose.pose.position.y = y
+
+                self.move_to("NEXT", pose=next_pose)
+                read, coord = self.read_pwr()
+                readings.append(read)
+                readings_coords.append(coord)
+
+            goal_pose.pose.position.x = readings_coords[readings.index(max(readings))][0]
+            goal_pose.pose.position.y = readings_coords[readings.index(max(readings))][1]
+            current_goal = self.gzcoords_to_heatmapcoords((goal_pose.pose.position.x, goal_pose.pose.position.y))
+
+            self.move_to("GOAL", pose=goal_pose)
+
+            if last_goal == current_goal:
+                break
+            else:
+                last_goal = current_goal
+
+            readings.clear()
+            readings_coords.clear()
+
+        elapsed_time = rospy.Time.now() - start_time
+        rospy.loginfo("Time: {:.6f} seconds".format(elapsed_time.to_sec()))
+        self.land()
+
             
     def get_next_positions(self, current_cell, visited_cells):
         x, y = current_cell
         next_poses = []
 
-        if [x - 1, y] not in visited_cells:
-            next_poses.append(self.heatmapcoords_to_gzcoords([x - 1, y]))
-        if [x - 1, y + 1] not in visited_cells:
-            next_poses.append(self.heatmapcoords_to_gzcoords([x - 1, y + 1]))
-        if [x, y + 1] not in visited_cells:
-            next_poses.append(self.heatmapcoords_to_gzcoords([x, y + 1]))
-        if [x + 1, y + 1] not in visited_cells:
-            next_poses.append(self.heatmapcoords_to_gzcoords([x + 1, y + 1]))
-        if [x + 1, y] not in visited_cells:
-            next_poses.append(self.heatmapcoords_to_gzcoords([x + 1, y]))
-        if [x + 1, y - 1] not in visited_cells:
-            next_poses.append(self.heatmapcoords_to_gzcoords([x + 1, y - 1]))
-        if [x, y - 1] not in visited_cells:
-            next_poses.append(self.heatmapcoords_to_gzcoords([x, y - 1]))
-        if [x - 1, y - 1] not in visited_cells:
-            next_poses.append(self.heatmapcoords_to_gzcoords([x - 1, y - 1]))
-
-        rospy.loginfo(current_cell)
-        rospy.loginfo(next_poses)
+        if (x - CELLSIZE, y) not in visited_cells:
+            next_poses.append(self.heatmapcoords_to_gzcoords((x - CELLSIZE, y)))
+        if (x - CELLSIZE, y + CELLSIZE) not in visited_cells:
+            next_poses.append(self.heatmapcoords_to_gzcoords((x - CELLSIZE, y + CELLSIZE)))
+        if (x, y + CELLSIZE) not in visited_cells:
+            next_poses.append(self.heatmapcoords_to_gzcoords((x, y + CELLSIZE)))
+        if (x + CELLSIZE, y + CELLSIZE) not in visited_cells:
+            next_poses.append(self.heatmapcoords_to_gzcoords((x + CELLSIZE, y + CELLSIZE)))
+        if (x + CELLSIZE, y) not in visited_cells:
+            next_poses.append(self.heatmapcoords_to_gzcoords((x + CELLSIZE, y)))
+        if (x + CELLSIZE, y - CELLSIZE) not in visited_cells:
+            next_poses.append(self.heatmapcoords_to_gzcoords((x + CELLSIZE, y - CELLSIZE)))
+        if (x, y - CELLSIZE) not in visited_cells:
+            next_poses.append(self.heatmapcoords_to_gzcoords((x, y - CELLSIZE)))
+        if (x - CELLSIZE, y - CELLSIZE) not in visited_cells:
+            next_poses.append(self.heatmapcoords_to_gzcoords((x - CELLSIZE, y - CELLSIZE)))
 
         return next_poses
         
