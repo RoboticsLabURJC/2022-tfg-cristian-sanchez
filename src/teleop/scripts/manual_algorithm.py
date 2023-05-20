@@ -3,11 +3,6 @@
 ToDo...
 '''
 
-# version 1 finalizada (cond final)
-# version 2 conocimiento de celdas (visit/not)
-# añadir tiempo para encontrar el transmisor para ambas versiones
-# grabar video de ambas versiones
-
 import rospy
 from geometry_msgs.msg import PoseStamped
 from teleop.msg import Px4Cmd
@@ -22,7 +17,7 @@ RADIO_CONTROL_CMD_TOPIC = 'radio_control/cmd'
 
 # Other
 NODENAME = 'manual_algorithm_node'
-TOLERANCE = 0.0625
+TOLERANCE = 0.0675
 CELLSIZE = 1.0
 TIMEOUT = 0.1
 H = 1.0
@@ -219,6 +214,7 @@ class Drone:
                 read, coord = self.read_pwr()
                 readings.append(read)
                 readings_coords.append(coord)
+                visited.add(self.gzcoords_to_heatmapcoords(coord))
 
             goal_pose.pose.position.x = readings_coords[readings.index(max(readings))][0]
             goal_pose.pose.position.y = readings_coords[readings.index(max(readings))][1]
