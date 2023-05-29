@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <launch>
+	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find irisdrone_gazebo)/models/my_antenna/antenna.sdf'"/>
 	<rosparam command="load" file="$(find heatmap_util)/config/heatmap.yaml"/>
     <node pkg="heatmap_util" type="rf_data_server.py" name="heatmap_data_server_node" output="screen"/>
 	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find heatmap_util)/rviz/manual_approach_rviz.rviz"/>
@@ -51,4 +52,7 @@
   
 	<node pkg="teleop" type="px4_controller.py" name="px4_controller" required="true" output="screen" />
 	<node pkg="teleop" type="manual_algorithm.py" name="manual_algorithm_node" required="true" output="screen" />
+
+	<node name="my_robot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-sdf -param robot_description -model antenna -x 6 -y 6 -z 0"/>
+	<node pkg="heatmap_util" type="path_marker.py" name="path_node" output="screen"/>
 </launch>

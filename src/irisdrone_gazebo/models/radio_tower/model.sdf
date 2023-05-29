@@ -5,6 +5,7 @@
     <link name="link">
       <collision name="collision">
         <geometry>
+          <scale>0.1 0.1 0.1</scale>
           <mesh>
             <uri>model://radio_tower/meshes/radio_tower.dae</uri>
           </mesh>
@@ -12,6 +13,7 @@
       </collision>
       <visual name="visual">
         <geometry>
+          <scale>0.1 0.1 0.1</scale>
           <mesh>
             <uri>model://radio_tower/meshes/radio_tower.dae</uri>
           </mesh>

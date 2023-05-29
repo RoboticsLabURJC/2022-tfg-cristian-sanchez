@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <launch>
-     <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find irisdrone_gazebo)/models/radio_tower/model.sdf'"/>
+	<!-- <param name="robot_description" command="$(find xacro)/xacro --><!--inorder '$(find irisdrone_gazebo)/models/radio_tower/model.sdf'"/> -->
+	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find irisdrone_gazebo)/models/my_antenna/antenna.sdf'"/>
 
 	<!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched -->
 	<include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -8,6 +9,6 @@
 		<!-- more default parameters can be changed here -->
 	</include>
    
-    <node name="my_robot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-sdf -param robot_description -model radio_tower -x 0 -y 0 -z 0"/>
+    <node name="my_robot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-sdf -param robot_description -model antenna -x -3 -y 0 -z 0"/>
 
 </launch>

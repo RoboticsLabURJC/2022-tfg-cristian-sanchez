@@ -47,7 +47,7 @@ class MyActionServer:
             self._rviz_server.set_aborted()
 
     def __response_drone(self, goal):
-        rospy.loginfo("drone data requested!")
+        # rospy.loginfo("drone data requested!")
 
         # Checks if index is not valid ([x,y] positive integers or 0s)
         if len(goal.index) != 2 and not all(isinstance(x, int) and x>=0 for x in goal):
@@ -57,7 +57,7 @@ class MyActionServer:
             self._power_result.data = self.__get_drone_data(goal.index)
             self._power_result.size = self._size[0]
             self._power_server.set_succeeded(self._power_result)
-            rospy.loginfo("Response sent to drone!")
+            # rospy.loginfo("Response sent to drone!")
 
     def __get_rviz_data(self):
         model = fr.Friss(world_sz=self._rviz_size, resolution=self._res)
@@ -66,9 +66,15 @@ class MyActionServer:
     
     def __get_drone_data(self, pose):
         x, y = pose
+        if x < 0 or y < 0:
+            return 1
+        
         model = fr.Friss(world_sz=self._size)
         data = model.model_power_signal(self._origin)
-        return data[x, y]
+        try:
+            return data[x, y]
+        except IndexError:
+            return 1
 
 # -- MAIN -- #
 if __name__ == '__main__':
