@@ -83,7 +83,7 @@ class Drone:
         rospy.loginfo("Takeoff detected!")
         self.target_pos.pose.position.z = H
         while not self.h_reached(self.current_pos):
-            rospy.loginfo("Taking off...")
+            # rospy.loginfo("Taking off...")
             self.pos_pub.publish(self.target_pos)
             self.current_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
 
@@ -98,7 +98,7 @@ class Drone:
         cmd.cmd = LAND
         self.target_pos.pose.position.z = 0.0
         while not self.h_reached(self.current_pos):
-            rospy.loginfo("Landing...")
+            # rospy.loginfo("Landing...")
             self.cmd_pub.publish(cmd)
             self.current_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
 
@@ -364,13 +364,13 @@ class Drone:
         '''
         Returns the Q table state index for a certain power read:
 
-            - [inf, -20] dBm    --> HIGH
-            - [-20, -25] dBm    --> MID
-            - [-25, -inf] dBm   --> LOW
+            - [inf, -22.5] dBm      --> HIGH
+            - [-22.5, -27.5] dBm    --> MID
+            - [-27.5, -inf] dBm     --> LOW
         '''
-        if power >= -20:
+        if power >= -22.5:
             state = "HIGH"
-        elif -20 > power >= -25:
+        elif -22.5 > power >= -27.5:
             state = "MID"
         else:
             state = "LOW"
@@ -512,6 +512,8 @@ class Drone:
             ## Set new goal and move
             next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[action_idx])
             next_coords_gz = self.heatmapcoords_to_gzcoords(next_coords_hm)
+
+            print((pwr, (current_coords_gz, current_coords_hm), (next_coords_gz, next_coords_hm), states[state_idx], actions[action_idx]))
 
             goal_pose.pose.position.x = next_coords_gz[0]
             goal_pose.pose.position.y = next_coords_gz[1]

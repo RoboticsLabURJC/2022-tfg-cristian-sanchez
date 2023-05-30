@@ -15,6 +15,7 @@ import rospy
 import friss as fr
 import actionlib
 from heatmap_util.msg import RvizFrissAction, RvizFrissResult, GetPowerFrissAction, GetPowerFrissResult
+import numpy as np
 
 # -- CTE -- #
 NODENAME = 'heatmap_data_server_node'
@@ -25,7 +26,7 @@ class MyActionServer:
         self._power_server = actionlib.SimpleActionServer('drone_friss_action', GetPowerFrissAction, self.__response_drone, False)
 
         self._size = rospy.get_param('map_size')
-        self._rviz_size = [self._size[0] + 1, self._size[1] + 1]
+        self._rviz_size = [self._size[0], self._size[1]]
         self._origin = rospy.get_param('radio_origin')
         self._res = rospy.get_param('resolution')
 
@@ -62,7 +63,10 @@ class MyActionServer:
     def __get_rviz_data(self):
         model = fr.Friss(world_sz=self._rviz_size, resolution=self._res)
         data = model.model_power_signal(self._origin)
-        return list(data.flatten())
+        flip_data = np.rot90(data, k=-1)
+        flip_data = np.flip(flip_data, axis=1)
+        
+        return list(flip_data.flatten())
     
     def __get_drone_data(self, pose):
         x, y = pose
@@ -71,6 +75,7 @@ class MyActionServer:
         
         model = fr.Friss(world_sz=self._size)
         data = model.model_power_signal(self._origin)
+        
         try:
             return data[x, y]
         except IndexError:
