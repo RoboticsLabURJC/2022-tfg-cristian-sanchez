@@ -5,18 +5,22 @@ This script let us test different algorithms to solve the RF signal seeking:
     1. Manual algorithm (1st approach)
         It takes readings from current position and it's neighbors,
         then moves to the highest reading.
-    
+
     2. Manual algorithm optimized
         It takes readings from current position and it's non visited neighbors,
         then moves to the highest reading.
+
+    3. Q-Learning algorithm
+        We train a model using a Q table (power signal x cardinal movement),
+        then we use that table to navigate to the signal source.
 '''
+import random
 import rospy
 from geometry_msgs.msg import PoseStamped
 from teleop.msg import Px4Cmd
 import actionlib
 from heatmap_util.msg import GetPowerFrissAction, GetPowerFrissGoal
 import numpy as np
-import random
 
 # -- CTE -- #
 # Topics
@@ -79,7 +83,7 @@ class Drone:
         rospy.loginfo("Takeoff detected!")
         self.target_pos.pose.position.z = H
         while not self.h_reached(self.current_pos):
-            rospy.loginfo("Taking off...")            
+            rospy.loginfo("Taking off...")
             self.pos_pub.publish(self.target_pos)
             self.current_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
 
@@ -91,11 +95,11 @@ class Drone:
         Land the drone.
         '''
         cmd = Px4Cmd()
-        cmd.cmd = LAND    
+        cmd.cmd = LAND
         self.target_pos.pose.position.z = 0.0
         while not self.h_reached(self.current_pos):
-            rospy.loginfo("Landing...")   
-            self.cmd_pub.publish(cmd)         
+            rospy.loginfo("Landing...")
+            self.cmd_pub.publish(cmd)
             self.current_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
 
 
@@ -140,7 +144,7 @@ class Drone:
             self.target_pos.pose.position.y = self.current_pos.pose.position.y - CELLSIZE
         else:
             self.target_pos = pose
-        
+
         while not self.centered(self.current_pos):
             self.pos_pub.publish(self.target_pos)
             self.current_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
@@ -152,7 +156,7 @@ class Drone:
         '''
         Transform gazebo coords to heatmap coords.
         '''
-        gz_x, gz_y = gzcoords        
+        gz_x, gz_y = gzcoords
         heat_x = round((self.size / 2) - 1 - gz_x)
         heat_y = round((self.size / 2) - 1 - gz_y)
         return (heat_x, heat_y)
@@ -162,12 +166,12 @@ class Drone:
         '''
         Transform heatmap coords to gazebo coords.
         '''
-        hm_x, hm_y = hmcoords        
+        hm_x, hm_y = hmcoords
         gz_x = (self.size / 2) - 1 - hm_x
         gz_y = (self.size / 2) - 1 - hm_y
         return (gz_x, gz_y)
 
-    
+
     def read_pwr(self):
         '''
         Returns the power reading and the coords where it was taken.
@@ -178,6 +182,16 @@ class Drone:
         self.pwr_client.send_goal(self.pwr_goal)
         self.pwr_client.wait_for_result()
         return (self.pwr_client.get_result().data, current_coords)
+
+    def read_only_pwr(self, heatmap_coords):
+        '''
+        Returns power for a heatmap coords.
+        '''
+        self.pwr_goal.index = heatmap_coords
+        self.pwr_client.send_goal(self.pwr_goal)
+        self.pwr_client.wait_for_result()
+
+        return self.pwr_client.get_result().data
 
 
     def manual_algorithm(self):
@@ -228,8 +242,7 @@ class Drone:
                         signal_found = False
                         hm_coords_prev = hm_coords.copy()
                         break
-                    else:
-                        signal_found = True
+                    signal_found = True
 
             # Clear arrays
             readings.clear()
@@ -250,12 +263,12 @@ class Drone:
         readings_coords = []        # Power coords in gz
         goal_pose = PoseStamped()   # Target pose to move
         next_pose = PoseStamped()   # Next pose to move
-        visited = set()             # Visited cells, CAREFUL! no size limit stablish, so in big maps drone will store a lot of data.
+        visited = set()             # Visited cells, CAREFUL! no size limit.
 
         # Initializations
         goal_pose.pose.position.z = H
         next_pose.pose.position.z = H
-        last_goal = 0               # Stores last goal in heatmap coords, initialize with whatever different to (x, y)
+        last_goal = 0               # Stores last goal in heatmap coords.
 
         # Start algorithm
         self.takeoff()
@@ -268,7 +281,7 @@ class Drone:
             readings.append(read)
             readings_coords.append(coord)
             visited.add(hm_coords)
-            
+
             # Obtain next path to avoid visited cells (gz coords)
             path = self.get_next_positions(hm_coords, visited)
 
@@ -289,11 +302,11 @@ class Drone:
 
             # End condition, if previous goal it's the same than current goal --> land
             # We look in the drones heatmap coords to avoid decimals problems.
-            current_goal = self.gzcoords_to_heatmapcoords((goal_pose.pose.position.x, goal_pose.pose.position.y))
+            goal_coords = (goal_pose.pose.position.x, goal_pose.pose.position.y)
+            current_goal = self.gzcoords_to_heatmapcoords(goal_coords)
             if last_goal == current_goal:
                 break
-            else:
-                last_goal = current_goal
+            last_goal = current_goal
 
             # Clear arrays
             readings.clear()
@@ -330,167 +343,31 @@ class Drone:
             next_poses.append(self.heatmapcoords_to_gzcoords((x - CELLSIZE, y - CELLSIZE)))
 
         return next_poses
-    
-    
-    
-    def q_learning_algorithm (self):
-        # actions = ["N", "E", "S", "W"]
+
+
+    def q_learning_algorithm(self):
+        '''
+        Perform Q learning algorithm, first training and then testing in the simulation:
+
+            - Actions are cardinal directions and it's diagonals.
+            - States are defined by the power read intensity.
+        '''
         actions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
         states = ["HIGH", "MID", "LOW"]
-
-        steps = 2000
-        alpha = 0.05
-        gamma = 0.7
-
-        # Epsilon
-        eps = 1.0
-        eps_end = 0.05
-        eps_increment = (eps - eps_end) / steps
-
         q_table = np.zeros((len(states), len(actions)))
-        initial_gz_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
-        initial_coords_gz = (initial_gz_pose.pose.position.x, initial_gz_pose.pose.position.y)
 
-        current_coords_hm = self.gzcoords_to_heatmapcoords(initial_coords_gz)
-        
-        # self.pwr_goal.index = [0,0]
-        # self.pwr_client.send_goal(self.pwr_goal)
-        # self.pwr_client.wait_for_result()
-
-        # print("--------------------------------")
-        # print(self.pwr_client.get_result().data)
-        # print("--------------------------------")
-
-        # self.pwr_goal.index = [1,1]
-        # self.pwr_client.send_goal(self.pwr_goal)
-        # self.pwr_client.wait_for_result()
-
-        # print("--------------------------------")
-        # print(self.pwr_client.get_result().data)
-        # print("--------------------------------")
-
-        # self.pwr_goal.index = [2,2]
-        # self.pwr_client.send_goal(self.pwr_goal)
-        # self.pwr_client.wait_for_result()
-
-        # print("--------------------------------")
-        # print(self.pwr_client.get_result().data)
-        # print("--------------------------------")
-
-        # self.pwr_goal.index = [0,2]
-        # self.pwr_client.send_goal(self.pwr_goal)
-        # self.pwr_client.wait_for_result()
-
-        # print("--------------------------------")
-        # print(self.pwr_client.get_result().data)
-        # print("--------------------------------")
-
-        # self.pwr_goal.index = [2,0]
-        # self.pwr_client.send_goal(self.pwr_goal)
-        # self.pwr_client.wait_for_result()
-
-        # print("--------------------------------")
-        # print(self.pwr_client.get_result().data)
-        # print("--------------------------------")
-
-        # self.pwr_goal.index = [-1,3]
-        # self.pwr_client.send_goal(self.pwr_goal)
-        # self.pwr_client.wait_for_result()
-
-        # print("--------------------------------")
-        # print(self.pwr_client.get_result().data)
-        # print("--------------------------------")
-
-        print(q_table)
-        rospy.loginfo("Training...")
-        # Training
-        end_condition = False
-        not_valid_action_idxs = []
-        for i in range(steps):
-            ## Starting position
-            if end_condition or (i + 1) % (100) == 0:
-                end_condition = False
-                current_coords_hm = self.gzcoords_to_heatmapcoords(initial_coords_gz)
-
-            ## Sensor data extraction   
-            self.pwr_goal.index = current_coords_hm
-            self.pwr_client.send_goal(self.pwr_goal)
-            self.pwr_client.wait_for_result()
-            
-            pwr_current = self.pwr_client.get_result().data
-
-            ## State and action definition
-            current_state_idx = self.get_state_idx(pwr_current, states)
-            current_action_idx = self.get_action_idx(eps, q_table[current_state_idx])
-
-            ## Future state data extraction
-            next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[current_action_idx])
-
-            self.pwr_goal.index = next_coords_hm
-            self.pwr_client.send_goal(self.pwr_goal)
-            self.pwr_client.wait_for_result()
-            
-            pwr_next = self.pwr_client.get_result().data
-
-            ## End condition (if power == 1 means is out of limits, see rf_data_server.py)
-            while pwr_next == 1:
-                # print(current_action_idx)
-                not_valid_action_idxs.append(current_action_idx)
-                current_action_idx = self.get_action_idx(eps, q_table[current_state_idx], not_valid_action_idxs)
-                
-                next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[current_action_idx])
-
-                self.pwr_goal.index = next_coords_hm
-                self.pwr_client.send_goal(self.pwr_goal)
-                self.pwr_client.wait_for_result()
-
-                pwr_next = self.pwr_client.get_result().data
-                # print(current_coords_hm, not_valid_action_idxs, current_action_idx, pwr_next)
-
-            next_state_idx = self.get_state_idx(pwr_next, states)
-            
-            # (np.round(pwr_current, 3) == np.round(pwr_next, 3)
-
-            # if next_state_idx > current_state_idx: # Switch to a lower signal state --> end
-            #     # end_condition = True
-            #     reward = -10
-            # elif next_state_idx < current_state_idx:
-            #     reward = 10
-            # else:
-            #     reward = pwr_next - pwr_current
-                
-                # if (pwr_next - pwr_current) > 0: # Power increase (negative scale)
-                #     reward = 1
-                # else:
-                #     reward = -1
-
-            ## Bellman
-            reward = pwr_next - pwr_current
-            error = (reward + gamma * np.max(q_table[next_state_idx])) - q_table[current_state_idx, current_action_idx]
-            q_table[current_state_idx, current_action_idx] += alpha * error
-
-            # print(((current_coords_hm, states[current_state_idx], actions[current_action_idx]),(next_coords_hm, states[next_state_idx]), (pwr_current, pwr_next), reward))
-            # rospy.sleep(1)
-
-            ## Update next state and epsilon
-            current_coords_hm = next_coords_hm
-            eps = max((eps + eps_increment, eps_end))
-            not_valid_action_idxs.clear()
-
-            ## Debuggin progress bar
-            if (i + 1) % (steps / 100) == 0:
-                progress = (i + 1) / steps
-                progress_percentage = int(progress * 100)                
-                progress_bar = '[' + '#' * (progress_percentage // 10) + ' ' * ((100 - progress_percentage) // 10) + ']'
-                print(f'Progress: {progress_bar} {progress_percentage}% ', end='\r')
-
-        rospy.loginfo("Training OK!")
-        print(q_table)
-
+        self.train_q(q_table, actions, states)
         self.test_q(q_table, actions, states)
 
 
     def get_state_idx(self, power, states):
+        '''
+        Returns the Q table state index for a certain power read:
+
+            - [inf, -20] dBm    --> HIGH
+            - [-20, -25] dBm    --> MID
+            - [-25, -inf] dBm   --> LOW
+        '''
         if power >= -20:
             state = "HIGH"
         elif -20 > power >= -25:
@@ -499,8 +376,13 @@ class Drone:
             state = "LOW"
 
         return states.index(state)
-        
+
+
     def get_action_idx(self, epsilon, q_values, not_valid=[]):
+        '''
+        Returns the Q table action index depending on the epsilon value and
+        the non-valid actions registered.
+        '''
         random_idx = list(range(q_values.size))
 
         for action_idx in not_valid:
@@ -508,10 +390,14 @@ class Drone:
 
         if np.random.random() < epsilon:
             return random.choice(random_idx)
-        else:
-            return np.argmax(q_values)
-        
+
+        return np.argmax(q_values)
+
+
     def get_next_coords_heatmap(self, coords, action):
+        '''
+        Returns the resulting heatmap coords, after aplying an action.
+        '''
         x, y = coords # Heatmap coords
 
         if action == "N":
@@ -535,34 +421,100 @@ class Drone:
         return new_coords
 
 
+    def train_q(self, q_table, actions, states, steps=2000, alpha=0.05, gamma=0.7, eps_end=0.05):
+        '''
+        Fills the Q table
+        '''
+        # Training parameters
+        ## Epsilon
+        eps = 1.0
+        eps_increment = (eps - eps_end) / steps
+
+        ## Q table and initial coords
+        initial_gz_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
+        initial_coords_gz = (initial_gz_pose.pose.position.x, initial_gz_pose.pose.position.y)
+
+        # Training
+        ## Initial conditions
+        end_condition = True
+        not_valid_action_idxs = []
+
+        for i in range(steps):
+            ## Starting position
+            if end_condition or (i + 1) % (100) == 0:
+                end_condition = False
+                current_coords_hm = self.gzcoords_to_heatmapcoords(initial_coords_gz)
+
+            ## Sensor data extraction
+            pwr_current = self.read_only_pwr(current_coords_hm)
+
+            ## State and action indexes for Q table
+            current_state_idx = self.get_state_idx(pwr_current, states)
+            current_action_idx = self.get_action_idx(eps, q_table[current_state_idx])
+
+            ## Future state data extraction
+            next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[current_action_idx])
+            pwr_next = self.read_only_pwr(next_coords_hm)
+
+            ## If power == 1 means is out of limits, see rf_data_server.py
+            while pwr_next == 1:
+                ### Adds to a list non-valid actions (out of bounds)
+                not_valid_action_idxs.append(current_action_idx)
+                ### Extracts new possible action avoiding non-valid actions
+                current_action_idx = self.get_action_idx(eps, q_table[current_state_idx], not_valid_action_idxs)
+                ### Try to extract power applying this new action
+                next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[current_action_idx])
+                pwr_next = self.read_only_pwr(next_coords_hm)
+
+            ## Gets next state index with valid power value
+            next_state_idx = self.get_state_idx(pwr_next, states)
+
+            ## Bellman eq to update Q table
+            reward = pwr_next - pwr_current
+            error = (reward + gamma * np.max(q_table[next_state_idx])) - q_table[current_state_idx, current_action_idx]
+            q_table[current_state_idx, current_action_idx] += alpha * error
+
+            ## Update current state and epsilon
+            current_coords_hm = next_coords_hm
+            eps = max((eps + eps_increment, eps_end))
+            not_valid_action_idxs.clear()
+
+            percent = (i + 1) * 100 // steps
+            print(f"Training: {percent}%", end='\r')
+
+
     def test_q(self, q_table, actions, states):
+        '''
+        Test a Q table performance using gazebo drone.
+        '''
+        # To send positions to the drone
         goal_pose = PoseStamped()
         goal_pose.pose.position.z = H
-        
+
         # Start algorithm
         self.takeoff()
         start_time = rospy.Time.now()
-
         while True:
             ## Take readings
             pwr, current_coords_gz = self.read_pwr()
             current_coords_hm = self.gzcoords_to_heatmapcoords(current_coords_gz)
 
-            ## Look for best action inside Q table
+            ## Look for state in Q table
             state_idx = self.get_state_idx(pwr, states)
 
+            ## End condition (when the signal is HIGH --> end)
             if states[state_idx] == "HIGH":
                 break
 
+            ## Get best action using Q table
             action_idx = np.argmax(q_table[state_idx])
             
-            ## Set new goal
+            ## Set new goal and move
             next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[action_idx])
             next_coords_gz = self.heatmapcoords_to_gzcoords(next_coords_hm)
 
             goal_pose.pose.position.x = next_coords_gz[0]
             goal_pose.pose.position.y = next_coords_gz[1]
-
             self.move_to(pose=goal_pose)
 
         # Calcule times and land
@@ -574,7 +526,9 @@ class Drone:
 # -- MAIN -- #
 if __name__ == '__main__':
     iris = Drone()
-    iris.q_learning_algorithm()
+
     # iris.manual_algorithm()
     # iris.manual_algorithm_optimized()
+    iris.q_learning_algorithm()
+
     rospy.spin()
