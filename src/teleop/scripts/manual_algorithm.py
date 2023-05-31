@@ -353,7 +353,7 @@ class Drone:
             - States are defined by the power read intensity.
         '''
         actions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
-        states = ["HIGH", "MID", "LOW"]
+        states = self.generate_states(10, -100, -5)
         q_table = np.zeros((len(states), len(actions)))
 
         self.train_q(q_table, actions, states)
@@ -363,19 +363,29 @@ class Drone:
     def get_state_idx(self, power, states):
         '''
         Returns the Q table state index for a certain power read:
-
-            - [inf, -22.5] dBm      --> HIGH
-            - [-22.5, -27.5] dBm    --> MID
-            - [-27.5, -inf] dBm     --> LOW
         '''
-        if power >= -22.5:
-            state = "HIGH"
-        elif -22.5 > power >= -27.5:
-            state = "MID"
-        else:
-            state = "LOW"
+        state_found = False
+        for state in states:
+            for max, min in state:
+                if max >= power > min:
+                    state_found = True
+                    break
+            if state_found:
+                return states.index(state)
 
-        return states.index(state)
+
+    def generate_states(self, max_val, min_val, step):
+        '''
+        Returns a tuple of power intervals that represent states.
+        '''
+        state_limits = list(range(max_val, min_val - 1, step))
+        states = []
+
+        while len(state_limits) > 1:
+            states.append((state_limits[0], state_limits[1]))
+            state_limits.pop(0)
+
+        return tuple(states)
 
 
     def get_action_idx(self, epsilon, q_values, not_valid=[]):
@@ -421,13 +431,13 @@ class Drone:
         return new_coords
 
 
-    def train_q(self, q_table, actions, states, steps=2000, alpha=0.05, gamma=0.7, eps_end=0.05):
+    def train_q(self, q_table, actions, states, steps=2000, alpha=0.6, gamma=0.7, eps_end=0.05):
         '''
         Fills the Q table
         '''
         # Training parameters
         ## Epsilon
-        eps = 1.0
+        eps = 0.99
         eps_increment = (eps - eps_end) / steps
 
         ## Q table and initial coords
@@ -441,7 +451,7 @@ class Drone:
 
         for i in range(steps):
             ## Starting position
-            if end_condition or (i + 1) % (100) == 0:
+            if end_condition:
                 end_condition = False
                 current_coords_hm = self.gzcoords_to_heatmapcoords(initial_coords_gz)
 
@@ -476,7 +486,7 @@ class Drone:
 
             ## Update current state and epsilon
             current_coords_hm = next_coords_hm
-            eps = max((eps + eps_increment, eps_end))
+            eps = max((eps - eps_increment, eps_end))
             not_valid_action_idxs.clear()
 
             percent = (i + 1) * 100 // steps

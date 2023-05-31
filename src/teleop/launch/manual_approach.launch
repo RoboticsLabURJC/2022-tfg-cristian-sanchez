@@ -6,8 +6,8 @@
 	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find heatmap_util)/rviz/manual_approach_rviz.rviz"/>
 	<node pkg="heatmap_util" type="paint_heatmap_rviz" name="grid_map_simple_demo" output="screen"/>
 
-	<arg name="x_ann" default="11"/>
-	<arg name="y_ann" default="2"/>
+	<arg name="x_ann" default="5.5"/>
+	<arg name="y_ann" default="5.5"/>
 
 	<arg name="vehicle" default="iris"/>
 	<arg name="x" default="0.5"/>
