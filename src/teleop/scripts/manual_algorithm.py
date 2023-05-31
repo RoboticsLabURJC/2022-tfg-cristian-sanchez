@@ -194,6 +194,17 @@ class Drone:
         return self.pwr_client.get_result().data
 
 
+    def get_source_coords(self):
+        '''
+        Returns antenna coords, only for trainning in simulation.
+        '''
+        self.pwr_goal.index = [0,0]
+        self.pwr_client.send_goal(self.pwr_goal)
+        self.pwr_client.wait_for_result()
+
+        return self.pwr_client.get_result().source_coords
+
+
     def manual_algorithm(self):
         '''
         Navigates through the signal origin.
@@ -357,6 +368,7 @@ class Drone:
         q_table = np.zeros((len(states), len(actions)))
 
         self.train_q(q_table, actions, states)
+        # print(q_table)
         self.test_q(q_table, actions, states)
 
 
@@ -364,13 +376,9 @@ class Drone:
         '''
         Returns the Q table state index for a certain power read:
         '''
-        state_found = False
         for state in states:
-            for max, min in state:
-                if max >= power > min:
-                    state_found = True
-                    break
-            if state_found:
+            max, min = state
+            if max >= power > min:
                 return states.index(state)
 
 
@@ -431,7 +439,7 @@ class Drone:
         return new_coords
 
 
-    def train_q(self, q_table, actions, states, steps=2000, alpha=0.6, gamma=0.7, eps_end=0.05):
+    def train_q(self, q_table, actions, states, steps=2000, alpha=0.1, gamma=0.7, eps_end=0.05):
         '''
         Fills the Q table
         '''
@@ -439,19 +447,25 @@ class Drone:
         ## Epsilon
         eps = 0.99
         eps_increment = (eps - eps_end) / steps
+        # eps_increment = 0.05
 
-        ## Q table and initial coords
+        ## Initializations
         initial_gz_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
         initial_coords_gz = (initial_gz_pose.pose.position.x, initial_gz_pose.pose.position.y)
+        target_coords_hm = self.get_source_coords()
+
+        cumulative_reward = 0.0
+        episode_counter = -1
 
         # Training
         ## Initial conditions
         end_condition = True
-        not_valid_action_idxs = []
 
         for i in range(steps):
             ## Starting position
             if end_condition:
+                episode_counter += 1
+                negative_reward_counter = 0
                 end_condition = False
                 current_coords_hm = self.gzcoords_to_heatmapcoords(initial_coords_gz)
 
@@ -466,31 +480,56 @@ class Drone:
             next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[current_action_idx])
             pwr_next = self.read_only_pwr(next_coords_hm)
 
-            ## If power == 1 means is out of limits, see rf_data_server.py
-            while pwr_next == 1:
-                ### Adds to a list non-valid actions (out of bounds)
-                not_valid_action_idxs.append(current_action_idx)
-                ### Extracts new possible action avoiding non-valid actions
-                current_action_idx = self.get_action_idx(eps, q_table[current_state_idx], not_valid_action_idxs)
-                ### Try to extract power applying this new action
-                next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[current_action_idx])
-                pwr_next = self.read_only_pwr(next_coords_hm)
-
             ## Gets next state index with valid power value
-            next_state_idx = self.get_state_idx(pwr_next, states)
+            ### (END CONDITION) Not possible state after performing selected action
+            if pwr_next == 1:
+                end_condition = True
+                reward = -10
+                error = reward - q_table[current_state_idx, current_action_idx]
+            ### (END CONDITION) Target reached
+            elif target_coords_hm == next_coords_hm:
+                end_condition = True
+                next_state_idx = self.get_state_idx(pwr_next, states)
+                reward = 100
+                error = (reward + gamma * np.max(q_table[next_state_idx])) - q_table[current_state_idx, current_action_idx]
+            else:
+                next_state_idx = self.get_state_idx(pwr_next, states)            
+                reward = pwr_next - pwr_current
+                error = (reward + gamma * np.max(q_table[next_state_idx])) - q_table[current_state_idx, current_action_idx]
+
+                if reward < 0:
+                    negative_reward_counter += 1
+                else:
+                    negative_reward_counter = 0
+
+                ### (END CONDITION) If agent does n consecutive bad actions --> end
+                if negative_reward_counter >= 5:
+                    end_condition = True
 
             ## Bellman eq to update Q table
-            reward = pwr_next - pwr_current
-            error = (reward + gamma * np.max(q_table[next_state_idx])) - q_table[current_state_idx, current_action_idx]
+            # rospy.logerr("----------------------------------------")
+            # print (q_table)
+            # rospy.logwarn("***************************************")
+            # print("Q state:", q_table[current_state_idx])
+            # print("Previous Q value:", q_table[current_state_idx, current_action_idx])
             q_table[current_state_idx, current_action_idx] += alpha * error
+            # print (q_table)
+            # rospy.logerr("----------------------------------------")
+            # print("Updated Q value:", q_table[current_state_idx, current_action_idx])
+
+            # print((reward, (pwr_current, pwr_next), states[current_state_idx], actions[current_action_idx], (current_coords_hm, next_coords_hm)))
+            # rospy.sleep(1)
 
             ## Update current state and epsilon
+            cumulative_reward += reward
             current_coords_hm = next_coords_hm
+
             eps = max((eps - eps_increment, eps_end))
-            not_valid_action_idxs.clear()
+            # if episode_counter % 5 == 0:
+            #     eps = max(eps - eps_increment, eps_end)
 
             percent = (i + 1) * 100 // steps
-            print(f"Training: {percent}%", end='\r')
+            print(f"Epsilon: {np.round(eps, 2)} | Cumulative Reward: {np.round(cumulative_reward, 2)} | Training: {percent}%", end='\r')
 
 
     def test_q(self, q_table, actions, states):
@@ -513,7 +552,7 @@ class Drone:
             state_idx = self.get_state_idx(pwr, states)
 
             ## End condition (when the signal is HIGH --> end)
-            if states[state_idx] == "HIGH":
+            if states[state_idx] == (-15, -20):
                 break
 
             ## Get best action using Q table

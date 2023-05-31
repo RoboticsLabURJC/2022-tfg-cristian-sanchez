@@ -3,4 +3,6 @@
           DATA
           SIZE-VAL
           SIZE
+          SOURCE_COORDS-VAL
+          SOURCE_COORDS
 ))
