@@ -181,7 +181,6 @@ class Drone:
         '''
         Returns the power reading and the coords where it was taken.
         '''
-        self.pwr_goal.new_origin = False
         current_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
         current_coords = (current_pose.pose.position.x, current_pose.pose.position.y)
         self.pwr_goal.index = self.gzcoords_to_heatmapcoords(current_coords)
@@ -193,7 +192,6 @@ class Drone:
         '''
         Returns power for a heatmap coords.
         '''
-        self.pwr_goal.new_origin = False
         self.pwr_goal.index = heatmap_coords
         self.pwr_client.send_goal(self.pwr_goal)
         self.pwr_client.wait_for_result()
@@ -205,22 +203,11 @@ class Drone:
         '''
         Returns antenna coords, only for trainning in simulation.
         '''
-        self.pwr_goal.new_origin = False
         self.pwr_goal.index = [0,0]
         self.pwr_client.send_goal(self.pwr_goal)
         self.pwr_client.wait_for_result()
 
         return self.pwr_client.get_result().source_coords
-    
-    
-    def new_origin(self):
-        '''
-        Set new random antenna origin.
-        '''
-        self.pwr_goal.new_origin = True
-        self.pwr_goal.index = [0,0]
-        self.pwr_client.send_goal(self.pwr_goal)
-        self.pwr_client.wait_for_result()
 
 
     def manual_algorithm(self):
@@ -492,10 +479,6 @@ class Drone:
 
         for i in range(steps):
             ## Starting position
-            # if (i + 1) % 2000 == 0:
-            #     self.new_origin()
-            #     eps = 0.99
-
             if end_condition:
                 episode_counter += 1
                 negative_reward_counter = 0

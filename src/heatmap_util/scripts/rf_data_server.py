@@ -23,11 +23,19 @@ NODENAME = 'heatmap_data_server_node'
 
 class MyActionServer:
     def __init__(self):
+        '''
+        Constructor, defines all variables needed to act like:
+
+            - Power action server   --> returns power value for given coords (index).
+            - Rviz action server    --> returns all power values to display in rviz.
+            - Offset publisher      --> Publish drone pose with the offset added.
+        '''
         self._rviz_server = actionlib.SimpleActionServer('rviz_friss_action', RvizFrissAction, self.__response_rviz, False)
         self._power_server = actionlib.SimpleActionServer('drone_friss_action', GetPowerFrissAction, self.__response_drone, False)
+        self._offset_pub = rospy.Publisher('/rviz_drone_pose', PoseStamped, queue_size=10)
+        rospy.Subscriber('/mavros/local_position/pose', PoseStamped, self.pose_callback)
 
         self._size = rospy.get_param('map_size')
-        self._rviz_size = [self._size[0], self._size[1]]
         self._origin = rospy.get_param('radio_origin')
         self._res = rospy.get_param('resolution')
 
@@ -35,77 +43,61 @@ class MyActionServer:
         self._power_server.start()
 
         self._rviz_result = RvizFrissResult()
-        self._power_result = GetPowerFrissResult() 
+        self._power_result = GetPowerFrissResult()
+        self._offset_pose = PoseStamped()
+        self._model = fr.Friss(world_sz=self._size, resolution=self._res)
+        self._data = self._model.model_power_signal(self._origin)
+
 
     def __response_rviz(self, goal):
-        rospy.loginfo("rviz data requested!")
+        '''
+        Map request for rviz representation
+        '''    
         if goal.get_data:
-            self._rviz_result.data = self.__get_rviz_data()
+            flip_data = np.rot90(self._data, k=-1)
+            flip_data = np.flip(flip_data, axis=1)
+            self._rviz_result.data = list(flip_data.flatten())
             self._rviz_result.size = self._rviz_size[0]
             self._rviz_server.set_succeeded(self._rviz_result)
-            rospy.loginfo("Response sent to rviz!")
         else:
             rospy.logwarn("get_data set to false, aborting...")
             self._rviz_server.set_aborted()
 
-    def __response_drone(self, goal):
-        # rospy.loginfo("drone data requested!")
 
-        # Checks if index is not valid ([x,y] positive integers or 0s)
-        if len(goal.index) != 2 and not all(isinstance(x, int) and x>=0 for x in goal):
-            rospy.logwarn("wrong format for index, please introduce [x, y]")
-            self._power_server.set_aborted()
-        else:
-            self._power_result.data = self.__get_drone_data(goal.index, goal.new_origin)
+    def __response_drone(self, goal): 
+        '''
+        Data request for a certain index inside friss model.
+        '''       
+        if len(goal.index) == 2:
+            x, y = goal.index
+            out_of_index = x < 0 or y < 0 or x > (self._size[0] - 1) or y > (self._size[1] - 1)
+
+            if not out_of_index:
+                self._power_result.data = self._data[x, y]
+            else:
+                self._power_result.data = 1
+
             self._power_result.size = self._size[0]
             self._power_result.source_coords = self._origin
             self._power_server.set_succeeded(self._power_result)
-            # rospy.loginfo("Response sent to drone!")
+        else:    
+            rospy.logwarn("wrong format for index, please introduce [x, y]")
+            self._power_server.set_aborted()
 
-    def __get_rviz_data(self):
-        model = fr.Friss(world_sz=self._rviz_size, resolution=self._res)
-        data = model.model_power_signal(self._origin)
-        flip_data = np.rot90(data, k=-1)
-        flip_data = np.flip(flip_data, axis=1)
-        
-        return list(flip_data.flatten())
-    
-    def __get_drone_data(self, pose, reset):
-        x, y = pose
-        if x < 0 or y < 0:
-            return 1
 
-        model = fr.Friss(world_sz=self._size)
+    def pose_callback(self, msg):
+        '''
+        Publish drone pose centered in the cell
+        '''
+        self._offset_pose.header = msg.header
+        self._offset_pose.pose.position.x = msg.pose.position.x + (self._res / 2)
+        self._offset_pose.pose.position.y = msg.pose.position.y + (self._res / 2)
+        self._offset_pose.pose.position.z = msg.pose.position.z
 
-        if reset:
-            print("NEW ORIGIN DETECTED!")
-            self._origin = [np.random.randint(0, self._size[0]), np.random.randint(0, self._size[1])]
-            data = model.model_power_signal(self._origin)
-            print(self._origin)
-            self._rviz_result.data = data
-            self._rviz_server.set_succeeded(self._rviz_result)
-        else:
-            data = model.model_power_signal(self._origin)
-        
-        try:
-            return data[x, y]
-        except IndexError:
-            return 1
-
-def pose_callback(msg):
-    offset_pose.header = msg.header
-    offset_pose.pose.position.x = msg.pose.position.x + 0.5
-    offset_pose.pose.position.y = msg.pose.position.y + 0.5
-    offset_pose.pose.position.z = msg.pose.position.z
-    custom_pub.publish(offset_pose)
+        self._offset_pub.publish(self._offset_pose)
 
 # -- MAIN -- #
 if __name__ == '__main__':
     rospy.init_node(NODENAME, anonymous=True)
     server = MyActionServer()
-
-    custom_pub = rospy.Publisher('/rviz_drone_pose', PoseStamped, queue_size=10)
-    rospy.Subscriber('/mavros/local_position/pose', PoseStamped, pose_callback)
-
-    offset_pose = PoseStamped()
     rospy.spin()

@@ -1,5 +1,4 @@
 int16[] index
-bool new_origin
 ---
 float64 data
 int16 size
