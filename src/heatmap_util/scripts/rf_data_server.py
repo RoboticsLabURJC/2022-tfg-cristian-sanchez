@@ -57,7 +57,7 @@ class MyActionServer:
             flip_data = np.rot90(self._data, k=-1)
             flip_data = np.flip(flip_data, axis=1)
             self._rviz_result.data = list(flip_data.flatten())
-            self._rviz_result.size = self._rviz_size[0]
+            self._rviz_result.size = self._size[0]
             self._rviz_server.set_succeeded(self._rviz_result)
         else:
             rospy.logwarn("get_data set to false, aborting...")
@@ -72,10 +72,10 @@ class MyActionServer:
             x, y = goal.index
             out_of_index = x < 0 or y < 0 or x > (self._size[0] - 1) or y > (self._size[1] - 1)
 
-            if not out_of_index:
-                self._power_result.data = self._data[x, y]
-            else:
+            if out_of_index:
                 self._power_result.data = 1
+            else:                
+                self._power_result.data = self._data[x, y]
 
             self._power_result.size = self._size[0]
             self._power_result.source_coords = self._origin

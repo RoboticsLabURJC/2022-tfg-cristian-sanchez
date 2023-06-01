@@ -23,7 +23,7 @@ import rospy
 from geometry_msgs.msg import PoseStamped
 from teleop.msg import Px4Cmd
 import actionlib
-from heatmap_util.msg import GetPowerFrissAction, GetPowerFrissGoal
+from heatmap_util.msg import GetPowerFrissAction, GetPowerFrissGoal, RvizFrissAction, RvizFrissGoal
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -70,11 +70,20 @@ class Drone:
         self.pwr_client = actionlib.SimpleActionClient('drone_friss_action', GetPowerFrissAction)
         self.pwr_client.wait_for_server()
 
+        self.rvz_client = actionlib.SimpleActionClient('rviz_friss_action', RvizFrissAction)
+        self.rvz_client.wait_for_server()
+
         # Attributes (power, heatmap size, current position and target position)
         self.pwr_goal = GetPowerFrissGoal()
         self.pwr_goal.index = [0, 0]
         self.pwr_client.send_goal(self.pwr_goal)
         self.pwr_client.wait_for_result()
+
+        self.rvz_goal = RvizFrissGoal()
+        self.rvz_goal.get_data = True
+        self.rvz_client.send_goal(self.rvz_goal)
+        self.rvz_client.wait_for_result()        
+        self.rvz_data = self.rvz_client.get_result().data
 
         self.size = self.pwr_client.get_result().size
         self.current_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
@@ -633,6 +642,6 @@ if __name__ == '__main__':
 
     # iris.manual_algorithm()
     # iris.manual_algorithm_optimized()
-    iris.q_learning_algorithm()
+    # iris.q_learning_algorithm()
 
     rospy.spin()
