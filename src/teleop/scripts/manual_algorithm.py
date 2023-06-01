@@ -21,6 +21,7 @@ from teleop.msg import Px4Cmd
 import actionlib
 from heatmap_util.msg import GetPowerFrissAction, GetPowerFrissGoal
 import numpy as np
+import matplotlib.pyplot as plt
 
 # -- CTE -- #
 # Topics
@@ -368,7 +369,6 @@ class Drone:
         q_table = np.zeros((len(states), len(actions)))
 
         self.train_q(q_table, actions, states)
-        # print(q_table)
         self.test_q(q_table, actions, states)
 
 
@@ -446,8 +446,8 @@ class Drone:
         # Training parameters
         ## Epsilon
         eps = 0.99
-        eps_increment = (eps - eps_end) / steps
-        # eps_increment = 0.05
+        # eps_increment = (eps - eps_end) / steps
+        eps_increment = 0.05
 
         ## Initializations
         initial_gz_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
@@ -456,10 +456,22 @@ class Drone:
 
         cumulative_reward = 0.0
         episode_counter = -1
+        eps_to_plot = []
+        reward_to_plot = []
 
         # Training
         ## Initial conditions
         end_condition = True
+
+        ## Start interactive plots
+        # plt.ion()
+        # fig, (ax1, ax2) = plt.subplots(2, 1)
+        # eps_line, = ax1.plot(eps_to_plot)
+        # rew_line, = ax2.plot(reward_to_plot)
+        # ax1.set_xlabel('Iteration')
+        # ax1.set_ylabel('Epsilon')
+        # ax2.set_xlabel('Iteration')
+        # ax2.set_ylabel('Cumulative reward')
 
         for i in range(steps):
             ## Starting position
@@ -520,16 +532,53 @@ class Drone:
             # print((reward, (pwr_current, pwr_next), states[current_state_idx], actions[current_action_idx], (current_coords_hm, next_coords_hm)))
             # rospy.sleep(1)
 
-            ## Update current state and epsilon
+            ## Update episode variables
             cumulative_reward += reward
             current_coords_hm = next_coords_hm
 
-            eps = max((eps - eps_increment, eps_end))
-            # if episode_counter % 5 == 0:
-            #     eps = max(eps - eps_increment, eps_end)
+            ## Epsilon update
+            ### Linear epsilon decrement
+            # eps = max((eps - eps_increment, eps_end))
 
+            ### Every 5 completed episodes, update epsilon
+            if episode_counter % 5 == 0:
+                eps = max(eps - eps_increment, eps_end)
+
+            ## Update all plots info
+            eps_to_plot.append(eps)
+            reward_to_plot.append(cumulative_reward)
+
+            ### Update interactive plots
+            # eps_line.set_data(range(i + 1), eps_to_plot)
+            # rew_line.set_data(range(i + 1), reward_to_plot)
+            # ax1.relim()
+            # ax1.autoscale_view()
+            # ax2.relim()
+            # ax2.autoscale_view()
+            # fig.canvas.draw()
+            # plt.pause(0.01)
+
+            ## Print training percent
             percent = (i + 1) * 100 // steps
-            print(f"Epsilon: {np.round(eps, 2)} | Cumulative Reward: {np.round(cumulative_reward, 2)} | Training: {percent}%", end='\r')
+            print(f"Training: {percent}%", end='\r')
+
+        ## End interactive plots
+        # plt.ioff()
+        # plt.show()
+
+        ## End normal plots
+        plt.subplot(2, 1, 1)
+        plt.plot(eps_to_plot)
+        plt.xlabel('Iteration')
+        plt.ylabel('Epsilon')
+
+        plt.subplot(2, 1, 2)
+        plt.plot(reward_to_plot)
+        plt.xlabel('Iteration')
+        plt.ylabel('Cumulative reward')
+
+        plt.tight_layout()
+        plt.show()
 
 
     def test_q(self, q_table, actions, states):
