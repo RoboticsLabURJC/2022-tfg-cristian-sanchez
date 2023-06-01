@@ -15,7 +15,7 @@ from geometry_msgs.msg import PoseStamped, Point
 NODENAME = 'path_node'
 MARKER_TOPIC = 'path_markers'
 FRAME_ID = 'map'
-LOCAL_POSE_TOPIC = '/mavros/local_position/pose'
+LOCAL_POSE_TOPIC = '/rviz_drone_pose'
 LINE_LENGTH = 200   # Max line length
 FREQ = 10           # Node frequency
 

@@ -14,6 +14,10 @@ This script let us test different algorithms to solve the RF signal seeking:
         We train a model using a Q table (power signal x cardinal movement),
         then we use that table to navigate to the signal source.
 '''
+import roslib
+roslib.load_manifest('heatmap_util')
+import friss as fr
+
 import random
 import rospy
 from geometry_msgs.msg import PoseStamped
@@ -177,6 +181,7 @@ class Drone:
         '''
         Returns the power reading and the coords where it was taken.
         '''
+        self.pwr_goal.new_origin = False
         current_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
         current_coords = (current_pose.pose.position.x, current_pose.pose.position.y)
         self.pwr_goal.index = self.gzcoords_to_heatmapcoords(current_coords)
@@ -188,6 +193,7 @@ class Drone:
         '''
         Returns power for a heatmap coords.
         '''
+        self.pwr_goal.new_origin = False
         self.pwr_goal.index = heatmap_coords
         self.pwr_client.send_goal(self.pwr_goal)
         self.pwr_client.wait_for_result()
@@ -199,11 +205,22 @@ class Drone:
         '''
         Returns antenna coords, only for trainning in simulation.
         '''
+        self.pwr_goal.new_origin = False
         self.pwr_goal.index = [0,0]
         self.pwr_client.send_goal(self.pwr_goal)
         self.pwr_client.wait_for_result()
 
         return self.pwr_client.get_result().source_coords
+    
+    
+    def new_origin(self):
+        '''
+        Set new random antenna origin.
+        '''
+        self.pwr_goal.new_origin = True
+        self.pwr_goal.index = [0,0]
+        self.pwr_client.send_goal(self.pwr_goal)
+        self.pwr_client.wait_for_result()
 
 
     def manual_algorithm(self):
@@ -365,7 +382,7 @@ class Drone:
             - States are defined by the power read intensity.
         '''
         actions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
-        states = self.generate_states(10, -100, -5)
+        states = self.generate_states(10, -100, -1)
         q_table = np.zeros((len(states), len(actions)))
 
         self.train_q(q_table, actions, states)
@@ -447,7 +464,7 @@ class Drone:
         ## Epsilon
         eps = 0.99
         # eps_increment = (eps - eps_end) / steps
-        eps_increment = 0.05
+        eps_increment = 0.01
 
         ## Initializations
         initial_gz_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
@@ -475,6 +492,10 @@ class Drone:
 
         for i in range(steps):
             ## Starting position
+            # if (i + 1) % 2000 == 0:
+            #     self.new_origin()
+            #     eps = 0.99
+
             if end_condition:
                 episode_counter += 1
                 negative_reward_counter = 0
@@ -629,6 +650,6 @@ if __name__ == '__main__':
 
     # iris.manual_algorithm()
     # iris.manual_algorithm_optimized()
-    # iris.q_learning_algorithm()
+    iris.q_learning_algorithm()
 
     rospy.spin()

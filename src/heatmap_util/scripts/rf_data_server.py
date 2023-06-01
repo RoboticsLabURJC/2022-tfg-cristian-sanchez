@@ -56,7 +56,7 @@ class MyActionServer:
             rospy.logwarn("wrong format for index, please introduce [x, y]")
             self._power_server.set_aborted()
         else:
-            self._power_result.data = self.__get_drone_data(goal.index)
+            self._power_result.data = self.__get_drone_data(goal.index, goal.new_origin)
             self._power_result.size = self._size[0]
             self._power_result.source_coords = self._origin
             self._power_server.set_succeeded(self._power_result)
@@ -70,13 +70,22 @@ class MyActionServer:
         
         return list(flip_data.flatten())
     
-    def __get_drone_data(self, pose):
+    def __get_drone_data(self, pose, reset):
         x, y = pose
         if x < 0 or y < 0:
             return 1
-        
+
         model = fr.Friss(world_sz=self._size)
-        data = model.model_power_signal(self._origin)
+
+        if reset:
+            print("NEW ORIGIN DETECTED!")
+            self._origin = [np.random.randint(0, self._size[0]), np.random.randint(0, self._size[1])]
+            data = model.model_power_signal(self._origin)
+            print(self._origin)
+            self._rviz_result.data = data
+            self._rviz_server.set_succeeded(self._rviz_result)
+        else:
+            data = model.model_power_signal(self._origin)
         
         try:
             return data[x, y]
