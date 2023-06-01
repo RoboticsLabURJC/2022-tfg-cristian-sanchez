@@ -629,6 +629,6 @@ if __name__ == '__main__':
 
     # iris.manual_algorithm()
     # iris.manual_algorithm_optimized()
-    iris.q_learning_algorithm()
+    # iris.q_learning_algorithm()
 
     rospy.spin()

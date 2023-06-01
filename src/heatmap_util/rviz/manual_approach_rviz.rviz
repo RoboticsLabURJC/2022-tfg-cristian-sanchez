@@ -3,9 +3,10 @@ Panels:
     Help Height: 78
     Name: Displays
     Property Tree Widget:
-      Expanded: ~
+      Expanded:
+        - /Pose1
       Splitter Ratio: 0.4311594069004059
-    Tree Height: 363
+    Tree Height: 746
   - Class: rviz/Selection
     Name: Selection
   - Class: rviz/Tool Properties
@@ -83,7 +84,7 @@ Visualization Manager:
       Shaft Length: 0.5
       Shaft Radius: 0.25
       Shape: Arrow
-      Topic: /mavros/local_position/pose
+      Topic: /rviz_drone_pose
       Unreliable: false
       Value: true
     - Alpha: 1

@@ -16,6 +16,7 @@ import friss as fr
 import actionlib
 from heatmap_util.msg import RvizFrissAction, RvizFrissResult, GetPowerFrissAction, GetPowerFrissResult
 import numpy as np
+from geometry_msgs.msg import PoseStamped
 
 # -- CTE -- #
 NODENAME = 'heatmap_data_server_node'
@@ -82,8 +83,20 @@ class MyActionServer:
         except IndexError:
             return 1
 
+def pose_callback(msg):
+    offset_pose.header = msg.header
+    offset_pose.pose.position.x = msg.pose.position.x + 0.5
+    offset_pose.pose.position.y = msg.pose.position.y + 0.5
+    offset_pose.pose.position.z = msg.pose.position.z
+    custom_pub.publish(offset_pose)
+
 # -- MAIN -- #
 if __name__ == '__main__':
     rospy.init_node(NODENAME, anonymous=True)
     server = MyActionServer()
+
+    custom_pub = rospy.Publisher('/rviz_drone_pose', PoseStamped, queue_size=10)
+    rospy.Subscriber('/mavros/local_position/pose', PoseStamped, pose_callback)
+
+    offset_pose = PoseStamped()
     rospy.spin()
