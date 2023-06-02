@@ -20,6 +20,7 @@ from geometry_msgs.msg import PoseStamped
 
 # -- CTE -- #
 NODENAME = 'heatmap_data_server_node'
+OFFSET_TOPIC = '/mavros/local_position/offset_pose'
 
 class MyActionServer:
     def __init__(self):
@@ -57,7 +58,6 @@ class MyActionServer:
             flip_data = np.rot90(self._data, k=-1)
             flip_data = np.flip(flip_data, axis=1)
             self._rviz_result.data = list(flip_data.flatten())
-            self._rviz_result.size = self._size[0]
             self._rviz_server.set_succeeded(self._rviz_result)
         else:
             rospy.logwarn("get_data set to false, aborting...")

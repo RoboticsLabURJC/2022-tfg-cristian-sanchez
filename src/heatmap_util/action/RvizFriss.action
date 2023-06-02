@@ -1,6 +1,5 @@
 bool get_data
 ---
 float64[] data
-int16 size
 ---
 bool feedback

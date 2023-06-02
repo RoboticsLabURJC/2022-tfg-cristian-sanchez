@@ -21,6 +21,7 @@ import friss as fr
 import random
 import rospy
 from geometry_msgs.msg import PoseStamped
+from std_msgs.msg import Float64MultiArray
 from teleop.msg import Px4Cmd
 import actionlib
 from heatmap_util.msg import GetPowerFrissAction, GetPowerFrissGoal, RvizFrissAction, RvizFrissGoal
@@ -32,6 +33,7 @@ import matplotlib.pyplot as plt
 LOCAL_POSE_TOPIC = '/mavros/local_position/pose'
 RADIO_CONTROL_POS_TOPIC = 'radio_control/pos'
 RADIO_CONTROL_CMD_TOPIC = 'radio_control/cmd'
+RVIZ_HEATMAP_TOPIC = '/heatmap/map'
 
 # Other
 NODENAME = 'manual_algorithm_node'
@@ -65,6 +67,7 @@ class Drone:
         # ROS Publishers
         self.pos_pub = rospy.Publisher(RADIO_CONTROL_POS_TOPIC, PoseStamped, queue_size=10)
         self.cmd_pub = rospy.Publisher(RADIO_CONTROL_CMD_TOPIC, Px4Cmd, queue_size=10)
+        self.rvz_pub = rospy.Publisher(RVIZ_HEATMAP_TOPIC, Float64MultiArray, queue_size=10)
 
         # ROS action client --> RF Data server
         self.pwr_client = actionlib.SimpleActionClient('drone_friss_action', GetPowerFrissAction)
@@ -82,8 +85,16 @@ class Drone:
         self.rvz_goal = RvizFrissGoal()
         self.rvz_goal.get_data = True
         self.rvz_client.send_goal(self.rvz_goal)
-        self.rvz_client.wait_for_result()        
-        self.rvz_data = self.rvz_client.get_result().data
+        self.rvz_client.wait_for_result()
+                
+        self.rvz_msg = Float64MultiArray()
+        self.rvz_msg.data = self.rvz_client.get_result().data
+        
+        # Waits the subscriber to be available
+        while self.rvz_pub.get_num_connections() == 0:
+            rospy.sleep(1.0)
+
+        self.rvz_pub.publish(self.rvz_msg)        
 
         self.size = self.pwr_client.get_result().size
         self.current_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
@@ -382,7 +393,7 @@ class Drone:
         q_table = np.zeros((len(states), len(actions)))
 
         self.train_q(q_table, actions, states)
-        self.test_q(q_table, actions, states)
+        # self.test_q(q_table, actions, states)
 
 
     def get_state_idx(self, power, states):
@@ -452,7 +463,7 @@ class Drone:
         return new_coords
 
 
-    def train_q(self, q_table, actions, states, steps=2000, alpha=0.1, gamma=0.7, eps_end=0.05):
+    def train_q(self, q_table, actions, states, steps=10000, alpha=0.1, gamma=0.7, eps_end=0.05):
         '''
         Fills the Q table
         '''
@@ -460,7 +471,7 @@ class Drone:
         ## Epsilon
         eps = 0.99
         # eps_increment = (eps - eps_end) / steps
-        eps_increment = 0.01
+        eps_increment = 0.05
 
         ## Initializations
         initial_gz_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)

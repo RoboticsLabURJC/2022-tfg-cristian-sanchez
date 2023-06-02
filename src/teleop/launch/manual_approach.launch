@@ -4,7 +4,7 @@
 	<rosparam command="load" file="$(find heatmap_util)/config/heatmap.yaml"/>
     <node pkg="heatmap_util" type="rf_data_server.py" name="heatmap_data_server_node" output="screen"/>
 	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find heatmap_util)/rviz/manual_approach_rviz.rviz"/>
-	<node pkg="heatmap_util" type="paint_heatmap_rviz" name="grid_map_simple_demo" output="screen"/>
+	<node pkg="heatmap_util" type="paint_heatmap_rviz" name="grid_map_simple_demo" output="screen"/>	
 
 	<!-- antenna pose = (heatmap_size / 2) - 1 - heatmap antenna pose + offset-->
 	<!-- antenna pose = 6 - 1 - 0 + 0.5 -->
