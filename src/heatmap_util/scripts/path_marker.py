@@ -15,7 +15,7 @@ from geometry_msgs.msg import PoseStamped, Point
 NODENAME = 'path_node'
 MARKER_TOPIC = 'path_markers'
 FRAME_ID = 'map'
-LOCAL_POSE_TOPIC = '/rviz_drone_pose'
+OFFSET_TOPIC = '/rf_data_server/offset_pose'
 LINE_LENGTH = 200   # Max line length
 FREQ = 10           # Node frequency
 
@@ -95,7 +95,7 @@ if __name__ == '__main__':
 
     # ROS pub/sub
     markers_pub = rospy.Publisher(MARKER_TOPIC, Marker, queue_size=10)
-    current_pos_sub = rospy.Subscriber(LOCAL_POSE_TOPIC, PoseStamped, callback = current_pos_cb)
+    current_pos_sub = rospy.Subscriber(OFFSET_TOPIC, PoseStamped, callback = current_pos_cb)
 
     line_marker = Marker()
     init_marker(line_marker)

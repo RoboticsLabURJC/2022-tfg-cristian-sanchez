@@ -20,7 +20,7 @@ from geometry_msgs.msg import PoseStamped
 
 # -- CTE -- #
 NODENAME = 'heatmap_data_server_node'
-OFFSET_TOPIC = '/mavros/local_position/offset_pose'
+OFFSET_TOPIC = '/rf_data_server/offset_pose'
 
 class MyActionServer:
     def __init__(self):
@@ -33,11 +33,10 @@ class MyActionServer:
         '''
         self._rviz_server = actionlib.SimpleActionServer('rviz_friss_action', RvizFrissAction, self.__response_rviz, False)
         self._power_server = actionlib.SimpleActionServer('drone_friss_action', GetPowerFrissAction, self.__response_drone, False)
-        self._offset_pub = rospy.Publisher('/rviz_drone_pose', PoseStamped, queue_size=10)
+        self._offset_pub = rospy.Publisher(OFFSET_TOPIC, PoseStamped, queue_size=10)
         rospy.Subscriber('/mavros/local_position/pose', PoseStamped, self.pose_callback)
 
         self._size = rospy.get_param('map_size')
-        # self._origin = rospy.get_param('radio_origin')
         self._res = rospy.get_param('resolution')
 
         self._rviz_server.start()
@@ -48,7 +47,6 @@ class MyActionServer:
         self._offset_pose = PoseStamped()
         self._model = fr.Friss(world_sz=self._size, resolution=self._res)
         self._data = 0.0
-        # self._data = self._model.model_power_signal(self._origin)
 
 
     def __response_rviz(self, goal):
