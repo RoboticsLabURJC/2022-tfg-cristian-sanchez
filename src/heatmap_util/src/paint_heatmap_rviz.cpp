@@ -17,7 +17,7 @@ void heatmapCallback(const std_msgs::Float64MultiArray::ConstPtr& msg)
 {
   int16_t world_sz = sqrt(msg->data.size()); // Square maps!
   map.setFrameId("map");
-  map.setGeometry(Length(world_sz, world_sz), 1);
+  map.setGeometry(Length(world_sz, world_sz), res);
 
   // Fill gridmap
   int i = 0;

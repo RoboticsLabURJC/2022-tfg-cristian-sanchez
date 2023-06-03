@@ -37,7 +37,7 @@ class MyActionServer:
         rospy.Subscriber('/mavros/local_position/pose', PoseStamped, self.pose_callback)
 
         self._size = rospy.get_param('map_size')
-        self._origin = rospy.get_param('radio_origin')
+        # self._origin = rospy.get_param('radio_origin')
         self._res = rospy.get_param('resolution')
 
         self._rviz_server.start()
@@ -47,20 +47,29 @@ class MyActionServer:
         self._power_result = GetPowerFrissResult()
         self._offset_pose = PoseStamped()
         self._model = fr.Friss(world_sz=self._size, resolution=self._res)
-        self._data = self._model.model_power_signal(self._origin)
+        self._data = 0.0
+        # self._data = self._model.model_power_signal(self._origin)
 
 
     def __response_rviz(self, goal):
         '''
         Map request for rviz representation
         '''    
-        if goal.get_data:
-            flip_data = np.rot90(self._data, k=-1)
-            flip_data = np.flip(flip_data, axis=1)
-            self._rviz_result.data = list(flip_data.flatten())
-            self._rviz_server.set_succeeded(self._rviz_result)
+        if len(goal.origin) == 2:
+            x, y = goal.origin
+            out_of_index = x < 0 or y < 0 or x > (self._size[0] - 1) or y > (self._size[1] - 1)
+
+            if out_of_index:
+                rospy.logwarn("origin out of bounds...")
+                self._rviz_server.set_aborted()
+            else:
+                self._data = self._model.model_power_signal(goal.origin)
+                flip_data = np.rot90(self._data, k=-1)
+                flip_data = np.flip(flip_data, axis=1)
+                self._rviz_result.data = list(flip_data.flatten())
+                self._rviz_server.set_succeeded(self._rviz_result)
         else:
-            rospy.logwarn("get_data set to false, aborting...")
+            rospy.logwarn("wrong format for origin, please introduce [x, y]")
             self._rviz_server.set_aborted()
 
 
@@ -78,7 +87,6 @@ class MyActionServer:
                 self._power_result.data = self._data[x, y]
 
             self._power_result.size = self._size[0]
-            self._power_result.source_coords = self._origin
             self._power_server.set_succeeded(self._power_result)
         else:    
             rospy.logwarn("wrong format for index, please introduce [x, y]")

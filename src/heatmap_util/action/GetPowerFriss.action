@@ -2,6 +2,5 @@ int16[] index
 ---
 float64 data
 int16 size
-int16[] source_coords
 ---
 bool feedback

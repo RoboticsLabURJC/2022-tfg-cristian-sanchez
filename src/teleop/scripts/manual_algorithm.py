@@ -76,27 +76,32 @@ class Drone:
         self.rvz_client = actionlib.SimpleActionClient('rviz_friss_action', RvizFrissAction)
         self.rvz_client.wait_for_server()
 
-        # Attributes (power, heatmap size, current position and target position)
-        self.pwr_goal = GetPowerFrissGoal()
-        self.pwr_goal.index = [0, 0]
-        self.pwr_client.send_goal(self.pwr_goal)
-        self.pwr_client.wait_for_result()
-
+        # Requesting heatmap for Rviz and data extraction
         self.rvz_goal = RvizFrissGoal()
-        self.rvz_goal.get_data = True
+        self.rvz_goal.origin = (0, 0)
         self.rvz_client.send_goal(self.rvz_goal)
         self.rvz_client.wait_for_result()
-                
+
+        # Definition of the rviz msg
         self.rvz_msg = Float64MultiArray()
         self.rvz_msg.data = self.rvz_client.get_result().data
         
-        # Waits the subscriber to be available
+        # Waits the rviz subscriber to be available
         while self.rvz_pub.get_num_connections() == 0:
             rospy.sleep(1.0)
 
-        self.rvz_pub.publish(self.rvz_msg)        
+        # Publish heatmap to perform rviz representation
+        self.rvz_pub.publish(self.rvz_msg)
+
+        # Attributes (power, heatmap size, current position and target position)
+        self.pwr_goal = GetPowerFrissGoal()
+        self.pwr_goal.index = (0, 0)
+        self.pwr_client.send_goal(self.pwr_goal)
+        self.pwr_client.wait_for_result()
 
         self.size = self.pwr_client.get_result().size
+
+        # Setting initial poses (with the correct PoseStamped format to edit later)
         self.current_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
         self.target_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
 
@@ -217,17 +222,6 @@ class Drone:
         self.pwr_client.wait_for_result()
 
         return self.pwr_client.get_result().data
-
-
-    def get_source_coords(self):
-        '''
-        Returns antenna coords, only for trainning in simulation.
-        '''
-        self.pwr_goal.index = [0,0]
-        self.pwr_client.send_goal(self.pwr_goal)
-        self.pwr_client.wait_for_result()
-
-        return self.pwr_client.get_result().source_coords
 
 
     def manual_algorithm(self):
@@ -463,6 +457,18 @@ class Drone:
         return new_coords
 
 
+    def request_new_scenario(self):
+        '''
+        Request new scenario to data server, putting antenna in a random pose.
+        '''
+        self.rvz_goal.origin = (np.random.randint(self.size), np.random.randint(self.size))
+        self.rvz_client.send_goal(self.rvz_goal)
+        self.rvz_client.wait_for_result()
+
+        self.rvz_msg.data = self.rvz_client.get_result().data
+        self.rvz_pub.publish(self.rvz_msg)
+
+
     def train_q(self, q_table, actions, states, steps=10000, alpha=0.1, gamma=0.7, eps_end=0.05):
         '''
         Fills the Q table
@@ -476,7 +482,7 @@ class Drone:
         ## Initializations
         initial_gz_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
         initial_coords_gz = (initial_gz_pose.pose.position.x, initial_gz_pose.pose.position.y)
-        target_coords_hm = self.get_source_coords()
+        target_coords_hm = self.rvz_goal.origin
 
         cumulative_reward = 0.0
         episode_counter = -1
