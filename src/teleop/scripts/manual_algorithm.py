@@ -41,6 +41,7 @@ TOLERANCE = 0.0675
 CELLSIZE = 1.0
 TIMEOUT = 0.1
 H = 1.0
+SIGNAL_ORIGIN = (0, 0)
 
 # Px4Cmd
 IDLE = 0
@@ -48,6 +49,14 @@ TAKEOFF = 1
 LAND = 2
 POSITION = 3
 VELOCITY = 4
+
+# Q Learning training parameters
+MAX_STEPS = 10000
+ALPHA = 0.1
+GAMMA = 0.7
+EPSILON = 0.99
+EPSILON_END = 0.05
+EPSILON_INC = 0.05
 
 
 class Drone:
@@ -76,9 +85,12 @@ class Drone:
         self.rvz_client = actionlib.SimpleActionClient('rviz_friss_action', RvizFrissAction)
         self.rvz_client.wait_for_server()
 
-        # Requesting heatmap for Rviz and data extraction
+        # Goal objects to make requests
         self.rvz_goal = RvizFrissGoal()
-        self.rvz_goal.origin = (0, 0)
+        self.pwr_goal = GetPowerFrissGoal()
+
+        # Requesting heatmap for Rviz and data extraction
+        self.rvz_goal.origin = SIGNAL_ORIGIN
         self.rvz_client.send_goal(self.rvz_goal)
         self.rvz_client.wait_for_result()
 
@@ -93,13 +105,8 @@ class Drone:
         # Publish heatmap to perform rviz representation
         self.rvz_pub.publish(self.rvz_msg)
 
-        # Attributes (power, heatmap size, current position and target position)
-        self.pwr_goal = GetPowerFrissGoal()
-        self.pwr_goal.index = (0, 0)
-        self.pwr_client.send_goal(self.pwr_goal)
-        self.pwr_client.wait_for_result()
-
-        self.size = self.pwr_client.get_result().size
+        # Size extraction
+        self.size = int(np.sqrt(len(self.rvz_msg.data))) # Square maps!
 
         # Setting initial poses (with the correct PoseStamped format to edit later)
         self.current_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
@@ -387,7 +394,7 @@ class Drone:
         q_table = np.zeros((len(states), len(actions)))
 
         self.train_q(q_table, actions, states)
-        # self.test_q(q_table, actions, states)
+        self.test_q(q_table, actions, states)
 
 
     def get_state_idx(self, power, states):
@@ -469,15 +476,15 @@ class Drone:
         self.rvz_pub.publish(self.rvz_msg)
 
 
-    def train_q(self, q_table, actions, states, steps=10000, alpha=0.1, gamma=0.7, eps_end=0.05):
+    def train_q(self, q_table, actions, states, steps=MAX_STEPS, alpha=ALPHA, gamma=GAMMA, eps_end=EPSILON_END):
         '''
         Fills the Q table
         '''
         # Training parameters
         ## Epsilon
-        eps = 0.99
+        eps = EPSILON
         # eps_increment = (eps - eps_end) / steps
-        eps_increment = 0.05
+        eps_increment = EPSILON_INC
 
         ## Initializations
         initial_gz_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
@@ -622,6 +629,8 @@ class Drone:
         # Start algorithm
         self.takeoff()
         start_time = rospy.Time.now()
+        previous_coords_hm = 0
+        previous_pwr = -100
         while True:
             ## Take readings
             pwr, current_coords_gz = self.read_pwr()
@@ -631,7 +640,11 @@ class Drone:
             state_idx = self.get_state_idx(pwr, states)
 
             ## End condition (when the signal is HIGH --> end)
-            if states[state_idx] == (-15, -20):
+            if previous_pwr > pwr:
+                end_coords_gz = self.heatmapcoords_to_gzcoords(previous_coords_hm)
+                goal_pose.pose.position.x = end_coords_gz[0]
+                goal_pose.pose.position.y = end_coords_gz[1]
+                self.move_to(pose=goal_pose)
                 break
 
             ## Get best action using Q table
@@ -647,6 +660,9 @@ class Drone:
             goal_pose.pose.position.y = next_coords_gz[1]
             self.move_to(pose=goal_pose)
 
+            previous_coords_hm = current_coords_hm
+            previous_pwr = pwr
+
         # Calcule times and land
         elapsed_time = rospy.Time.now() - start_time
         rospy.loginfo("Time: {:.6f} seconds".format(elapsed_time.to_sec()))
@@ -659,6 +675,6 @@ if __name__ == '__main__':
 
     # iris.manual_algorithm()
     # iris.manual_algorithm_optimized()
-    # iris.q_learning_algorithm()
+    iris.q_learning_algorithm()
 
     rospy.spin()

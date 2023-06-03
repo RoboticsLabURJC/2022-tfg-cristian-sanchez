@@ -84,7 +84,6 @@ class MyActionServer:
             else:                
                 self._power_result.data = self._data[x, y]
 
-            self._power_result.size = self._size[0]
             self._power_server.set_succeeded(self._power_result)
         else:    
             rospy.logwarn("wrong format for index, please introduce [x, y]")
