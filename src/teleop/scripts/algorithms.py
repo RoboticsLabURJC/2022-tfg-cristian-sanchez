@@ -14,10 +14,6 @@ This script let us test different algorithms to solve the RF signal seeking:
         We train a model using a Q table (power signal x cardinal movement),
         then we use that table to navigate to the signal source.
 '''
-import roslib
-roslib.load_manifest('heatmap_util')
-import friss as fr
-
 import random
 import rospy
 from geometry_msgs.msg import PoseStamped
@@ -36,7 +32,7 @@ RADIO_CONTROL_CMD_TOPIC = 'radio_control/cmd'
 RVIZ_HEATMAP_TOPIC = '/heatmap/map'
 
 # Other
-NODENAME = 'manual_algorithm_node'
+NODENAME = 'algorithms_node'
 TOLERANCE = 0.0675
 CELLSIZE = 1.0
 TIMEOUT = 0.1
@@ -50,13 +46,23 @@ LAND = 2
 POSITION = 3
 VELOCITY = 4
 
-# Q Learning training parameters
-MAX_STEPS = 10000
-ALPHA = 0.1
+# Q Learning parameters
+## State generator
+PWR_MAX = 10
+PWR_MIN = -100
+PWR_STEP = -1
+
+## Training
+MAX_EPISODES = 1000
+ALPHA = 0.3
 GAMMA = 0.7
 EPSILON = 0.99
 EPSILON_END = 0.05
-EPSILON_INC = 0.05
+EPSILON_INC = 0.01
+
+## End conditions
+CONSECUTIVE_BAD_ACTIONS = 5
+NOT_VALID_POWER = 1
 
 
 class Drone:
@@ -97,7 +103,7 @@ class Drone:
         # Definition of the rviz msg
         self.rvz_msg = Float64MultiArray()
         self.rvz_msg.data = self.rvz_client.get_result().data
-        
+
         # Waits the rviz subscriber to be available
         while self.rvz_pub.get_num_connections() == 0:
             rospy.sleep(1.0)
@@ -390,7 +396,7 @@ class Drone:
             - States are defined by the power read intensity.
         '''
         actions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
-        states = self.generate_states(10, -100, -1)
+        states = self.generate_states(PWR_MAX, PWR_MIN, PWR_STEP)
         q_table = np.zeros((len(states), len(actions)))
 
         self.train_q(q_table, actions, states)
@@ -402,9 +408,11 @@ class Drone:
         Returns the Q table state index for a certain power read:
         '''
         for state in states:
-            max, min = state
-            if max >= power > min:
+            max_pwr, min_pwr = state
+            if max_pwr >= power > min_pwr:
                 return states.index(state)
+
+        return -1
 
 
     def generate_states(self, max_val, min_val, step):
@@ -421,15 +429,12 @@ class Drone:
         return tuple(states)
 
 
-    def get_action_idx(self, epsilon, q_values, not_valid=[]):
+    def get_action_idx(self, epsilon, q_values):
         '''
         Returns the Q table action index depending on the epsilon value and
         the non-valid actions registered.
         '''
         random_idx = list(range(q_values.size))
-
-        for action_idx in not_valid:
-            random_idx.remove(action_idx)
 
         if np.random.random() < epsilon:
             return random.choice(random_idx)
@@ -476,29 +481,33 @@ class Drone:
         self.rvz_pub.publish(self.rvz_msg)
 
 
-    def train_q(self, q_table, actions, states, steps=MAX_STEPS, alpha=ALPHA, gamma=GAMMA, eps_end=EPSILON_END):
+    def train_q(self, q_table, actions, states, alpha=ALPHA, gamma=GAMMA, eps_end=EPSILON_END):
         '''
         Fills the Q table
         '''
         # Training parameters
         ## Epsilon
         eps = EPSILON
-        # eps_increment = (eps - eps_end) / steps
         eps_increment = EPSILON_INC
 
         ## Initializations
         initial_gz_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
         initial_coords_gz = (initial_gz_pose.pose.position.x, initial_gz_pose.pose.position.y)
+        current_coords_hm = self.gzcoords_to_heatmapcoords(initial_coords_gz)
         target_coords_hm = self.rvz_goal.origin
 
         cumulative_reward = 0.0
-        episode_counter = -1
+        it_per_ep = 0
+        episode_counter = 0
+        negative_reward_counter = 0
+
         eps_to_plot = []
         reward_to_plot = []
+        it_to_plot = []
 
         # Training
         ## Initial conditions
-        end_condition = True
+        end_condition = False
 
         ## Start interactive plots
         # plt.ion()
@@ -510,14 +519,7 @@ class Drone:
         # ax2.set_xlabel('Iteration')
         # ax2.set_ylabel('Cumulative reward')
 
-        for i in range(steps):
-            ## Starting position
-            if end_condition:
-                episode_counter += 1
-                negative_reward_counter = 0
-                end_condition = False
-                current_coords_hm = self.gzcoords_to_heatmapcoords(initial_coords_gz)
-
+        while episode_counter < MAX_EPISODES:
             ## Sensor data extraction
             pwr_current = self.read_only_pwr(current_coords_hm)
 
@@ -531,61 +533,67 @@ class Drone:
 
             ## Gets next state index with valid power value
             ### (END CONDITION) Not possible state after performing selected action
-            if pwr_next == 1:
+            if pwr_next == NOT_VALID_POWER:
                 end_condition = True
                 reward = -10
                 error = reward - q_table[current_state_idx, current_action_idx]
-            ### (END CONDITION) Target reached
-            elif target_coords_hm == next_coords_hm:
-                end_condition = True
-                next_state_idx = self.get_state_idx(pwr_next, states)
-                reward = 100
-                error = (reward + gamma * np.max(q_table[next_state_idx])) - q_table[current_state_idx, current_action_idx]
             else:
-                next_state_idx = self.get_state_idx(pwr_next, states)            
-                reward = pwr_next - pwr_current
-                error = (reward + gamma * np.max(q_table[next_state_idx])) - q_table[current_state_idx, current_action_idx]
-
-                if reward < 0:
-                    negative_reward_counter += 1
-                else:
-                    negative_reward_counter = 0
-
-                ### (END CONDITION) If agent does n consecutive bad actions --> end
-                if negative_reward_counter >= 5:
+                ### (END CONDITION) Target reached
+                if target_coords_hm == next_coords_hm:
                     end_condition = True
+                    reward = 100
+                ### Otherwise
+                else:
+                    reward = pwr_next - pwr_current
+
+                    if reward < 0:
+                        negative_reward_counter += 1
+                    else:
+                        negative_reward_counter = 0
+
+                    ### (END CONDITION) If agent does n consecutive bad actions --> end
+                    if negative_reward_counter >= CONSECUTIVE_BAD_ACTIONS:
+                        end_condition = True
+
+                ## Get next state index and calculate error
+                next_state_idx = self.get_state_idx(pwr_next, states)
+                error = (reward + gamma * np.max(q_table[next_state_idx])) - q_table[current_state_idx, current_action_idx]
 
             ## Bellman eq to update Q table
-            # rospy.logerr("----------------------------------------")
-            # print (q_table)
-            # rospy.logwarn("***************************************")
-            # print("Q state:", q_table[current_state_idx])
-            # print("Previous Q value:", q_table[current_state_idx, current_action_idx])
             q_table[current_state_idx, current_action_idx] += alpha * error
-            # print (q_table)
-            # rospy.logerr("----------------------------------------")
-            # print("Updated Q value:", q_table[current_state_idx, current_action_idx])
-
-            # print((reward, (pwr_current, pwr_next), states[current_state_idx], actions[current_action_idx], (current_coords_hm, next_coords_hm)))
-            # rospy.sleep(1)
 
             ## Update episode variables
             cumulative_reward += reward
             current_coords_hm = next_coords_hm
 
-            ## Epsilon update
-            ### Linear epsilon decrement
-            # eps = max((eps - eps_increment, eps_end))
+            ## Update iterations to plot
+            it_per_ep += 1
 
-            ### Every 5 completed episodes, update epsilon
-            if episode_counter % 5 == 0:
-                eps = max(eps - eps_increment, eps_end)
+            ## When an end condition is detected
+            if end_condition:
+                ### Every 5 completed episodes, update epsilon
+                if episode_counter % 5 == 0:
+                    eps = max(eps - eps_increment, eps_end)
 
-            ## Update all plots info
-            eps_to_plot.append(eps)
-            reward_to_plot.append(cumulative_reward)
+                ### Reset position
+                current_coords_hm = self.gzcoords_to_heatmapcoords(initial_coords_gz)
 
-            ### Update interactive plots
+                ### Update all plots info
+                eps_to_plot.append(eps)
+                reward_to_plot.append(cumulative_reward)
+                it_to_plot.append(it_per_ep)
+
+                ### Reset variables
+                it_per_ep = 0
+                cumulative_reward = 0
+                negative_reward_counter = 0
+                end_condition = False
+
+                ### Update episode counter
+                episode_counter += 1
+
+            # Display stuff
+            ## Update interactive plots
             # eps_line.set_data(range(i + 1), eps_to_plot)
             # rew_line.set_data(range(i + 1), reward_to_plot)
             # ax1.relim()
@@ -596,23 +604,29 @@ class Drone:
             # plt.pause(0.01)
 
             ## Print training percent
-            percent = (i + 1) * 100 // steps
+            percent = (episode_counter + 1) * 100 // MAX_EPISODES
             print(f"Training: {percent}%", end='\r')
+
 
         ## End interactive plots
         # plt.ioff()
         # plt.show()
 
         ## End normal plots
-        plt.subplot(2, 1, 1)
+        plt.subplot(3, 1, 1)
         plt.plot(eps_to_plot)
-        plt.xlabel('Iteration')
+        plt.xlabel('Episodes')
         plt.ylabel('Epsilon')
 
-        plt.subplot(2, 1, 2)
+        plt.subplot(3, 1, 2)
         plt.plot(reward_to_plot)
-        plt.xlabel('Iteration')
+        plt.xlabel('Episodes')
         plt.ylabel('Cumulative reward')
+
+        plt.subplot(3, 1, 3)
+        plt.plot(it_to_plot)
+        plt.xlabel('Episodes')
+        plt.ylabel('Iterations')
 
         plt.tight_layout()
         plt.show()
@@ -630,7 +644,7 @@ class Drone:
         self.takeoff()
         start_time = rospy.Time.now()
         previous_coords_hm = 0
-        previous_pwr = -100
+        previous_pwr = PWR_MIN
         while True:
             ## Take readings
             pwr, current_coords_gz = self.read_pwr()
@@ -639,7 +653,7 @@ class Drone:
             ## Look for state in Q table
             state_idx = self.get_state_idx(pwr, states)
 
-            ## End condition (when the signal is HIGH --> end)
+            ## End condition (when the current power decrease from the previous one)
             if previous_pwr > pwr:
                 end_coords_gz = self.heatmapcoords_to_gzcoords(previous_coords_hm)
                 goal_pose.pose.position.x = end_coords_gz[0]
@@ -649,7 +663,7 @@ class Drone:
 
             ## Get best action using Q table
             action_idx = np.argmax(q_table[state_idx])
-            
+
             ## Set new goal and move
             next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[action_idx])
             next_coords_gz = self.heatmapcoords_to_gzcoords(next_coords_hm)

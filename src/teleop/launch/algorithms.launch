@@ -56,7 +56,7 @@
     </include>
   
 	<node pkg="teleop" type="px4_controller.py" name="px4_controller" required="true" output="screen" />
-	<node pkg="teleop" type="manual_algorithm.py" name="manual_algorithm_node" required="true" output="screen" />
+	<node pkg="teleop" type="algorithms.py" name="algorithms_node" required="true" output="screen" />
 
 	<node name="my_robot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-sdf -param robot_description -model antenna -x $(arg x_ann) -y $(arg y_ann) -z 0"/>
 	<node pkg="heatmap_util" type="path_marker.py" name="path_node" output="screen"/>
