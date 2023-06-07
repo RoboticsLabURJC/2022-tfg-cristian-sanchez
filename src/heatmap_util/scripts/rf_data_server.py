@@ -61,6 +61,12 @@ class MyActionServer:
                 rospy.logwarn("origin out of bounds...")
                 self._rviz_server.set_aborted()
             else:
+                if goal.heatmap_config:
+                    self._model = fr.Friss(world_sz=self._size, 
+                                           resolution=self._res,
+                                           power_tras=goal.heatmap_config[0], 
+                                           freq=goal.heatmap_config[1])
+                    
                 self._data = self._model.model_power_signal(goal.origin)
                 flip_data = np.rot90(self._data, k=-1)
                 flip_data = np.flip(flip_data, axis=1)

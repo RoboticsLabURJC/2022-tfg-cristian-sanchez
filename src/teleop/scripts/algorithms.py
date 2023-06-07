@@ -14,7 +14,6 @@ This script let us test different algorithms to solve the RF signal seeking:
         We train a model using a Q table (power signal x cardinal movement),
         then we use that table to navigate to the signal source.
 '''
-import random
 import rospy
 from geometry_msgs.msg import PoseStamped
 from std_msgs.msg import Float64MultiArray
@@ -46,6 +45,10 @@ LAND = 2
 POSITION = 3
 VELOCITY = 4
 
+# Heatmap parameters
+POWER_TRANSMITTER = 1.0
+FREQUENCY = 2.4 * (10**9)
+
 # Q Learning parameters
 ## State generator
 PWR_MAX = 10
@@ -53,16 +56,19 @@ PWR_MIN = -100
 PWR_STEP = -1
 
 ## Training
-MAX_EPISODES = 1000
-ALPHA = 0.3
-GAMMA = 0.7
+MAX_EPISODES = 5000
+ALPHA = 0.2
+GAMMA = 0.6
 EPSILON = 0.99
-EPSILON_END = 0.05
+EPSILON_END = 0.1
 EPSILON_INC = 0.01
 
 ## End conditions
 CONSECUTIVE_BAD_ACTIONS = 5
 NOT_VALID_POWER = 1
+NEGATIVE_REWARD_FACTOR = 0.5
+POSITIVE_REWARD_FACTOR = 1.5
+EXPLORATION_PERCENT = 0.2
 
 
 class Drone:
@@ -97,6 +103,7 @@ class Drone:
 
         # Requesting heatmap for Rviz and data extraction
         self.rvz_goal.origin = SIGNAL_ORIGIN
+        self.rvz_goal.heatmap_config.extend([POWER_TRANSMITTER, FREQUENCY])
         self.rvz_client.send_goal(self.rvz_goal)
         self.rvz_client.wait_for_result()
 
@@ -434,10 +441,10 @@ class Drone:
         Returns the Q table action index depending on the epsilon value and
         the non-valid actions registered.
         '''
-        random_idx = list(range(q_values.size))
+        random_idx = tuple(range(q_values.size))
 
         if np.random.random() < epsilon:
-            return random.choice(random_idx)
+            return np.random.choice(random_idx)
 
         return np.argmax(q_values)
 
@@ -488,7 +495,8 @@ class Drone:
         # Training parameters
         ## Epsilon
         eps = EPSILON
-        eps_increment = EPSILON_INC
+        # eps_increment = EPSILON_INC
+        eps_increment = (eps - eps_end) / (MAX_EPISODES * EXPLORATION_PERCENT)
 
         ## Initializations
         initial_gz_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
@@ -507,18 +515,9 @@ class Drone:
 
         # Training
         ## Initial conditions
+        signal_origins = ((0, 0), (0, self.size - 1))
         end_condition = False
-
-        ## Start interactive plots
-        # plt.ion()
-        # fig, (ax1, ax2) = plt.subplots(2, 1)
-        # eps_line, = ax1.plot(eps_to_plot)
-        # rew_line, = ax2.plot(reward_to_plot)
-        # ax1.set_xlabel('Iteration')
-        # ax1.set_ylabel('Epsilon')
-        # ax2.set_xlabel('Iteration')
-        # ax2.set_ylabel('Cumulative reward')
-
+        start_time = rospy.Time.now()
         while episode_counter < MAX_EPISODES:
             ## Sensor data extraction
             pwr_current = self.read_only_pwr(current_coords_hm)
@@ -537,19 +536,23 @@ class Drone:
                 end_condition = True
                 reward = -10
                 error = reward - q_table[current_state_idx, current_action_idx]
+
             else:
+                reward = pwr_next - pwr_current
+
                 ### (END CONDITION) Target reached
                 if target_coords_hm == next_coords_hm:
                     end_condition = True
-                    reward = 100
+                    reward *= POSITIVE_REWARD_FACTOR
+
                 ### Otherwise
                 else:
-                    reward = pwr_next - pwr_current
-
                     if reward < 0:
                         negative_reward_counter += 1
+                        reward *= NEGATIVE_REWARD_FACTOR
                     else:
                         negative_reward_counter = 0
+                        reward *= POSITIVE_REWARD_FACTOR
 
                     ### (END CONDITION) If agent does n consecutive bad actions --> end
                     if negative_reward_counter >= CONSECUTIVE_BAD_ACTIONS:
@@ -571,9 +574,21 @@ class Drone:
 
             ## When an end condition is detected
             if end_condition:
+                # self.rvz_goal.origin = (np.random.randint(self.size), np.random.randint(self.size))
+                self.rvz_goal.origin = signal_origins[it_per_ep % len(signal_origins)]
+                self.rvz_goal.heatmap_config = []
+                self.rvz_client.send_goal(self.rvz_goal)
+                self.rvz_client.wait_for_result()
+
+                ### To represent in Rviz
+                # self.rvz_msg.data = self.rvz_client.get_result().data
+                # self.rvz_pub.publish(self.rvz_msg)
+
                 ### Every 5 completed episodes, update epsilon
-                if episode_counter % 5 == 0:
-                    eps = max(eps - eps_increment, eps_end)
+                # if episode_counter % 5 == 0:
+                #     eps = max(eps - eps_increment, eps_end)
+
+                eps = max(eps - eps_increment, eps_end)
 
                 ### Reset position
                 current_coords_hm = self.gzcoords_to_heatmapcoords(initial_coords_gz)
@@ -592,25 +607,12 @@ class Drone:
                 ### Update episode counter
                 episode_counter += 1
 
-            # Display stuff
-            ## Update interactive plots
-            # eps_line.set_data(range(i + 1), eps_to_plot)
-            # rew_line.set_data(range(i + 1), reward_to_plot)
-            # ax1.relim()
-            # ax1.autoscale_view()
-            # ax2.relim()
-            # ax2.autoscale_view()
-            # fig.canvas.draw()
-            # plt.pause(0.01)
-
             ## Print training percent
             percent = (episode_counter + 1) * 100 // MAX_EPISODES
             print(f"Training: {percent}%", end='\r')
 
-
-        ## End interactive plots
-        # plt.ioff()
-        # plt.show()
+        elapsed_time = rospy.Time.now() - start_time
+        rospy.loginfo("Time training: {:.6f} seconds".format(elapsed_time.to_sec()))
 
         ## End normal plots
         plt.subplot(3, 1, 1)
@@ -654,12 +656,12 @@ class Drone:
             state_idx = self.get_state_idx(pwr, states)
 
             ## End condition (when the current power decrease from the previous one)
-            if previous_pwr > pwr:
-                end_coords_gz = self.heatmapcoords_to_gzcoords(previous_coords_hm)
-                goal_pose.pose.position.x = end_coords_gz[0]
-                goal_pose.pose.position.y = end_coords_gz[1]
-                self.move_to(pose=goal_pose)
-                break
+            # if previous_pwr > pwr:
+            #     end_coords_gz = self.heatmapcoords_to_gzcoords(previous_coords_hm)
+            #     goal_pose.pose.position.x = end_coords_gz[0]
+            #     goal_pose.pose.position.y = end_coords_gz[1]
+            #     self.move_to(pose=goal_pose)
+            #     break
 
             ## Get best action using Q table
             action_idx = np.argmax(q_table[state_idx])
