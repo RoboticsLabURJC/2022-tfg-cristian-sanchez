@@ -57,7 +57,7 @@ PWR_STEP = -1
 
 ## Training
 MAX_EPISODES = 2000
-ALPHA = 0.5
+ALPHA = 0.3
 GAMMA = 0.7
 EPSILON = 0.99
 EPSILON_END = 0.1
@@ -258,6 +258,7 @@ class Drone:
         signal_found = False
         goal_pose.pose.position.z = H
         neighbors = ("FRONT", "RIGHT", "BACK", "BACK", "LEFT", "LEFT", "FRONT", "FRONT")
+        total_it = 0
 
         # Start algorithm
         self.takeoff()
@@ -283,6 +284,8 @@ class Drone:
             goal_pose.pose.position.y = readings_coords[readings.index(max(readings))][1]
             self.move_to("GOAL", pose=goal_pose)
 
+            total_it += 1
+
             # End condition (1st approach), if drone repeats movement patron --> land
             if len(hm_coords_prev) == 0:
                 hm_coords_prev = hm_coords.copy()
@@ -302,6 +305,7 @@ class Drone:
         # Calcule times and land
         elapsed_time = rospy.Time.now() - start_time
         rospy.loginfo("Time: {:.6f} seconds".format(elapsed_time.to_sec()))
+        rospy.loginfo("Total iterations: ", total_it)
         self.land()
 
 
@@ -319,6 +323,7 @@ class Drone:
         goal_pose.pose.position.z = H
         next_pose.pose.position.z = H
         last_goal = 0               # Stores last goal in heatmap coords.
+        total_it = 0
 
         # Start algorithm
         self.takeoff()
@@ -350,6 +355,8 @@ class Drone:
             goal_pose.pose.position.y = readings_coords[readings.index(max(readings))][1]
             self.move_to("GOAL", pose=goal_pose)
 
+            total_it += 1
+
             # End condition, if previous goal it's the same than current goal --> land
             # We look in the drones heatmap coords to avoid decimals problems.
             goal_coords = (goal_pose.pose.position.x, goal_pose.pose.position.y)
@@ -365,6 +372,7 @@ class Drone:
         # Calcule times and land
         elapsed_time = rospy.Time.now() - start_time
         rospy.loginfo("Time: {:.6f} seconds".format(elapsed_time.to_sec()))
+        rospy.loginfo("Total iterations: ", total_it)
         self.land()
 
 
@@ -647,6 +655,7 @@ class Drone:
         # Start algorithm
         self.takeoff()
         start_time = rospy.Time.now()
+        total_it = 0
         previous_coords_hm = 0
         previous_pwr = PWR_MIN
         while True:
@@ -678,12 +687,15 @@ class Drone:
             goal_pose.pose.position.y = next_coords_gz[1]
             self.move_to(pose=goal_pose)
 
+            total_it += 1
+
             previous_coords_hm = current_coords_hm
             previous_pwr = pwr
 
         # Calcule times and land
         elapsed_time = rospy.Time.now() - start_time
         rospy.loginfo("Time: {:.6f} seconds".format(elapsed_time.to_sec()))
+        rospy.loginfo("Total iterations: ", total_it)
         self.land()
 
 
