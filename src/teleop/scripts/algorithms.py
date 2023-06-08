@@ -56,9 +56,9 @@ PWR_MIN = -100
 PWR_STEP = -1
 
 ## Training
-MAX_EPISODES = 5000
-ALPHA = 0.2
-GAMMA = 0.6
+MAX_EPISODES = 2000
+ALPHA = 0.5
+GAMMA = 0.7
 EPSILON = 0.99
 EPSILON_END = 0.1
 EPSILON_INC = 0.01
@@ -66,8 +66,8 @@ EPSILON_INC = 0.01
 ## End conditions
 CONSECUTIVE_BAD_ACTIONS = 5
 NOT_VALID_POWER = 1
-NEGATIVE_REWARD_FACTOR = 0.5
-POSITIVE_REWARD_FACTOR = 1.5
+NEGATIVE_REWARD_FACTOR = 1.0
+POSITIVE_REWARD_FACTOR = 1.0
 EXPLORATION_PERCENT = 0.2
 
 
@@ -574,11 +574,12 @@ class Drone:
 
             ## When an end condition is detected
             if end_condition:
+                ### Generate new scenario
                 # self.rvz_goal.origin = (np.random.randint(self.size), np.random.randint(self.size))
-                self.rvz_goal.origin = signal_origins[it_per_ep % len(signal_origins)]
-                self.rvz_goal.heatmap_config = []
-                self.rvz_client.send_goal(self.rvz_goal)
-                self.rvz_client.wait_for_result()
+                # self.rvz_goal.origin = signal_origins[it_per_ep % len(signal_origins)]
+                # self.rvz_goal.heatmap_config = []
+                # self.rvz_client.send_goal(self.rvz_goal)
+                # self.rvz_client.wait_for_result()
 
                 ### To represent in Rviz
                 # self.rvz_msg.data = self.rvz_client.get_result().data
@@ -591,7 +592,8 @@ class Drone:
                 eps = max(eps - eps_increment, eps_end)
 
                 ### Reset position
-                current_coords_hm = self.gzcoords_to_heatmapcoords(initial_coords_gz)
+                # current_coords_hm = self.gzcoords_to_heatmapcoords(initial_coords_gz)
+                current_coords_hm = (np.random.randint(self.size), np.random.randint(self.size))
 
                 ### Update all plots info
                 eps_to_plot.append(eps)
