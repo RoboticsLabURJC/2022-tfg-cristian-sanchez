@@ -56,12 +56,12 @@ PWR_MIN = -100
 PWR_STEP = -1
 
 ## Training
-MAX_EPISODES = 2000
-ALPHA = 0.3
+MAX_EPISODES = 1000
+ALPHA = 0.5
 GAMMA = 0.7
 EPSILON = 0.99
 EPSILON_END = 0.1
-EPSILON_INC = 0.01
+# EPSILON_INC = 0.01
 
 ## End conditions
 CONSECUTIVE_BAD_ACTIONS = 5
@@ -411,7 +411,7 @@ class Drone:
             - States are defined by the power read intensity.
         '''
         actions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
-        states = self.generate_states(PWR_MAX, PWR_MIN, PWR_STEP)
+        states = self.generate_coord_states(1)
         q_table = np.zeros((len(states), len(actions)))
 
         self.train_q(q_table, actions, states)
@@ -442,6 +442,32 @@ class Drone:
             state_limits.pop(0)
 
         return tuple(states)
+    
+    
+    def generate_coord_states(self, cell_step):
+        '''
+        Creates all states based on the coords of the map. The step
+        value, represents the resolution changes.
+        '''
+        states = []
+        for x in range(0, self.size, cell_step):
+            for y in range(0, self.size, cell_step):
+                states.append((x, y))
+
+        return tuple(states)
+    
+
+    def get_coord_state_idx(self, coord, states):
+        '''
+        Finds and returns the index if present, if not returns None.
+        '''
+        index = None
+        for i, item in enumerate(states):
+            if item == coord and index is None:
+                index = i
+                break
+
+        return index
 
 
     def get_action_idx(self, epsilon, q_values):
@@ -501,9 +527,8 @@ class Drone:
         Fills the Q table
         '''
         # Training parameters
-        ## Epsilon
+        ## Epsilon (percentual decrement)
         eps = EPSILON
-        # eps_increment = EPSILON_INC
         eps_increment = (eps - eps_end) / (MAX_EPISODES * EXPLORATION_PERCENT)
 
         ## Initializations
@@ -531,7 +556,7 @@ class Drone:
             pwr_current = self.read_only_pwr(current_coords_hm)
 
             ## State and action indexes for Q table
-            current_state_idx = self.get_state_idx(pwr_current, states)
+            current_state_idx = self.get_coord_state_idx(current_coords_hm, states)
             current_action_idx = self.get_action_idx(eps, q_table[current_state_idx])
 
             ## Future state data extraction
@@ -567,7 +592,7 @@ class Drone:
                         end_condition = True
 
                 ## Get next state index and calculate error
-                next_state_idx = self.get_state_idx(pwr_next, states)
+                next_state_idx = self.get_coord_state_idx(next_coords_hm, states)
                 error = (reward + gamma * np.max(q_table[next_state_idx])) - q_table[current_state_idx, current_action_idx]
 
             ## Bellman eq to update Q table
@@ -582,25 +607,10 @@ class Drone:
 
             ## When an end condition is detected
             if end_condition:
-                ### Generate new scenario
-                # self.rvz_goal.origin = (np.random.randint(self.size), np.random.randint(self.size))
-                # self.rvz_goal.origin = signal_origins[it_per_ep % len(signal_origins)]
-                # self.rvz_goal.heatmap_config = []
-                # self.rvz_client.send_goal(self.rvz_goal)
-                # self.rvz_client.wait_for_result()
-
-                ### To represent in Rviz
-                # self.rvz_msg.data = self.rvz_client.get_result().data
-                # self.rvz_pub.publish(self.rvz_msg)
-
-                ### Every 5 completed episodes, update epsilon
-                # if episode_counter % 5 == 0:
-                #     eps = max(eps - eps_increment, eps_end)
-
+                ### Linear epsilon
                 eps = max(eps - eps_increment, eps_end)
 
-                ### Reset position
-                # current_coords_hm = self.gzcoords_to_heatmapcoords(initial_coords_gz)
+                ### Reset position (random pose)
                 current_coords_hm = (np.random.randint(self.size), np.random.randint(self.size))
 
                 ### Update all plots info
@@ -664,7 +674,7 @@ class Drone:
             current_coords_hm = self.gzcoords_to_heatmapcoords(current_coords_gz)
 
             ## Look for state in Q table
-            state_idx = self.get_state_idx(pwr, states)
+            state_idx = self.get_coord_state_idx(current_coords_hm, states)
 
             ## End condition (when the current power decrease from the previous one)
             # if previous_pwr > pwr:
