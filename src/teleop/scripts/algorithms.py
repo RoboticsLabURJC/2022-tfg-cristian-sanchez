@@ -56,7 +56,7 @@ PWR_MIN = -100
 PWR_STEP = -1
 
 ## Training
-MAX_EPISODES = 1000
+MAX_EPISODES = 5000
 ALPHA = 0.5
 GAMMA = 0.7
 EPSILON = 0.99
@@ -532,9 +532,6 @@ class Drone:
         eps_increment = (eps - eps_end) / (MAX_EPISODES * EXPLORATION_PERCENT)
 
         ## Initializations
-        initial_gz_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
-        initial_coords_gz = (initial_gz_pose.pose.position.x, initial_gz_pose.pose.position.y)
-        current_coords_hm = self.gzcoords_to_heatmapcoords(initial_coords_gz)
         target_coords_hm = self.rvz_goal.origin
 
         cumulative_reward = 0.0
@@ -548,7 +545,13 @@ class Drone:
 
         # Training
         ## Initial conditions
-        signal_origins = ((0, 0), (0, self.size - 1))
+        drone_respawns_hm = ((0, 0), 
+                             (0, self.size - 1), 
+                             (self.size - 1, 0), 
+                             (self.size - 1, self.size - 1), 
+                             (int(round((self.size - 1) / 2)), int(round((self.size - 1) / 2))))
+        
+        current_coords_hm = drone_respawns_hm[np.random.randint(len(drone_respawns_hm))]
         end_condition = False
         start_time = rospy.Time.now()
         while episode_counter < MAX_EPISODES:
@@ -610,8 +613,8 @@ class Drone:
                 ### Linear epsilon
                 eps = max(eps - eps_increment, eps_end)
 
-                ### Reset position (random pose)
-                current_coords_hm = (np.random.randint(self.size), np.random.randint(self.size))
+                ### Reset position
+                current_coords_hm = drone_respawns_hm[np.random.randint(len(drone_respawns_hm))]
 
                 ### Update all plots info
                 eps_to_plot.append(eps)
