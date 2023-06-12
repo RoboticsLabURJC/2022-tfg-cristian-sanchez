@@ -86,7 +86,7 @@ class MyActionServer:
             out_of_index = x < 0 or y < 0 or x > (self._size[0] - 1) or y > (self._size[1] - 1)
 
             if out_of_index:
-                self._power_result.data = 1
+                self._power_result.data = -100
             else:                
                 self._power_result.data = self._data[x, y]
 

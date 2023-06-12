@@ -65,7 +65,7 @@ EPSILON_END = 0.1
 
 ## End conditions
 CONSECUTIVE_BAD_ACTIONS = 5
-NOT_VALID_POWER = 1
+NOT_VALID_POWER = -100
 NEGATIVE_REWARD_FACTOR = 1.0
 POSITIVE_REWARD_FACTOR = 1.0
 EXPLORATION_PERCENT = 0.2
@@ -259,6 +259,8 @@ class Drone:
         goal_pose.pose.position.z = H
         neighbors = ("FRONT", "RIGHT", "BACK", "BACK", "LEFT", "LEFT", "FRONT", "FRONT")
         total_it = 0
+        bad_moves_it = 0
+        previous_read = PWR_MIN
 
         # Start algorithm
         self.takeoff()
@@ -271,6 +273,12 @@ class Drone:
                 readings.append(read)
                 readings_coords.append(coord)
                 hm_coords.append(self.gzcoords_to_heatmapcoords(coord))
+                
+                ## If new read is lower than the previous
+                if read < previous_read:
+                    bad_moves_it += 1
+                previous_read = read
+
                 self.move_to(neigh)
 
             # Read data in last cell
@@ -278,6 +286,11 @@ class Drone:
             readings.append(read)
             readings_coords.append(coord)
             hm_coords.append(self.gzcoords_to_heatmapcoords(coord))
+
+            ## If new read is lower than the previous
+            if read < previous_read:
+                bad_moves_it += 1
+            previous_read = read
 
             # Look for the max power value readed position and move there
             goal_pose.pose.position.x = readings_coords[readings.index(max(readings))][0]
@@ -305,8 +318,16 @@ class Drone:
         # Calcule times and land
         elapsed_time = rospy.Time.now() - start_time
         rospy.loginfo("Time: {:.6f} seconds".format(elapsed_time.to_sec()))
-        rospy.loginfo("Total iterations: ", total_it)
         self.land()
+
+        # Plots
+        data_to_plot = [elapsed_time.to_sec(), total_it, bad_moves_it]
+        labels = ['Time (s)', 'Iterations', 'Back moves']
+        plt.bar(labels, data_to_plot, color='maroon')
+        plt.xlabel("Variables")
+        plt.ylabel("Values")
+        plt.title("Manual")
+        plt.show()
 
 
     def manual_algorithm_optimized(self):
@@ -324,6 +345,7 @@ class Drone:
         next_pose.pose.position.z = H
         last_goal = 0               # Stores last goal in heatmap coords.
         total_it = 0
+        bad_moves_it = 0
 
         # Start algorithm
         self.takeoff()
@@ -340,15 +362,21 @@ class Drone:
             # Obtain next path to avoid visited cells (gz coords)
             path = self.get_next_positions(hm_coords, visited)
 
+            previous_read = read
             # Moves to the next position in the path and take readings, adding new cells to visited
             for x, y in path:
                 next_pose.pose.position.x = x
                 next_pose.pose.position.y = y
                 self.move_to("NEXT", pose=next_pose)
-                read, coord = self.read_pwr()
-                readings.append(read)
-                readings_coords.append(coord)
-                visited.add(self.gzcoords_to_heatmapcoords(coord))
+                neigh_read, neigh_coord = self.read_pwr()
+                readings.append(neigh_read)
+                readings_coords.append(neigh_coord)
+                visited.add(self.gzcoords_to_heatmapcoords(neigh_coord))
+
+                if neigh_read < previous_read:
+                    bad_moves_it += 1
+
+                previous_read = neigh_read
 
             # Look for the max power value readed position and move there
             goal_pose.pose.position.x = readings_coords[readings.index(max(readings))][0]
@@ -372,8 +400,16 @@ class Drone:
         # Calcule times and land
         elapsed_time = rospy.Time.now() - start_time
         rospy.loginfo("Time: {:.6f} seconds".format(elapsed_time.to_sec()))
-        rospy.loginfo("Total iterations: ", total_it)
         self.land()
+
+        # Plots
+        data_to_plot = [elapsed_time.to_sec(), total_it, bad_moves_it]
+        labels = ['Time (s)', 'Iterations', 'Back moves']
+        plt.bar(labels, data_to_plot, color='maroon')
+        plt.xlabel("Variables")
+        plt.ylabel("Values")
+        plt.title("Manual Optimized")
+        plt.show()
 
 
     def get_next_positions(self, current_cell, visited_cells):
@@ -669,23 +705,31 @@ class Drone:
         self.takeoff()
         start_time = rospy.Time.now()
         total_it = 0
-        previous_coords_hm = 0
+        bad_moves_it = 0
         previous_pwr = PWR_MIN
+        visited = []
         while True:
             ## Take readings
             pwr, current_coords_gz = self.read_pwr()
             current_coords_hm = self.gzcoords_to_heatmapcoords(current_coords_gz)
 
+            ## Was previous power higher than actual?
+            if previous_pwr > pwr:
+                bad_moves_it += 1
+            
+            ## handle visited cells
+            if current_coords_hm in visited:
+                loop_counter += 1
+            else:
+                visited.append(current_coords_hm)
+                loop_counter = 0
+
+            ## End condition (when a loop movement is detected)
+            if loop_counter > 2:
+                break
+
             ## Look for state in Q table
             state_idx = self.get_coord_state_idx(current_coords_hm, states)
-
-            ## End condition (when the current power decrease from the previous one)
-            # if previous_pwr > pwr:
-            #     end_coords_gz = self.heatmapcoords_to_gzcoords(previous_coords_hm)
-            #     goal_pose.pose.position.x = end_coords_gz[0]
-            #     goal_pose.pose.position.y = end_coords_gz[1]
-            #     self.move_to(pose=goal_pose)
-            #     break
 
             ## Get best action using Q table
             action_idx = np.argmax(q_table[state_idx])
@@ -700,16 +744,23 @@ class Drone:
             goal_pose.pose.position.y = next_coords_gz[1]
             self.move_to(pose=goal_pose)
 
-            total_it += 1
-
-            previous_coords_hm = current_coords_hm
+            ## Update values
             previous_pwr = pwr
+            total_it += 1
 
         # Calcule times and land
         elapsed_time = rospy.Time.now() - start_time
         rospy.loginfo("Time: {:.6f} seconds".format(elapsed_time.to_sec()))
-        rospy.loginfo("Total iterations: ", total_it)
         self.land()
+
+        # Plots
+        data_to_plot = [elapsed_time.to_sec(), total_it, bad_moves_it]
+        labels = ['Time (s)', 'Iterations', 'Back moves']
+        plt.bar(labels, data_to_plot, color='maroon')
+        plt.xlabel("Variables")
+        plt.ylabel("Values")
+        plt.title("Q Learning")
+        plt.show()
 
 
 # -- MAIN -- #
