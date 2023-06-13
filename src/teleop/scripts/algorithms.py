@@ -132,6 +132,11 @@ class Drone:
                                   (self.size - 1, self.size - 1), 
                                   (int(round((self.size - 1) / 2)), int(round((self.size - 1) / 2))))
         
+        
+        self.labels = ['Time (s)', 'Iterations', 'Bad moves']
+        self.labels_exp = ['Manual', 'Manual optimized', 'Q-Learning']
+        self.data = []
+        
         # Start in random pose
         self.go_to_random_pose()
 
@@ -330,15 +335,10 @@ class Drone:
         rospy.loginfo("Time: {:.6f} seconds".format(elapsed_time.to_sec()))
         self.land()
 
-        # Plots
-        data_to_plot = [elapsed_time.to_sec(), total_it, bad_moves_it]
-        labels = ['Time (s)', 'Iterations', 'Back moves']
-        plt.bar(labels, data_to_plot, color='maroon')
-        plt.xlabel("Variables")
-        plt.ylabel("Values")
-        plt.title("Manual")
-        plt.show()
+        # To plot later
+        self.data.append((elapsed_time.to_sec(), total_it, bad_moves_it))
 
+        # Return to initial position
         self.go_home()
 
 
@@ -414,15 +414,10 @@ class Drone:
         rospy.loginfo("Time: {:.6f} seconds".format(elapsed_time.to_sec()))
         self.land()
 
-        # Plots
-        data_to_plot = [elapsed_time.to_sec(), total_it, bad_moves_it]
-        labels = ['Time (s)', 'Iterations', 'Back moves']
-        plt.bar(labels, data_to_plot, color='maroon')
-        plt.xlabel("Variables")
-        plt.ylabel("Values")
-        plt.title("Manual Optimized")
-        plt.show()
-
+        # To plot later
+        self.data.append((elapsed_time.to_sec(), total_it, bad_moves_it))
+        
+        # Return to initial position
         self.go_home()
 
 
@@ -761,15 +756,10 @@ class Drone:
         rospy.loginfo("Time: {:.6f} seconds".format(elapsed_time.to_sec()))
         self.land()
 
-        # Plots
-        data_to_plot = [elapsed_time.to_sec(), total_it, bad_moves_it]
-        labels = ['Time (s)', 'Iterations', 'Back moves']
-        plt.bar(labels, data_to_plot, color='maroon')
-        plt.xlabel("Variables")
-        plt.ylabel("Values")
-        plt.title("Q Learning")
-        plt.show()
+        # To plot later
+        self.data.append((elapsed_time.to_sec(), total_it, bad_moves_it))
 
+        # Return to initial position
         self.go_home()
 
 
@@ -805,12 +795,36 @@ class Drone:
         self.land()
 
 
+    def show_results(self):
+        '''
+        Plot bar graphs to see performance after running the algorithms.
+        '''
+        _, ax = plt.subplots(layout='constrained')
+        x = np.arange(len(self.labels))
+        width = 0.25
+        multiplier = 0
+
+        for i in range(len(self.data)):
+            offset = width * multiplier
+            rects = ax.bar(x + offset, self.data[i], 0.25, label=self.labels_exp[i])
+            ax.bar_label(rects, padding=3)
+            multiplier += 1
+
+        ax.set_ylabel('Value')
+        ax.set_title('Algorithm performance comparison')
+        ax.set_xticks(x + width, self.labels)
+        ax.legend(loc='upper left', ncols=3)
+
+        plt.show()
+
+
 # -- MAIN -- #
 if __name__ == '__main__':
     iris = Drone()
 
-    # iris.manual_algorithm()
+    iris.manual_algorithm()
     iris.manual_algorithm_optimized()
-    # iris.q_learning_algorithm()
+    iris.q_learning_algorithm()
 
+    iris.show_results()
     rospy.spin()
