@@ -60,7 +60,7 @@ MAX_EPISODES = 5000
 ALPHA = 0.5
 GAMMA = 0.7
 EPSILON = 0.99
-EPSILON_END = 0.1
+EPSILON_END = 0.0
 # EPSILON_INC = 0.01
 
 ## End conditions
@@ -124,6 +124,16 @@ class Drone:
         # Setting initial poses (with the correct PoseStamped format to edit later)
         self.current_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
         self.target_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
+        self.origin_pos = PoseStamped()
+
+        self.training_poses_hm = ((0, 0), 
+                                  (0, self.size - 1), 
+                                  (self.size - 1, 0), 
+                                  (self.size - 1, self.size - 1), 
+                                  (int(round((self.size - 1) / 2)), int(round((self.size - 1) / 2))))
+        
+        # Start in random pose
+        self.go_to_random_pose()
 
 
     def takeoff(self):
@@ -329,6 +339,8 @@ class Drone:
         plt.title("Manual")
         plt.show()
 
+        self.go_home()
+
 
     def manual_algorithm_optimized(self):
         '''
@@ -410,6 +422,8 @@ class Drone:
         plt.ylabel("Values")
         plt.title("Manual Optimized")
         plt.show()
+
+        self.go_home()
 
 
     def get_next_positions(self, current_cell, visited_cells):
@@ -580,14 +594,8 @@ class Drone:
         it_to_plot = []
 
         # Training
-        ## Initial conditions
-        drone_respawns_hm = ((0, 0), 
-                             (0, self.size - 1), 
-                             (self.size - 1, 0), 
-                             (self.size - 1, self.size - 1), 
-                             (int(round((self.size - 1) / 2)), int(round((self.size - 1) / 2))))
-        
-        current_coords_hm = drone_respawns_hm[np.random.randint(len(drone_respawns_hm))]
+        ## Initial conditions        
+        current_coords_hm = self.training_poses_hm[np.random.randint(len(self.training_poses_hm))]
         end_condition = False
         start_time = rospy.Time.now()
         while episode_counter < MAX_EPISODES:
@@ -650,7 +658,7 @@ class Drone:
                 eps = max(eps - eps_increment, eps_end)
 
                 ### Reset position
-                current_coords_hm = drone_respawns_hm[np.random.randint(len(drone_respawns_hm))]
+                current_coords_hm = self.training_poses_hm[np.random.randint(len(self.training_poses_hm))]
 
                 ### Update all plots info
                 eps_to_plot.append(eps)
@@ -762,13 +770,47 @@ class Drone:
         plt.title("Q Learning")
         plt.show()
 
+        self.go_home()
+
+
+    def go_to_random_pose(self):
+        '''
+        Send the drone to a random position inside heatmap, that isn't the training ones.
+        '''
+        goal_pose = PoseStamped()
+        goal_pose.pose.position.z = H
+        
+        while True:
+            random_spawn_hm = (np.random.randint(self.size), np.random.randint(self.size))
+            if random_spawn_hm not in self.training_poses_hm:
+                break
+
+        self.takeoff()
+        random_spawn_gz = self.heatmapcoords_to_gzcoords(random_spawn_hm)
+        goal_pose.pose.position.x = random_spawn_gz[0]
+        goal_pose.pose.position.y = random_spawn_gz[1]
+        self.move_to(pose=goal_pose)
+        self.land()
+
+        # Store new origin
+        self.origin_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
+
+    
+    def go_home(self):
+        '''
+        Send the drone to the origin position.
+        '''
+        self.takeoff()
+        self.move_to(pose=self.origin_pos)
+        self.land()
+
 
 # -- MAIN -- #
 if __name__ == '__main__':
     iris = Drone()
 
     # iris.manual_algorithm()
-    # iris.manual_algorithm_optimized()
-    iris.q_learning_algorithm()
+    iris.manual_algorithm_optimized()
+    # iris.q_learning_algorithm()
 
     rospy.spin()
