@@ -295,6 +295,7 @@ class Drone:
                 previous_read = read
 
                 self.move_to(neigh)
+                total_it += 1
 
             # Read data in last cell
             read, coord = self.read_pwr()
@@ -311,7 +312,6 @@ class Drone:
             goal_pose.pose.position.x = readings_coords[readings.index(max(readings))][0]
             goal_pose.pose.position.y = readings_coords[readings.index(max(readings))][1]
             self.move_to("GOAL", pose=goal_pose)
-
             total_it += 1
 
             # End condition (1st approach), if drone repeats movement patron --> land
@@ -389,6 +389,7 @@ class Drone:
                     bad_moves_it += 1
 
                 previous_read = neigh_read
+                total_it += 1
 
             # Look for the max power value readed position and move there
             goal_pose.pose.position.x = readings_coords[readings.index(max(readings))][0]

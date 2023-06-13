@@ -8,8 +8,8 @@
 
 	<!-- antenna pose = (heatmap_size / 2) - 1 - heatmap antenna pose + offset-->
 	<!-- antenna pose = 6 - 1 - 0 + 0.5 -->
-	<arg name="x_ann" default="5.5"/>
-	<arg name="y_ann" default="5.5"/>
+	<arg name="x_ann" default="6"/>
+	<arg name="y_ann" default="6"/>
 
 	<arg name="vehicle" default="iris"/>
 	<arg name="x" default="0.5"/>
