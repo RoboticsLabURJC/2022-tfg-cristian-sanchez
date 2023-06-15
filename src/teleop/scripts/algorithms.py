@@ -140,7 +140,7 @@ class Drone:
         
         print(self.training_poses_hm)
         
-        self.labels = ['Time (s)', 'Iterations', 'Bad moves']
+        self.labels = ('Time (s)', 'Iterations', 'Bad moves')
         self.labels_exp = []
         self.data = []
         
@@ -811,17 +811,27 @@ class Drone:
         '''
         Plot bar graphs to see performance after running the algorithms.
         '''
-        colors = ('r', 'b', 'g')
-        for i in range(len(self.labels_exp)):
-            ax = plt.subplot(1, len(self.labels_exp), i + 1)
-            bars = plt.bar(self.labels_exp, self.data[i])
+        rainbow_colors = ('red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet')
+        k = 0
+
+        for i in range(len(self.labels)):
+            variable = [item[i] for item in self.data]
+            ax = plt.subplot(1, len(self.labels), i + 1)
+            bars = plt.bar(self.labels_exp, variable)
+
+            ax.set_title(self.labels[i])
+            ax.bar_label(bars)
+            ax.set_ylabel('Value')
 
             for j in range(len(bars)):
-                bars[j].set_color(colors[j])
+                
+                try:
+                    bars[j].set_color(rainbow_colors[k])
+                except IndexError:
+                    k = 0
+                    bars[j].set_color(rainbow_colors[k])
 
-            ax.bar_label(bars)
-            plt.title(self.labels[i])
-            plt.ylabel('Value')
+                k += 1
 
         plt.tight_layout()
         plt.show()
