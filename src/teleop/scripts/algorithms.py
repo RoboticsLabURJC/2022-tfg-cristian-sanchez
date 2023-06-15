@@ -35,7 +35,7 @@ NODENAME = 'algorithms_node'
 TOLERANCE = 0.0675
 CELLSIZE = 1.0
 TIMEOUT = 0.1
-H = 1.0
+H = 2.0
 SIGNAL_ORIGIN = (0, 0)
 
 # Px4Cmd
@@ -61,6 +61,8 @@ ALPHA = 0.5
 GAMMA = 0.7
 EPSILON = 0.99
 EPSILON_END = 0.0
+OFFSET_FACTOR_A = 0.1
+OFFSET_FACTOR_B = 0.2
 # EPSILON_INC = 0.01
 
 ## End conditions
@@ -68,6 +70,7 @@ CONSECUTIVE_BAD_ACTIONS = 5
 NOT_VALID_POWER = -100
 NEGATIVE_REWARD_FACTOR = 1.0
 POSITIVE_REWARD_FACTOR = 1.0
+OUT_OF_MAP_REWARD = -10
 EXPLORATION_PERCENT = 0.2
 
 
@@ -126,15 +129,19 @@ class Drone:
         self.target_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
         self.origin_pos = PoseStamped()
 
-        self.training_poses_hm = ((0, 0), 
-                                  (0, self.size - 1), 
-                                  (self.size - 1, 0), 
-                                  (self.size - 1, self.size - 1), 
-                                  (int(round((self.size - 1) / 2)), int(round((self.size - 1) / 2))))
+        offset_a = int(np.round(self.size * OFFSET_FACTOR_A))
+        offset_b = int(np.round(self.size * OFFSET_FACTOR_B))
+
+        self.training_poses_hm = ((offset_a, offset_b),
+                                  (offset_b, self.size - offset_b),
+                                  (self.size - offset_b, self.size - offset_a - offset_b),
+                                  (self.size - offset_a - offset_b, offset_a),
+                                  (int(np.round((self.size - 1) / 2)), int(np.round((self.size - 1) / 2))))
         
+        print(self.training_poses_hm)
         
         self.labels = ['Time (s)', 'Iterations', 'Bad moves']
-        self.labels_exp = ['Manual', 'Manual optimized', 'Q-Learning']
+        self.labels_exp = []
         self.data = []
         
         # Start in random pose
@@ -339,7 +346,9 @@ class Drone:
         self.data.append((elapsed_time.to_sec(), total_it, bad_moves_it))
 
         # Return to initial position
+        rospy.loginfo("Going home...")
         self.go_home()
+        self.labels_exp.append('Manual')
 
 
     def manual_algorithm_optimized(self):
@@ -419,7 +428,9 @@ class Drone:
         self.data.append((elapsed_time.to_sec(), total_it, bad_moves_it))
         
         # Return to initial position
+        rospy.loginfo("Going home...")
         self.go_home()
+        self.labels_exp.append('Manual Opt')
 
 
     def get_next_positions(self, current_cell, visited_cells):
@@ -610,7 +621,7 @@ class Drone:
             ### (END CONDITION) Not possible state after performing selected action
             if pwr_next == NOT_VALID_POWER:
                 end_condition = True
-                reward = -10
+                reward = OUT_OF_MAP_REWARD
                 error = reward - q_table[current_state_idx, current_action_idx]
 
             else:
@@ -761,7 +772,9 @@ class Drone:
         self.data.append((elapsed_time.to_sec(), total_it, bad_moves_it))
 
         # Return to initial position
+        rospy.loginfo("Going home...")
         self.go_home()
+        self.labels_exp.append('Q-Learning')
 
 
     def go_to_random_pose(self):
@@ -772,7 +785,7 @@ class Drone:
         goal_pose.pose.position.z = H
         
         while True:
-            random_spawn_hm = (np.random.randint(self.size), np.random.randint(self.size))
+            random_spawn_hm = (np.random.randint(0, self.size), np.random.randint(0, self.size))
             if random_spawn_hm not in self.training_poses_hm:
                 break
 
@@ -781,10 +794,8 @@ class Drone:
         goal_pose.pose.position.x = random_spawn_gz[0]
         goal_pose.pose.position.y = random_spawn_gz[1]
         self.move_to(pose=goal_pose)
-        self.land()
-
-        # Store new origin
         self.origin_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
+        self.land()
 
     
     def go_home(self):
@@ -800,22 +811,19 @@ class Drone:
         '''
         Plot bar graphs to see performance after running the algorithms.
         '''
-        _, ax = plt.subplots(layout='constrained')
-        x = np.arange(len(self.labels))
-        width = 0.25
-        multiplier = 0
+        colors = ('r', 'b', 'g')
+        for i in range(len(self.labels_exp)):
+            ax = plt.subplot(1, len(self.labels_exp), i + 1)
+            bars = plt.bar(self.labels_exp, self.data[i])
 
-        for i in range(len(self.data)):
-            offset = width * multiplier
-            rects = ax.bar(x + offset, self.data[i], 0.25, label=self.labels_exp[i])
-            ax.bar_label(rects, padding=3)
-            multiplier += 1
+            for j in range(len(bars)):
+                bars[j].set_color(colors[j])
 
-        ax.set_ylabel('Value')
-        ax.set_title('Algorithm performance comparison')
-        ax.set_xticks(x + width, self.labels)
-        ax.legend(loc='upper left', ncols=3)
+            ax.bar_label(bars)
+            plt.title(self.labels[i])
+            plt.ylabel('Value')
 
+        plt.tight_layout()
         plt.show()
 
 
@@ -823,8 +831,8 @@ class Drone:
 if __name__ == '__main__':
     iris = Drone()
 
-    iris.manual_algorithm()
-    iris.manual_algorithm_optimized()
+    # iris.manual_algorithm()
+    # iris.manual_algorithm_optimized()
     iris.q_learning_algorithm()
 
     iris.show_results()
