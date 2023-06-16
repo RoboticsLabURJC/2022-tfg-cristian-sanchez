@@ -60,7 +60,7 @@ MAX_EPISODES = 5000
 ALPHA = 0.5
 GAMMA = 0.7
 EPSILON = 0.99
-EPSILON_END = 0.0
+EPSILON_END = 0.1
 OFFSET_FACTOR_A = 0.1
 OFFSET_FACTOR_B = 0.2
 # EPSILON_INC = 0.01
@@ -138,8 +138,6 @@ class Drone:
                                   (self.size - offset_a - offset_b, offset_a),
                                   (int(np.round((self.size - 1) / 2)), int(np.round((self.size - 1) / 2))))
         
-        print(self.training_poses_hm)
-        
         self.labels = ('Time (s)', 'Iterations', 'Bad moves')
         self.labels_exp = []
         self.data = []
@@ -216,6 +214,40 @@ class Drone:
             self.target_pos.pose.position.y = self.current_pos.pose.position.y - CELLSIZE
         else:
             self.target_pos = pose
+
+        while not self.centered(self.current_pos):
+            self.pos_pub.publish(self.target_pos)
+            self.current_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
+
+        rospy.loginfo("Reached!")
+
+
+    def move_to_cardinal(self, cmd):
+        '''
+        Move command, it allows the drone to navigate cell to cell in the cardinal axes.
+        '''
+        rospy.loginfo("Move " + cmd + " detected!")
+        if cmd == "N":
+            self.target_pos.pose.position.y = self.current_pos.pose.position.y - CELLSIZE
+        elif cmd == "NE":
+            self.target_pos.pose.position.x = self.current_pos.pose.position.x - CELLSIZE
+            self.target_pos.pose.position.y = self.current_pos.pose.position.y - CELLSIZE
+        elif cmd == "E":
+            self.target_pos.pose.position.x = self.current_pos.pose.position.x - CELLSIZE
+        elif cmd == "SE":
+            self.target_pos.pose.position.x = self.current_pos.pose.position.x - CELLSIZE
+            self.target_pos.pose.position.y = self.current_pos.pose.position.y + CELLSIZE
+        elif cmd == "S":
+            self.target_pos.pose.position.y = self.current_pos.pose.position.y + CELLSIZE
+        elif cmd == "SW":
+            self.target_pos.pose.position.x = self.current_pos.pose.position.x + CELLSIZE
+            self.target_pos.pose.position.y = self.current_pos.pose.position.y + CELLSIZE
+        elif cmd == "W":
+            self.target_pos.pose.position.x = self.current_pos.pose.position.x + CELLSIZE
+        elif cmd == "NW":
+            self.target_pos.pose.position.x = self.current_pos.pose.position.x + CELLSIZE
+            self.target_pos.pose.position.y = self.current_pos.pose.position.y - CELLSIZE
+
 
         while not self.centered(self.current_pos):
             self.pos_pub.publish(self.target_pos)
@@ -411,8 +443,10 @@ class Drone:
             # We look in the drones heatmap coords to avoid decimals problems.
             goal_coords = (goal_pose.pose.position.x, goal_pose.pose.position.y)
             current_goal = self.gzcoords_to_heatmapcoords(goal_coords)
+
             if last_goal == current_goal:
                 break
+
             last_goal = current_goal
 
             # Clear arrays
@@ -722,6 +756,7 @@ class Drone:
         total_it = 0
         bad_moves_it = 0
         previous_pwr = PWR_MIN
+        previous_coords_gz = PoseStamped()
         visited = []
         while True:
             ## Take readings
@@ -731,6 +766,13 @@ class Drone:
             ## Was previous power higher than actual?
             if previous_pwr > pwr:
                 bad_moves_it += 1
+
+                ## (END CONDITION) If all valid neighbors have lower power than current one.
+                goal_pose.pose.position.x = previous_coords_gz[0]
+                goal_pose.pose.position.y = previous_coords_gz[1]
+                self.move_to(pose=goal_pose)
+                if self.is_goal():
+                    break
             
             ## handle visited cells
             if current_coords_hm in visited:
@@ -738,10 +780,6 @@ class Drone:
             else:
                 visited.append(current_coords_hm)
                 loop_counter = 0
-
-            ## End condition (when a loop movement is detected)
-            if loop_counter > 2:
-                break
 
             ## Look for state in Q table
             state_idx = self.get_coord_state_idx(current_coords_hm, states)
@@ -761,6 +799,7 @@ class Drone:
 
             ## Update values
             previous_pwr = pwr
+            previous_coords_gz = current_coords_gz
             total_it += 1
 
         # Calcule times and land
@@ -824,7 +863,7 @@ class Drone:
             ax.set_ylabel('Value')
 
             for j in range(len(bars)):
-                
+
                 try:
                     bars[j].set_color(rainbow_colors[k])
                 except IndexError:
@@ -835,6 +874,100 @@ class Drone:
 
         plt.tight_layout()
         plt.show()
+
+
+    def is_goal(self):
+        '''
+        Check if all posible neighbor power are lower than current one.
+        '''
+        # Initializations
+        goal_pose = PoseStamped()
+        goal_pose.pose.position.z = H
+        current_read, current_coord_gz = self.read_pwr()
+        current_coords_hm = self.gzcoords_to_heatmapcoords(current_coord_gz)
+        neighbors = self.get_valid_neighbors(current_coords_hm)
+        neighbors_coords = self.get_neighbor_coords_hm(current_coords_hm, neighbors)
+        
+        # Analyzing only valid neighbors
+        for coord_hm in neighbors_coords:
+            # Move to the pose
+            x_gz, y_gz = self.heatmapcoords_to_gzcoords(coord_hm)
+            goal_pose.pose.position.x = x_gz
+            goal_pose.pose.position.y = y_gz
+            self.move_to(pose=goal_pose)
+
+            # Store reading
+            read = self.read_only_pwr(coord_hm)
+            
+            if read > current_read:
+                return False
+
+        # Return to original position
+        goal_pose.pose.position.x = current_coord_gz[0]
+        goal_pose.pose.position.y = current_coord_gz[1]
+        self.move_to(pose=goal_pose)
+
+        return True
+
+
+    def get_valid_neighbors(self, current_coords_hm):
+        '''
+        Return a list of valid neighbors.
+        '''
+        x, y = current_coords_hm
+
+        neighbors = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW']
+        out = []
+
+        if x - 1 < 0:
+            out.extend(('NW', 'W', 'SW'))
+
+        if y - 1 < 0:
+            out.extend(('SE', 'S', 'SW'))
+
+        if x >= self.size:
+            out.extend(('NE', 'E', 'SE'))
+
+        if y >= self.size:
+            out.extend(('NW', 'N', 'NE'))
+
+        out = tuple(set(out))
+
+        for item in out:
+            neighbors.remove(item)
+
+        rospy.logerr(neighbors)
+
+        return tuple(neighbors)
+    
+
+    def get_neighbor_coords_hm(self, current_coords_hm, neighbors):
+        '''
+        Transform cardinal axis into heatmap coords.
+        '''
+        x, y = current_coords_hm
+        coords_hm = []
+
+        for neigh in neighbors:
+            if neigh == 'W':
+                coords_hm.append((x - 1, y))
+            elif neigh == 'NW':
+                coords_hm.append((x - 1, y + 1))
+            elif neigh == 'N':
+                coords_hm.append((x, y + 1))
+            elif neigh == 'NE':
+                coords_hm.append((x + 1, y + 1))
+            elif neigh == 'E':
+                coords_hm.append((x + 1, y))
+            elif neigh == 'SE':
+                coords_hm.append((x + 1, y - 1))
+            elif neigh == 'S':
+                coords_hm.append((x, y - 1))
+            elif neigh == 'SW':
+                coords_hm.append((x - 1, y - 1))
+
+        rospy.logerr(coords_hm)
+        return tuple(coords_hm)
 
 
 # -- MAIN -- #
