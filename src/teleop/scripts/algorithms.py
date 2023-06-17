@@ -315,6 +315,7 @@ class Drone:
         total_it = 0
         bad_moves_it = 0
         previous_read = PWR_MIN
+        previous_goal_hm = 0
 
         # Start algorithm
         self.takeoff()
@@ -350,19 +351,16 @@ class Drone:
             # Look for the max power value readed position and move there
             goal_pose.pose.position.x = readings_coords[readings.index(max(readings))][0]
             goal_pose.pose.position.y = readings_coords[readings.index(max(readings))][1]
+            current_goal_gz = (goal_pose.pose.position.x, goal_pose.pose.position.y)
             self.move_to("GOAL", pose=goal_pose)
+            
+            current_goal_hm = self.gzcoords_to_heatmapcoords(current_goal_gz)
             total_it += 1
 
-            # End condition (1st approach), if drone repeats movement patron --> land
-            if len(hm_coords_prev) == 0:
-                hm_coords_prev = hm_coords.copy()
-            else:
-                for i in range(len(hm_coords)):
-                    if hm_coords[i] != hm_coords_prev[i]:
-                        signal_found = False
-                        hm_coords_prev = hm_coords.copy()
-                        break
-                    signal_found = True
+            if previous_goal_hm == current_goal_hm and self.is_goal():
+                break
+            
+            previous_goal_hm = current_goal_hm
 
             # Clear arrays
             readings.clear()
@@ -444,7 +442,7 @@ class Drone:
             goal_coords = (goal_pose.pose.position.x, goal_pose.pose.position.y)
             current_goal = self.gzcoords_to_heatmapcoords(goal_coords)
 
-            if last_goal == current_goal:
+            if last_goal == current_goal and self.is_goal():
                 break
 
             last_goal = current_goal
@@ -974,9 +972,9 @@ class Drone:
 if __name__ == '__main__':
     iris = Drone()
 
-    # iris.manual_algorithm()
+    iris.manual_algorithm()
     # iris.manual_algorithm_optimized()
-    iris.q_learning_algorithm()
+    # iris.q_learning_algorithm()
 
     iris.show_results()
     rospy.spin()
