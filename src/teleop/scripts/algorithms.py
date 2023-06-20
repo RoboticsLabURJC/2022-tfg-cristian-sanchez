@@ -302,70 +302,71 @@ class Drone:
         '''
         Navigates through the signal origin.
         '''
-        readings = []               # Power reads per iteration
-        readings_coords = []        # Power coords in gz
-        hm_coords = []              # Power coords in heatmap
-        hm_coords_prev = []         # Previous power coords in heatmap
-        goal_pose = PoseStamped()   # Goal per iteration
-
-        # Initializations
-        signal_found = False
+        goal_pose = PoseStamped()
         goal_pose.pose.position.z = H
-        neighbors = ("FRONT", "RIGHT", "BACK", "BACK", "LEFT", "LEFT", "FRONT", "FRONT")
+
+        previous_goal_hm = 0
         total_it = 0
         bad_moves_it = 0
-        previous_read = PWR_MIN
-        previous_goal_hm = 0
+
+        readings = []
+        readings_coords = []
 
         # Start algorithm
         self.takeoff()
         start_time = rospy.Time.now()
 
-        while not signal_found:
-            # Read data in current cell and move to next position
-            for neigh in neighbors:
-                read, coord = self.read_pwr()
-                readings.append(read)
-                readings_coords.append(coord)
-                hm_coords.append(self.gzcoords_to_heatmapcoords(coord))
-                
-                ## If new read is lower than the previous
-                if read < previous_read:
+        while True:
+            # Initializations            
+            prev_read, current_coord_gz = self.read_pwr()
+            readings.append(prev_read)
+            readings_coords.append(current_coord_gz)
+
+            # Get possible neighbors
+            current_coords_hm = self.gzcoords_to_heatmapcoords(current_coord_gz)
+            neighbors = self.get_valid_neighbors(current_coords_hm)
+            neighbors_coords = self.get_neighbor_coords_hm(current_coords_hm, neighbors)
+            
+            # Reading power from the neighbors
+            for coord_hm in neighbors_coords:
+                x_gz, y_gz = self.heatmapcoords_to_gzcoords(coord_hm)
+                goal_pose.pose.position.x = x_gz
+                goal_pose.pose.position.y = y_gz
+                self.move_to(pose=goal_pose)
+
+                # Take readings and it's position
+                current_read, current_coord_gz = self.read_pwr()
+                readings.append(current_read)
+                readings_coords.append(current_coord_gz)
+
+                if current_read < prev_read:
                     bad_moves_it += 1
-                previous_read = read
 
-                self.move_to(neigh)
                 total_it += 1
+                prev_read = current_read
 
-            # Read data in last cell
-            read, coord = self.read_pwr()
-            readings.append(read)
-            readings_coords.append(coord)
-            hm_coords.append(self.gzcoords_to_heatmapcoords(coord))
-
-            ## If new read is lower than the previous
-            if read < previous_read:
-                bad_moves_it += 1
-            previous_read = read
-
-            # Look for the max power value readed position and move there
-            goal_pose.pose.position.x = readings_coords[readings.index(max(readings))][0]
-            goal_pose.pose.position.y = readings_coords[readings.index(max(readings))][1]
-            current_goal_gz = (goal_pose.pose.position.x, goal_pose.pose.position.y)
-            self.move_to("GOAL", pose=goal_pose)
+            # Get coords to make decisions
+            x_goal_gz = readings_coords[readings.index(max(readings))][0]
+            y_goal_gz = readings_coords[readings.index(max(readings))][1]
+            current_goal_hm = self.gzcoords_to_heatmapcoords((x_goal_gz, y_goal_gz))
             
-            current_goal_hm = self.gzcoords_to_heatmapcoords(current_goal_gz)
-            total_it += 1
-
-            if previous_goal_hm == current_goal_hm and self.is_goal():
-                break
-            
-            previous_goal_hm = current_goal_hm
+            # Move to the best position
+            goal_pose.pose.position.x = x_goal_gz
+            goal_pose.pose.position.y = y_goal_gz
+            self.move_to(pose=goal_pose)
 
             # Clear arrays
             readings.clear()
             readings_coords.clear()
-            hm_coords.clear()
+            
+            # Update iteration counter
+            total_it += 1
+
+            # End condition, when last goal is current one and power is max
+            if previous_goal_hm == current_goal_hm and self.is_goal():
+                break
+            else:
+                previous_goal_hm = current_goal_hm
 
         # Calcule times and land
         elapsed_time = rospy.Time.now() - start_time
