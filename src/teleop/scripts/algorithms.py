@@ -386,71 +386,83 @@ class Drone:
         '''
         Navigates through the signal origin, avoiding visited cells.
         '''
-        readings = []               # Power reads per iteration
-        readings_coords = []        # Power coords in gz
-        goal_pose = PoseStamped()   # Target pose to move
-        next_pose = PoseStamped()   # Next pose to move
-        visited = set()             # Visited cells, CAREFUL! no size limit.
-
-        # Initializations
+        goal_pose = PoseStamped()
         goal_pose.pose.position.z = H
-        next_pose.pose.position.z = H
-        last_goal = 0               # Stores last goal in heatmap coords.
+
+        previous_goal_hm = 0
         total_it = 0
         bad_moves_it = 0
+
+        readings = []
+        readings_coords = []
+        visited = []
+        max_visited_size = 18
 
         # Start algorithm
         self.takeoff()
         start_time = rospy.Time.now()
 
         while True:
-            # Take readings in current cell and add to visited
-            read, coord = self.read_pwr()
-            hm_coords = self.gzcoords_to_heatmapcoords(coord)
-            readings.append(read)
-            readings_coords.append(coord)
-            visited.add(hm_coords)
+            # Initializations            
+            prev_read, current_coord_gz = self.read_pwr()
+            readings.append(prev_read)
+            readings_coords.append(current_coord_gz)
 
-            # Obtain next path to avoid visited cells (gz coords)
-            path = self.get_next_positions(hm_coords, visited)
+            # Store visited
+            current_coords_hm = self.gzcoords_to_heatmapcoords(current_coord_gz)
+            if len(visited) >= max_visited_size:
+                visited.pop(0)            
+            visited.append(current_coords_hm)
 
-            previous_read = read
-            # Moves to the next position in the path and take readings, adding new cells to visited
-            for x, y in path:
-                next_pose.pose.position.x = x
-                next_pose.pose.position.y = y
-                self.move_to("NEXT", pose=next_pose)
-                neigh_read, neigh_coord = self.read_pwr()
-                readings.append(neigh_read)
-                readings_coords.append(neigh_coord)
-                visited.add(self.gzcoords_to_heatmapcoords(neigh_coord))
+            # Get possible neighbors            
+            neighbors = self.get_valid_neighbors(current_coords_hm)
+            neighbors_coords = self.get_neighbor_coords_hm(current_coords_hm, neighbors, visited)
+            
+            # Reading power from the neighbors
+            for coord_hm in neighbors_coords:
+                x_gz, y_gz = self.heatmapcoords_to_gzcoords(coord_hm)
+                goal_pose.pose.position.x = x_gz
+                goal_pose.pose.position.y = y_gz
+                self.move_to(pose=goal_pose)
 
-                if neigh_read < previous_read:
+                # Take readings and it's position
+                current_read, current_coord_gz = self.read_pwr()
+                readings.append(current_read)
+                readings_coords.append(current_coord_gz)
+
+                if current_read < prev_read:
                     bad_moves_it += 1
 
-                previous_read = neigh_read
                 total_it += 1
+                prev_read = current_read
 
-            # Look for the max power value readed position and move there
-            goal_pose.pose.position.x = readings_coords[readings.index(max(readings))][0]
-            goal_pose.pose.position.y = readings_coords[readings.index(max(readings))][1]
-            self.move_to("GOAL", pose=goal_pose)
+                # Store visited
+                if len(visited) >= max_visited_size:
+                    visited.pop(0)            
+                visited.append(coord_hm)
 
-            total_it += 1
-
-            # End condition, if previous goal it's the same than current goal --> land
-            # We look in the drones heatmap coords to avoid decimals problems.
-            goal_coords = (goal_pose.pose.position.x, goal_pose.pose.position.y)
-            current_goal = self.gzcoords_to_heatmapcoords(goal_coords)
-
-            if last_goal == current_goal and self.is_goal():
-                break
-
-            last_goal = current_goal
+            # Get coords to make decisions
+            x_goal_gz = readings_coords[readings.index(max(readings))][0]
+            y_goal_gz = readings_coords[readings.index(max(readings))][1]
+            current_goal_hm = self.gzcoords_to_heatmapcoords((x_goal_gz, y_goal_gz))
+            
+            # Move to the best position
+            goal_pose.pose.position.x = x_goal_gz
+            goal_pose.pose.position.y = y_goal_gz
+            self.move_to(pose=goal_pose)
 
             # Clear arrays
             readings.clear()
             readings_coords.clear()
+            
+            # Update iteration counter
+            total_it += 1
+
+            # End condition, when last goal is current one and power is max
+            if previous_goal_hm == current_goal_hm and self.is_goal():
+                break
+            else:
+                previous_goal_hm = current_goal_hm
 
         # Calcule times and land
         elapsed_time = rospy.Time.now() - start_time
@@ -940,7 +952,7 @@ class Drone:
         return tuple(neighbors)
     
 
-    def get_neighbor_coords_hm(self, current_coords_hm, neighbors):
+    def get_neighbor_coords_hm(self, current_coords_hm, neighbors, visited=[]):
         '''
         Transform cardinal axis into heatmap coords.
         '''
@@ -965,6 +977,10 @@ class Drone:
             elif neigh == 'SW':
                 coords_hm.append((x - 1, y - 1))
 
+        for visited_coords in visited:
+            if visited_coords in coords_hm:
+                coords_hm.remove(visited_coords)
+
         rospy.logerr(coords_hm)
         return tuple(coords_hm)
 
@@ -973,8 +989,8 @@ class Drone:
 if __name__ == '__main__':
     iris = Drone()
 
-    iris.manual_algorithm()
-    # iris.manual_algorithm_optimized()
+    # iris.manual_algorithm()
+    iris.manual_algorithm_optimized()
     # iris.q_learning_algorithm()
 
     iris.show_results()
