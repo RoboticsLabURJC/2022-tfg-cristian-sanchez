@@ -141,6 +141,7 @@ class Drone:
         self.labels = ('Time (s)', 'Iterations', 'Bad moves')
         self.labels_exp = []
         self.data = []
+        self.paths = []
         
         # Start in random pose
         self.go_to_random_pose()
@@ -311,6 +312,7 @@ class Drone:
 
         readings = []
         readings_coords = []
+        path = []
 
         # Start algorithm
         self.takeoff()
@@ -326,6 +328,8 @@ class Drone:
             current_coords_hm = self.gzcoords_to_heatmapcoords(current_coord_gz)
             neighbors = self.get_valid_neighbors(current_coords_hm)
             neighbors_coords = self.get_neighbor_coords_hm(current_coords_hm, neighbors)
+
+            path.append(current_coords_hm)
             
             # Reading power from the neighbors
             for coord_hm in neighbors_coords:
@@ -344,6 +348,7 @@ class Drone:
 
                 total_it += 1
                 prev_read = current_read
+                path.append(coord_hm)
 
             # Get coords to make decisions
             x_goal_gz = readings_coords[readings.index(max(readings))][0]
@@ -364,6 +369,7 @@ class Drone:
 
             # End condition, when last goal is current one and power is max
             if previous_goal_hm == current_goal_hm and self.is_goal():
+                self.paths.append((path))
                 break
             else:
                 previous_goal_hm = current_goal_hm
@@ -392,11 +398,12 @@ class Drone:
         previous_goal_hm = 0
         total_it = 0
         bad_moves_it = 0
+        max_visited_size = 18
 
         readings = []
         readings_coords = []
         visited = []
-        max_visited_size = 18
+        path = []
 
         # Start algorithm
         self.takeoff()
@@ -413,6 +420,8 @@ class Drone:
             if len(visited) >= max_visited_size:
                 visited.pop(0)            
             visited.append(current_coords_hm)
+
+            path.append(current_coords_hm)
 
             # Get possible neighbors            
             neighbors = self.get_valid_neighbors(current_coords_hm)
@@ -441,6 +450,8 @@ class Drone:
                     visited.pop(0)            
                 visited.append(coord_hm)
 
+                path.append(coord_hm)
+
             # Get coords to make decisions
             x_goal_gz = readings_coords[readings.index(max(readings))][0]
             y_goal_gz = readings_coords[readings.index(max(readings))][1]
@@ -460,6 +471,7 @@ class Drone:
 
             # End condition, when last goal is current one and power is max
             if previous_goal_hm == current_goal_hm and self.is_goal():
+                self.paths.append((path))
                 break
             else:
                 previous_goal_hm = current_goal_hm
@@ -476,6 +488,7 @@ class Drone:
         rospy.loginfo("Going home...")
         self.go_home()
         self.labels_exp.append('Manual Opt')
+
 
 
     def get_next_positions(self, current_cell, visited_cells):
@@ -783,6 +796,7 @@ class Drone:
                 goal_pose.pose.position.y = previous_coords_gz[1]
                 self.move_to(pose=goal_pose)
                 if self.is_goal():
+                    self.paths.append((visited))
                     break
             
             ## handle visited cells
@@ -861,6 +875,8 @@ class Drone:
         '''
         Plot bar graphs to see performance after running the algorithms.
         '''
+        self.generate_trajectory_plot(self.paths)
+
         rainbow_colors = ('red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet')
         k = 0
 
@@ -985,13 +1001,50 @@ class Drone:
         return tuple(coords_hm)
 
 
+    def generate_trajectory_plot(self, paths):
+        '''
+        Creates a plot that describes the trajectories behavior, 
+        mixing all the paths received.
+
+        paths must be a list of lists that include points (x, y).
+
+        path = [((x1, y1), ...), ..., ((xn, yn), ...)]
+        '''
+        # Plotting the paths received
+        i = 0
+        for path in paths:
+            x_values = [point[0] for point in path]
+            y_values = [point[1] for point in path]
+            plt.plot(x_values, 
+                     y_values, 
+                     linestyle = 'dashed', 
+                     marker = 'o', 
+                     linewidth=3, 
+                     label=self.labels_exp[i])
+            i += 1
+
+        # Set parameters
+        plt.xlabel('X')
+        plt.ylabel('Y')
+        plt.title('Trajectory points')
+        plt.xlim(0, self.size - 1)
+        plt.ylim(0, self.size - 1)
+        plt.xticks(range(0, self.size, 1))
+        plt.yticks(range(0, self.size, 1))
+        plt.grid()
+        plt.legend()
+
+        # Display the plot
+        plt.show()
+
+
 # -- MAIN -- #
 if __name__ == '__main__':
     iris = Drone()
 
-    # iris.manual_algorithm()
+    iris.manual_algorithm()
     iris.manual_algorithm_optimized()
-    # iris.q_learning_algorithm()
+    iris.q_learning_algorithm()
 
     iris.show_results()
     rospy.spin()
