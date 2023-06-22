@@ -771,40 +771,28 @@ class Drone:
         Test a Q table performance using gazebo drone.
         '''
         # To send positions to the drone
+        previous_coords_gz = PoseStamped()
         goal_pose = PoseStamped()
         goal_pose.pose.position.z = H
+
+        total_it = 0
+        bad_moves_it = 0
+        previous_pwr = PWR_MIN
+        
+        path = []
+        coord_pair = []
 
         # Start algorithm
         self.takeoff()
         start_time = rospy.Time.now()
-        total_it = 0
-        bad_moves_it = 0
-        previous_pwr = PWR_MIN
-        previous_coords_gz = PoseStamped()
-        visited = []
         while True:
             ## Take readings
             pwr, current_coords_gz = self.read_pwr()
             current_coords_hm = self.gzcoords_to_heatmapcoords(current_coords_gz)
+            path.append(current_coords_hm)
 
-            ## Was previous power higher than actual?
             if previous_pwr > pwr:
                 bad_moves_it += 1
-
-                ## (END CONDITION) If all valid neighbors have lower power than current one.
-                goal_pose.pose.position.x = previous_coords_gz[0]
-                goal_pose.pose.position.y = previous_coords_gz[1]
-                self.move_to(pose=goal_pose)
-                if self.is_goal():
-                    self.paths.append((visited))
-                    break
-            
-            ## handle visited cells
-            if current_coords_hm in visited:
-                loop_counter += 1
-            else:
-                visited.append(current_coords_hm)
-                loop_counter = 0
 
             ## Look for state in Q table
             state_idx = self.get_coord_state_idx(current_coords_hm, states)
@@ -815,6 +803,38 @@ class Drone:
             ## Set new goal and move
             next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[action_idx])
             next_coords_gz = self.heatmapcoords_to_gzcoords(next_coords_hm)
+            
+            # If first iteration store the pair of coords
+            if not coord_pair:
+                coord_pair.extend((current_coords_hm, next_coords_hm))
+            else:
+                # If next coords are revisited
+                if next_coords_hm in coord_pair:
+                    # If not in the highest power position candidate
+                    if previous_pwr > pwr:
+                        path.append(self.gzcoords_to_heatmapcoords(previous_coords_gz))
+                        goal_pose.pose.position.x = previous_coords_gz[0]
+                        goal_pose.pose.position.y = previous_coords_gz[1]
+                        self.move_to(pose=goal_pose)
+
+                    # (END CONDITION)
+                    if self.is_goal():
+                        self.paths.append((path))
+                        break
+                    # If not end --> reset and continue in the highest power detected.
+                    else:
+                        coord_pair.clear()
+                        pwr, current_coords_gz = self.read_pwr()
+                        current_coords_hm = self.gzcoords_to_heatmapcoords(current_coords_gz)
+                        path.append(current_coords_hm)
+                        state_idx = self.get_coord_state_idx(current_coords_hm, states)
+                        action_idx = np.argmax(q_table[state_idx])
+                        next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[action_idx])
+                        next_coords_gz = self.heatmapcoords_to_gzcoords(next_coords_hm)
+                        coord_pair.extend((current_coords_hm, next_coords_hm))
+                else:
+                    coord_pair.pop(0)
+                    coord_pair.append(next_coords_hm)
 
             print((pwr, (current_coords_gz, current_coords_hm), (next_coords_gz, next_coords_hm), states[state_idx], actions[action_idx]))
 
@@ -1042,8 +1062,8 @@ class Drone:
 if __name__ == '__main__':
     iris = Drone()
 
-    iris.manual_algorithm()
-    iris.manual_algorithm_optimized()
+    # iris.manual_algorithm()
+    # iris.manual_algorithm_optimized()
     iris.q_learning_algorithm()
 
     iris.show_results()
