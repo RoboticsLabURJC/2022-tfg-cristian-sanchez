@@ -145,11 +145,19 @@ class Drone:
                                   (self.size - offset_a - offset_b, offset_a),
                                   (int(np.round((self.size - 1) / 2)), int(np.round((self.size - 1) / 2))))
         
+        
         # For plotting purposes
         self.labels = ('Time (s)', 'Iterations', 'Bad moves')
         self.labels_exp = []
         self.data = []
         self.paths = []
+
+        # Q-Learning training
+        self.actions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+        self.states = self.generate_coord_states(1)
+        self.q_table = np.zeros((len(self.states), len(self.actions)))
+
+        self.train_q(self.q_table, self.actions, self.states)
         
         # # Start in random pose
         # self.go_to_random_pose()
@@ -494,19 +502,12 @@ class Drone:
 
     def q_learning_algorithm(self, do_training=True):
         '''
-        Perform Q learning algorithm, first training and then testing in the simulation:
+        Perform Q learning algorithm, first training (constructor) and then testing in the simulation:
 
             - Actions are cardinal directions and it's diagonals.
             - States are defined by the power read intensity.
         '''
-        actions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
-        states = self.generate_coord_states(1)
-        q_table = np.zeros((len(states), len(actions)))
-
-        if do_training:
-            self.train_q(q_table, actions, states)
-
-        self.test_q(q_table, actions, states)
+        self.test_q(self.q_table, self.actions, self.states)
 
 
     def get_state_idx(self, power, states):
@@ -1046,19 +1047,13 @@ class Drone:
 # -- MAIN -- #
 if __name__ == '__main__':
     iris = Drone()
-    first_it = True
 
     for test_pose in TESTING_POSES_CORNER_12:
         iris.go_to_random_pose(test_pose)
         
         iris.manual_algorithm()
         iris.manual_algorithm_optimized()
-
-        if first_it:
-            iris.q_learning_algorithm()
-            first_it = False
-        else:
-            iris.q_learning_algorithm(do_training=False)
+        iris.q_learning_algorithm()
 
         iris.show_results()
         iris.reset_plots()
