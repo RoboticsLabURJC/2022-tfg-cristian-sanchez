@@ -11,7 +11,7 @@ This script let us test different algorithms to solve the RF signal seeking:
         then moves to the highest reading.
 
     3. Q-Learning algorithm
-        We train a model using a Q table (power signal x cardinal movement),
+        We train a model using a Q table (coords x cardinal movement),
         then we use that table to navigate to the signal source.
 '''
 import rospy
@@ -60,10 +60,9 @@ MAX_EPISODES = 5000
 ALPHA = 0.5
 GAMMA = 0.7
 EPSILON = 0.99
-EPSILON_END = 0.1
+EPSILON_END = 0.01
 OFFSET_FACTOR_A = 0.1
 OFFSET_FACTOR_B = 0.2
-# EPSILON_INC = 0.01
 
 ## End conditions
 CONSECUTIVE_BAD_ACTIONS = 5
@@ -72,6 +71,13 @@ NEGATIVE_REWARD_FACTOR = 1.0
 POSITIVE_REWARD_FACTOR = 1.0
 OUT_OF_MAP_REWARD = -10
 EXPLORATION_PERCENT = 0.2
+
+# Testing poses
+TESTING_POSES_CORNER_12 = ((3,3),
+                           (8,6),
+                           (0,7),
+                           (11,0),
+                           (4,5))
 
 
 class Drone:
@@ -132,19 +138,21 @@ class Drone:
         offset_a = int(np.round(self.size * OFFSET_FACTOR_A))
         offset_b = int(np.round(self.size * OFFSET_FACTOR_B))
 
+        # Defining training points for Q-Learning
         self.training_poses_hm = ((offset_a, offset_b),
                                   (offset_b, self.size - offset_b),
                                   (self.size - offset_b, self.size - offset_a - offset_b),
                                   (self.size - offset_a - offset_b, offset_a),
                                   (int(np.round((self.size - 1) / 2)), int(np.round((self.size - 1) / 2))))
         
+        # For plotting purposes
         self.labels = ('Time (s)', 'Iterations', 'Bad moves')
         self.labels_exp = []
         self.data = []
         self.paths = []
         
-        # Start in random pose
-        self.go_to_random_pose()
+        # # Start in random pose
+        # self.go_to_random_pose()
 
 
     def takeoff(self):
@@ -223,40 +231,6 @@ class Drone:
         rospy.loginfo("Reached!")
 
 
-    def move_to_cardinal(self, cmd):
-        '''
-        Move command, it allows the drone to navigate cell to cell in the cardinal axes.
-        '''
-        rospy.loginfo("Move " + cmd + " detected!")
-        if cmd == "N":
-            self.target_pos.pose.position.y = self.current_pos.pose.position.y - CELLSIZE
-        elif cmd == "NE":
-            self.target_pos.pose.position.x = self.current_pos.pose.position.x - CELLSIZE
-            self.target_pos.pose.position.y = self.current_pos.pose.position.y - CELLSIZE
-        elif cmd == "E":
-            self.target_pos.pose.position.x = self.current_pos.pose.position.x - CELLSIZE
-        elif cmd == "SE":
-            self.target_pos.pose.position.x = self.current_pos.pose.position.x - CELLSIZE
-            self.target_pos.pose.position.y = self.current_pos.pose.position.y + CELLSIZE
-        elif cmd == "S":
-            self.target_pos.pose.position.y = self.current_pos.pose.position.y + CELLSIZE
-        elif cmd == "SW":
-            self.target_pos.pose.position.x = self.current_pos.pose.position.x + CELLSIZE
-            self.target_pos.pose.position.y = self.current_pos.pose.position.y + CELLSIZE
-        elif cmd == "W":
-            self.target_pos.pose.position.x = self.current_pos.pose.position.x + CELLSIZE
-        elif cmd == "NW":
-            self.target_pos.pose.position.x = self.current_pos.pose.position.x + CELLSIZE
-            self.target_pos.pose.position.y = self.current_pos.pose.position.y - CELLSIZE
-
-
-        while not self.centered(self.current_pos):
-            self.pos_pub.publish(self.target_pos)
-            self.current_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
-
-        rospy.loginfo("Reached!")
-
-
     def gzcoords_to_heatmapcoords(self, gzcoords):
         '''
         Transform gazebo coords to heatmap coords.
@@ -287,6 +261,7 @@ class Drone:
         self.pwr_client.send_goal(self.pwr_goal)
         self.pwr_client.wait_for_result()
         return (self.pwr_client.get_result().data, current_coords)
+
 
     def read_only_pwr(self, heatmap_coords):
         '''
@@ -490,7 +465,6 @@ class Drone:
         self.labels_exp.append('Manual Opt')
 
 
-
     def get_next_positions(self, current_cell, visited_cells):
         '''
         Check if neighbors of current_cell are visited or not, returns a list of non visited.
@@ -518,7 +492,7 @@ class Drone:
         return next_poses
 
 
-    def q_learning_algorithm(self):
+    def q_learning_algorithm(self, do_training=True):
         '''
         Perform Q learning algorithm, first training and then testing in the simulation:
 
@@ -529,7 +503,9 @@ class Drone:
         states = self.generate_coord_states(1)
         q_table = np.zeros((len(states), len(actions)))
 
-        self.train_q(q_table, actions, states)
+        if do_training:
+            self.train_q(q_table, actions, states)
+
         self.test_q(q_table, actions, states)
 
 
@@ -557,8 +533,8 @@ class Drone:
             state_limits.pop(0)
 
         return tuple(states)
-    
-    
+
+
     def generate_coord_states(self, cell_step):
         '''
         Creates all states based on the coords of the map. The step
@@ -570,7 +546,7 @@ class Drone:
                 states.append((x, y))
 
         return tuple(states)
-    
+
 
     def get_coord_state_idx(self, coord, states):
         '''
@@ -861,17 +837,20 @@ class Drone:
         self.labels_exp.append('Q-Learning')
 
 
-    def go_to_random_pose(self):
+    def go_to_random_pose(self, testing_pose=-1):
         '''
         Send the drone to a random position inside heatmap, that isn't the training ones.
         '''
         goal_pose = PoseStamped()
         goal_pose.pose.position.z = H
-        
-        while True:
-            random_spawn_hm = (np.random.randint(0, self.size), np.random.randint(0, self.size))
-            if random_spawn_hm not in self.training_poses_hm:
-                break
+
+        if testing_pose == -1:
+            while True:
+                random_spawn_hm = (np.random.randint(0, self.size), np.random.randint(0, self.size))
+                if random_spawn_hm not in self.training_poses_hm:
+                    break
+        else:
+            random_spawn_hm = testing_pose
 
         self.takeoff()
         random_spawn_gz = self.heatmapcoords_to_gzcoords(random_spawn_hm)
@@ -881,7 +860,7 @@ class Drone:
         self.origin_pos = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
         self.land()
 
-    
+
     def go_home(self):
         '''
         Send the drone to the origin position.
@@ -972,10 +951,10 @@ class Drone:
         if y - 1 < 0:
             out.extend(('SE', 'S', 'SW'))
 
-        if x >= self.size:
+        if x + 1 >= self.size:
             out.extend(('NE', 'E', 'SE'))
 
-        if y >= self.size:
+        if y + 1 >= self.size:
             out.extend(('NW', 'N', 'NE'))
 
         out = tuple(set(out))
@@ -986,7 +965,7 @@ class Drone:
         rospy.logerr(neighbors)
 
         return tuple(neighbors)
-    
+
 
     def get_neighbor_coords_hm(self, current_coords_hm, neighbors, visited=[]):
         '''
@@ -1057,14 +1036,31 @@ class Drone:
         # Display the plot
         plt.show()
 
+    
+    def reset_plots(self):
+        self.labels_exp.clear()
+        self.data.clear()
+        self.paths.clear()
+
 
 # -- MAIN -- #
 if __name__ == '__main__':
     iris = Drone()
+    first_it = True
 
-    # iris.manual_algorithm()
-    # iris.manual_algorithm_optimized()
-    iris.q_learning_algorithm()
+    for test_pose in TESTING_POSES_CORNER_12:
+        iris.go_to_random_pose(test_pose)
+        
+        iris.manual_algorithm()
+        iris.manual_algorithm_optimized()
 
-    iris.show_results()
+        if first_it:
+            iris.q_learning_algorithm()
+            first_it = False
+        else:
+            iris.q_learning_algorithm(do_training=False)
+
+        iris.show_results()
+        iris.reset_plots()
+
     rospy.spin()
