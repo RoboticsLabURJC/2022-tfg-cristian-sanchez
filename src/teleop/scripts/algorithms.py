@@ -36,7 +36,7 @@ TOLERANCE = 0.0675
 CELLSIZE = 1.0
 TIMEOUT = 0.1
 H = 2.0
-SIGNAL_ORIGIN = (0, 0)
+SIGNAL_ORIGIN = (14, 14)
 
 # Px4Cmd
 IDLE = 0
@@ -57,12 +57,13 @@ PWR_STEP = -1
 
 ## Training
 MAX_EPISODES = 5000
-ALPHA = 0.5
+ALPHA = 0.4
 GAMMA = 0.7
 EPSILON = 0.99
-EPSILON_END = 0.01
+EPSILON_END = 0.05
 OFFSET_FACTOR_A = 0.1
 OFFSET_FACTOR_B = 0.2
+OFFSET_CENTER = 2
 
 ## End conditions
 CONSECUTIVE_BAD_ACTIONS = 5
@@ -79,6 +80,23 @@ TESTING_POSES_CORNER_12 = ((3,3),
                            (11,0),
                            (4,5))
 
+TESTING_POSES_CENTER_12 = ((3,3),
+                           (8,6),
+                           (0,7),
+                           (11,0),
+                           (9,11))
+
+TESTING_POSES_CORNER_30 = ((5,5),
+                           (25,6),
+                           (0,20),
+                           (29,0),
+                           (14,15))
+
+TESTING_POSES_CENTER_30 = ((5,5),
+                           (25,19),
+                           (0,20),
+                           (29,0),
+                           (23,29))
 
 class Drone:
     '''
@@ -143,7 +161,7 @@ class Drone:
                                   (offset_b, self.size - offset_b),
                                   (self.size - offset_b, self.size - offset_a - offset_b),
                                   (self.size - offset_a - offset_b, offset_a),
-                                  (int(np.round((self.size - 1) / 2)), int(np.round((self.size - 1) / 2))))
+                                  (int(np.round((self.size - 1) / 2) + OFFSET_CENTER), int(np.round((self.size - 1) / 2) - OFFSET_CENTER)))
         
         
         # For plotting purposes
@@ -1048,7 +1066,7 @@ class Drone:
 if __name__ == '__main__':
     iris = Drone()
 
-    for test_pose in TESTING_POSES_CORNER_12:
+    for test_pose in TESTING_POSES_CENTER_30:
         iris.go_to_random_pose(test_pose)
         
         iris.manual_algorithm()
