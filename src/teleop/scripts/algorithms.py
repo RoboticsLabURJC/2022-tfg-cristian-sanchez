@@ -36,7 +36,7 @@ TOLERANCE = 0.0675
 CELLSIZE = 1.0
 TIMEOUT = 0.1
 H = 2.0
-SIGNAL_ORIGIN = (14, 14)
+SIGNAL_ORIGIN = (4, 4)
 
 # Px4Cmd
 IDLE = 0
@@ -165,7 +165,7 @@ class Drone:
         
         
         # For plotting purposes
-        self.labels = ('Time (s)', 'Iterations', 'Bad moves')
+        self.labels = ('Time (s)', 'Iterations', 'Bad moves (%)')
         self.labels_exp = []
         self.data = []
         self.paths = []
@@ -381,7 +381,7 @@ class Drone:
         self.land()
 
         # To plot later
-        self.data.append((elapsed_time.to_sec(), total_it, bad_moves_it))
+        self.data.append((elapsed_time.to_sec(), total_it, (bad_moves_it/total_it)*100))
 
         # Return to initial position
         rospy.loginfo("Going home...")
@@ -483,7 +483,7 @@ class Drone:
         self.land()
 
         # To plot later
-        self.data.append((elapsed_time.to_sec(), total_it, bad_moves_it))
+        self.data.append((elapsed_time.to_sec(), total_it, (bad_moves_it/total_it)*100))
         
         # Return to initial position
         rospy.loginfo("Going home...")
@@ -848,7 +848,7 @@ class Drone:
         self.land()
 
         # To plot later
-        self.data.append((elapsed_time.to_sec(), total_it, bad_moves_it))
+        self.data.append((elapsed_time.to_sec(), total_it, (bad_moves_it/total_it)*100))
 
         # Return to initial position
         rospy.loginfo("Going home...")
@@ -895,7 +895,8 @@ class Drone:
         '''
         self.generate_trajectory_plot(self.paths)
 
-        rainbow_colors = ('red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet')
+        # rainbow_colors = ('red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet')
+        rainbow_colors = ('blue', 'orange', 'green', 'red', 'indigo', 'yellow', 'violet')
         k = 0
 
         for i in range(len(self.labels)):
@@ -903,17 +904,17 @@ class Drone:
             ax = plt.subplot(1, len(self.labels), i + 1)
             bars = plt.bar(self.labels_exp, variable)
 
-            ax.set_title(self.labels[i])
+            # ax.set_title(self.labels[i])
             ax.bar_label(bars)
-            ax.set_ylabel('Value')
+            ax.set_ylabel(self.labels[i])
 
             for j in range(len(bars)):
 
                 try:
-                    bars[j].set_color(rainbow_colors[k])
+                    bars[j].set_color(rainbow_colors[k%len(self.labels_exp)])
                 except IndexError:
                     k = 0
-                    bars[j].set_color(rainbow_colors[k])
+                    bars[j].set_color(rainbow_colors[k%len(self.labels_exp)])
 
                 k += 1
 
