@@ -36,7 +36,7 @@ TOLERANCE = 0.0675
 CELLSIZE = 1.0
 TIMEOUT = 0.1
 H = 2.0
-SIGNAL_ORIGIN = (4, 4)
+SIGNAL_ORIGIN = (0, 0)
 
 # Px4Cmd
 IDLE = 0
@@ -56,7 +56,7 @@ PWR_MIN = -100
 PWR_STEP = -1
 
 ## Training
-MAX_EPISODES = 5000
+MAX_EPISODES = 1000
 ALPHA = 0.4
 GAMMA = 0.7
 EPSILON = 0.99
@@ -74,6 +74,10 @@ OUT_OF_MAP_REWARD = -10
 EXPLORATION_PERCENT = 0.2
 
 # Testing poses
+TESTING_SHORT_CORNER_12 = ((2,2),
+                           (2,0),
+                           (0,2))
+
 TESTING_POSES_CORNER_12 = ((3,3),
                            (8,6),
                            (0,7),
@@ -1030,22 +1034,73 @@ class Drone:
         path = [((x1, y1), ...), ..., ((xn, yn), ...)]
         '''
         # Plotting the paths received
-        i = 0
-        for path in paths:
-            x_values = [point[0] for point in path]
-            y_values = [point[1] for point in path]
-            plt.plot(x_values, 
-                     y_values, 
-                     linestyle = 'dashed', 
-                     marker = 'o', 
-                     linewidth=3, 
-                     label=self.labels_exp[i])
-            i += 1
+        rainbow_colors = ('blue', 'orange', 'green', 'red', 'indigo', 'yellow', 'violet')
+        _, ax = plt.subplots()
+        k = 0
+        for path in paths:            
+            ax.plot(*zip(*path),
+                    linestyle = 'dashed',
+                    marker='o',
+                    linewidth=3,
+                    color=rainbow_colors[k%len(self.labels_exp)], 
+                    label=self.labels_exp[k])
+            
+            for i in range(len(path) - 1):
+                x, y = path[i]
+                dx, dy = path[i+1][0] - x, path[i+1][1] - y
+                ax.arrow(x, y, dx, dy, 
+                         head_width=0.1, 
+                         head_length=0.15, 
+                         fc=rainbow_colors[k%len(self.labels_exp)], 
+                         ec=rainbow_colors[k%len(self.labels_exp)])
+                
+            k += 1
+
+        # Set parameters
+        ax.set_xlabel('X')
+        ax.set_ylabel('Y')
+        ax.set_title('Trajectory points')
+        ax.set_xlim(0, self.size - 1)
+        ax.set_ylim(0, self.size - 1)
+        ax.set_xticks(range(0, self.size, 1))
+        ax.set_yticks(range(0, self.size, 1))
+        ax.grid()
+        ax.legend()
+        ax.set_aspect('equal')
+
+        plt.show()
+
+
+    def reset_plots(self):
+        '''
+        Resets all variables used for plotting.
+        '''
+        self.labels_exp.clear()
+        self.data.clear()
+        self.paths.clear()
+
+
+    def show_points(self, testing_points):
+        '''
+        Displays all points used.
+        '''
+        # Training
+        x_values = [point[0] for point in self.training_poses_hm]
+        y_values = [point[1] for point in self.training_poses_hm]
+        plt.plot(x_values, y_values, 'ro', label='Training')
+
+        # Training
+        x_values = [point[0] for point in testing_points]
+        y_values = [point[1] for point in testing_points]
+        plt.plot(x_values, y_values, 'go', label='Inference')
+
+        # Signal
+        plt.plot(SIGNAL_ORIGIN[0], SIGNAL_ORIGIN[1], 'bo', label='Signal')
 
         # Set parameters
         plt.xlabel('X')
         plt.ylabel('Y')
-        plt.title('Trajectory points')
+        plt.title('Points')
         plt.xlim(0, self.size - 1)
         plt.ylim(0, self.size - 1)
         plt.xticks(range(0, self.size, 1))
@@ -1056,18 +1111,13 @@ class Drone:
         # Display the plot
         plt.show()
 
-    
-    def reset_plots(self):
-        self.labels_exp.clear()
-        self.data.clear()
-        self.paths.clear()
-
 
 # -- MAIN -- #
 if __name__ == '__main__':
     iris = Drone()
+    iris.show_points(TESTING_SHORT_CORNER_12)
 
-    for test_pose in TESTING_POSES_CENTER_30:
+    for test_pose in TESTING_SHORT_CORNER_12:
         iris.go_to_random_pose(test_pose)
         
         iris.manual_algorithm()
