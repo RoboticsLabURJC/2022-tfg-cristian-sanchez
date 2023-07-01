@@ -56,11 +56,11 @@ PWR_MIN = -100
 PWR_STEP = -1
 
 ## Training
-MAX_EPISODES = 1000
+MAX_EPISODES = 5000
 ALPHA = 0.4
 GAMMA = 0.7
 EPSILON = 0.99
-EPSILON_END = 0.05
+EPSILON_END = 0.025
 OFFSET_FACTOR_A = 0.1
 OFFSET_FACTOR_B = 0.2
 OFFSET_CENTER = 2
@@ -101,6 +101,8 @@ TESTING_POSES_CENTER_30 = ((5,5),
                            (0,20),
                            (29,0),
                            (23,29))
+
+TESTING_POSES_Q_CORNER_30 = ((14,14),)
 
 class Drone:
     '''
@@ -899,21 +901,21 @@ class Drone:
         '''
         self.generate_trajectory_plot(self.paths)
 
-        # rainbow_colors = ('red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet')
         rainbow_colors = ('blue', 'orange', 'green', 'red', 'indigo', 'yellow', 'violet')
         k = 0
-
         for i in range(len(self.labels)):
             variable = [item[i] for item in self.data]
             ax = plt.subplot(1, len(self.labels), i + 1)
             bars = plt.bar(self.labels_exp, variable)
 
-            # ax.set_title(self.labels[i])
             ax.bar_label(bars)
             ax.set_ylabel(self.labels[i])
 
-            for j in range(len(bars)):
+            # Ticks for percent plot
+            if i == len(self.labels) - 1:
+                ax.set_yticks(range(0, 101, 10))
 
+            for j in range(len(bars)):
                 try:
                     bars[j].set_color(rainbow_colors[k%len(self.labels_exp)])
                 except IndexError:
@@ -1049,8 +1051,8 @@ class Drone:
                 x, y = path[i]
                 dx, dy = path[i+1][0] - x, path[i+1][1] - y
                 ax.arrow(x, y, dx, dy, 
-                         head_width=0.1, 
-                         head_length=0.15, 
+                         head_width=0.2, 
+                         head_length=0.2, 
                          fc=rainbow_colors[k%len(self.labels_exp)], 
                          ec=rainbow_colors[k%len(self.labels_exp)])
                 
@@ -1112,17 +1114,41 @@ class Drone:
         plt.show()
 
 
+    def change_pwr_q_learning(self, new_power, new_f):
+        '''
+        Change power values in heatmap server.
+        '''
+        # Requesting heatmap for Rviz and data extraction
+        self.rvz_goal.heatmap_config.clear()
+        self.rvz_goal.heatmap_config.extend([new_power, new_f])
+        self.rvz_client.send_goal(self.rvz_goal)
+        self.rvz_client.wait_for_result()
+
+        # Definition of the rviz msg
+        self.rvz_msg.data = self.rvz_client.get_result().data
+
+        # Waits the rviz subscriber to be available
+        while self.rvz_pub.get_num_connections() == 0:
+            rospy.sleep(1.0)
+
+        # Publish heatmap to perform rviz representation
+        self.rvz_pub.publish(self.rvz_msg)
+
+
 # -- MAIN -- #
 if __name__ == '__main__':
     iris = Drone()
-    iris.show_points(TESTING_SHORT_CORNER_12)
+    iris.show_points(TESTING_POSES_Q_CORNER_30)
 
-    for test_pose in TESTING_SHORT_CORNER_12:
+    for test_pose in TESTING_POSES_Q_CORNER_30:
         iris.go_to_random_pose(test_pose)
         
         iris.manual_algorithm()
         iris.manual_algorithm_optimized()
+
         iris.q_learning_algorithm()
+        # iris.change_pwr_q_learning(100, 30 * (10**9))
+        # iris.q_learning_algorithm()
 
         iris.show_results()
         iris.reset_plots()
