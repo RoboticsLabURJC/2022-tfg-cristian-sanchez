@@ -22,6 +22,7 @@ import actionlib
 from heatmap_util.msg import GetPowerFrissAction, GetPowerFrissGoal, RvizFrissAction, RvizFrissGoal
 import numpy as np
 import matplotlib.pyplot as plt
+import csv
 
 # -- CTE -- #
 # Topics
@@ -36,7 +37,7 @@ TOLERANCE = 0.0675
 CELLSIZE = 1.0
 TIMEOUT = 0.1
 H = 2.0
-SIGNAL_ORIGIN = (0, 0)
+SIGNAL_ORIGIN = (3, 1)
 
 # Px4Cmd
 IDLE = 0
@@ -60,13 +61,13 @@ MAX_EPISODES = 5000
 ALPHA = 0.4
 GAMMA = 0.7
 EPSILON = 0.99
-EPSILON_END = 0.025
+EPSILON_END = 0.1
 OFFSET_FACTOR_A = 0.1
 OFFSET_FACTOR_B = 0.2
-OFFSET_CENTER = 2
+OFFSET_CENTER = 1
 
 ## End conditions
-CONSECUTIVE_BAD_ACTIONS = 5
+CONSECUTIVE_BAD_ACTIONS = 10
 NOT_VALID_POWER = -100
 NEGATIVE_REWARD_FACTOR = 1.0
 POSITIVE_REWARD_FACTOR = 1.0
@@ -74,35 +75,20 @@ OUT_OF_MAP_REWARD = -10
 EXPLORATION_PERCENT = 0.2
 
 # Testing poses
-TESTING_SHORT_CORNER_12 = ((2,2),
-                           (2,0),
-                           (0,2))
+TESTING_POSES_12 = ((2,4),
+                    (2,8),
+                    (7,9),
+                    (9,3),
+                    (5,7))
 
-TESTING_POSES_CORNER_12 = ((3,3),
-                           (8,6),
-                           (0,7),
-                           (11,0),
-                           (4,5))
+TESTING_POSES_30 = ((5,5),
+                    (4,22),
+                    (25,21),
+                    (24,6),
+                    (14,15))
 
-TESTING_POSES_CENTER_12 = ((3,3),
-                           (8,6),
-                           (0,7),
-                           (11,0),
-                           (9,11))
+TESTING_POSES_Q_30 = ((14,15),)
 
-TESTING_POSES_CORNER_30 = ((5,5),
-                           (25,6),
-                           (0,20),
-                           (29,0),
-                           (14,15))
-
-TESTING_POSES_CENTER_30 = ((5,5),
-                           (25,19),
-                           (0,20),
-                           (29,0),
-                           (23,29))
-
-TESTING_POSES_Q_CORNER_30 = ((14,14),)
 
 class Drone:
     '''
@@ -181,6 +167,7 @@ class Drone:
         self.states = self.generate_coord_states(1)
         self.q_table = np.zeros((len(self.states), len(self.actions)))
 
+        self.show_points(TESTING_POSES_12)
         self.train_q(self.q_table, self.actions, self.states)
         
         # # Start in random pose
@@ -701,7 +688,7 @@ class Drone:
                         reward *= POSITIVE_REWARD_FACTOR
 
                     ### (END CONDITION) If agent does n consecutive bad actions --> end
-                    if negative_reward_counter >= CONSECUTIVE_BAD_ACTIONS:
+                    if negative_reward_counter >= self.size:
                         end_condition = True
 
                 ## Get next state index and calculate error
@@ -927,6 +914,8 @@ class Drone:
         plt.tight_layout()
         plt.show()
 
+        self.export_to_csv()
+
 
     def is_goal(self):
         '''
@@ -1037,39 +1026,42 @@ class Drone:
         '''
         # Plotting the paths received
         rainbow_colors = ('blue', 'orange', 'green', 'red', 'indigo', 'yellow', 'violet')
-        _, ax = plt.subplots()
-        k = 0
-        for path in paths:            
+
+        # Create subplots
+        _, axs = plt.subplots(1, len(paths), figsize=(12, 4))
+
+        for k, ax in enumerate(axs):
+            path = paths[k]
             ax.plot(*zip(*path),
-                    linestyle = 'dashed',
+                    linestyle='dotted',
                     marker='o',
-                    linewidth=3,
-                    color=rainbow_colors[k%len(self.labels_exp)], 
-                    label=self.labels_exp[k])
-            
+                    linewidth=1,
+                    color=rainbow_colors[k % len(self.labels_exp)],
+                    label=self.labels_exp[k],
+                    markersize=0.5)
+
             for i in range(len(path) - 1):
                 x, y = path[i]
-                dx, dy = path[i+1][0] - x, path[i+1][1] - y
-                ax.arrow(x, y, dx, dy, 
-                         head_width=0.2, 
-                         head_length=0.2, 
-                         fc=rainbow_colors[k%len(self.labels_exp)], 
-                         ec=rainbow_colors[k%len(self.labels_exp)])
-                
-            k += 1
+                dx, dy = path[i + 1][0] - x, path[i + 1][1] - y
+                ax.arrow(x, y, dx, dy,
+                        head_width=0.2,
+                        head_length=0.25,
+                        fc=rainbow_colors[k % len(self.labels_exp)],
+                        ec=rainbow_colors[k % len(self.labels_exp)])
 
-        # Set parameters
-        ax.set_xlabel('X')
-        ax.set_ylabel('Y')
-        ax.set_title('Trajectory points')
-        ax.set_xlim(0, self.size - 1)
-        ax.set_ylim(0, self.size - 1)
-        ax.set_xticks(range(0, self.size, 1))
-        ax.set_yticks(range(0, self.size, 1))
-        ax.grid()
-        ax.legend()
-        ax.set_aspect('equal')
+            # Set parameters
+            ax.set_xlabel('X')
+            ax.set_ylabel('Y')
+            ax.set_title(self.labels_exp[k])
+            ax.set_xlim(0, self.size - 1)
+            ax.set_ylim(0, self.size - 1)
+            ax.set_xticks(range(0, self.size, 1))
+            ax.set_yticks(range(0, self.size, 1))
+            ax.grid()
+            ax.legend()
+            ax.set_aspect('equal')
 
+        plt.tight_layout()
         plt.show()
 
 
@@ -1086,29 +1078,38 @@ class Drone:
         '''
         Displays all points used.
         '''
+        point_size = 10
+        limit_size = 5
+
         # Training
         x_values = [point[0] for point in self.training_poses_hm]
         y_values = [point[1] for point in self.training_poses_hm]
-        plt.plot(x_values, y_values, 'ro', label='Training')
+        plt.plot(x_values, y_values, 'rx', label='Training', markersize=point_size)
 
         # Training
         x_values = [point[0] for point in testing_points]
         y_values = [point[1] for point in testing_points]
-        plt.plot(x_values, y_values, 'go', label='Inference')
+        plt.plot(x_values, y_values, 'go', label='Inference', markersize=point_size)
 
         # Signal
-        plt.plot(SIGNAL_ORIGIN[0], SIGNAL_ORIGIN[1], 'bo', label='Signal')
+        plt.plot(SIGNAL_ORIGIN[0], SIGNAL_ORIGIN[1], 'b^', label='Signal', markersize=point_size)
+
+        # Limits of the map
+        plt.plot([0, 0], [0, self.size - 1], 'k-', linewidth=limit_size)
+        plt.plot([0, self.size - 1], [self.size - 1, self.size - 1], 'k-', linewidth=limit_size)
+        plt.plot([self.size - 1, self.size - 1], [self.size - 1, 0], 'k-', linewidth=limit_size)
+        plt.plot([self.size - 1, 0], [0, 0], 'k-', linewidth=limit_size)
 
         # Set parameters
         plt.xlabel('X')
         plt.ylabel('Y')
-        plt.title('Points')
-        plt.xlim(0, self.size - 1)
-        plt.ylim(0, self.size - 1)
+        plt.title('Scenario map (points)')
+        plt.xlim(-1, self.size)
+        plt.ylim(-1, self.size)
         plt.xticks(range(0, self.size, 1))
         plt.yticks(range(0, self.size, 1))
         plt.grid()
-        plt.legend()
+        plt.legend(loc='upper right')
 
         # Display the plot
         plt.show()
@@ -1134,13 +1135,57 @@ class Drone:
         # Publish heatmap to perform rviz representation
         self.rvz_pub.publish(self.rvz_msg)
 
+    
+    def export_to_csv(self):
+        '''
+        Generates 3 csv files with n-experiment columns.
+        '''
+        # Separate the data into three lists
+        rospy.logwarn("CSV!")
+        
+        times = [entry[0] for entry in self.data]
+        iterations = [entry[1] for entry in self.data]
+        bad_moves = [entry[2] for entry in self.data]
+
+        # Define the file paths for each CSV file
+        time_csv_file = 'times.csv'
+        iterations_csv_file = 'iterations.csv'
+        bad_moves_csv_file = 'bad_moves.csv'
+
+        rospy.logwarn(self.data, times, iterations, bad_moves, time_csv_file, iterations_csv_file, bad_moves_csv_file)
+        # Write time data to the time CSV file
+        with open(time_csv_file, 'a', newline='') as file:
+            rospy.logwarn("In open")
+            writer = csv.writer(file)
+            rospy.logwarn("Writer created")
+            writer.writerow(times)
+            rospy.logwarn("Writer used!")
+        rospy.logwarn("Time CSV done!")
+
+        # Write iterations data to the iterations CSV file
+        with open(iterations_csv_file, 'a', newline='') as file:
+            rospy.logwarn("In open")
+            writer = csv.writer(file)
+            rospy.logwarn("Writer created")
+            writer.writerow(iterations)
+            rospy.logwarn("Writer used!")
+        rospy.logwarn("Iterations CSV done!")
+
+        # Write bad_moves data to the bad_moves CSV file
+        with open(bad_moves_csv_file, 'a', newline='') as file:
+            rospy.logwarn("In open")
+            writer = csv.writer(file)
+            rospy.logwarn("Writer created")
+            writer.writerow(bad_moves)
+            rospy.logwarn("Writer used!")
+        rospy.logwarn("Bad moves CSV done!")
+
 
 # -- MAIN -- #
 if __name__ == '__main__':
     iris = Drone()
-    iris.show_points(TESTING_POSES_Q_CORNER_30)
 
-    for test_pose in TESTING_POSES_Q_CORNER_30:
+    for test_pose in TESTING_POSES_12:
         iris.go_to_random_pose(test_pose)
         
         iris.manual_algorithm()
