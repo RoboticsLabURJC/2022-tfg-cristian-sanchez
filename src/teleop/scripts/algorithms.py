@@ -38,7 +38,7 @@ TOLERANCE = 0.0675
 CELLSIZE = 1.0
 TIMEOUT = 0.1
 H = 2.0
-SIGNAL_ORIGIN = (5, 5)
+SIGNAL_ORIGIN = (12, 12)
 
 # Px4Cmd
 IDLE = 0
@@ -167,7 +167,7 @@ class Drone:
         self.states = self.generate_coord_states(1)
         self.q_table = np.zeros((len(self.states), len(self.actions)))
 
-        self.show_points(TESTING_POSES_12)
+        self.show_points(TESTING_POSES_30)
         self.train_q(self.q_table, self.actions, self.states)
         
         # # Start in random pose
@@ -1148,9 +1148,7 @@ class Drone:
         '''
         Generates 3 csv files with n-experiment columns.
         '''
-        # Separate the data into three lists
-        rospy.logwarn("CSV!")
-        
+        # Separate the data into three lists        
         times = [entry[0] for entry in self.data]
         iterations = [entry[1] for entry in self.data]
         bad_moves = [entry[2] for entry in self.data]
@@ -1160,40 +1158,27 @@ class Drone:
         iterations_csv_file = '/tmp/iterations.csv'
         bad_moves_csv_file = '/tmp/bad_moves.csv'
 
-        rospy.logwarn((self.data, times, iterations, bad_moves, time_csv_file, iterations_csv_file, bad_moves_csv_file))
         # Write time data to the time CSV file
         with open(time_csv_file, 'a', newline='') as file:
-            rospy.logwarn("In open")
             writer = csv.writer(file)
-            rospy.logwarn("Writer created")
             writer.writerow(times)
-            rospy.logwarn("Writer used!")
-        rospy.logwarn("Time CSV done!")
 
         # Write iterations data to the iterations CSV file
         with open(iterations_csv_file, 'a', newline='') as file:
-            rospy.logwarn("In open")
             writer = csv.writer(file)
-            rospy.logwarn("Writer created")
             writer.writerow(iterations)
-            rospy.logwarn("Writer used!")
-        rospy.logwarn("Iterations CSV done!")
 
         # Write bad_moves data to the bad_moves CSV file
         with open(bad_moves_csv_file, 'a', newline='') as file:
-            rospy.logwarn("In open")
             writer = csv.writer(file)
-            rospy.logwarn("Writer created")
             writer.writerow(bad_moves)
-            rospy.logwarn("Writer used!")
-        rospy.logwarn("Bad moves CSV done!")
 
 
 # -- MAIN -- #
 if __name__ == '__main__':
     iris = Drone()
 
-    for test_pose in TESTING_POSES_12:
+    for test_pose in TESTING_POSES_30:
         iris.go_to_random_pose(test_pose)
         
         iris.manual_algorithm()
