@@ -23,6 +23,7 @@ from heatmap_util.msg import GetPowerFrissAction, GetPowerFrissGoal, RvizFrissAc
 import numpy as np
 import matplotlib.pyplot as plt
 import csv
+import pandas as pd
 
 # -- CTE -- #
 # Topics
@@ -37,7 +38,7 @@ TOLERANCE = 0.0675
 CELLSIZE = 1.0
 TIMEOUT = 0.1
 H = 2.0
-SIGNAL_ORIGIN = (3, 1)
+SIGNAL_ORIGIN = (5, 5)
 
 # Px4Cmd
 IDLE = 0
@@ -67,7 +68,6 @@ OFFSET_FACTOR_B = 0.2
 OFFSET_CENTER = 1
 
 ## End conditions
-CONSECUTIVE_BAD_ACTIONS = 10
 NOT_VALID_POWER = -100
 NEGATIVE_REWARD_FACTOR = 1.0
 POSITIVE_REWARD_FACTOR = 1.0
@@ -81,9 +81,9 @@ TESTING_POSES_12 = ((2,4),
                     (9,3),
                     (5,7))
 
-TESTING_POSES_30 = ((5,5),
+TESTING_POSES_30 = ((8,5),
                     (4,22),
-                    (25,21),
+                    (19,23),
                     (24,6),
                     (14,15))
 
@@ -690,6 +690,8 @@ class Drone:
                     ### (END CONDITION) If agent does n consecutive bad actions --> end
                     if negative_reward_counter >= self.size:
                         end_condition = True
+                
+                reward *= 10
 
                 ## Get next state index and calculate error
                 next_state_idx = self.get_coord_state_idx(next_coords_hm, states)
@@ -739,6 +741,12 @@ class Drone:
         plt.plot(eps_to_plot)
         plt.xlabel('Episodes')
         plt.ylabel('Epsilon')
+
+        ### Moving avg technique to clean the plot
+        series = pd.Series(reward_to_plot)
+        moving_avg_reward = series.rolling(window=10).mean()
+        moving_avg_reward_filled = moving_avg_reward.fillna(series)
+        reward_to_plot = moving_avg_reward_filled.to_list()
 
         plt.subplot(3, 1, 2)
         plt.plot(reward_to_plot)
@@ -1148,11 +1156,11 @@ class Drone:
         bad_moves = [entry[2] for entry in self.data]
 
         # Define the file paths for each CSV file
-        time_csv_file = 'times.csv'
-        iterations_csv_file = 'iterations.csv'
-        bad_moves_csv_file = 'bad_moves.csv'
+        time_csv_file = '/tmp/times.csv'
+        iterations_csv_file = '/tmp/iterations.csv'
+        bad_moves_csv_file = '/tmp/bad_moves.csv'
 
-        rospy.logwarn(self.data, times, iterations, bad_moves, time_csv_file, iterations_csv_file, bad_moves_csv_file)
+        rospy.logwarn((self.data, times, iterations, bad_moves, time_csv_file, iterations_csv_file, bad_moves_csv_file))
         # Write time data to the time CSV file
         with open(time_csv_file, 'a', newline='') as file:
             rospy.logwarn("In open")
