@@ -7,9 +7,9 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
-TIMES_PATH = '/home/csanrod/Desktop/tests_tfg/30x30/corner (5,3)/times.csv'
-IT_PATH = '/home/csanrod/Desktop/tests_tfg/30x30/corner (5,3)/iterations.csv'
-BAD_PATH = '/home/csanrod/Desktop/tests_tfg/30x30/corner (5,3)/bad_moves.csv'
+TIMES_PATH = '/home/csanrod/Desktop/tests_tfg/30x30/center (12,12)/times.csv'
+IT_PATH = '/home/csanrod/Desktop/tests_tfg/30x30/center (12,12)/iterations.csv'
+BAD_PATH = '/home/csanrod/Desktop/tests_tfg/30x30/center (12,12)/bad_moves.csv'
 
 LABELS = ('Time (s)', 'Iterations', 'Bad moves (%)')
 LABELS_EXP = ('Manual', 'Manual Opt', 'Q-Learning')

@@ -38,7 +38,7 @@ TOLERANCE = 0.0675
 CELLSIZE = 1.0
 TIMEOUT = 0.1
 H = 2.0
-SIGNAL_ORIGIN = (12, 12)
+SIGNAL_ORIGIN = (5, 3)
 
 # Px4Cmd
 IDLE = 0
@@ -167,7 +167,7 @@ class Drone:
         self.states = self.generate_coord_states(1)
         self.q_table = np.zeros((len(self.states), len(self.actions)))
 
-        self.show_points(TESTING_POSES_30)
+        self.show_points(TESTING_POSES_Q_30)
         self.train_q(self.q_table, self.actions, self.states)
         
         # # Start in random pose
@@ -854,7 +854,11 @@ class Drone:
         # Return to initial position
         rospy.loginfo("Going home...")
         self.go_home()
-        self.labels_exp.append('Q-Learning')
+
+        if 'Q-Learning' not in self.labels_exp:
+            self.labels_exp.append('Q-Learning')
+        else:
+            self.labels_exp.append('Q-Learning 2')
 
 
     def go_to_random_pose(self, testing_pose=-1):
@@ -922,7 +926,7 @@ class Drone:
         plt.tight_layout()
         plt.show()
 
-        self.export_to_csv()
+        # self.export_to_csv()
 
 
     def is_goal(self):
@@ -1178,15 +1182,15 @@ class Drone:
 if __name__ == '__main__':
     iris = Drone()
 
-    for test_pose in TESTING_POSES_30:
+    for test_pose in TESTING_POSES_Q_30:
         iris.go_to_random_pose(test_pose)
         
-        iris.manual_algorithm()
-        iris.manual_algorithm_optimized()
+        # iris.manual_algorithm()
+        # iris.manual_algorithm_optimized()
 
         iris.q_learning_algorithm()
-        # iris.change_pwr_q_learning(100, 30 * (10**9))
-        # iris.q_learning_algorithm()
+        iris.change_pwr_q_learning(2, 5 * (10**9))
+        iris.q_learning_algorithm()
 
         iris.show_results()
         iris.reset_plots()
