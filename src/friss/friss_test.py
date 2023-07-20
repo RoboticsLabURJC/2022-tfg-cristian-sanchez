@@ -7,9 +7,11 @@ import friss as fr
 
 
 if __name__ == "__main__":
-    heatmap = fr.Friss(world_sz=(5,5))
-    heatmap.model_power_signal(origin=(1,2))
-    heatmap.set_obstacle_effect()
+    heatmap = fr.Friss(world_sz=(30,30))
+    heatmap.model_power_signal(origin=(5,3))
+    heatmap.hardcode_obstacles()
+    # heatmap.set_obstacle_effect()
+    # heatmap.show_map()
 
 
 # SIZE = 7

@@ -167,8 +167,34 @@ class Drone:
         self.states = self.generate_coord_states(1)
         self.q_table = np.zeros((len(self.states), len(self.actions)))
 
-        self.show_points(TESTING_POSES_Q_30)
-        self.train_q(self.q_table, self.actions, self.states)
+        # Debugging obstacles
+        self.pwr_goal.index = (22,3)
+        self.pwr_client.send_goal(self.pwr_goal)
+        self.pwr_client.wait_for_result()
+        rospy.logerr(self.pwr_client.get_result().data)
+
+        self.pwr_goal.index = (22,4)
+        self.pwr_client.send_goal(self.pwr_goal)
+        self.pwr_client.wait_for_result()
+        rospy.logerr(self.pwr_client.get_result().data)
+
+        self.pwr_goal.index = (22,5)
+        self.pwr_client.send_goal(self.pwr_goal)
+        self.pwr_client.wait_for_result()
+        rospy.logerr(self.pwr_client.get_result().data)
+
+        self.pwr_goal.index = (22,6)
+        self.pwr_client.send_goal(self.pwr_goal)
+        self.pwr_client.wait_for_result()
+        rospy.logerr(self.pwr_client.get_result().data)
+
+        self.pwr_goal.index = (21,5)
+        self.pwr_client.send_goal(self.pwr_goal)
+        self.pwr_client.wait_for_result()
+        rospy.logerr(self.pwr_client.get_result().data)
+
+        # self.show_points(TESTING_POSES_Q_30)
+        # self.train_q(self.q_table, self.actions, self.states)
         
         # # Start in random pose
         # self.go_to_random_pose()
@@ -1182,17 +1208,17 @@ class Drone:
 if __name__ == '__main__':
     iris = Drone()
 
-    for test_pose in TESTING_POSES_Q_30:
-        iris.go_to_random_pose(test_pose)
+    # for test_pose in TESTING_POSES_Q_30:
+    #     iris.go_to_random_pose(test_pose)
         
-        # iris.manual_algorithm()
-        # iris.manual_algorithm_optimized()
+    #     # iris.manual_algorithm()
+    #     # iris.manual_algorithm_optimized()
 
-        iris.q_learning_algorithm()
-        iris.change_pwr_q_learning(2, 5 * (10**9))
-        iris.q_learning_algorithm()
+    #     iris.q_learning_algorithm()
+    #     iris.change_pwr_q_learning(2, 5 * (10**9))
+    #     iris.q_learning_algorithm()
 
-        iris.show_results()
-        iris.reset_plots()
+    #     iris.show_results()
+    #     iris.reset_plots()
 
     rospy.spin()

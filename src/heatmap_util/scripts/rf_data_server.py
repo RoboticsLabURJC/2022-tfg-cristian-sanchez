@@ -46,6 +46,7 @@ class MyActionServer:
         self._power_result = GetPowerFrissResult()
         self._offset_pose = PoseStamped()
         self._model = fr.Friss(world_sz=self._size, resolution=self._res)
+        self._model.hardcode_obstacles()
         self._data = 0.0
 
 
@@ -68,6 +69,7 @@ class MyActionServer:
                                            freq=goal.heatmap_config[1])
                     
                 self._data = self._model.model_power_signal(goal.origin)
+                self._data = self._model.hardcode_obstacles()
                 flip_data = np.rot90(self._data, k=-1)
                 flip_data = np.flip(flip_data, axis=1)
                 self._rviz_result.data = list(flip_data.flatten())

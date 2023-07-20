@@ -195,9 +195,77 @@ class Friss:
 
     def show_map(self):
         # self.__place_obstacle(((3,3), (2,2)))
+        self.hardcode_obstacles()
         print(np.round(self.__raw_data))
+        print(self.__raw_data[29, 0])
+
+    def hardcode_obstacles(self):
+        for y in range(5,11):
+            self.__place_obstacle((20, y))
+            self.__place_obstacle((21, y))
+
+        lines = ((5,10), 
+                 (5,10),
+                 (5,11),
+                 (6,11),
+                 (6,12),
+                 (6,12))
+        
+        for line in lines:
+            init, end = line
+            for x in range(22, 30):
+                for y in range(init, end + 1):
+                    self.__raw_data[x, y] *= 1.1
+
+        rows, cols = self.__raw_data.shape
+        data = np.zeros((rows, cols))
+
+        for x in range(rows):
+            for y in range(cols):
+                data[x, y] = self.__raw_data[x, y]
+        return data
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # EXPERIMENTAL STUFF...
     def __place_obstacle(self, obs_coords):
         if isinstance(obs_coords, tuple):
             if isinstance(obs_coords[0], tuple):
