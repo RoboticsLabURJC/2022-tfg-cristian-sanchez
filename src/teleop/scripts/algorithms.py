@@ -89,6 +89,8 @@ TESTING_POSES_30 = ((8,5),
 
 TESTING_POSES_Q_30 = ((14,15),)
 
+TESTING_POSES_Q_30_OBSTACLE = ((24,9),)
+
 
 class Drone:
     '''
@@ -119,6 +121,10 @@ class Drone:
         # Goal objects to make requests
         self.rvz_goal = RvizFrissGoal()
         self.pwr_goal = GetPowerFrissGoal()
+
+        # Initially no obstacles
+        self.rvz_goal.obstacle = False
+        self.pwr_goal.obstacle = False
 
         # Requesting heatmap for Rviz and data extraction
         self.rvz_goal.origin = SIGNAL_ORIGIN
@@ -153,8 +159,7 @@ class Drone:
                                   (offset_b, self.size - offset_b),
                                   (self.size - offset_b, self.size - offset_a - offset_b),
                                   (self.size - offset_a - offset_b, offset_a),
-                                  (int(np.round((self.size - 1) / 2) + OFFSET_CENTER), int(np.round((self.size - 1) / 2) - OFFSET_CENTER)))
-        
+                                  (int(np.round((self.size - 1) / 2) + OFFSET_CENTER), int(np.round((self.size - 1) / 2) - OFFSET_CENTER)))        
         
         # For plotting purposes
         self.labels = ('Time (s)', 'Iterations', 'Bad moves (%)')
@@ -167,34 +172,8 @@ class Drone:
         self.states = self.generate_coord_states(1)
         self.q_table = np.zeros((len(self.states), len(self.actions)))
 
-        # Debugging obstacles
-        self.pwr_goal.index = (22,3)
-        self.pwr_client.send_goal(self.pwr_goal)
-        self.pwr_client.wait_for_result()
-        rospy.logerr(self.pwr_client.get_result().data)
-
-        self.pwr_goal.index = (22,4)
-        self.pwr_client.send_goal(self.pwr_goal)
-        self.pwr_client.wait_for_result()
-        rospy.logerr(self.pwr_client.get_result().data)
-
-        self.pwr_goal.index = (22,5)
-        self.pwr_client.send_goal(self.pwr_goal)
-        self.pwr_client.wait_for_result()
-        rospy.logerr(self.pwr_client.get_result().data)
-
-        self.pwr_goal.index = (22,6)
-        self.pwr_client.send_goal(self.pwr_goal)
-        self.pwr_client.wait_for_result()
-        rospy.logerr(self.pwr_client.get_result().data)
-
-        self.pwr_goal.index = (21,5)
-        self.pwr_client.send_goal(self.pwr_goal)
-        self.pwr_client.wait_for_result()
-        rospy.logerr(self.pwr_client.get_result().data)
-
-        # self.show_points(TESTING_POSES_Q_30)
-        # self.train_q(self.q_table, self.actions, self.states)
+        self.show_points(TESTING_POSES_Q_30_OBSTACLE)
+        self.train_q(self.q_table, self.actions, self.states)
         
         # # Start in random pose
         # self.go_to_random_pose()
@@ -537,14 +516,14 @@ class Drone:
         return next_poses
 
 
-    def q_learning_algorithm(self, do_training=True):
+    def q_learning_algorithm(self, obstacles=False):
         '''
         Perform Q learning algorithm, first training (constructor) and then testing in the simulation:
 
             - Actions are cardinal directions and it's diagonals.
             - States are defined by the power read intensity.
         '''
-        self.test_q(self.q_table, self.actions, self.states)
+        self.test_q(self.q_table, self.actions, self.states, obstacles)
 
 
     def get_state_idx(self, power, states):
@@ -672,12 +651,27 @@ class Drone:
         reward_to_plot = []
         it_to_plot = []
 
+        # For recording purposes only
+        goal_pose = PoseStamped()
+        goal_pose.pose.position.z = H
+        # recording_condition = episode_counter == 5 or episode_counter == 400 or episode_counter == 850
+        # self.takeoff()
+        recording_condition = False
+
         # Training
         ## Initial conditions        
         current_coords_hm = self.training_poses_hm[np.random.randint(len(self.training_poses_hm))]
         end_condition = False
         start_time = rospy.Time.now()
         while episode_counter < MAX_EPISODES:
+            ## Moves drone to initial training pose (for 3 epochs in 3 different times)
+            if recording_condition and it_per_ep == 0:
+                rospy.logwarn("Move to initial pose...")
+                current_coords_gz = self.heatmapcoords_to_gzcoords(current_coords_hm)
+                goal_pose.pose.position.x = current_coords_gz[0]
+                goal_pose.pose.position.y = current_coords_gz[1]
+                self.move_to(pose=goal_pose)
+
             ## Sensor data extraction
             pwr_current = self.read_only_pwr(current_coords_hm)
 
@@ -687,6 +681,15 @@ class Drone:
 
             ## Future state data extraction
             next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[current_action_idx])
+
+            ## Moves drone while training (n-iterations for 3 epochs in 3 different times)
+            if recording_condition:
+                rospy.logwarn("Episode: " + str(episode_counter) + "\tIteration: " + str(it_per_ep))
+                next_coords_gz = self.heatmapcoords_to_gzcoords(next_coords_hm)
+                goal_pose.pose.position.x = next_coords_gz[0]
+                goal_pose.pose.position.y = next_coords_gz[1]
+                self.move_to(pose=goal_pose)
+
             pwr_next = self.read_only_pwr(next_coords_hm)
 
             ## Gets next state index with valid power value
@@ -788,10 +791,22 @@ class Drone:
         plt.show()
 
 
-    def test_q(self, q_table, actions, states):
+    def test_q(self, q_table, actions, states, obstacles):
         '''
         Test a Q table performance using gazebo drone.
         '''
+        # If you want to test with obstacles
+        if obstacles:
+            self.pwr_goal.obstacle = True
+            self.pwr_client.send_goal(self.pwr_goal)
+            self.pwr_client.wait_for_result()
+
+            self.rvz_goal.obstacle = True
+            self.rvz_client.send_goal(self.rvz_goal)
+            self.rvz_client.wait_for_result()
+            self.rvz_msg.data = self.rvz_client.get_result().data
+            self.rvz_pub.publish(self.rvz_msg)
+
         # To send positions to the drone
         previous_coords_gz = PoseStamped()
         goal_pose = PoseStamped()
@@ -1208,13 +1223,13 @@ class Drone:
 if __name__ == '__main__':
     iris = Drone()
 
-    # for test_pose in TESTING_POSES_Q_30:
-    #     iris.go_to_random_pose(test_pose)
+    for test_pose in TESTING_POSES_Q_30_OBSTACLE:
+        iris.go_to_random_pose(test_pose)
         
     #     # iris.manual_algorithm()
     #     # iris.manual_algorithm_optimized()
 
-    #     iris.q_learning_algorithm()
+        iris.q_learning_algorithm(obstacles=True)
     #     iris.change_pwr_q_learning(2, 5 * (10**9))
     #     iris.q_learning_algorithm()
 

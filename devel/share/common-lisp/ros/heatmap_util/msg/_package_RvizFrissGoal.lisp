@@ -3,4 +3,6 @@
           ORIGIN
           HEATMAP_CONFIG-VAL
           HEATMAP_CONFIG
+          OBSTACLE-VAL
+          OBSTACLE
 ))

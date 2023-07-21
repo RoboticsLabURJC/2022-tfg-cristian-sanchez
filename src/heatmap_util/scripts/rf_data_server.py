@@ -46,7 +46,6 @@ class MyActionServer:
         self._power_result = GetPowerFrissResult()
         self._offset_pose = PoseStamped()
         self._model = fr.Friss(world_sz=self._size, resolution=self._res)
-        self._model.hardcode_obstacles()
         self._data = 0.0
 
 
@@ -69,7 +68,10 @@ class MyActionServer:
                                            freq=goal.heatmap_config[1])
                     
                 self._data = self._model.model_power_signal(goal.origin)
-                self._data = self._model.hardcode_obstacles()
+                
+                if goal.obstacle:
+                    self._data = self._model.hardcode_obstacles()
+                    
                 flip_data = np.rot90(self._data, k=-1)
                 flip_data = np.flip(flip_data, axis=1)
                 self._rviz_result.data = list(flip_data.flatten())
@@ -82,7 +84,10 @@ class MyActionServer:
     def __response_drone(self, goal): 
         '''
         Data request for a certain index inside friss model.
-        '''       
+        ''' 
+        if goal.obstacle:
+            self._model.hardcode_obstacles()
+
         if len(goal.index) == 2:
             x, y = goal.index
             out_of_index = x < 0 or y < 0 or x > (self._size[0] - 1) or y > (self._size[1] - 1)

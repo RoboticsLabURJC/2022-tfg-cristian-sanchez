@@ -1,5 +1,6 @@
 int16[] origin
 float64[] heatmap_config
+bool obstacle
 ---
 float64[] data
 ---
