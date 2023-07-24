@@ -86,7 +86,7 @@ class MyActionServer:
         Data request for a certain index inside friss model.
         ''' 
         if goal.obstacle:
-            self._model.hardcode_obstacles()
+            self._data = self._model.hardcode_obstacles()
 
         if len(goal.index) == 2:
             x, y = goal.index

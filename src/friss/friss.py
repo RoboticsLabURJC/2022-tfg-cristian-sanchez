@@ -215,7 +215,7 @@ class Friss:
             init, end = line
             for x in range(22, 30):
                 for y in range(init, end + 1):
-                    self.__raw_data[x, y] *= 1.1
+                    self.__raw_data[x, y] *= 1.015
 
         rows, cols = self.__raw_data.shape
         data = np.zeros((rows, cols))
@@ -273,13 +273,13 @@ class Friss:
                     if (obs_x, obs_y) == self.__signal_origin:
                         print("Not possible to add obstacle in the signal origin pose...")
                     else:
-                        self.__raw_data[obs_x, obs_y] = -99
+                        self.__raw_data[obs_x, obs_y] = -999
             else:
                 obs_x, obs_y = obs_coords
                 if (obs_x, obs_y) == self.__signal_origin:
                     print("Not possible to add obstacle in the signal origin pose...")
                 else:
-                    self.__raw_data[obs_x, obs_y] = -99
+                    self.__raw_data[obs_x, obs_y] = -999
         else:
             print("Wrong format, please introduce a single tuple coord (x,y) or a tuple of coords like ((x_a,y1),(x_b,y2), ...)")
 

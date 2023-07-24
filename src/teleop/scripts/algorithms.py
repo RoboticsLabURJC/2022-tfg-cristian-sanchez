@@ -172,11 +172,11 @@ class Drone:
         self.states = self.generate_coord_states(1)
         self.q_table = np.zeros((len(self.states), len(self.actions)))
 
+        # Display all points
         self.show_points(TESTING_POSES_Q_30_OBSTACLE)
+
+        # Train the model
         self.train_q(self.q_table, self.actions, self.states)
-        
-        # # Start in random pose
-        # self.go_to_random_pose()
 
 
     def takeoff(self):
@@ -654,9 +654,8 @@ class Drone:
         # For recording purposes only
         goal_pose = PoseStamped()
         goal_pose.pose.position.z = H
-        # recording_condition = episode_counter == 5 or episode_counter == 400 or episode_counter == 850
-        # self.takeoff()
-        recording_condition = False
+        recording_condition = episode_counter == 5 or episode_counter == 400 or episode_counter == 850
+        # recording_condition = False
 
         # Training
         ## Initial conditions        
@@ -664,14 +663,6 @@ class Drone:
         end_condition = False
         start_time = rospy.Time.now()
         while episode_counter < MAX_EPISODES:
-            ## Moves drone to initial training pose (for 3 epochs in 3 different times)
-            if recording_condition and it_per_ep == 0:
-                rospy.logwarn("Move to initial pose...")
-                current_coords_gz = self.heatmapcoords_to_gzcoords(current_coords_hm)
-                goal_pose.pose.position.x = current_coords_gz[0]
-                goal_pose.pose.position.y = current_coords_gz[1]
-                self.move_to(pose=goal_pose)
-
             ## Sensor data extraction
             pwr_current = self.read_only_pwr(current_coords_hm)
 
@@ -684,6 +675,10 @@ class Drone:
 
             ## Moves drone while training (n-iterations for 3 epochs in 3 different times)
             if recording_condition:
+                if it_per_ep == 0:
+                    self.go_to_random_pose(current_coords_hm)
+                    self.takeoff()
+                    
                 rospy.logwarn("Episode: " + str(episode_counter) + "\tIteration: " + str(it_per_ep))
                 next_coords_gz = self.heatmapcoords_to_gzcoords(next_coords_hm)
                 goal_pose.pose.position.x = next_coords_gz[0]
@@ -834,11 +829,16 @@ class Drone:
             ## Look for state in Q table
             state_idx = self.get_coord_state_idx(current_coords_hm, states)
 
-            ## Get best action using Q table
-            action_idx = np.argmax(q_table[state_idx])
+            ## Get best possible action using Q table
+            sorted_indices = np.argsort(q_table[state_idx])[::-1].tolist()
+            for index in sorted_indices:
+                ## Set new goal and move
+                next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[index])
 
-            ## Set new goal and move
-            next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[action_idx])
+                ## Simulate obstacle detection with another sensor (not specified)
+                if self.read_only_pwr(next_coords_hm) != 999:
+                    break
+
             next_coords_gz = self.heatmapcoords_to_gzcoords(next_coords_hm)
             
             # If first iteration store the pair of coords
@@ -872,8 +872,6 @@ class Drone:
                 else:
                     coord_pair.pop(0)
                     coord_pair.append(next_coords_hm)
-
-            print((pwr, (current_coords_gz, current_coords_hm), (next_coords_gz, next_coords_hm), states[state_idx], actions[action_idx]))
 
             goal_pose.pose.position.x = next_coords_gz[0]
             goal_pose.pose.position.y = next_coords_gz[1]

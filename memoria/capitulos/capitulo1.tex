@@ -2,19 +2,59 @@
 \label{cap:capitulo1}
 \setcounter{page}{1}
 
+En la actualidad, la tecnología forma parte de nuestro día a día. Prácticamente, constituye un elemento imprescindible para llevar a cabo cualquier actividad, sea profesional o cotidiana. ¿Su función? solucionar problemas para hacernos la vida más sencilla.\\
+
+Con esto en mente, se presenta la robótica, pero ¿qué es la robótica?. En breves términos, se trata de la ciencia encargada del estudio y diseño de dispositivos provistos de sensores y actuadores, capaces de realizar tareas, a través de la extracción y posterior procesamiento de la información, con el fin de generar respuestas adecuadas a lo obtenido. \\
+
+Dentro de la robótica, existen diversas maneras de clasificación, sin embargo, la más común es:
+
+\begin{enumerate}
+	\item \textbf{Robótica industrial}: que involucra mecanismos fijos, capaces de realizar tareas de manera rápida, precisa y eficiente. Como es el caso de los brazos robóticos.
+
+	\item \textbf{Robótica móvil}: la cual abarca el resto de dispositivos no mencionados, que engloba múltiples entornos y aplicaciones, como pueden ser, robótica en salud, en exploración, para desastres naturales, de limpieza, de patrullaje, ...etc.
+\end{enumerate}
+
+Como tal, la robótica es especialmente buena a la hora de resolver tareas repetitivas, peligrosas y delicadas (EDIT añadir 4Ds). Sin embargo, uno de los problemas más complicados de abordar es el contexto, es decir, la capacidad de entender y adaptarse a las circunstancias del problema. Es ahí, donde se presenta el segundo gran protagonista, la \ac{IA}.\\
+
+De este modo empieza este proyecto, con la robótica como base junto con la inteligencia artificial, con el fin de crear un dispositivo capaz de rastrear una señal (como la de un smartphone), y navegar hasta ella de manera robusta.\\
+
+Pero antes de entrar en materia, primero hay que definir los conceptos básicos como, ¿qué es exactamente un robot? ¿qué tipo de robot usaremos? ¿en qué consiste la \ac{IA} y que emplearemos? ¿cómo funcionan las señales que rastrearemos?
+
+\section{Robots}
+\label{sec:robots}
+
+Un robot es un dispositivo provisto con sensores, o elementos capaces de extraer información del entorno (por ejemplo una cámara), actuadores, o elementos que permiten al dispositivo realizar acciones (por ejemplo un motor), y una unidad de procesamiento, que se encarga de generar acciones a través de la información obtenida con los sensores, todo ello mediante algoritmos.\\
+
+Según el problema que se quiera resolver conviene usar unos y otros. En nuestro caso buscamos un robot con capacidad de navegar, preferiblemente grandes distancias y que pueda tomar medidas de la intensidad de señal. De este modo, para el primer punto se tenían dos opciones, o bien un robot terrestre, o bien un robot aéreo. Para el segundo punto no influye ya que se podía incluir el sensor en cualquier discpositivo.\\
+
+Finalmente se optó por la solución aérea, ya que nos permite barrer grandes superficies sin depender del terreno en sí.
+
+\subsection{Drones}
+\label{subsec:drones}
+
+En cuanto a un dron, o de forma más precisa un \ac{UAV} hay que definir unos cuantos conceptos:
+
+\begin{enumerate}
+	\item \textbf{\ac{GCS}}: es la estación de tierra o el elemento encargado de controlar la nave.
+
+	\item \textbf{Comunicación}: Conecta y gestiona la transmisión de datos entre el \ac{UAV} y la \ac{GCS}, mediante \textbf{data links}, o canales de transmisión.
+	
+    \item \textbf{\ac{UAS}}: Es el sistema compuesto por \ac{UAV} + \ac{GCS} + comunicaciones.
+\end{enumerate}
+
+También cabe destacar que existen múltiples tipos de drones, según su peso y capacidad de carga de pago, o elementos que sea capaz de cargar, lo cual influye en la legislación detras de su uso (cuanto mayor sea el peso más legislación debe cumplir y mayores restricciones de uso tiene). Por dichos motivos, el dispositivo seleccionado es de la categoría más inferior o tambien denominados \ac{SUAV}.\\
+
+Tal y como fue mencionado, la gran ventaja del uso de vehículos aéreos es poder evitar las irregularidades del terreno, sin embargo, hay ligados al uso de estos dispositivos ciertos problemas, como son el clima, la carga de pago que afecta a la autonomía (peso de las baterías), los interiores (afectan a la señal GPS), ...etc.\\
+
+\section{Inteligencia artificial}
+\label{subsec:inteligencia_artificial}
+
 ToDo...
 
-\section{Exoesqueletos}
-\label{sec:exoesqueletos}
+\subsection{Aprendizaje por refuerzo}
+\label{subsec:aprendizaje_por_refuerzo}
 
 ToDo...
 
-\subsection{Exoesqueletos en rehabilitación}
-\label{subsec:exoesqueletos_rehabilitacion}
-
-ToDo...
-
-\section{Redes neuronales para detección de posturas}
-\label{subsec:redes_neuronales_deteccion_posturas}
-
-ToDo...
+\section{Señales}
+\label{subsec:señales}
