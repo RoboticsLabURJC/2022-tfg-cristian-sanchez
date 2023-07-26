@@ -654,16 +654,14 @@ class Drone:
         # For recording purposes only
         goal_pose = PoseStamped()
         goal_pose.pose.position.z = H
-        recording_condition = episode_counter == 5 or episode_counter == 400 or episode_counter == 850
-        # recording_condition = False
 
         # Training
         ## Initial conditions        
         current_coords_hm = self.training_poses_hm[np.random.randint(len(self.training_poses_hm))]
         end_condition = False
         start_time = rospy.Time.now()
-        while episode_counter < MAX_EPISODES:
-            ## Sensor data extraction
+        while episode_counter < MAX_EPISODES:            
+            ## Sensor data extractions
             pwr_current = self.read_only_pwr(current_coords_hm)
 
             ## State and action indexes for Q table
@@ -674,6 +672,8 @@ class Drone:
             next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[current_action_idx])
 
             ## Moves drone while training (n-iterations for 3 epochs in 3 different times)
+            # recording_condition = (episode_counter == 5) or (episode_counter == 400) or (episode_counter == 850)
+            recording_condition = False
             if recording_condition:
                 if it_per_ep == 0:
                     self.go_to_random_pose(current_coords_hm)
@@ -836,7 +836,7 @@ class Drone:
                 next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[index])
 
                 ## Simulate obstacle detection with another sensor (not specified)
-                if self.read_only_pwr(next_coords_hm) != 999:
+                if self.read_only_pwr(next_coords_hm) != -999:
                     break
 
             next_coords_gz = self.heatmapcoords_to_gzcoords(next_coords_hm)
