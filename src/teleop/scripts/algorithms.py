@@ -982,6 +982,10 @@ class Drone:
         
         # Analyzing only valid neighbors
         for coord_hm in neighbors_coords:
+            # Simulation of obstacle detection (if obstacle, take next neighbor)
+            if self.read_only_pwr(coord_hm) == -999:
+                continue
+
             # Move to the pose
             x_gz, y_gz = self.heatmapcoords_to_gzcoords(coord_hm)
             goal_pose.pose.position.x = x_gz

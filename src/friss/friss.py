@@ -25,6 +25,7 @@ class Friss:
         test                --> Model some cases.
     '''
     C = 3.0 * (10 ** 8) # Light speed
+    OBSTACLE_VALUE = -999
 
     def __init__(self, power_tras=1.0, gain_tras=1.0, gain_recv=1.0,
                  freq=FREQ_WIFI, losses_factor=2.4, losses_path=2.0,
@@ -199,6 +200,7 @@ class Friss:
         print(np.round(self.__raw_data))
         print(self.__raw_data[29, 0])
 
+
     def hardcode_obstacles(self):
         for y in range(5,11):
             self.__place_obstacle((20, y))
@@ -224,48 +226,8 @@ class Friss:
             for y in range(cols):
                 data[x, y] = self.__raw_data[x, y]
         return data
+    
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # EXPERIMENTAL STUFF...
     def __place_obstacle(self, obs_coords):
         if isinstance(obs_coords, tuple):
             if isinstance(obs_coords[0], tuple):
@@ -273,17 +235,57 @@ class Friss:
                     if (obs_x, obs_y) == self.__signal_origin:
                         print("Not possible to add obstacle in the signal origin pose...")
                     else:
-                        self.__raw_data[obs_x, obs_y] = -999
+                        self.__raw_data[obs_x, obs_y] = self.OBSTACLE_VALUE
             else:
                 obs_x, obs_y = obs_coords
                 if (obs_x, obs_y) == self.__signal_origin:
                     print("Not possible to add obstacle in the signal origin pose...")
                 else:
-                    self.__raw_data[obs_x, obs_y] = -999
+                    self.__raw_data[obs_x, obs_y] = self.OBSTACLE_VALUE
         else:
             print("Wrong format, please introduce a single tuple coord (x,y) or a tuple of coords like ((x_a,y1),(x_b,y2), ...)")
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # EXPERIMENTAL STUFF...   
     def __find_intersection(self, point1, point2, point3, point4, only_segments=False):
         x1, y1 = point1
         x2, y2 = point2
