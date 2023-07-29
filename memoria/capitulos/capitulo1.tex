@@ -4,24 +4,24 @@
 
 En la actualidad, la tecnología forma parte de nuestro día a día. Prácticamente, constituye un elemento imprescindible para llevar a cabo cualquier actividad, sea profesional o cotidiana. ¿Su función? solucionar problemas para hacernos la vida más sencilla.\\
 
-Con esto en mente, se presenta la robótica, pero ¿qué es la robótica?. Según la \ac{RAE}, la robótica se define cómo "técnica que aplica la informática al diseño y empleo de aparatos que, en sustitución de personas, realizan operaciones o trabajos, por lo general en instalaciones industriales." (Real Academia Española, s.f., definición 2) \cite{rae-robotica}. Sin embargo, no es precisa, por ello una definición más concreta podría ser, ciencia que engloba diversas ramas tecnológicas, encargada del estudio y diseño de dispositivos mecánicos provistos de sensores y actuadores, capaces de realizar tareas, a través de la extracción y posterior procesamiento de la información, con el fin de generar respuestas adecuadas para resolver determinados problemas \cite{revista-de-robots}.\\
+Con esto en mente, se presenta la robótica, pero ¿qué es la robótica?. Según la \ac{RAE}, la robótica se define cómo ``técnica que aplica la informática al diseño y empleo de aparatos que, en sustitución de personas, realizan operaciones o trabajos, por lo general en instalaciones industriales.'' (Real Academia Española, s.f., definición 2) \cite{rae-robotica}. Sin embargo, no es precisa, por ello una definición más concreta podría ser, ciencia que engloba diversas ramas tecnológicas, encargada del estudio y diseño de dispositivos mecánicos provistos de sensores y actuadores, capaces de realizar tareas, a través de la extracción y posterior procesamiento de la información, con el fin de generar respuestas adecuadas para resolver determinados problemas \cite{revista-de-robots}.\\
 
-Dentro de la robótica, existen diversas maneras de clasificar, sin embargo, una de las más comunes es:
+Dentro de la robótica, existen diversas maneras de clasificar, sin embargo, una de las más comunes esta relacionada con la mobilidad del dispositivo, esto es, si el mecanismo se puede desplazar por su entorno o no, por tanto se distingue lo siguiente:
 
 \begin{enumerate}
-	\item \textbf{Robótica industrial}: que involucra mecanismos fijos, capaces de realizar tareas de manera rápida, precisa y eficiente. Como es el caso de los brazos robóticos.
+	\item \textbf{Robótica industrial}: que involucra mecanismos fijos, capaces de realizar tareas de manera rápida, precisa y eficiente. Como es el caso de los brazos robóticos \cite{industrial-robot}.
 
-	\item \textbf{Robótica móvil}: la cual abarca el resto de dispositivos no mencionados, que engloba múltiples entornos y aplicaciones, como pueden ser, robótica en salud, en exploración, para desastres naturales, de limpieza, de patrullaje, ...etc.
+	\item \textbf{Robótica móvil}: la cual abarca el resto de dispositivos no mencionados, que engloba múltiples entornos y aplicaciones, como pueden ser, robótica aérea, terrestre y submarina \cite{mobile-robot}.
 \end{enumerate}
 
-Como tal, la robótica es especialmente buena a la hora de resolver tareas repetitivas, en ambientes problemáticos, peligrosas y delicadas (conocidas como las 4 D's, dull, dirty, dangerous y delicated). Sin embargo, uno de los problemas más complicados de abordar, es el contexto, es decir, la capacidad de entender y adaptarse a las circunstancias del problema. Es ahí, donde se presenta el segundo gran protagonista, la \ac{IA}.\\
+Como tal, la robótica es especialmente buena a la hora de resolver tareas repetitivas, peligrosas, delicadas y en ambientes problemáticos (conocidas como las 4 D's, \emph{dull, dirty, dangerous and dear}) \cite{4-d}. Sin embargo, uno de los problemas más complicados de abordar, es el contexto, es decir, la capacidad de entender y adaptarse a las circunstancias del problema. Es ahí, donde se presenta el segundo gran protagonista, la \ac{IA} \cite{dworakowski2020robots}.\\
 
-Pero antes de entrar en materia, primero hay que definir los conceptos básicos uno a uno como, ¿qué es exactamente un robot? ¿qué tipo de robot usaremos? ¿en qué consiste la \ac{IA} y que emplearemos? ¿cómo funcionan las señales que rastrearemos? ...etc.
+Pero antes de entrar en materia, primero hay que definir los conceptos básicos uno a uno como, ¿qué es exactamente un robot? ¿qué tipo de robot usaremos? ¿en qué consiste la \ac{IA} y que emplearemos? ¿cómo funcionan las señales que rastrearemos? entre otras cuestiones.
 
 \section{Robots}
 \label{sec:robots}
 
-Un robot es un dispositivo provisto con sensores, o elementos capaces de extraer información del entorno (por ejemplo una cámara), actuadores, o elementos que permiten al dispositivo realizar acciones (por ejemplo un motor), y una unidad de procesamiento, que se encarga de generar acciones a través de la información obtenida con los sensores, todo ello mediante algoritmos.\\
+Un robot es un dispositivo provisto con sensores, o elementos capaces de extraer información del entorno (por ejemplo una cámara), actuadores, o elementos que permiten al dispositivo realizar acciones (por ejemplo un motor), y una unidad de procesamiento, que se encarga de generar acciones a través de la información obtenida con los sensores, todo ello mediante algoritmos \cite{Wang2022}.\\
 
 Según el problema que se quiera resolver conviene usar unos y otros. En nuestro caso buscamos un robot con capacidad de navegar, preferiblemente grandes distancias y que pueda tomar medidas de la intensidad de señal. De este modo, para el primer punto se tenían dos opciones, o bien un robot terrestre, o bien un robot aéreo. Para el segundo punto no influye ya que se podía incluir el sensor en cualquier discpositivo.\\
 
@@ -30,26 +30,26 @@ Finalmente se optó por la solución aérea, ya que nos permite barrer grandes s
 \subsection{Drones}
 \label{subsec:drones}
 
-Los \ac{UAS} tienen origen en la primera guerra mundial, con el biplano llamado \textbf{Kettering bug}. Se trataba de un torpedo que era lanzado desde una carretilla, capaz de volar de forma no tripulada, hasta que se liberaba de sus alas y caía sobre el objetivo \cite{kettering-bug}. Más tarde, entre la primera y segunda guerra mundial (1935), se diseño el \textbf{Queen Bee}, de donde surgió el termino "drone", como abeja macho en busca de la reina, que se trataba de un avión no tripulado, con el fin de servir de objetivo para realizar prácticas de artillería aérea \cite{queen-bee}. Sin embargo, no fue hasta \textbf{Operation Aphrodite}, en la segunda guerra mundial, donde realmente se vió el primer dron radio tripulado, con el fin de poder volar en entornos "sucios" o dirty, dado el nuevo paradigma de las bombas atómicas \cite{operation-aphrodite}.\\
+Los \ac{UAS} tienen origen en la primera guerra mundial, con el biplano llamado \textbf{Kettering bug}. Se trataba de un torpedo que era lanzado desde una carretilla, capaz de volar de forma no tripulada, hasta que se liberaba de sus alas y caía sobre el objetivo \cite{kettering-bug}. Más tarde, entre la primera y segunda guerra mundial (1935), se diseño el \textbf{Queen Bee}, de donde surgió el termino ``drone'', como abeja macho en busca de la reina, que se trataba de un avión no tripulado, con el fin de servir de objetivo para realizar prácticas de artillería aérea \cite{queen-bee}. Sin embargo, no fue hasta \textbf{Operation Aphrodite}, en la segunda guerra mundial, donde realmente se vió el primer dron radio tripulado, con el fin de poder volar en entornos ``sucios'' o dirty, dado el nuevo paradigma de las bombas atómicas \cite{operation-aphrodite}.\\
 
-Existen múltiples avances y ejemplos posteriores, pero en la actualidad podemos definir un \ac{UAV} teniendo en cuenta lo siguiente:
+Existen múltiples avances y ejemplos posteriores, pero en la actualidad podemos definir un \ac{UAS} teniendo en cuenta lo siguiente:
 
 \begin{enumerate}
 	\item \textbf{\ac{GCS}}: es la estación de tierra o el elemento encargado de controlar la nave.
 
-	\item \textbf{Comunicación}: Conecta y gestiona la transmisión de datos entre el \ac{UAV} y la \ac{GCS}, mediante \textbf{data links}, o canales de transmisión.
+	\item \textbf{Comunicación}: conecta y gestiona la transmisión de datos entre el \ac{UAV} y la \ac{GCS}, mediante \textbf{data links}, o canales de transmisión.
 	
-    \item \textbf{\ac{UAS}}: Es el sistema compuesto por \ac{UAV} + \ac{GCS} + comunicaciones.
-\end{enumerate}
+    \item \textbf{\ac{UAV}}: hace referencia directamente a la aeronave.
+\end{enumerate} \cite{uas-definicion} \cite{gcs-definicion} \cite{data-link-definicion}
 
-También cabe destacar que hay variedad de drones, según su peso y capacidad de carga de pago, o elementos que sea capaz de cargar, lo cual influye en la legislación detras de su uso (de forma general, cuanto mayor sea el peso, más legislación debe cumplir y mayores restricciones de uso tiene). Por ello, el dispositivo seleccionado es de la categoría más inferior o tambien denominados \ac{SUAV}.\\
+También cabe destacar que hay variedad de drones, según su peso y capacidad de carga de pago, o elementos que sea capaz de cargar, lo cual influye en la legislación detras de su uso (de forma general, cuanto mayor sea el peso, más legislación debe cumplir y mayores restricciones de uso tiene) \cite{drone-regulation}. Por ello, el dispositivo seleccionado es de la categoría más inferior o tambien denominados \ac{SUAV}.\\
 
-Tal y como fue mencionado, la gran ventaja del uso de vehículos aéreos es poder evitar las irregularidades del terreno, sin embargo, hay ligados al uso de estos dispositivos ciertos problemas, como son el clima, la carga de pago que afecta a la autonomía (peso de las baterías), los interiores (afectan a la señal GPS), ...etc. Los cuales se deben tener en cuenta de cara a la resolución del problema.\\
+Tal y como fue mencionado, la gran ventaja del uso de vehículos aéreos es poder evitar las irregularidades del terreno, sin embargo, hay ligados al uso de estos dispositivos ciertos problemas, como son el clima, la carga de pago que afecta a la autonomía (peso de las baterías), los interiores (afectan a la señal GPS), entre otros. Los cuales se deben tener en cuenta de cara a la resolución del problema.\\
 
 \section{Inteligencia artificial}
 \label{subsec:inteligencia_artificial}
 
-El segundo pilar mencionado en este \ac{TFG}, es el de la \ac{IA}, pero, ¿de dónde surge esto?. Quizás, la primera pregunta que se buscó responder fue la siguiente \textbf{¿Puede una máquina pensar?}, formulada en "Computing Machinery and Intelligence" (Alan Turing, 1950), de donde surgió el famoso test de Turing, entre otras ideas \cite{turing-ai}. La búsqueda de la \ac{IA} enfrentó desafíos iniciales debido a la incapacidad de las primeras computadoras para almacenar datos y su elevado precio. Sin embargo, en 1956, se presentó el primer programa de \ac{IA} llamado \textbf{Logic Theorist} en el Dartmouth Summer Research Project on Artificial Intelligence. Con el tiempo, la IA progresó con mejores algoritmos y mejoras en la capacidad de las computadoras. A pesar de esto, lograr los objetivos finales de la IA, como comprender el lenguaje humano y el pensamiento abstracto, sigue siendo un desafío a día de hoy \cite{history-ai}.\\
+El segundo pilar mencionado en este \ac{TFG}, es el de la \ac{IA}, pero, ¿de dónde surge esto?. Quizás, la primera pregunta que se buscó responder fue la siguiente \textbf{¿Puede una máquina pensar?}, formulada en ``Computing Machinery and Intelligence'' (Alan Turing, 1950), de donde surgió el famoso test de Turing, entre otras ideas \cite{turing-paper}. La búsqueda de la \ac{IA} enfrentó desafíos iniciales debido a la incapacidad de las primeras computadoras para almacenar datos y su elevado precio. Sin embargo, en 1956, se presentó el primer programa de \ac{IA} llamado \textbf{Logic Theorist} en el Dartmouth Summer Research Project on Artificial Intelligence \cite{logic-theorist}. Con el tiempo, la IA progresó con mejores algoritmos y mejoras en la capacidad de las computadoras. A pesar de esto, lograr los objetivos finales de la IA, como comprender el lenguaje humano y el pensamiento abstracto, sigue siendo un desafío a día de hoy \cite{history-ai}.\\
 
 En general, la \ac{IA} es capaz de abordar los siguientes problemas:
 
@@ -59,23 +59,27 @@ En general, la \ac{IA} es capaz de abordar los siguientes problemas:
 	\item \textbf{Clasificación}: que engloba datos en grupos según sus características. Como puede ser, detectar rostros en imagenes de personas.
 	
     \item \textbf{Aprendizaje}: Que busca resolver un problema a base de prueba y error, mediante un sistema de recompensas. Como por ejemplo, el juego del ajedrez, donde se busque ganar en el menor número de movimientos posible.
-\end{enumerate}
+\end{enumerate} \cite{reg-class}
 
 \subsection{Aprendizaje por refuerzo}
 \label{subsec:aprendizaje_por_refuerzo}
 
-Dada la naturaleza de nuestro problema, el enfoque se basará en el aprendizaje por refuerzo, donde se planteará un sistema de recompensas y penalizaciones, que enseñará al robot a tomar las mejores acciones posibles.\\
+Dada la naturaleza de nuestro problema, el enfoque se basará en el aprendizaje por refuerzo, donde se planteará un sistema de recompensas y penalizaciones, que enseñará al robot a tomar las mejores acciones posibles \cite{learn}.\\
 
-Concretamente se hará uso de la metodología \textbf{Q-Learning}, que busca generar una tabla numérica donde cada fila se interprete como un estado del robot, que puede ser su posición; y cada columna sea una determinada acción, como puede ser moverse hacia algún lugar. De este modo, y una vez construida la tabla (que se rellena con números en función de las recompensas y penalizaciones), el robot solo tiene que identificar en que estado se encuentra y elegir la columna con mayor valor numérico, lo que se traducirá en la mejor acción para dicho estado.
+Cabe destacar que, este enfoque está directamente extraido de la psicología y el estudio del comportamiento, donde en función de recompensas y castigos se induce al aprendizaje en distintas tareas, como por ejemplo, enseñar a jugar al ping pong a dos palomas \cite{psicologia-aprendizaje}.
+
+Concretamente se hará uso de la metodología \textbf{Q-Learning}, que busca generar una tabla numérica donde cada fila se interprete como un estado del robot, que puede ser su posición; y cada columna sea una determinada acción, como puede ser moverse hacia algún lugar. De este modo, y una vez construida la tabla (que se rellena con números en función de las recompensas y penalizaciones), el robot solo tiene que identificar en que estado se encuentra y elegir la columna con mayor valor numérico, lo que se traducirá en la mejor acción para dicho estado \cite{q-learning}.
 
 \section{Señales}
 \label{subsec:señales}
 
-El último elemento presente en el problema es la fuente de datos que se empleará para construir la inteligencia del robot. En este caso hablamos de las señales, concretamente de señales \ac{RF}, como son por ejemplo Wi-Fi, radio FM, 4G, 5G, ...etc.\\
+El último elemento presente en el problema es la fuente de datos que se empleará para construir la inteligencia del robot. En este caso hablamos de las señales, concretamente de señales \ac{RF}, como son por ejemplo Wi-Fi, radio FM, 4G, 5G, entre otros tipos de señales.\\
 
 En particular, se usará la aproximación de \textbf{Friis}, que ofrece un método para calcular la potencia de la señal de un receptor, en función de la potencia del transmisor, las ganancias del transmisor y el receptor, la longitud de onda (que determina el tipo de señal que es), la distancia entre ambos, el medio en el que se encuentren y un factor de pérdidas asociado al sistema empleado \cite{friis-1} \cite{friis-2} \cite{friis-3}.\\
 
 \section{Síntesis}
 \label{subsec:sintesis}
 
-Como conclusión de este capítulo, queda unir las piezas que conforman este puzzle, por tanto, se usará como dispositivo un dron del tipo \ac{SUAV}, provisto de un receptor \ac{RF} como sensor, y los motores propios como actuadores. Se le agregarán algoritmos sistemáticos para compararlos con soluciones Q-Learning, en la tarea de resolver la detección y posterior navegación al origen de una señal \ac{RF}, la cual será simulada mediante la aproximación de Friis.\\
+Como conclusión de este capítulo, queda unir las piezas que conforman este puzzle, pero no sin antes mencionar algunos proyectos relacionados, donde se destaca el uso conjunto de drones y robótica para la creación de un módulo ROS, donde se engloban las comunicaciones para programar un sigue-persona \cite{tfm-pedro}, junto con el uso de estas aeronaves en síntesis con la \ac{IA} para lograr la navegación en interiores de la misma \cite{paper-ia-dron}\\
+
+En nuestro caso, se usará el mencionado dispositivo del tipo \ac{SUAV}, provisto de un receptor \ac{RF} como sensor, y los motores propios como actuadores. Se le agregarán algoritmos sistemáticos para compararlos con soluciones Q-Learning, en la tarea de resolver la detección y posterior navegación al origen de una señal \ac{RF}, la cual será simulada mediante la aproximación de Friis.\\
