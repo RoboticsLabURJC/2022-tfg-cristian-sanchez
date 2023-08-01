@@ -1,0 +1,95 @@
+This is BibTeX, Version 0.99d (TeX Live 2019/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: memoria.aux
+The style file: unsrt.bst
+Database file #1: bibliografia.bib
+Warning--entry type for "rae-robotica" isn't style-file defined
+--line 3 of file bibliografia.bib
+Warning--entry type for "revista-de-robots" isn't style-file defined
+--line 10 of file bibliografia.bib
+Warning--entry type for "industrial-robot" isn't style-file defined
+--line 17 of file bibliografia.bib
+Warning--entry type for "mobile-robot" isn't style-file defined
+--line 24 of file bibliografia.bib
+Warning--entry type for "4-d" isn't style-file defined
+--line 31 of file bibliografia.bib
+Warning--entry type for "kettering-bug" isn't style-file defined
+--line 64 of file bibliografia.bib
+Warning--entry type for "queen-bee" isn't style-file defined
+--line 71 of file bibliografia.bib
+Warning--entry type for "operation-aphrodite" isn't style-file defined
+--line 78 of file bibliografia.bib
+Warning--entry type for "uas-definicion" isn't style-file defined
+--line 85 of file bibliografia.bib
+Warning--entry type for "gcs-definicion" isn't style-file defined
+--line 92 of file bibliografia.bib
+Warning--entry type for "drone-regulation" isn't style-file defined
+--line 107 of file bibliografia.bib
+Warning--entry type for "history-ai" isn't style-file defined
+--line 139 of file bibliografia.bib
+Warning--entry type for "reg-class" isn't style-file defined
+--line 146 of file bibliografia.bib
+Warning--entry type for "learn" isn't style-file defined
+--line 153 of file bibliografia.bib
+Warning--entry type for "psicologia-aprendizaje" isn't style-file defined
+--line 160 of file bibliografia.bib
+Warning--entry type for "skinner" isn't style-file defined
+--line 167 of file bibliografia.bib
+Repeated entry---line 174 of file bibliografia.bib
+ : @inbook{data-link-definicion
+ :                             ,
+I'm skipping whatever remains of this entry
+Warning--entry type for "q-learning" isn't style-file defined
+--line 182 of file bibliografia.bib
+Warning--entry type for "friis-1" isn't style-file defined
+--line 189 of file bibliografia.bib
+Warning--entry type for "friis-2" isn't style-file defined
+--line 196 of file bibliografia.bib
+Warning--entry type for "friis-3" isn't style-file defined
+--line 203 of file bibliografia.bib
+Warning--entry type for "tfm-pedro" isn't style-file defined
+--line 210 of file bibliografia.bib
+Warning--can't use both author and editor fields in Wang2022
+Warning--empty chapter and pages in data-link-definicion
+You've used 27 entries,
+            1791 wiz_defined-function locations,
+            574 strings with 7746 characters,
+and the built_in function-call counts, 4004 in all, are:
+= -- 344
+> -- 131
+< -- 1
++ -- 60
+- -- 33
+* -- 94
+:= -- 615
+add.period$ -- 79
+call.type$ -- 27
+change.case$ -- 25
+chr.to.int$ -- 0
+cite$ -- 29
+duplicate$ -- 164
+empty$ -- 519
+format.name$ -- 33
+if$ -- 949
+int.to.chr$ -- 0
+int.to.str$ -- 27
+missing$ -- 6
+newline$ -- 136
+num.names$ -- 27
+pop$ -- 155
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 97
+stack$ -- 0
+substring$ -- 78
+swap$ -- 37
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 2
+while$ -- 33
+width$ -- 29
+write$ -- 272
+(There was 1 error message)

@@ -38,6 +38,7 @@ TOLERANCE = 0.0675
 CELLSIZE = 1.0
 TIMEOUT = 0.1
 H = 2.0
+H_POSES = 6.0
 SIGNAL_ORIGIN = (5, 3)
 
 # Px4Cmd
@@ -179,12 +180,12 @@ class Drone:
         self.train_q(self.q_table, self.actions, self.states)
 
 
-    def takeoff(self):
+    def takeoff(self, h=H):
         '''
         Takeoff the drone.
         '''
         rospy.loginfo("Takeoff detected!")
-        self.target_pos.pose.position.z = H
+        self.target_pos.pose.position.z = h
         while not self.h_reached(self.current_pos):
             # rospy.loginfo("Taking off...")
             self.pos_pub.publish(self.target_pos)
@@ -672,8 +673,8 @@ class Drone:
             next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[current_action_idx])
 
             ## Moves drone while training (n-iterations for 3 epochs in 3 different times)
-            # recording_condition = (episode_counter == 5) or (episode_counter == 400) or (episode_counter == 850)
-            recording_condition = False
+            recording_condition = (episode_counter == 5) or (episode_counter == 400) or (episode_counter == 850)
+            # recording_condition = False
             if recording_condition:
                 if it_per_ep == 0:
                     self.go_to_random_pose(current_coords_hm)
@@ -733,6 +734,9 @@ class Drone:
 
             ## When an end condition is detected
             if end_condition:
+                if recording_condition:
+                    self.go_home()
+
                 ### Linear epsilon
                 eps = max(eps - eps_increment, eps_end)
 
@@ -905,7 +909,7 @@ class Drone:
         Send the drone to a random position inside heatmap, that isn't the training ones.
         '''
         goal_pose = PoseStamped()
-        goal_pose.pose.position.z = H
+        goal_pose.pose.position.z = H_POSES
 
         if testing_pose == -1:
             while True:
@@ -915,7 +919,7 @@ class Drone:
         else:
             random_spawn_hm = testing_pose
 
-        self.takeoff()
+        self.takeoff(H_POSES)
         random_spawn_gz = self.heatmapcoords_to_gzcoords(random_spawn_hm)
         goal_pose.pose.position.x = random_spawn_gz[0]
         goal_pose.pose.position.y = random_spawn_gz[1]
@@ -928,7 +932,7 @@ class Drone:
         '''
         Send the drone to the origin position.
         '''
-        self.takeoff()
+        self.takeoff(H_POSES)
         self.move_to(pose=self.origin_pos)
         self.land()
 

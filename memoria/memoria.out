@@ -1,0 +1,43 @@
+\BOOKMARK [0][-]{chapter.1}{Introducci\363n}{}% 1
+\BOOKMARK [1][-]{section.1.1}{Robots}{chapter.1}% 2
+\BOOKMARK [2][-]{subsection.1.1.1}{Drones}{section.1.1}% 3
+\BOOKMARK [1][-]{section.1.2}{Inteligencia artificial}{chapter.1}% 4
+\BOOKMARK [2][-]{subsection.1.2.1}{Aprendizaje por refuerzo}{section.1.2}% 5
+\BOOKMARK [1][-]{section.1.3}{Se\361ales}{chapter.1}% 6
+\BOOKMARK [1][-]{section.1.4}{S\355ntesis}{chapter.1}% 7
+\BOOKMARK [0][-]{chapter.2}{Objetivos}{}% 8
+\BOOKMARK [1][-]{section.2.1}{Descripci\363n del problema}{chapter.2}% 9
+\BOOKMARK [1][-]{section.2.2}{Requisitos}{chapter.2}% 10
+\BOOKMARK [1][-]{section.2.3}{Metodolog\355a}{chapter.2}% 11
+\BOOKMARK [1][-]{section.2.4}{Plan de trabajo}{chapter.2}% 12
+\BOOKMARK [0][-]{chapter.3}{Plataformas de desarrollo y herramientas utilizadas}{}% 13
+\BOOKMARK [1][-]{section.3.1}{Lenguajes de programaci\363n}{chapter.3}% 14
+\BOOKMARK [2][-]{subsection.3.1.1}{Python}{section.3.1}% 15
+\BOOKMARK [2][-]{subsection.3.1.2}{C}{section.3.1}% 16
+\BOOKMARK [1][-]{section.3.2}{Entornos de programaci\363n}{chapter.3}% 17
+\BOOKMARK [2][-]{subsection.3.2.1}{Matlab}{section.3.2}% 18
+\BOOKMARK [2][-]{subsection.3.2.2}{STM32CubeIde}{section.3.2}% 19
+\BOOKMARK [2][-]{subsection.3.2.3}{Visual Studio Code}{section.3.2}% 20
+\BOOKMARK [1][-]{section.3.3}{Exoesqueleto}{chapter.3}% 21
+\BOOKMARK [1][-]{section.3.4}{Redes Neuronales}{chapter.3}% 22
+\BOOKMARK [2][-]{subsection.3.4.1}{Red neuronal Movenet}{section.3.4}% 23
+\BOOKMARK [2][-]{subsection.3.4.2}{Red neuronal Mediapipe Pose}{section.3.4}% 24
+\BOOKMARK [2][-]{subsection.3.4.3}{Tablas comparativas de ambos modelos}{section.3.4}% 25
+\BOOKMARK [0][-]{chapter.4}{Dise\361o}{}% 26
+\BOOKMARK [1][-]{section.4.1}{Recopilaci\363n inicial de datos con el exoesqueleto}{chapter.4}% 27
+\BOOKMARK [1][-]{section.4.2}{Desarrollo de la obtenci\363n del PID te\363rico del exoesqueleto}{chapter.4}% 28
+\BOOKMARK [2][-]{subsection.4.2.1}{Concepto de PID}{section.4.2}% 29
+\BOOKMARK [2][-]{subsection.4.2.2}{M\351todo de Ziegler-Nichols}{section.4.2}% 30
+\BOOKMARK [2][-]{subsection.4.2.3}{PidTuner}{section.4.2}% 31
+\BOOKMARK [1][-]{section.4.3}{Algoritmo del ejercicio de las sentadillas}{chapter.4}% 32
+\BOOKMARK [1][-]{section.4.4}{Comparativa de resultados de redes neuronales de pose y exoesqueleto}{chapter.4}% 33
+\BOOKMARK [2][-]{subsection.4.4.1}{Guardado de datos}{section.4.4}% 34
+\BOOKMARK [2][-]{subsection.4.4.2}{Obtenci\363n de los \341ngulos}{section.4.4}% 35
+\BOOKMARK [2][-]{subsection.4.4.3}{An\341lisis de los resultados obtenidos}{section.4.4}% 36
+\BOOKMARK [0][-]{chapter.5}{Conclusiones}{}% 37
+\BOOKMARK [1][-]{section.5.1}{Objetivos cumplidos}{chapter.5}% 38
+\BOOKMARK [1][-]{section.5.2}{Requisitos satisfechos}{chapter.5}% 39
+\BOOKMARK [1][-]{section.5.3}{Balance global y competencias adquiridas}{chapter.5}% 40
+\BOOKMARK [1][-]{section.5.4}{L\355neas futuras}{chapter.5}% 41
+\BOOKMARK [0][-]{chapter.6}{Anexo}{}% 42
+\BOOKMARK [0][-]{appendix*.25}{Bibliograf\355a}{}% 43

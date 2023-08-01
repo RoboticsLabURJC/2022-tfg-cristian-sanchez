@@ -1,0 +1,171 @@
+\begin{thebibliography}{10}
+
+\bibitem{rae-robotica}
+Real~Academia Española.
+\newblock \textit{robótico, ca}.
+\newblock \url{https://dle.rae.es/rob%C3%B3tico#WYTncqf}, 2023.
+
+\bibitem{revista-de-robots}
+Revista de~Robots.
+\newblock \textit{Robótica. Qué es la robótica y para qué sirve}.
+\newblock
+  \url{https://revistaderobots.com/robots-y-robotica/que-es-la-robotica/?cn-reloaded=1},
+  2023.
+
+\bibitem{industrial-robot}
+geeksforgeeks.
+\newblock \textit{Industrial Robots}.
+\newblock \url{https://www.geeksforgeeks.org/industrial-robots/}, 2022.
+
+\bibitem{mobile-robot}
+geeksforgeeks.
+\newblock \textit{Mobile Robots}.
+\newblock \url{https://www.geeksforgeeks.org/mobile-robots/}, 2022.
+
+\bibitem{4-d}
+Bernard Marr.
+\newblock \textit{The 4 Ds Of Robotisation: Dull, Dirty, Dangerous And Dear}.
+\newblock
+  \url{https://bernardmarr.com/the-4-ds-of-robotisation-dull-dirty-dangerous-and-dear/},
+  2021.
+
+\bibitem{dworakowski2020robots}
+Daniel Dworakowski and Goldie Nejat.
+\newblock Robots understanding contextual information in human-centered
+  environments using weakly supervised mask data distillation, 2020.
+
+\bibitem{Wang2022}
+Jiefei Wang and Damith Herath.
+\newblock {\em What Makes Robots? Sensors, Actuators, and Algorithms}, pages
+  177--203.
+\newblock Springer Nature Singapore, Singapore, 2022.
+
+\bibitem{kettering-bug}
+National~Museum of~the United States Air~Force.
+\newblock \textit{Kettering Aerial Torpedo “Bug”}.
+\newblock
+  \url{https://www.nationalmuseum.af.mil/Visit/Museum-Exhibits/Fact-Sheets/Display/Article/198095/kettering-aerial-torpedo-bug/},
+  2023.
+
+\bibitem{queen-bee}
+de~Havilland Aircraft~Museum.
+\newblock \textit{de Havilland DH82B Queen Bee}.
+\newblock
+  \url{https://www.dehavillandmuseum.co.uk/aircraft/de-havilland-dh82b-queen-bee/},
+  2023.
+
+\bibitem{operation-aphrodite}
+Mason~B. Webb.
+\newblock \textit{Operation Aphrodite}.
+\newblock \url{https://warfarehistorynetwork.com/article/operation-aphrodite/},
+  2014.
+
+\bibitem{uas-definicion}
+srmconsulting.
+\newblock \textit{¿UAV, UAS, RPA, dron… como llamarlos?}
+\newblock
+  \url{https://srmconsulting.es/blog/uav-uas-rpa-dron-como-llamarlos.html},
+  2021.
+
+\bibitem{gcs-definicion}
+Brett Daniel.
+\newblock \textit{Ground Control Stations: The Lifeblood of Remotely Piloted
+  Aircraft}.
+\newblock \url{https://www.trentonsystems.com/blog/ground-control-stations},
+  2020.
+
+\bibitem{data-link-definicion}
+R.~K. Nichols; H.C. Mumm; W.D. Lonstein; C.~M. Carter; and J.P. Hood.
+\newblock {\em Chapter 13: Data Links Functions, Attributes and Latency}.
+\newblock New Prairie Press, 2018.
+
+\bibitem{drone-regulation}
+SAFEDroneFlying.
+\newblock \textit{drone regulations}.
+\newblock
+  \url{https://www.safedroneflying.aero/en/drone-guide/drone-regulations},
+  2023.
+
+\bibitem{turing-paper}
+A.~M. Turing.
+\newblock Computing machinery and intelligence.
+\newblock {\em Mind}, 59(236):433--460, 1950.
+
+\bibitem{logic-theorist}
+Leo Gugerty.
+\newblock Newell and simon's logic theorist: Historical background and impact
+  on cognitive modeling.
+\newblock {\em Proceedings of the Human Factors and Ergonomics Society Annual
+  Meeting}, 50:880--884, 10 2006.
+
+\bibitem{history-ai}
+Rockwell Anyoha.
+\newblock \textit{The History of Artificial Intelligence}.
+\newblock
+  \url{https://sitn.hms.harvard.edu/flash/2017/history-artificial-intelligence/},
+  2017.
+
+\bibitem{reg-class}
+datacamp.
+\newblock \textit{Classification in Machine Learning: An Introduction}.
+\newblock \url{https://www.datacamp.com/blog/classification-machine-learning},
+  2022.
+
+\bibitem{learn}
+Prateek Bajaj.
+\newblock \textit{Reinforcement learning}.
+\newblock \url{https://www.geeksforgeeks.org/what-is-reinforcement-learning/},
+  2023.
+
+\bibitem{psicologia-aprendizaje}
+Prateek Bajaj.
+\newblock \textit{Reinforcement and Punishment}.
+\newblock
+  \url{https://pressbooks.online.ucf.edu/lumenpsychology/chapter/operant-conditioning/},
+  2023.
+
+\bibitem{skinner}
+B.F. Skinner.
+\newblock \textit{Operant Conditioning}.
+\newblock
+  \url{https://pressbooks-dev.oer.hawaii.edu/psychology/chapter/operant-conditioning/},
+  2023.
+
+\bibitem{q-learning}
+OpenStax and Lumen Learning.
+\newblock \textit{Reinforcement Learning Explained Visually (Part 4): Q
+  Learning, step-by-step}.
+\newblock
+  \url{https://towardsdatascience.com/reinforcement-learning-explained-visually-part-4-q-learning-step-by-step-b65efb731d3e},
+  2023.
+
+\bibitem{friis-1}
+Mathuranathan.
+\newblock \textit{Friis Free Space Propagation Model}.
+\newblock
+  \url{https://www.gaussianwaves.com/2013/09/friss-free-space-propagation-model/},
+  2013.
+
+\bibitem{friis-2}
+ECIT Engineering.
+\newblock \textit{Friis Free Space Propagation Model Example}.
+\newblock \url{https://www.youtube.com/watch?v=E-_oGNF3S-0}, 2022.
+
+\bibitem{friis-3}
+antenna theory.
+\newblock \textit{The Friis Equation}.
+\newblock \url{https://www.antenna-theory.com/basics/friis.php}, 2015.
+
+\bibitem{tfm-pedro}
+Pedro~Arias Pérez.
+\newblock \textit{Infraestructura de programación de robots aéreos y
+  aplicaciones visuales con aprendizaje profundo}.
+\newblock
+  \url{https://gsyc.urjc.es/jmplaza/students/tfm-drones-followperson-pedro_arias-2022.pdf},
+  2022.
+
+\bibitem{paper-ia-dron}
+Md~Moin~Uddin Chowdhury, Fatih Erden, and Ismail Guvenc.
+\newblock Rss-based q-learning for indoor uav navigation, 2019.
+
+\end{thebibliography}
