@@ -62,6 +62,7 @@ class MyActionServer:
                 self._rviz_server.set_aborted()
             else:
                 if goal.heatmap_config:
+                    # sz = (self._size[0] + 1, self._size[1] + 1)
                     self._model = fr.Friss(world_sz=self._size, 
                                            resolution=self._res,
                                            power_tras=goal.heatmap_config[0], 

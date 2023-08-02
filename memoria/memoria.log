@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2023.7.19)  31 JUL 2023 12:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2023.7.19)  2 AUG 2023 14:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -608,7 +608,7 @@ LaTeX Info: Redefining \nameref on input line 16.
 
 Package newfloat Info: `float' package detected.
  (./portada/indice.tex (./portada/portada.tex
-<imagenes/cap1/logo_urjc.jpg, id=176, 525.965pt x 210.7875pt>
+<imagenes/cap1/logo_urjc.jpg, id=172, 525.965pt x 210.7875pt>
 File: imagenes/cap1/logo_urjc.jpg Graphic file (type jpg)
 <use imagenes/cap1/logo_urjc.jpg>
 Package pdftex.def Info: imagenes/cap1/logo_urjc.jpg  used on input line 7.
@@ -728,13 +728,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 7--8
 
  []
 
-<imagenes/cap1/1_industrial_robot.jpeg, id=310, 963.6pt x 642.14906pt>
+<imagenes/cap1/1_industrial_robot.jpeg, id=306, 963.6pt x 642.14906pt>
 File: imagenes/cap1/1_industrial_robot.jpeg Graphic file (type jpg)
 <use imagenes/cap1/1_industrial_robot.jpeg>
 Package pdftex.def Info: imagenes/cap1/1_industrial_robot.jpeg  used on input l
 ine 19.
 (pdftex.def)             Requested size: 170.7792pt x 113.81102pt.
-<imagenes/cap1/2_mobile_robot.jpeg, id=311, 2007.5pt x 1129.21875pt>
+<imagenes/cap1/2_mobile_robot.jpeg, id=307, 2007.5pt x 1129.21875pt>
 File: imagenes/cap1/2_mobile_robot.jpeg Graphic file (type jpg)
 <use imagenes/cap1/2_mobile_robot.jpeg>
 Package pdftex.def Info: imagenes/cap1/2_mobile_robot.jpeg  used on input line 
@@ -759,7 +759,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 33--34
 
  []
 
-<imagenes/cap1/3_robot.png, id=330, 1104.125pt x 461.725pt>
+<imagenes/cap1/3_robot.png, id=325, 1104.125pt x 461.725pt>
 File: imagenes/cap1/3_robot.png Graphic file (type png)
 <use imagenes/cap1/3_robot.png>
 Package pdftex.def Info: imagenes/cap1/3_robot.png  used on input line 37.
@@ -780,19 +780,19 @@ Underfull \hbox (badness 10000) in paragraph at lines 50--51
 
  []
 
-<imagenes/cap1/4_kettering_bug.jpeg, id=346, 702.625pt x 526.96875pt>
+<imagenes/cap1/4_kettering_bug.jpeg, id=342, 702.625pt x 526.96875pt>
 File: imagenes/cap1/4_kettering_bug.jpeg Graphic file (type jpg)
 <use imagenes/cap1/4_kettering_bug.jpeg>
 Package pdftex.def Info: imagenes/cap1/4_kettering_bug.jpeg  used on input line
  54.
 (pdftex.def)             Requested size: 94.83955pt x 71.13188pt.
-<imagenes/cap1/5_queen_bee.jpeg, id=347, 1057.9525pt x 423.5825pt>
+<imagenes/cap1/5_queen_bee.jpeg, id=343, 1057.9525pt x 423.5825pt>
 File: imagenes/cap1/5_queen_bee.jpeg Graphic file (type jpg)
 <use imagenes/cap1/5_queen_bee.jpeg>
 Package pdftex.def Info: imagenes/cap1/5_queen_bee.jpeg  used on input line 56.
 
 (pdftex.def)             Requested size: 177.65408pt x 71.13188pt.
-<imagenes/cap1/6_aphrodite.jpeg, id=348, 697.60625pt x 339.2675pt>
+<imagenes/cap1/6_aphrodite.jpeg, id=344, 697.60625pt x 339.2675pt>
 File: imagenes/cap1/6_aphrodite.jpeg Graphic file (type jpg)
 <use imagenes/cap1/6_aphrodite.jpeg>
 Package pdftex.def Info: imagenes/cap1/6_aphrodite.jpeg  used on input line 58.
@@ -809,7 +809,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 72--73
 
  []
 
-<imagenes/cap1/7_drone_components.jpeg, id=368, 475.7775pt x 356.33125pt>
+<imagenes/cap1/7_drone_components.jpeg, id=364, 475.7775pt x 356.33125pt>
 File: imagenes/cap1/7_drone_components.jpeg Graphic file (type jpg)
 <use imagenes/cap1/7_drone_components.jpeg>
 Package pdftex.def Info: imagenes/cap1/7_drone_components.jpeg  used on input l
@@ -836,7 +836,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 89--90
 LaTeX Info: Redefining \. on input line 90.
 LaTeX Info: Redefining \% on input line 90.
 [4 <./imagenes/cap1/7_drone_components.jpeg>]
-<imagenes/cap1/8_AI_types.png, id=395, 1377.145pt x 996.72375pt>
+<imagenes/cap1/8_AI_types.png, id=391, 1377.145pt x 996.72375pt>
 File: imagenes/cap1/8_AI_types.png Graphic file (type png)
 <use imagenes/cap1/8_AI_types.png>
 Package pdftex.def Info: imagenes/cap1/8_AI_types.png  used on input line 103.
@@ -849,7 +849,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 112--113
 LaTeX Info: Redefining \. on input line 113.
 LaTeX Info: Redefining \% on input line 113.
 [5 <./imagenes/cap1/8_AI_types.png>]
-<imagenes/cap1/9_reinforcement.png, id=409, 803.0pt x 377.41pt>
+<imagenes/cap1/9_reinforcement.png, id=405, 803.0pt x 377.41pt>
 File: imagenes/cap1/9_reinforcement.png Graphic file (type png)
 <use imagenes/cap1/9_reinforcement.png>
 Package pdftex.def Info: imagenes/cap1/9_reinforcement.png  used on input line 
@@ -872,7 +872,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 132--133
 
  []
 
-<imagenes/cap1/10_friis.png, id=425, 602.25pt x 579.16376pt>
+<imagenes/cap1/10_friis.png, id=421, 602.25pt x 579.16376pt>
 File: imagenes/cap1/10_friis.png Graphic file (type png)
 <use imagenes/cap1/10_friis.png>
 Package pdftex.def Info: imagenes/cap1/10_friis.png  used on input line 136.
@@ -887,11 +887,40 @@ LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
  [7 <./imagenes/cap1/10_friis.png>]
 Cap\'{\i }tulo 2.
-) (./capitulos/capitulo3.tex [8
+
+Underfull \hbox (badness 10000) in paragraph at lines 4--5
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 9--10
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 11--12
+
+ []
+
+Package acronym Info: Label `acro:ROS' newly defined as it shall be overridden
+although it is yet undefined on input line 16.
+
+Underfull \hbox (badness 2662) in paragraph at lines 16--17
+[]\OT1/cmr/m/n/12 Uso y comprensi^^Son de la herramienta de simulaci^^Son Gazeb
+o 11, para
+ []
+
+[8
 
 ]
+LaTeX Info: Redefining \. on input line 42.
+LaTeX Info: Redefining \% on input line 42.
+ [9]) (./capitulos/capitulo3.tex
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [10]
 Cap\'{\i }tulo 3.
-[9
+[11
 
 ]) (./capitulos/capitulo4.tex
 LaTeX Info: Redefining \. on input line 1.
@@ -899,29 +928,29 @@ LaTeX Info: Redefining \% on input line 1.
 
 Overfull \hbox (33.42328pt too wide) has occurred while \output is active
 \OT1/cmr/m/sl/12 CAP[]ITULO 3.  PLATAFORMAS DE DESARROLLO Y HERRAMIENTAS UTILIZ
-ADAS \OT1/cmr/m/n/12 10
+ADAS \OT1/cmr/m/n/12 12
  []
 
-[10]
+[12]
 Cap\'{\i }tulo 4.
 
 Underfull \hbox (badness 10000) in paragraph at lines 6--6
 |[]\OT1/cmr/bx/n/17.28 Recopilaci^^Son inicial de datos con el
  []
 
-[11
+[13
 
 ]) (./capitulos/capitulo5.tex
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
- [12]
+ [14]
 Cap\'{\i }tulo 5.
-) (./anexo.tex [13
+) (./anexo.tex [15
 
 ]
 Cap\'{\i }tulo 6.
 
-LaTeX Warning: Reference `fig:robots_autonomos' on page 14 undefined on input l
+LaTeX Warning: Reference `fig:robots_autonomos' on page 16 undefined on input l
 ine 16.
 
 
@@ -949,7 +978,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 24--25
  []
 
 
-LaTeX Warning: Reference `fig:campos_robotica' on page 14 undefined on input li
+LaTeX Warning: Reference `fig:campos_robotica' on page 16 undefined on input li
 ne 28.
 
 
@@ -980,7 +1009,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 34--35
  []
 
 
-LaTeX Warning: Reference `fig:robotica-tacto-bolonia' on page 14 undefined on i
+LaTeX Warning: Reference `fig:robotica-tacto-bolonia' on page 16 undefined on i
 nput line 38.
 
 
@@ -989,7 +1018,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 38--39
  []
 
 
-LaTeX Warning: Reference `fig:AKROD' on page 14 undefined on input line 42.
+LaTeX Warning: Reference `fig:AKROD' on page 16 undefined on input line 42.
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 42--43
@@ -997,7 +1026,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 42--43
  []
 
 
-LaTeX Warning: Reference `fig:lokomat' on page 14 undefined on input line 46.
+LaTeX Warning: Reference `fig:lokomat' on page 16 undefined on input line 46.
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 46--47
@@ -1005,7 +1034,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 46--47
  []
 
 
-LaTeX Warning: Reference `fig:exoesqueleto_atlas' on page 14 undefined on input
+LaTeX Warning: Reference `fig:exoesqueleto_atlas' on page 16 undefined on input
  line 50.
 
 
@@ -1020,7 +1049,7 @@ Overfull \hbox (25.19997pt too wide) in paragraph at lines 10--55
  []
 
 
-LaTeX Warning: Reference `fig:aplicaciones-exoesqueletos' on page 14 undefined 
+LaTeX Warning: Reference `fig:aplicaciones-exoesqueletos' on page 16 undefined 
 on input line 64.
 
 
@@ -1046,7 +1075,7 @@ m /
  []
 
 
-LaTeX Warning: Reference `fig:exos-flexibles-rigidos' on page 14 undefined on i
+LaTeX Warning: Reference `fig:exos-flexibles-rigidos' on page 16 undefined on i
 nput line 74.
 
 
@@ -1056,11 +1085,11 @@ s / inicio /
  []
 
 
-LaTeX Warning: Reference `fig:puntos-clave-imagen' on page 14 undefined on inpu
+LaTeX Warning: Reference `fig:puntos-clave-imagen' on page 16 undefined on inpu
 t line 80.
 
 
-LaTeX Warning: Reference `fig:logo_stm32cubeide' on page 14 undefined on input 
+LaTeX Warning: Reference `fig:logo_stm32cubeide' on page 16 undefined on input 
 line 84.
 
 
@@ -1069,7 +1098,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 84--85
  []
 
 
-LaTeX Warning: Reference `fig:exos_activo_pasivo' on page 14 undefined on input
+LaTeX Warning: Reference `fig:exos_activo_pasivo' on page 16 undefined on input
  line 88.
 
 
@@ -1085,7 +1114,7 @@ om / articles / 10 . 1186 /
  []
 
 
-LaTeX Warning: Reference `fig:esquema_redes_neuronales' on page 14 undefined on
+LaTeX Warning: Reference `fig:esquema_redes_neuronales' on page 16 undefined on
  input line 94.
 
 
@@ -1094,15 +1123,15 @@ Underfull \hbox (badness 10000) in paragraph at lines 94--95
  []
 
 
-LaTeX Warning: Reference `fig:esquema_arbol_decision' on page 14 undefined on i
+LaTeX Warning: Reference `fig:esquema_arbol_decision' on page 16 undefined on i
 nput line 98.
 
 
-LaTeX Warning: Reference `fig:obtencion_fases_keypoints_movenet' on page 14 und
+LaTeX Warning: Reference `fig:obtencion_fases_keypoints_movenet' on page 16 und
 efined on input line 102.
 
 
-LaTeX Warning: Reference `fig:esquema_keypoints_mediapipe' on page 14 undefined
+LaTeX Warning: Reference `fig:esquema_keypoints_mediapipe' on page 16 undefined
  on input line 106.
 
 
@@ -1112,7 +1141,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 106--107
  []
 
 
-LaTeX Warning: Reference `fig:ejemplos_vision_mediapipe' on page 14 undefined o
+LaTeX Warning: Reference `fig:ejemplos_vision_mediapipe' on page 16 undefined o
 n input line 110.
 
 
@@ -1125,14 +1154,14 @@ Overfull \hbox (25.19997pt too wide) in paragraph at lines 60--115
  [] 
  []
 
-[14
+[16
 
 ])
 No file memoria.ind.
 (./memoria.bbl
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
- [15]
+ [17]
 Underfull \hbox (badness 10000) in paragraph at lines 9--14
 []\OT1/cmr/m/n/12 Revista de Robots.  \OT1/cmr/m/it/12 Rob^^Sotica. Qu^^Se es l
 a
@@ -1179,7 +1208,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 51--56
 b-[]queen-[]bee/$[][]\OT1/cmr/m/n/12 ,
  []
 
-[16
+[18
 
 ]
 Underfull \hbox (badness 1527) in paragraph at lines 64--69
@@ -1207,11 +1236,11 @@ Underfull \hbox (badness 3884) in paragraph at lines 143--148
 
 LaTeX Info: Redefining \. on input line 149.
 LaTeX Info: Redefining \% on input line 149.
-[17])
+[19])
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 50.
 LaTeX Info: Redefining \. on input line 50.
 LaTeX Info: Redefining \% on input line 50.
- [18]
+ [20]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 50.
  (./memoria.aux
 LaTeX Info: Redefining \. on input line 25.
@@ -1220,7 +1249,7 @@ LaTeX Info: Redefining \% on input line 25.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 50.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 50.
 Package rerunfilecheck Info: File `memoria.out' has not changed.
-(rerunfilecheck)             Checksum: AD2EB9225C88C84592EB394D7088E06F;2983.
+(rerunfilecheck)             Checksum: A29453ABE7AFE97191AF931D72CE6627;2926.
 
 
 LaTeX Font Warning: Size substitutions with differences
@@ -1232,13 +1261,13 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 50.
  ) 
 Here is how much of TeX's memory you used:
- 12725 strings out of 483048
- 188519 string characters out of 5962772
+ 12744 strings out of 483048
+ 188639 string characters out of 5962772
  648405 words of memory out of 5000000
- 27293 multiletter control sequences out of 15000+600000
+ 27296 multiletter control sequences out of 15000+600000
  553987 words of font info for 58 fonts, out of 8000000 for 9000
  91 hyphenation exceptions out of 8191
- 44i,12n,53p,1069b,725s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 44i,12n,53p,1069b,727s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}</usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts
 /type1/public/amsfonts/cm/cmbxti10.pfb></usr/share/texlive/texmf-dist/fonts/typ
@@ -1249,10 +1278,10 @@ sfonts/cm/cmsl12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
 tt12.pfb></usr/share/texmf/fonts/type1/public/lm/lmss12.pfb></usr/share/texmf/f
 onts/type1/public/lm/lmss17.pfb></usr/share/texmf/fonts/type1/public/lm/lmssbx1
 0.pfb>
-Output written on memoria.pdf (27 pages, 1289672 bytes).
+Output written on memoria.pdf (29 pages, 1295949 bytes).
 PDF statistics:
- 648 PDF objects out of 1000 (max. 8388607)
- 589 compressed objects within 6 object streams
- 143 named destinations out of 1000 (max. 500000)
- 400 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 679 PDF objects out of 1000 (max. 8388607)
+ 617 compressed objects within 7 object streams
+ 159 named destinations out of 1000 (max. 500000)
+ 392 words of extra memory for PDF output out of 10000 (max. 10000000)
 

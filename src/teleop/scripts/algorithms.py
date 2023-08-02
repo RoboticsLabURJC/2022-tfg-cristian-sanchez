@@ -24,6 +24,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import csv
 import pandas as pd
+import re
 
 # -- CTE -- #
 # Topics
@@ -169,8 +170,9 @@ class Drone:
         self.paths = []
 
         # Q-Learning training
-        self.actions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
-        self.states = self.generate_coord_states(1)
+        self.actions = []
+        self.generate_actions(steps=3)
+        self.states = self.generate_coord_states(cell_step=1)
         self.q_table = np.zeros((len(self.states), len(self.actions)))
 
         # Display all points
@@ -598,23 +600,32 @@ class Drone:
         '''
         x, y = coords # Heatmap coords
 
+        # Check for more complex actions formatted like 'Number_of_steps + Action'
+        pattern = r'(\d+)(\D+)'
+        n = 1
+        match = re.match(pattern, action)
+
+        if match:
+            n = int(match.group(1))
+            action = match.group(2)
+
         if action == "N":
-            new_coords = (x, y + 1)
+            new_coords = (x, y + n)
         elif action == "E":
-            new_coords = (x + 1, y)
+            new_coords = (x + n, y)
         elif action == "S":
-            new_coords = (x, y - 1)
+            new_coords = (x, y - n)
         elif action == "W":
-            new_coords = (x - 1, y)
+            new_coords = (x - n, y)
 
         elif action == "NE":
-            new_coords = (x + 1, y + 1)
+            new_coords = (x + n, y + n)
         elif action == "SE":
-            new_coords = (x + 1, y - 1)
+            new_coords = (x + n, y - n)
         elif action == "NW":
-            new_coords = (x - 1, y + 1)
+            new_coords = (x - n, y + n)
         elif action == "SW":
-            new_coords = (x - 1, y - 1)
+            new_coords = (x - n, y - n)
 
         return new_coords
 
@@ -673,8 +684,8 @@ class Drone:
             next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[current_action_idx])
 
             ## Moves drone while training (n-iterations for 3 epochs in 3 different times)
-            recording_condition = (episode_counter == 5) or (episode_counter == 400) or (episode_counter == 850)
-            # recording_condition = False
+            # recording_condition = (episode_counter == 5) or (episode_counter == 400) or (episode_counter == 850)
+            recording_condition = False
             if recording_condition:
                 if it_per_ep == 0:
                     self.go_to_random_pose(current_coords_hm)
@@ -1223,6 +1234,24 @@ class Drone:
         with open(bad_moves_csv_file, 'a', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(bad_moves)
+
+
+    def generate_actions(self, steps=1):
+        '''
+        Generates actions for the Q-Learning table
+        '''
+        if steps < 1:
+            rospy.logerr("Wrong action generation (steps must be >= 1), setting to default")
+            self.actions.extend(["N", "NE", "E", "SE", "S", "SW", "W", "NW"])
+            return
+
+        basic_actions = ("N", "NE", "E", "SE", "S", "SW", "W", "NW")
+        for i in range(1, steps + 1):
+            for a in basic_actions:
+                if i == 1:
+                    self.actions.append(a)
+                else:
+                    self.actions.append(str(i) + a)
 
 
 # -- MAIN -- #

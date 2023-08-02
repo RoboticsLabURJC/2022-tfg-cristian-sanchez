@@ -8,37 +8,36 @@
 \contentsline {section}{\numberline {1.4}Síntesis}{7}{section.1.4}%
 \contentsline {chapter}{\numberline {2}Objetivos}{8}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Descripción del problema}{8}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Requisitos}{8}{section.2.2}%
-\contentsline {section}{\numberline {2.3}Metodología}{8}{section.2.3}%
-\contentsline {section}{\numberline {2.4}Plan de trabajo}{8}{section.2.4}%
-\contentsline {chapter}{\numberline {3}Plataformas de desarrollo y herramientas utilizadas}{9}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Lenguajes de programación}{9}{section.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}Python}{9}{subsection.3.1.1}%
-\contentsline {subsection}{\numberline {3.1.2}C}{9}{subsection.3.1.2}%
-\contentsline {section}{\numberline {3.2}Entornos de programación}{9}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Matlab}{9}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}STM32CubeIde}{9}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Visual Studio Code}{9}{subsection.3.2.3}%
-\contentsline {section}{\numberline {3.3}Exoesqueleto}{9}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Redes Neuronales}{10}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Red neuronal Movenet}{10}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}Red neuronal Mediapipe Pose}{10}{subsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.4.3}Tablas comparativas de ambos modelos}{10}{subsection.3.4.3}%
-\contentsline {chapter}{\numberline {4}Diseño}{11}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Recopilación inicial de datos con el exoesqueleto}{11}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Desarrollo de la obtención del PID teórico del exoesqueleto}{11}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Concepto de PID}{11}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Método de Ziegler-Nichols}{11}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}PidTuner}{11}{subsection.4.2.3}%
-\contentsline {section}{\numberline {4.3}Algoritmo del ejercicio de las sentadillas}{11}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Comparativa de resultados de redes neuronales de pose y exoesqueleto}{11}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Guardado de datos}{12}{subsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.4.2}Obtención de los ángulos}{12}{subsection.4.4.2}%
-\contentsline {subsection}{\numberline {4.4.3}Análisis de los resultados obtenidos}{12}{subsection.4.4.3}%
-\contentsline {chapter}{\numberline {5}Conclusiones}{13}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Objetivos cumplidos}{13}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Requisitos satisfechos}{13}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Balance global y competencias adquiridas}{13}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Líneas futuras}{13}{section.5.4}%
-\contentsline {chapter}{\numberline {6}Anexo}{14}{chapter.6}%
-\contentsline {chapter}{Bibliograf\'{\i }a}{16}{appendix*.25}%
+\contentsline {section}{\numberline {2.2}Metodología}{9}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Plan de trabajo}{9}{section.2.3}%
+\contentsline {chapter}{\numberline {3}Plataformas de desarrollo y herramientas utilizadas}{11}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Lenguajes de programación}{11}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Python}{11}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}C}{11}{subsection.3.1.2}%
+\contentsline {section}{\numberline {3.2}Entornos de programación}{11}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Matlab}{11}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}STM32CubeIde}{11}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Visual Studio Code}{11}{subsection.3.2.3}%
+\contentsline {section}{\numberline {3.3}Exoesqueleto}{11}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Redes Neuronales}{12}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Red neuronal Movenet}{12}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Red neuronal Mediapipe Pose}{12}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}Tablas comparativas de ambos modelos}{12}{subsection.3.4.3}%
+\contentsline {chapter}{\numberline {4}Diseño}{13}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Recopilación inicial de datos con el exoesqueleto}{13}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Desarrollo de la obtención del PID teórico del exoesqueleto}{13}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Concepto de PID}{13}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Método de Ziegler-Nichols}{13}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}PidTuner}{13}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}Algoritmo del ejercicio de las sentadillas}{13}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Comparativa de resultados de redes neuronales de pose y exoesqueleto}{13}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Guardado de datos}{14}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Obtención de los ángulos}{14}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}Análisis de los resultados obtenidos}{14}{subsection.4.4.3}%
+\contentsline {chapter}{\numberline {5}Conclusiones}{15}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Objetivos cumplidos}{15}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Requisitos satisfechos}{15}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Balance global y competencias adquiridas}{15}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Líneas futuras}{15}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Anexo}{16}{chapter.6}%
+\contentsline {chapter}{Bibliograf\'{\i }a}{18}{appendix*.26}%
