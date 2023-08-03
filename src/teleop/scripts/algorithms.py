@@ -171,7 +171,7 @@ class Drone:
 
         # Q-Learning training
         self.actions = []
-        self.generate_actions(steps=3)
+        self.generate_actions(steps=2)
         self.states = self.generate_coord_states(cell_step=1)
         self.q_table = np.zeros((len(self.states), len(self.actions)))
 
@@ -851,7 +851,7 @@ class Drone:
                 next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[index])
 
                 ## Simulate obstacle detection with another sensor (not specified)
-                if self.read_only_pwr(next_coords_hm) != -999:
+                if not self.check_if_obstacle(current_coords_hm, next_coords_hm, actions[index]):
                     break
 
             next_coords_gz = self.heatmapcoords_to_gzcoords(next_coords_hm)
@@ -1252,6 +1252,49 @@ class Drone:
                     self.actions.append(a)
                 else:
                     self.actions.append(str(i) + a)
+
+
+    def check_if_obstacle(self, origin, end, action):
+        '''
+        Checks if there is an obstacle placed straight line from origin to end, 
+        after taking a certain action.
+        '''
+        x, y = origin
+
+        pattern = r'(\d+)(\D+)'
+        match = re.match(pattern, action)
+
+        if match:
+            n = int(match.group(1))
+            action = match.group(2)
+
+            for i in range(1, n + 1):
+                if action == "N":
+                    new_coords = (x, y + i)
+                elif action == "E":
+                    new_coords = (x + i, y)
+                elif action == "S":
+                    new_coords = (x, y - i)
+                elif action == "W":
+                    new_coords = (x - i, y)
+
+                elif action == "NE":
+                    new_coords = (x + i, y + i)
+                elif action == "SE":
+                    new_coords = (x + i, y - i)
+                elif action == "NW":
+                    new_coords = (x - i, y + i)
+                elif action == "SW":
+                    new_coords = (x - i, y - i)
+
+                if self.read_only_pwr(new_coords) == -999:
+                    rospy.logwarn(("OBSTACLE DETECTED IN", new_coords))
+                    return True
+
+        else:
+            return self.read_only_pwr(end) == -999
+
+        return False
 
 
 # -- MAIN -- #
