@@ -13,31 +13,34 @@
 \contentsline {chapter}{\numberline {3}Plataformas de desarrollo y herramientas utilizadas}{11}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Lenguajes de programación}{11}{section.3.1}%
 \contentsline {subsection}{\numberline {3.1.1}Python}{11}{subsection.3.1.1}%
-\contentsline {subsection}{\numberline {3.1.2}C}{11}{subsection.3.1.2}%
-\contentsline {section}{\numberline {3.2}Entornos de programación}{11}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Matlab}{11}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}STM32CubeIde}{11}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Visual Studio Code}{11}{subsection.3.2.3}%
-\contentsline {section}{\numberline {3.3}Exoesqueleto}{11}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Redes Neuronales}{12}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Red neuronal Movenet}{12}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}Red neuronal Mediapipe Pose}{12}{subsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.4.3}Tablas comparativas de ambos modelos}{12}{subsection.3.4.3}%
-\contentsline {chapter}{\numberline {4}Diseño}{13}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Recopilación inicial de datos con el exoesqueleto}{13}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Desarrollo de la obtención del PID teórico del exoesqueleto}{13}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Concepto de PID}{13}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Método de Ziegler-Nichols}{13}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}PidTuner}{13}{subsection.4.2.3}%
-\contentsline {section}{\numberline {4.3}Algoritmo del ejercicio de las sentadillas}{13}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Comparativa de resultados de redes neuronales de pose y exoesqueleto}{13}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Guardado de datos}{14}{subsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.4.2}Obtención de los ángulos}{14}{subsection.4.4.2}%
-\contentsline {subsection}{\numberline {4.4.3}Análisis de los resultados obtenidos}{14}{subsection.4.4.3}%
-\contentsline {chapter}{\numberline {5}Conclusiones}{15}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Objetivos cumplidos}{15}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Requisitos satisfechos}{15}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Balance global y competencias adquiridas}{15}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Líneas futuras}{15}{section.5.4}%
-\contentsline {chapter}{\numberline {6}Anexo}{16}{chapter.6}%
-\contentsline {chapter}{Bibliograf\'{\i }a}{18}{appendix*.26}%
+\contentsline {subsection}{\numberline {3.1.2}C++}{11}{subsection.3.1.2}%
+\contentsline {section}{\numberline {3.2}\ac {ROS}}{12}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Gazebo 11}{12}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Rviz}{12}{subsection.3.2.2}%
+\contentsline {section}{\numberline {3.3}Plataformas de programación}{12}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Visual Studio Code}{12}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Github}{12}{subsection.3.3.2}%
+\contentsline {section}{\numberline {3.4}Módulos}{12}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}OpenCV}{12}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Matplotlib}{13}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}MavROS}{13}{subsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.4.4}PX4}{13}{subsection.3.4.4}%
+\contentsline {subsection}{\numberline {3.4.5}jderobot}{13}{subsection.3.4.5}%
+\contentsline {chapter}{\numberline {4}Diseño}{14}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Recopilación inicial de datos con el exoesqueleto}{14}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Desarrollo de la obtención del PID teórico del exoesqueleto}{14}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Concepto de PID}{14}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Método de Ziegler-Nichols}{14}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}PidTuner}{14}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}Algoritmo del ejercicio de las sentadillas}{14}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Comparativa de resultados de redes neuronales de pose y exoesqueleto}{14}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Guardado de datos}{15}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Obtención de los ángulos}{15}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}Análisis de los resultados obtenidos}{15}{subsection.4.4.3}%
+\contentsline {chapter}{\numberline {5}Conclusiones}{16}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Objetivos cumplidos}{16}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Requisitos satisfechos}{16}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Balance global y competencias adquiridas}{16}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Líneas futuras}{16}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Anexo}{17}{chapter.6}%
+\contentsline {chapter}{Bibliograf\'{\i }a}{19}{appendix*.26}%
