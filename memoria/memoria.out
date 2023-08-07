@@ -22,24 +22,23 @@
 \BOOKMARK [1][-]{section.3.4}{M\363dulos}{chapter.3}% 22
 \BOOKMARK [2][-]{subsection.3.4.1}{OpenCV}{section.3.4}% 23
 \BOOKMARK [2][-]{subsection.3.4.2}{Matplotlib}{section.3.4}% 24
-\BOOKMARK [2][-]{subsection.3.4.3}{MavROS}{section.3.4}% 25
-\BOOKMARK [2][-]{subsection.3.4.4}{PX4}{section.3.4}% 26
-\BOOKMARK [2][-]{subsection.3.4.5}{jderobot}{section.3.4}% 27
-\BOOKMARK [0][-]{chapter.4}{Dise\361o}{}% 28
-\BOOKMARK [1][-]{section.4.1}{Recopilaci\363n inicial de datos con el exoesqueleto}{chapter.4}% 29
-\BOOKMARK [1][-]{section.4.2}{Desarrollo de la obtenci\363n del PID te\363rico del exoesqueleto}{chapter.4}% 30
-\BOOKMARK [2][-]{subsection.4.2.1}{Concepto de PID}{section.4.2}% 31
-\BOOKMARK [2][-]{subsection.4.2.2}{M\351todo de Ziegler-Nichols}{section.4.2}% 32
-\BOOKMARK [2][-]{subsection.4.2.3}{PidTuner}{section.4.2}% 33
-\BOOKMARK [1][-]{section.4.3}{Algoritmo del ejercicio de las sentadillas}{chapter.4}% 34
-\BOOKMARK [1][-]{section.4.4}{Comparativa de resultados de redes neuronales de pose y exoesqueleto}{chapter.4}% 35
-\BOOKMARK [2][-]{subsection.4.4.1}{Guardado de datos}{section.4.4}% 36
-\BOOKMARK [2][-]{subsection.4.4.2}{Obtenci\363n de los \341ngulos}{section.4.4}% 37
-\BOOKMARK [2][-]{subsection.4.4.3}{An\341lisis de los resultados obtenidos}{section.4.4}% 38
-\BOOKMARK [0][-]{chapter.5}{Conclusiones}{}% 39
-\BOOKMARK [1][-]{section.5.1}{Objetivos cumplidos}{chapter.5}% 40
-\BOOKMARK [1][-]{section.5.2}{Requisitos satisfechos}{chapter.5}% 41
-\BOOKMARK [1][-]{section.5.3}{Balance global y competencias adquiridas}{chapter.5}% 42
-\BOOKMARK [1][-]{section.5.4}{L\355neas futuras}{chapter.5}% 43
-\BOOKMARK [0][-]{chapter.6}{Anexo}{}% 44
-\BOOKMARK [0][-]{appendix*.26}{Bibliograf\355a}{}% 45
+\BOOKMARK [2][-]{subsection.3.4.3}{PX4 autopilot}{section.3.4}% 25
+\BOOKMARK [1][-]{section.3.5}{Iris}{chapter.3}% 26
+\BOOKMARK [0][-]{chapter.4}{Dise\361o}{}% 27
+\BOOKMARK [1][-]{section.4.1}{Recopilaci\363n inicial de datos con el exoesqueleto}{chapter.4}% 28
+\BOOKMARK [1][-]{section.4.2}{Desarrollo de la obtenci\363n del PID te\363rico del exoesqueleto}{chapter.4}% 29
+\BOOKMARK [2][-]{subsection.4.2.1}{Concepto de PID}{section.4.2}% 30
+\BOOKMARK [2][-]{subsection.4.2.2}{M\351todo de Ziegler-Nichols}{section.4.2}% 31
+\BOOKMARK [2][-]{subsection.4.2.3}{PidTuner}{section.4.2}% 32
+\BOOKMARK [1][-]{section.4.3}{Algoritmo del ejercicio de las sentadillas}{chapter.4}% 33
+\BOOKMARK [1][-]{section.4.4}{Comparativa de resultados de redes neuronales de pose y exoesqueleto}{chapter.4}% 34
+\BOOKMARK [2][-]{subsection.4.4.1}{Guardado de datos}{section.4.4}% 35
+\BOOKMARK [2][-]{subsection.4.4.2}{Obtenci\363n de los \341ngulos}{section.4.4}% 36
+\BOOKMARK [2][-]{subsection.4.4.3}{An\341lisis de los resultados obtenidos}{section.4.4}% 37
+\BOOKMARK [0][-]{chapter.5}{Conclusiones}{}% 38
+\BOOKMARK [1][-]{section.5.1}{Objetivos cumplidos}{chapter.5}% 39
+\BOOKMARK [1][-]{section.5.2}{Requisitos satisfechos}{chapter.5}% 40
+\BOOKMARK [1][-]{section.5.3}{Balance global y competencias adquiridas}{chapter.5}% 41
+\BOOKMARK [1][-]{section.5.4}{L\355neas futuras}{chapter.5}% 42
+\BOOKMARK [0][-]{chapter.6}{Anexo}{}% 43
+\BOOKMARK [0][-]{appendix*.26}{Bibliograf\355a}{}% 44

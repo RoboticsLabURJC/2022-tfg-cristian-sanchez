@@ -168,4 +168,98 @@ Pedro~Arias Pérez.
 Md~Moin~Uddin Chowdhury, Fatih Erden, and Ismail Guvenc.
 \newblock Rss-based q-learning for indoor uav navigation, 2019.
 
+\bibitem{tiobe}
+Tiobe.
+\newblock \textit{TIOBE Index for August 2023}.
+\newblock \url{https://www.tiobe.com/tiobe-index/}, 2023.
+
+\bibitem{python-history}
+SohomPramanick.
+\newblock \textit{History of Python}.
+\newblock \url{https://www.geeksforgeeks.org/history-of-python/}, 2022.
+
+\bibitem{python-def}
+Python~Source Fundation.
+\newblock \textit{What is Python? Executive Summary}.
+\newblock \url{https://www.python.org/doc/essays/blurb/}, 2023.
+
+\bibitem{compiled-vs-interpreted}
+Bryce Limón.
+\newblock \textit{Compiled vs interpreted language: Basics for beginning devs}.
+\newblock \url{https://www.educative.io/blog/compiled-vs-interpreted-language},
+  2022.
+
+\bibitem{c-history}
+SohomPramanick.
+\newblock \textit{History of C++}.
+\newblock \url{https://www.geeksforgeeks.org/history-of-c/}, 2022.
+
+\bibitem{middleware-def}
+IBM.
+\newblock \textit{What is middleware?}
+\newblock \url{https://www.ibm.com/topics/middleware}, 2023.
+
+\bibitem{ros-def}
+ROS.
+\newblock \textit{ROS - Robot Operating System}.
+\newblock \url{https://www.ros.org/}, 2023.
+
+\bibitem{gazebo-def}
+Gazebo.
+\newblock \textit{About Gazebo}.
+\newblock \url{https://gazebosim.org/about}, 2023.
+
+\bibitem{rviz-def}
+ros visualization.
+\newblock \textit{RVIZ}.
+\newblock \url{https://github.com/ros-visualization/rviz#readme}, 2023.
+
+\bibitem{vscode-def}
+Visual~Studio Code.
+\newblock \textit{Getting Started}.
+\newblock \url{https://code.visualstudio.com/docs}, 2023.
+
+\bibitem{github-def}
+HTG Stuff.
+\newblock \textit{What Is GitHub, and What Is It Used For?}
+\newblock
+  \url{https://www.howtogeek.com/180167/htg-explains-what-is-github-and-what-do-geeks-use-it-for/},
+  2016.
+
+\bibitem{opencv-def}
+OpenCV.
+\newblock \textit{About}.
+\newblock \url{https://opencv.org/about/}, 2023.
+
+\bibitem{matplotlib-def}
+KattamuriMeghna.
+\newblock \textit{Python | Introduction to Matplotlib}.
+\newblock \url{https://www.geeksforgeeks.org/python-introduction-matplotlib/},
+  2023.
+
+\bibitem{flight-controller}
+Peter Karanja.
+\newblock \textit{How Drone Controllers Work (Explained for Beginners)}.
+\newblock \url{https://www.droneblog.com/drone-controller/}, 2023.
+
+\bibitem{px4-def}
+PX4~User Guide.
+\newblock \textit{PX4 Autopilot User Guide (main)}.
+\newblock \url{https://docs.px4.io/main/en/}, 2023.
+
+\bibitem{px4-mavlink}
+PX4~User Guide.
+\newblock \textit{MAVLink Messaging}.
+\newblock \url{https://docs.px4.io/main/en/middleware/mavlink.html}, 2023.
+
+\bibitem{px4-mavros}
+PX4~User Guide.
+\newblock \textit{ROS 1 with MAVROS}.
+\newblock \url{https://docs.px4.io/main/en/ros/ros1.html}, 2023.
+
+\bibitem{jderobot-ref}
+JdeRobot.
+\newblock \textit{JdeRobot}.
+\newblock \url{https://jderobot.github.io/}, 2023.
+
 \end{thebibliography}
