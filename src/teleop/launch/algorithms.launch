@@ -10,8 +10,8 @@
 	<arg name="x_ann" default="9.5"/>
 	<arg name="y_ann" default="11.5"/>
 
-	<arg name="x_wall" default="-5.0"/>
-	<arg name="y_wall" default="2.5"/>
+	<arg name="x_wall" default="-6.0"/>
+	<arg name="y_wall" default="7.0"/>
 
 	<arg name="vehicle" default="iris"/>
 	<arg name="x" default="0.5"/>
@@ -60,10 +60,10 @@
 	<node pkg="teleop" type="px4_controller.py" name="px4_controller" required="true" output="screen" />
 	<node pkg="teleop" type="algorithms.py" name="algorithms_node" required="true" output="screen" />
 
-	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find irisdrone_gazebo)/models/my_antenna/antenna.sdf'"/>
-	<!-- <node name="my_robot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-sdf -param robot_description -model antenna -x $(arg x_ann) -y $(arg y_ann) -z 0"/> -->
+	<param name="antenna_description" command="$(find xacro)/xacro --inorder '$(find irisdrone_gazebo)/models/my_antenna/antenna.sdf'"/>
+	<node name="spawn_antenna" pkg="gazebo_ros" type="spawn_model" output="screen" args="-sdf -param antenna_description -model antenna -x $(arg x_ann) -y $(arg y_ann) -z 0"/>
 
-	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find irisdrone_gazebo)/models/wall/wall.sdf'"/>
-	<node name="my_robot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-sdf -param robot_description -model antenna -x $(arg x_wall) -y $(arg y_wall) -z 0"/>
+	<param name="wall_description" command="$(find xacro)/xacro --inorder '$(find irisdrone_gazebo)/models/wall/wall.sdf'"/>
+	<node name="spawn_wall" pkg="gazebo_ros" type="spawn_model" output="screen" args="-sdf -param wall_description -model wall -x $(arg x_wall) -y $(arg y_wall) -z 0"/>
 	<node pkg="heatmap_util" type="path_marker.py" name="path_node" output="screen"/>
 </launch>
