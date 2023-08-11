@@ -171,7 +171,7 @@ class Drone:
 
         # Q-Learning training
         self.actions = []
-        self.generate_actions(steps=2)
+        self.generate_actions(steps=3)
         self.states = self.generate_coord_states(cell_step=1)
         self.q_table = np.zeros((len(self.states), len(self.actions)))
 
@@ -841,6 +841,16 @@ class Drone:
             if previous_pwr > pwr:
                 bad_moves_it += 1
 
+                # END CONDITION V.2
+                path.append(self.gzcoords_to_heatmapcoords(previous_coords_gz))
+                goal_pose.pose.position.x = previous_coords_gz[0]
+                goal_pose.pose.position.y = previous_coords_gz[1]
+                self.move_to(pose=goal_pose)
+
+                if self.is_goal():
+                    self.paths.append((path))
+                    break
+
             ## Look for state in Q table
             state_idx = self.get_coord_state_idx(current_coords_hm, states)
 
@@ -856,41 +866,41 @@ class Drone:
 
             next_coords_gz = self.heatmapcoords_to_gzcoords(next_coords_hm)
             
-            # If first iteration store the pair of coords
-            if not coord_pair:
-                coord_pair.extend((current_coords_hm, next_coords_hm))
-            else:
-                # If next coords are revisited
-                if next_coords_hm in coord_pair:
-                    # If not in the highest power position candidate
-                    if previous_pwr > pwr:
-                        path.append(self.gzcoords_to_heatmapcoords(previous_coords_gz))
-                        goal_pose.pose.position.x = previous_coords_gz[0]
-                        goal_pose.pose.position.y = previous_coords_gz[1]
-                        self.move_to(pose=goal_pose)
+            # # If first iteration store the pair of coords
+            # if not coord_pair:
+            #     coord_pair.extend((current_coords_hm, next_coords_hm))
+            # else:
+            #     # If next coords are revisited
+            #     if next_coords_hm in coord_pair:
+            #         # If not in the highest power position candidate
+            #         if previous_pwr > pwr:
+            #             path.append(self.gzcoords_to_heatmapcoords(previous_coords_gz))
+            #             goal_pose.pose.position.x = previous_coords_gz[0]
+            #             goal_pose.pose.position.y = previous_coords_gz[1]
+            #             self.move_to(pose=goal_pose)
 
-                    # (END CONDITION)
-                    if self.is_goal():
-                        self.paths.append((path))
-                        break
-                    # If not end --> reset and continue in the highest power detected.
-                    else:
-                        coord_pair.clear()
-                        pwr, current_coords_gz = self.read_pwr()
-                        current_coords_hm = self.gzcoords_to_heatmapcoords(current_coords_gz)
-                        path.append(current_coords_hm)
-                        state_idx = self.get_coord_state_idx(current_coords_hm, states)
-                        action_idx = np.argmax(q_table[state_idx])
-                        next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[action_idx])
-                        next_coords_gz = self.heatmapcoords_to_gzcoords(next_coords_hm)
-                        coord_pair.extend((current_coords_hm, next_coords_hm))
-                else:
-                    coord_pair.pop(0)
-                    coord_pair.append(next_coords_hm)
+            #         # (END CONDITION)
+            #         if self.is_goal():
+            #             self.paths.append((path))
+            #             break
+            #         # If not end --> reset and continue in the highest power detected.
+            #         else:
+            #             coord_pair.clear()
+            #             pwr, current_coords_gz = self.read_pwr()
+            #             current_coords_hm = self.gzcoords_to_heatmapcoords(current_coords_gz)
+            #             path.append(current_coords_hm)
+            #             state_idx = self.get_coord_state_idx(current_coords_hm, states)
+            #             action_idx = np.argmax(q_table[state_idx])
+            #             next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[action_idx])
+            #             next_coords_gz = self.heatmapcoords_to_gzcoords(next_coords_hm)
+            #             coord_pair.extend((current_coords_hm, next_coords_hm))
+            #     else:
+            #         coord_pair.pop(0)
+            #         coord_pair.append(next_coords_hm)
 
             goal_pose.pose.position.x = next_coords_gz[0]
             goal_pose.pose.position.y = next_coords_gz[1]
-            self.move_to(pose=goal_pose)
+            self.move_to(pose=goal_pose)               
 
             ## Update values
             previous_pwr = pwr

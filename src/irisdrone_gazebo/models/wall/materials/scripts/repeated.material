@@ -1,0 +1,14 @@
+material RepeatedTexture/Image
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture wall_texture.png
+        scale 2.0 2.0
+      }
+    }
+  }
+}
