@@ -1,54 +1,25 @@
 \chapter{Diseño}
 \label{cap:capitulo4}
 
-ToDo...
+Tras haber puesto en contexto todo lo anterior, en este capítulo se expondrá, de forma detallada, el proceso seguido para conseguir que un dron detecte y navegue hacia una señal \ac{RF}.\\
 
-\section{Recopilación inicial de datos con el exoesqueleto}
-\label{sec:primeros_datos_exoesqueleto}
+Además, se mostrará el desarrollo de una aplicación responsiva, que simula el comportamiento de una señal (en un espacio libre de obstáculos), basada en la aproximación de Friis.\\
 
-ToDo...
+Por último, se buscará determinar cuál de los métodos empleados es mejor y por qué, a través de diversas métricas comparativas que se expondrán en detalle posteriormente.\\
 
-\section{Desarrollo de la obtención del PID teórico del exoesqueleto}
-\label{sec:desarrollo_de_la_obtencion_del pid_teorico_del_exoesqueleto}
+\section{Preparación del entorno}
+\label{sec:preparacion_del_entorno}
 
-ToDo...
+Lo primero que se debía conseguir, era un entorno de simulación compatible con \ac{ROS}, así como un sistema de control de versiones, que nos permitiera mantener la trazabilidad y los backups a mano. Por ello, se estableció un repositorio común en GitHub y se usó el paquete de herramientas dispuesto por \textbf{JdeRobot}.
 
-\subsection{Concepto de PID}
-\label{subsec:concepto_de_pid}
+\subsection{JdeRobot - drones}
+\label{subsec:jderobot_drones}
 
-ToDo...
+Gracias a esta plataforma, se pudo obtener los modelos y los módulos necesarios para poder simular en Gazebo, el desempeño de un cuadracóptero provisto de un sistema de autopilot PX4.\\
 
-\subsection{Método de Ziegler-Nichols}
-\label{subsec:metodo_de_ziegler_nichols}
+El modelo usado es el \textbf{3DR Iris simulado}, con un plugin de una cámara frontal. Este dispositivo utiliza MAVROS, para realizar la comunicación, lo que nos permite enviar y recibir mesajes ROS compatibles con el protocolo de comunicaciones típico de estas aeronaves, MAVLink.\\
 
-ToDo...
-
-\subsection{PidTuner}
-\label{subsec:pidtuner}
-
-ToDo...
-
-\section{Algoritmo del ejercicio de las sentadillas}
-\label{sec:algoritmo_ejercicio_sentadillas}
-
-ToDo...
-
-\section{Comparativa de resultados de redes neuronales de pose y exoesqueleto}
-\label{sec:comparativa_redes_pose_exoesqueleto}
-
-ToDo...
-
-\subsection{Guardado de datos}
-\label{subsec:guardado_datos}
-
-ToDo...
-
-\subsection{Obtención de los ángulos}
-\label{subsec:obtencion_angulos}
-
-ToDo...
-
-\subsection{Análisis de los resultados obtenidos}
-\label{subsec:analisis_resultados_obtenidos}
+\subsection{Teleoperador}
+\label{subsec:teleoperador}
 
 ToDo...

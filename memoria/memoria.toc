@@ -26,16 +26,9 @@
 \contentsline {subsection}{\numberline {3.4.3}PX4 autopilot}{16}{subsection.3.4.3}%
 \contentsline {section}{\numberline {3.5}Iris}{16}{section.3.5}%
 \contentsline {chapter}{\numberline {4}Diseño}{17}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Recopilación inicial de datos con el exoesqueleto}{17}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Desarrollo de la obtención del PID teórico del exoesqueleto}{17}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Concepto de PID}{17}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Método de Ziegler-Nichols}{17}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}PidTuner}{17}{subsection.4.2.3}%
-\contentsline {section}{\numberline {4.3}Algoritmo del ejercicio de las sentadillas}{17}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Comparativa de resultados de redes neuronales de pose y exoesqueleto}{17}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Guardado de datos}{18}{subsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.4.2}Obtención de los ángulos}{18}{subsection.4.4.2}%
-\contentsline {subsection}{\numberline {4.4.3}Análisis de los resultados obtenidos}{18}{subsection.4.4.3}%
+\contentsline {section}{\numberline {4.1}Preparación del entorno}{17}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}JdeRobot - drones}{17}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Teleoperador}{18}{subsection.4.1.2}%
 \contentsline {chapter}{\numberline {5}Conclusiones}{19}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Objetivos cumplidos}{19}{section.5.1}%
 \contentsline {section}{\numberline {5.2}Requisitos satisfechos}{19}{section.5.2}%
