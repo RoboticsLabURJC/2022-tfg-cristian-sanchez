@@ -457,10 +457,54 @@ class Friss:
                 if self.__is_inside_polygon(poly, point):
                     # print("AAAAAAAAAAAAAA")
                     # print((x,y))
-                    self.__raw_data[x, y] *= 0.75
+                    self.__raw_data[x, y] *= 1.015
 
         print(np.round(self.__raw_data))
         print(poly)
 
     def __del__(self):
         pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # MORE EXPERIMENTAL STUFF
+    def shoow(self):
+        print(self.__raw_data)
+
+    def p_obs(self, x, y):
+        self.__raw_data[x,y]= -999
