@@ -262,4 +262,10 @@ JdeRobot.
 \newblock \textit{JdeRobot}.
 \newblock \url{https://jderobot.github.io/}, 2023.
 
+\bibitem{flight-modes}
+PX4 Autopilot.
+\newblock \textit{Autonomous and Manual Modes}.
+\newblock \url{https://docs.px4.io/main/en/getting_started/flight_modes.html},
+  2023.
+
 \end{thebibliography}

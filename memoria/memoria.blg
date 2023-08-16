@@ -89,47 +89,49 @@ Warning--entry type for "px4-mavros" isn't style-file defined
 --line 345 of file bibliografia.bib
 Warning--entry type for "jderobot-ref" isn't style-file defined
 --line 352 of file bibliografia.bib
+Warning--entry type for "flight-modes" isn't style-file defined
+--line 359 of file bibliografia.bib
 Warning--can't use both author and editor fields in Wang2022
 Warning--empty chapter and pages in data-link-definicion
-You've used 45 entries,
+You've used 46 entries,
             1791 wiz_defined-function locations,
-            644 strings with 9579 characters,
-and the built_in function-call counts, 6326 in all, are:
-= -- 542
-> -- 203
+            648 strings with 9707 characters,
+and the built_in function-call counts, 6455 in all, are:
+= -- 553
+> -- 207
 < -- 1
-+ -- 96
-- -- 51
-* -- 112
-:= -- 975
-add.period$ -- 133
-call.type$ -- 45
-change.case$ -- 43
++ -- 98
+- -- 52
+* -- 113
+:= -- 995
+add.period$ -- 136
+call.type$ -- 46
+change.case$ -- 44
 chr.to.int$ -- 0
-cite$ -- 47
-duplicate$ -- 254
-empty$ -- 843
-format.name$ -- 51
-if$ -- 1507
+cite$ -- 48
+duplicate$ -- 259
+empty$ -- 861
+format.name$ -- 52
+if$ -- 1538
 int.to.chr$ -- 0
-int.to.str$ -- 45
+int.to.str$ -- 46
 missing$ -- 6
-newline$ -- 226
-num.names$ -- 45
-pop$ -- 263
+newline$ -- 231
+num.names$ -- 46
+pop$ -- 269
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 151
+skip$ -- 154
 stack$ -- 0
 substring$ -- 78
-swap$ -- 55
+swap$ -- 56
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 2
-while$ -- 51
-width$ -- 47
-write$ -- 452
+while$ -- 52
+width$ -- 48
+write$ -- 462
 (There were 2 error messages)

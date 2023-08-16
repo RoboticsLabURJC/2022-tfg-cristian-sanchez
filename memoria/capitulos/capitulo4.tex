@@ -22,4 +22,20 @@ El modelo usado es el \textbf{3DR Iris simulado}, con un plugin de una cámara f
 \subsection{Teleoperador}
 \label{subsec:teleoperador}
 
-ToDo...
+La primera aproximación que se propuso fue, hacer una interfaz gráfica simple, que permitiera enviar órdenes a la aeronave.\\
+
+Para ello, inicialmente se debía conseguir enviar ordenes de forma programática y efectiva. Por tanto se diseñó un script \textbf{controlador}, encargado de la comunicación directa con el controlador de la aeronave, para enviar y recibir diversos datos, vía MAVROS. De esta manera, se debían satisfacer una serie de requisitos que aseguraran el correcto funcionamiento del sistema:
+
+\begin{enumerate}
+	\item La comunicación se debe darse a \textbf{más de 2Hz}, para evitar cambios indeseados en el funcionamiento interno del controlador PX4.
+
+	\item Antes de realizar cualquier comunicación, \textbf{se debe asegurar que el estado es \emph{``connected''}}, lo que significa que el dron esta armado y en modo \emph{OFFBOARD} (nuestra aeronave posee 7 modos distintos, \emph{HOLD}, que mantiene la posición, \emph{RETURN}, que vuelve al punto de despegue, \emph{MISSION}, que permite cargar rutas programadas con anterioridad, \emph{TAKEOFF}, habilita el despegue, \emph{LAND}, habilita el aterrizaje, \emph{FOLLOW ME}, que permite seguir objetivos, y por último \emph{OFFBOARD}, que permite comandar al dron sin necesidad de GPS, lo que es útil de cara al desarrollo de aplicaciones robóticas) \cite{flight-modes}.
+	
+    \item Una vez esta conectado, se debe \textbf{enviar datos} (velocidades en nuestro caso) al controlador PX4, para evitar que se cierre la conexión. Estos datos carecen de utilidad más que la de asegurar la conectividad.
+    
+    \item Por último, y antes de enviar cualquier posición, velocidad o comando (distintos modos de actuación), se debe comprobar siempre que el \textbf{modo activo} es \emph{OFFBOARD} y que el dron esta \textbf{armado} (listo para volar). En caso contrario se debe solicitar al controlador, mediante servicios, dichas especificaciones.
+\end{enumerate}
+
+Por tanto, con todo esto funcionando de forma correcta, la manera de generar comportamientos en sí en el dron, es mediante \emph{topics}. Concretamente, los que genera MAVROS automáticamente, cuando se lanza todo el sistema. Tal y como se comentó en apartados previos, estos \emph{topics} sólo admiten mensajes \ac{ROS}, lo que encapsula el mensaje real transmitido al controlador PX4, que solo es compatible con MAVLINK. En nuestro caso, enviaremos posiciones (PoseStamped), velocidades (Twist) y comandos (sevicios formados por mensajes personalizados, creados por MAVROS, con formato \ac{ROS}). Esto, nos permitirá conectar el resto de aplicaciones con el controlador, mediante \emph{topics} comunes, de forma que el script controlador sea el encargado de enviar la acción final al dron, y el resto de scripts se encarguen de resolver otras tareas.\\
+
+De este modo, inicia el desarrollo propiamente dicho del \textbf{teleoperador}. El teleoperador, se diseñó con el fin de generar comportamientos que se usarían en las fases finales del \ac{TFG}. Sin embargo, en la primera versión, tan solo se buscó construir una interfaz gráfica sencilla, capaz de enviar ordenes usando \ac{ROS} que, en última instancia, llegasen al dron y produjesen diversos comportamientos, tales como despegar, aterrizar, moverse y girar.\\
