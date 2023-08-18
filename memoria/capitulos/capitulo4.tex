@@ -39,3 +39,47 @@ Para ello, inicialmente se debía conseguir enviar ordenes de forma programátic
 Por tanto, con todo esto funcionando de forma correcta, la manera de generar comportamientos en sí en el dron, es mediante \emph{topics}. Concretamente, los que genera MAVROS automáticamente, cuando se lanza todo el sistema. Tal y como se comentó en apartados previos, estos \emph{topics} sólo admiten mensajes \ac{ROS}, lo que encapsula el mensaje real transmitido al controlador PX4, que solo es compatible con MAVLINK. En nuestro caso, enviaremos posiciones (PoseStamped), velocidades (Twist) y comandos (sevicios formados por mensajes personalizados, creados por MAVROS, con formato \ac{ROS}). Esto, nos permitirá conectar el resto de aplicaciones con el controlador, mediante \emph{topics} comunes, de forma que el script controlador sea el encargado de enviar la acción final al dron, y el resto de scripts se encarguen de resolver otras tareas.\\
 
 De este modo, inicia el desarrollo propiamente dicho del \textbf{teleoperador}. El teleoperador, se diseñó con el fin de generar comportamientos que se usarían en las fases finales del \ac{TFG}. Sin embargo, en la primera versión, tan solo se buscó construir una interfaz gráfica sencilla, capaz de enviar ordenes usando \ac{ROS} que, en última instancia, llegasen al dron y produjesen diversos comportamientos, tales como despegar, aterrizar, moverse y girar.\\
+
+En el siguente paso, se buscó programar \textbf{comportamientos predefinidos}, es decir, acciones predeterminadas tales como desplazarse distancias concretas en ciertas direcciones, o girar un número específico de grados en un sentido u otro. Para ello, se diseñó una ampliación sobre la interfaz anterior, en la que se añadió un botón por cada acción concreta desarrollada, además de una imagen de la cámara frontal en directo. Es importante destacar la acción de moverse de distancias específicas, ya que se empleará en los algoritmos finales del proyecto.\\
+
+Finalmente, y continuando con lo anterior, se intentó afinar el comportamiento de las acciones predefinidas, para hacer que el dron se desplazase de celda en celda, concretamente de \textbf{centro en centro}. La idea es que, el dron solo tomará medidas de la señal en posiciones concretas y no en movimiento. Además, se agregaron marcadores en \emph{rviz}, para determinar las celdas visitadas (con colores aleatorios), junto con otro marcador que muestra la trayectoria que sigue la aeronave.\\
+
+A continuación, se muestra el \emph{``main''} de la aplicación final:\\
+
+\begin{code}[H]
+\begin{lstlisting}[language=Python]
+if __name__ == '__main__':
+    try:
+        rospy.init_node(NODENAME, anonymous=True)
+
+        # Msgs
+        ## Subscribers
+        image_sub = rospy.Subscriber(IMAGE_TOPIC, Image, callback = image_cb)
+        current_pos_sub = rospy.Subscriber(LOCAL_POSE_TOPIC, PoseStamped, callback = current_pos_cb)
+
+        ## Publishers
+        pos_pub = rospy.Publisher(RADIO_CONTROL_POS_TOPIC, PoseStamped, queue_size=10)
+        cmd_pub = rospy.Publisher(RADIO_CONTROL_CMD_TOPIC, Px4Cmd, queue_size=10)
+
+        # -- OPENCV -- #
+        cv2.namedWindow(WINDOWNAME)
+
+        # Buttons
+        cv2.createButton('Launch', launch_button, None, cv2.QT_PUSH_BUTTON, 1)
+        cv2.createButton('Land', land_button, None, cv2.QT_PUSH_BUTTON, 1)
+        cv2.createButton('←', left_button, None, cv2.QT_PUSH_BUTTON, 1)
+        cv2.createButton('↑', front_button, None, cv2.QT_PUSH_BUTTON, 1)
+        cv2.createButton('↓', back_button, None, cv2.QT_PUSH_BUTTON, 1)
+        cv2.createButton('→', right_button, None, cv2.QT_PUSH_BUTTON, 1)
+        cv2.createButton('STOP', stop_button, None, cv2.QT_PUSH_BUTTON, 1)
+
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+    except rospy.ROSInterruptException:
+        pass
+\end{lstlisting}
+\caption[Main de center to center app]{Main de center to center app}
+\label{cod:c2c_app}
+\end{code}
+
+Donde, tras inicializar el nodo \ac{ROS}, se definen por un lado los \textbf{suscriptores}, encargados de recibir los datos de la cámara y la posición del dron (usando MAVROS), los \textbf{publicadores}, cuya función es enviar posiciones y/o comandos al script controlador, y por último la \textbf{interfaz gráfica} diseñada con \textbf{OpenCV}, donde se define la ventana y los botones con las diversas acciones predefinidas \footnote{Código completo en \url{https://github.com/RoboticsLabURJC/2022-tfg-cristian-sanchez/blob/main/src/teleop/scripts/c2c_control.py}}.\\
