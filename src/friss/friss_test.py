@@ -34,9 +34,32 @@ class Line:
             if self.m == 0:
                 self.horizontal = True
 
+                if self.x2 - self.x1 > 0:
+                    self.direction = 'E'
+                else:
+                    self.direction = 'W'
+
+            elif self.m > 0:
+                if self.x2 - self.x1 > 0:
+                    self.direction = 'NE'
+                else:
+                    self.direction = 'SW'
+            
+            else:
+                if self.x2 - self.x1 > 0:
+                    self.direction = 'SE'
+                else:
+                    self.direction = 'NW'
+
+
         except ZeroDivisionError:
             self.vertical = True
             self.b = self.x1
+
+            if self.y2 - self.y1 > 0:
+                self.direction = 'N'
+            else:
+                self.direction = 'S'
     
 
 def intersection(line1, line2):
@@ -63,13 +86,20 @@ def intersection(line1, line2):
             try:
                 y = line1.m * x + line1.b
             except AttributeError:
-                y = line2.m * x + line2.b     
+                y = line2.m * x + line2.b
 
     return (x, y)
 
 def in_map(map_sz, point):
     x, y = point
     return (0 <= x < map_sz) and (0 <= y < map_sz)
+
+
+def get_polygon_vertices(self, signal_origin, obstacle_vertices, edges):
+
+    for obstacle_vertex in obstacle_vertices:
+        Line(signal_origin, obstacle_vertex)
+
 
 if __name__ == "__main__":
     # heatmap = fr.Friss(world_sz=(30,30))
