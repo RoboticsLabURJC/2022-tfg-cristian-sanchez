@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2023.7.19)  18 AUG 2023 11:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2023.7.19)  21 AUG 2023 12:03
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -619,7 +619,7 @@ LaTeX Info: Redefining \nameref on input line 26.
 
 Package newfloat Info: `float' package detected.
  (./portada/indice.tex (./portada/portada.tex
-<imagenes/cap1/logo_urjc.jpg, id=152, 525.965pt x 210.7875pt>
+<imagenes/cap1/logo_urjc.jpg, id=156, 525.965pt x 210.7875pt>
 File: imagenes/cap1/logo_urjc.jpg Graphic file (type jpg)
 <use imagenes/cap1/logo_urjc.jpg>
 Package pdftex.def Info: imagenes/cap1/logo_urjc.jpg  used on input line 7.
@@ -742,13 +742,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 7--8
 
  []
 
-<imagenes/cap1/1_industrial_robot.jpeg, id=307, 963.6pt x 642.14906pt>
+<imagenes/cap1/1_industrial_robot.jpeg, id=318, 963.6pt x 642.14906pt>
 File: imagenes/cap1/1_industrial_robot.jpeg Graphic file (type jpg)
 <use imagenes/cap1/1_industrial_robot.jpeg>
 Package pdftex.def Info: imagenes/cap1/1_industrial_robot.jpeg  used on input l
 ine 19.
 (pdftex.def)             Requested size: 170.7792pt x 113.81102pt.
-<imagenes/cap1/2_mobile_robot.jpeg, id=308, 2007.5pt x 1129.21875pt>
+<imagenes/cap1/2_mobile_robot.jpeg, id=319, 2007.5pt x 1129.21875pt>
 File: imagenes/cap1/2_mobile_robot.jpeg Graphic file (type jpg)
 <use imagenes/cap1/2_mobile_robot.jpeg>
 Package pdftex.def Info: imagenes/cap1/2_mobile_robot.jpeg  used on input line 
@@ -773,7 +773,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 33--34
 
  []
 
-<imagenes/cap1/3_robot.png, id=327, 1104.125pt x 461.725pt>
+<imagenes/cap1/3_robot.png, id=339, 1104.125pt x 461.725pt>
 File: imagenes/cap1/3_robot.png Graphic file (type png)
 <use imagenes/cap1/3_robot.png>
 Package pdftex.def Info: imagenes/cap1/3_robot.png  used on input line 37.
@@ -794,19 +794,19 @@ Underfull \hbox (badness 10000) in paragraph at lines 50--51
 
  []
 
-<imagenes/cap1/4_kettering_bug.jpeg, id=344, 702.625pt x 526.96875pt>
+<imagenes/cap1/4_kettering_bug.jpeg, id=355, 702.625pt x 526.96875pt>
 File: imagenes/cap1/4_kettering_bug.jpeg Graphic file (type jpg)
 <use imagenes/cap1/4_kettering_bug.jpeg>
 Package pdftex.def Info: imagenes/cap1/4_kettering_bug.jpeg  used on input line
  54.
 (pdftex.def)             Requested size: 94.83955pt x 71.13188pt.
-<imagenes/cap1/5_queen_bee.jpeg, id=345, 1057.9525pt x 423.5825pt>
+<imagenes/cap1/5_queen_bee.jpeg, id=356, 1057.9525pt x 423.5825pt>
 File: imagenes/cap1/5_queen_bee.jpeg Graphic file (type jpg)
 <use imagenes/cap1/5_queen_bee.jpeg>
 Package pdftex.def Info: imagenes/cap1/5_queen_bee.jpeg  used on input line 56.
 
 (pdftex.def)             Requested size: 177.65408pt x 71.13188pt.
-<imagenes/cap1/6_aphrodite.jpeg, id=346, 697.60625pt x 339.2675pt>
+<imagenes/cap1/6_aphrodite.jpeg, id=357, 697.60625pt x 339.2675pt>
 File: imagenes/cap1/6_aphrodite.jpeg Graphic file (type jpg)
 <use imagenes/cap1/6_aphrodite.jpeg>
 Package pdftex.def Info: imagenes/cap1/6_aphrodite.jpeg  used on input line 58.
@@ -823,7 +823,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 72--73
 
  []
 
-<imagenes/cap1/7_drone_components.jpeg, id=367, 475.7775pt x 356.33125pt>
+<imagenes/cap1/7_drone_components.jpeg, id=378, 475.7775pt x 356.33125pt>
 File: imagenes/cap1/7_drone_components.jpeg Graphic file (type jpg)
 <use imagenes/cap1/7_drone_components.jpeg>
 Package pdftex.def Info: imagenes/cap1/7_drone_components.jpeg  used on input l
@@ -850,7 +850,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 89--90
 LaTeX Info: Redefining \. on input line 90.
 LaTeX Info: Redefining \% on input line 90.
 [4 <./imagenes/cap1/7_drone_components.jpeg>]
-<imagenes/cap1/8_AI_types.png, id=394, 1377.145pt x 996.72375pt>
+<imagenes/cap1/8_AI_types.png, id=405, 1377.145pt x 996.72375pt>
 File: imagenes/cap1/8_AI_types.png Graphic file (type png)
 <use imagenes/cap1/8_AI_types.png>
 Package pdftex.def Info: imagenes/cap1/8_AI_types.png  used on input line 103.
@@ -863,7 +863,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 112--113
 LaTeX Info: Redefining \. on input line 113.
 LaTeX Info: Redefining \% on input line 113.
 [5 <./imagenes/cap1/8_AI_types.png>]
-<imagenes/cap1/9_reinforcement.png, id=408, 803.0pt x 377.41pt>
+<imagenes/cap1/9_reinforcement.png, id=419, 803.0pt x 377.41pt>
 File: imagenes/cap1/9_reinforcement.png Graphic file (type png)
 <use imagenes/cap1/9_reinforcement.png>
 Package pdftex.def Info: imagenes/cap1/9_reinforcement.png  used on input line 
@@ -886,7 +886,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 132--133
 
  []
 
-<imagenes/cap1/10_friis.png, id=424, 602.25pt x 579.16376pt>
+<imagenes/cap1/10_friis.png, id=435, 602.25pt x 579.16376pt>
 File: imagenes/cap1/10_friis.png Graphic file (type png)
 <use imagenes/cap1/10_friis.png>
 Package pdftex.def Info: imagenes/cap1/10_friis.png  used on input line 136.
@@ -969,7 +969,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 50--51
 
  []
 
-<imagenes/cap3/1_ros_esquema.png, id=500, 677.53125pt x 262.9825pt>
+<imagenes/cap3/1_ros_esquema.png, id=511, 677.53125pt x 262.9825pt>
 File: imagenes/cap3/1_ros_esquema.png Graphic file (type png)
 <use imagenes/cap3/1_ros_esquema.png>
 Package pdftex.def Info: imagenes/cap3/1_ros_esquema.png  used on input line 56
@@ -989,7 +989,7 @@ S \T1/cmr/m/n/12 12
  []
 
 [12 <./imagenes/cap3/1_ros_esquema.png>]
-<imagenes/cap3/2_gazebo_example.JPEG, id=518, 3718.89375pt x 2121.9275pt>
+<imagenes/cap3/2_gazebo_example.JPEG, id=529, 3718.89375pt x 2121.9275pt>
 File: imagenes/cap3/2_gazebo_example.JPEG Graphic file (type jpg)
 <use imagenes/cap3/2_gazebo_example.JPEG>
 Package pdftex.def Info: imagenes/cap3/2_gazebo_example.JPEG  used on input lin
@@ -1005,7 +1005,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 82--83
 
  []
 
-<imagenes/cap3/3_rviz_example.png, id=522, 795.97375pt x 632.3625pt>
+<imagenes/cap3/3_rviz_example.png, id=533, 795.97375pt x 632.3625pt>
 File: imagenes/cap3/3_rviz_example.png Graphic file (type png)
 <use imagenes/cap3/3_rviz_example.png>
 Package pdftex.def Info: imagenes/cap3/3_rviz_example.png  used on input line 8
@@ -1030,7 +1030,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 100--101
 
  []
 
-<imagenes/cap3/4_vscode_logo.png, id=530, 1204.5pt x 1204.5pt>
+<imagenes/cap3/4_vscode_logo.png, id=541, 1204.5pt x 1204.5pt>
 File: imagenes/cap3/4_vscode_logo.png Graphic file (type png)
 <use imagenes/cap3/4_vscode_logo.png>
 Package pdftex.def Info: imagenes/cap3/4_vscode_logo.png  used on input line 10
@@ -1069,7 +1069,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 127--128
 
  []
 
-<imagenes/cap3/5_opencv_example.png, id=541, 694.595pt x 348.30125pt>
+<imagenes/cap3/5_opencv_example.png, id=552, 694.595pt x 348.30125pt>
 File: imagenes/cap3/5_opencv_example.png Graphic file (type png)
 <use imagenes/cap3/5_opencv_example.png>
 Package pdftex.def Info: imagenes/cap3/5_opencv_example.png  used on input line
@@ -1085,7 +1085,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 142--143
 
  []
 
-<imagenes/cap3/6_matplotlib_app.png, id=546, 401.5pt x 281.05pt>
+<imagenes/cap3/6_matplotlib_app.png, id=557, 401.5pt x 281.05pt>
 File: imagenes/cap3/6_matplotlib_app.png Graphic file (type png)
 <use imagenes/cap3/6_matplotlib_app.png>
 Package pdftex.def Info: imagenes/cap3/6_matplotlib_app.png  used on input line
@@ -1110,7 +1110,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 157--158
 
  []
 
-<imagenes/cap3/7_px4_logo.png, id=565, 455.301pt x 341.3553pt>
+<imagenes/cap3/7_px4_logo.png, id=576, 455.301pt x 341.3553pt>
 File: imagenes/cap3/7_px4_logo.png Graphic file (type png)
 <use imagenes/cap3/7_px4_logo.png>
 Package pdftex.def Info: imagenes/cap3/7_px4_logo.png  used on input line 161.
@@ -1120,7 +1120,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 170--171
 
  []
 
-<imagenes/cap3/8_iris_drone.png, id=568, 1333.98375pt x 767.86874pt>
+<imagenes/cap3/8_iris_drone.png, id=579, 1333.98375pt x 767.86874pt>
 File: imagenes/cap3/8_iris_drone.png Graphic file (type png)
 <use imagenes/cap3/8_iris_drone.png>
 Package pdftex.def Info: imagenes/cap3/8_iris_drone.png  used on input line 174
@@ -1157,69 +1157,101 @@ Underfull \hbox (badness 10000) in paragraph at lines 18--19
 
  []
 
+[17
 
+]
 Underfull \hbox (badness 10000) in paragraph at lines 20--21
 
  []
 
-[17
+<imagenes/cap4/1_px4_drone_gz.png, id=599, 940.51375pt x 542.025pt>
+File: imagenes/cap4/1_px4_drone_gz.png Graphic file (type png)
+<use imagenes/cap4/1_px4_drone_gz.png>
+Package pdftex.def Info: imagenes/cap4/1_px4_drone_gz.png  used on input line 2
+4.
+(pdftex.def)             Requested size: 197.47066pt x 113.81102pt.
 
-]
-Underfull \hbox (badness 10000) in paragraph at lines 25--26
-
+Underfull \hbox (badness 2970) in paragraph at lines 33--34
+[]\T1/cmr/m/n/12 Ya propiamente hablando de resolver el problema planteado, la 
+primera
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 39--40
+Underfull \hbox (badness 10000) in paragraph at lines 33--34
 
  []
 
-LaTeX Info: Redefining \. on input line 40.
-LaTeX Info: Redefining \% on input line 40.
-[18]
-Underfull \hbox (badness 10000) in paragraph at lines 41--42
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 43--44
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 45--46
-
- []
-
-
+LaTeX Info: Redefining \. on input line 43.
+LaTeX Info: Redefining \% on input line 43.
+[18 <./imagenes/cap4/1_px4_drone_gz.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 47--48
 
  []
 
-LaTeX Info: Redefining \. on input line 84.
-LaTeX Info: Redefining \% on input line 84.
-[19]
-Underfull \hbox (badness 1092) in paragraph at lines 85--85
+
+Underfull \hbox (badness 10000) in paragraph at lines 49--50
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 51--52
+
+ []
+
+<imagenes/cap4/2_axes_rc.png, id=613, 372.39125pt x 244.915pt>
+File: imagenes/cap4/2_axes_rc.png Graphic file (type png)
+<use imagenes/cap4/2_axes_rc.png>
+Package pdftex.def Info: imagenes/cap4/2_axes_rc.png  used on input line 55.
+(pdftex.def)             Requested size: 194.6844pt x 128.0374pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 61--62
+
+ []
+
+LaTeX Info: Redefining \. on input line 62.
+LaTeX Info: Redefining \% on input line 62.
+[19 <./imagenes/cap4/2_axes_rc.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 63--64
+
+ []
+
+<imagenes/cap4/3_c2c_gui.png, id=621, 664.4825pt x 636.3775pt>
+File: imagenes/cap4/3_c2c_gui.png Graphic file (type png)
+<use imagenes/cap4/3_c2c_gui.png>
+Package pdftex.def Info: imagenes/cap4/3_c2c_gui.png  used on input line 67.
+(pdftex.def)             Requested size: 237.67235pt x 227.62204pt.
+LaTeX Info: Redefining \. on input line 73.
+LaTeX Info: Redefining \% on input line 73.
+[20 <./imagenes/cap4/3_c2c_gui.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 74--75
+
+ []
+
+
+Underfull \hbox (badness 1092) in paragraph at lines 112--112
 [][][]\T1/cmr/m/n/10 Código completo en [][]$\T1/cmtt/m/n/10 https : / / github
  . com / RoboticsLabURJC / 2022-[]tfg-[]cristian-[]sanchez /
  []
 
-)
-Underfull \hbox (badness 10000) in paragraph at lines 85--48
+
+Underfull \hbox (badness 10000) in paragraph at lines 112--113
 
  []
 
-(./capitulos/capitulo5.tex
+) (./capitulos/capitulo5.tex
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
- [20]
+ [21]
+LaTeX Info: Redefining \. on input line 1.
+LaTeX Info: Redefining \% on input line 1.
+ [22]
 Cap\'{\i }tulo 5.
-) (./anexo.tex [21
+) (./anexo.tex [23
 
 ]
 Cap\'{\i }tulo 6.
 
-LaTeX Warning: Reference `fig:robots_autonomos' on page 22 undefined on input l
+LaTeX Warning: Reference `fig:robots_autonomos' on page 24 undefined on input l
 ine 16.
 
 
@@ -1247,7 +1279,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 24--25
  []
 
 
-LaTeX Warning: Reference `fig:campos_robotica' on page 22 undefined on input li
+LaTeX Warning: Reference `fig:campos_robotica' on page 24 undefined on input li
 ne 28.
 
 
@@ -1278,7 +1310,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 34--35
  []
 
 
-LaTeX Warning: Reference `fig:robotica-tacto-bolonia' on page 22 undefined on i
+LaTeX Warning: Reference `fig:robotica-tacto-bolonia' on page 24 undefined on i
 nput line 38.
 
 
@@ -1287,7 +1319,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 38--39
  []
 
 
-LaTeX Warning: Reference `fig:AKROD' on page 22 undefined on input line 42.
+LaTeX Warning: Reference `fig:AKROD' on page 24 undefined on input line 42.
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 42--43
@@ -1295,7 +1327,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 42--43
  []
 
 
-LaTeX Warning: Reference `fig:lokomat' on page 22 undefined on input line 46.
+LaTeX Warning: Reference `fig:lokomat' on page 24 undefined on input line 46.
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 46--47
@@ -1303,7 +1335,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 46--47
  []
 
 
-LaTeX Warning: Reference `fig:exoesqueleto_atlas' on page 22 undefined on input
+LaTeX Warning: Reference `fig:exoesqueleto_atlas' on page 24 undefined on input
  line 50.
 
 
@@ -1318,7 +1350,7 @@ Overfull \hbox (25.19997pt too wide) in paragraph at lines 10--55
  []
 
 
-LaTeX Warning: Reference `fig:aplicaciones-exoesqueletos' on page 22 undefined 
+LaTeX Warning: Reference `fig:aplicaciones-exoesqueletos' on page 24 undefined 
 on input line 64.
 
 
@@ -1344,7 +1376,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 68--69
  []
 
 
-LaTeX Warning: Reference `fig:exos-flexibles-rigidos' on page 22 undefined on i
+LaTeX Warning: Reference `fig:exos-flexibles-rigidos' on page 24 undefined on i
 nput line 74.
 
 
@@ -1354,11 +1386,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 74--75
  []
 
 
-LaTeX Warning: Reference `fig:puntos-clave-imagen' on page 22 undefined on inpu
+LaTeX Warning: Reference `fig:puntos-clave-imagen' on page 24 undefined on inpu
 t line 80.
 
 
-LaTeX Warning: Reference `fig:logo_stm32cubeide' on page 22 undefined on input 
+LaTeX Warning: Reference `fig:logo_stm32cubeide' on page 24 undefined on input 
 line 84.
 
 
@@ -1367,7 +1399,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 84--85
  []
 
 
-LaTeX Warning: Reference `fig:exos_activo_pasivo' on page 22 undefined on input
+LaTeX Warning: Reference `fig:exos_activo_pasivo' on page 24 undefined on input
  line 88.
 
 
@@ -1383,7 +1415,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 90--91
  []
 
 
-LaTeX Warning: Reference `fig:esquema_redes_neuronales' on page 22 undefined on
+LaTeX Warning: Reference `fig:esquema_redes_neuronales' on page 24 undefined on
  input line 94.
 
 
@@ -1392,15 +1424,15 @@ Underfull \hbox (badness 10000) in paragraph at lines 94--95
  []
 
 
-LaTeX Warning: Reference `fig:esquema_arbol_decision' on page 22 undefined on i
+LaTeX Warning: Reference `fig:esquema_arbol_decision' on page 24 undefined on i
 nput line 98.
 
 
-LaTeX Warning: Reference `fig:obtencion_fases_keypoints_movenet' on page 22 und
+LaTeX Warning: Reference `fig:obtencion_fases_keypoints_movenet' on page 24 und
 efined on input line 102.
 
 
-LaTeX Warning: Reference `fig:esquema_keypoints_mediapipe' on page 22 undefined
+LaTeX Warning: Reference `fig:esquema_keypoints_mediapipe' on page 24 undefined
  on input line 106.
 
 
@@ -1410,7 +1442,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 106--107
  []
 
 
-LaTeX Warning: Reference `fig:ejemplos_vision_mediapipe' on page 22 undefined o
+LaTeX Warning: Reference `fig:ejemplos_vision_mediapipe' on page 24 undefined o
 n input line 110.
 
 
@@ -1424,14 +1456,14 @@ Overfull \hbox (25.19997pt too wide) in paragraph at lines 60--115
  [] 
  []
 
-[22
+[24
 
 ])
 No file memoria.ind.
 (./memoria.bbl
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
- [23]
+ [25]
 Underfull \hbox (badness 10000) in paragraph at lines 9--14
 []\T1/cmr/m/n/12 Revista de Robots.  \T1/cmr/m/it/12 Robótica. Qué es la
  []
@@ -1476,7 +1508,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 51--56
 -[]queen-[]bee/$[][]\T1/cmr/m/n/12 ,
  []
 
-[24
+[26
 
 ]
 Underfull \hbox (badness 1540) in paragraph at lines 64--69
@@ -1504,7 +1536,7 @@ odel\T1/cmr/m/n/12 .  [][]$\T1/cmtt/m/n/12 https : / / www .
 
 LaTeX Info: Redefining \. on input line 149.
 LaTeX Info: Redefining \% on input line 149.
-[25]
+[27]
 Underfull \hbox (badness 1038) in paragraph at lines 177--180
 []\T1/cmr/m/n/12 SohomPramanick.  \T1/cmr/m/it/12 History of Python\T1/cmr/m/n/
 12 .  [][]$\T1/cmtt/m/n/12 https : / / www . geeksforgeeks . org /
@@ -1523,7 +1555,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 223--228
 
 LaTeX Info: Redefining \. on input line 229.
 LaTeX Info: Redefining \% on input line 229.
-[26]
+[28]
 Underfull \hbox (badness 1960) in paragraph at lines 235--239
 []\T1/cmr/m/n/12 KattamuriMeghna.  \T1/cmr/m/it/12 Python | Introduction to Mat
 plotlib\T1/cmr/m/n/12 .  [][]$\T1/cmtt/m/n/12 https : / / www .
@@ -1533,7 +1565,7 @@ plotlib\T1/cmr/m/n/12 .  [][]$\T1/cmtt/m/n/12 https : / / www .
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 60.
 LaTeX Info: Redefining \. on input line 60.
 LaTeX Info: Redefining \% on input line 60.
- [27]
+ [29]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 60.
  (./memoria.aux
 LaTeX Info: Redefining \. on input line 25.
@@ -1542,7 +1574,7 @@ LaTeX Info: Redefining \% on input line 25.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 60.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 60.
 Package rerunfilecheck Info: File `memoria.out' has not changed.
-(rerunfilecheck)             Checksum: 8F625D2B942078E785492939788D6595;2302.
+(rerunfilecheck)             Checksum: 32ED6030C778601C87DF47DE9D40D47C;2359.
 
 
 LaTeX Font Warning: Size substitutions with differences
@@ -1554,10 +1586,10 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 60.
  ) 
 Here is how much of TeX's memory you used:
- 13771 strings out of 483048
- 200764 string characters out of 5962772
- 664405 words of memory out of 5000000
- 28210 multiletter control sequences out of 15000+600000
+ 13801 strings out of 483048
+ 201468 string characters out of 5962772
+ 663405 words of memory out of 5000000
+ 28230 multiletter control sequences out of 15000+600000
  566429 words of font info for 79 fonts, out of 8000000 for 9000
  91 hyphenation exceptions out of 8191
  44i,12n,53p,1069b,1467s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1582,10 +1614,10 @@ ec/ecrm1440.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
 /cmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmss12.pfb></usr/share/texm
 f/fonts/type1/public/lm/lmss17.pfb></usr/share/texmf/fonts/type1/public/lm/lmss
 bx10.pfb>
-Output written on memoria.pdf (36 pages, 2217775 bytes).
+Output written on memoria.pdf (38 pages, 3324418 bytes).
 PDF statistics:
- 1511 PDF objects out of 1728 (max. 8388607)
- 840 compressed objects within 9 object streams
- 239 named destinations out of 1000 (max. 500000)
- 392 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1543 PDF objects out of 1728 (max. 8388607)
+ 861 compressed objects within 9 object streams
+ 245 named destinations out of 1000 (max. 500000)
+ 415 words of extra memory for PDF output out of 10000 (max. 10000000)
 
