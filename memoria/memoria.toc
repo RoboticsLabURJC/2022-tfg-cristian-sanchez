@@ -30,10 +30,12 @@
 \contentsline {subsection}{\numberline {4.1.1}JdeRobot - drones}{17}{subsection.4.1.1}%
 \contentsline {subsection}{\numberline {4.1.2}Teleoperador}{18}{subsection.4.1.2}%
 \contentsline {section}{\numberline {4.2}Señales}{22}{section.4.2}%
-\contentsline {chapter}{\numberline {5}Conclusiones}{23}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Objetivos cumplidos}{23}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Requisitos satisfechos}{23}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Balance global y competencias adquiridas}{23}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Líneas futuras}{23}{section.5.4}%
-\contentsline {chapter}{\numberline {6}Anexo}{24}{chapter.6}%
-\contentsline {chapter}{Bibliograf\'{\i }a}{26}{appendix*.40}%
+\contentsline {subsection}{\numberline {4.2.1}Aproximación de Friis}{22}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Módulo python de friis}{23}{subsection.4.2.2}%
+\contentsline {chapter}{\numberline {5}Conclusiones}{24}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Objetivos cumplidos}{24}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Requisitos satisfechos}{24}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Balance global y competencias adquiridas}{24}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Líneas futuras}{24}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Anexo}{25}{chapter.6}%
+\contentsline {chapter}{Bibliograf\'{\i }a}{27}{appendix*.40}%

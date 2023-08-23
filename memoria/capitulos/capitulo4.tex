@@ -114,4 +114,63 @@ Donde, tras inicializar el nodo \ac{ROS}, se definen por un lado los \textbf{sus
 \section{Señales}
 \label{sec:signals}
 
+Continuando con el proyecto, entramos en el segundo gran bloque, las señales \ac{RF}. Este apartado, fue especialmente relevante, ya que nos permitió desarrollar una aplicación reactiva, con la meta de generar entornos sobre los que probar soluciones robóticas.\\
+
+Pero, antes de entrar en detalle, conviene familiarizarse con algunos conceptos básicos sobre el procesamiento de señales:
+
+\begin{enumerate}
+	\item \textbf{Señal}:
+	
+    \item \textbf{Dominio temporal}:
+    
+    \item \textbf{Dominio de la señal}:
+    
+    \item \textbf{ADC}:
+    
+    \item \textbf{RSSI}:
+    
+    \item \textbf{SNR}:
+
+    \item \textbf{Frecuencia}:
+    
+    \item \textbf{TX}:
+    
+    \item \textbf{RX}:
+\end{enumerate}
+
+Definidos estos términos, nuestro objetivo fue obtener un modelo capaz de calcular la \textbf{propagación de la señal}, es decir, -----.\\
+
+\subsection{Aproximación de Friis}
+\label{subsec:friis}
+
+Por ello, se optó por emplear la aproximación de Friis, que nos proporciona una sencilla fórmula sobre la cual modelizar nuestro problema.\\
+
+(insertar fórmula)
+
+Donde cada término significa lo siguiente:
+
+\begin{enumerate}
+    \item \textbf{Ganancias}:
+    
+    \item \textbf{Valor lambda}:
+    
+    \item \textbf{Distancia (d)}:
+    
+    \item \textbf{Factor L}: (Insertar tabla)
+\end{enumerate}
+
+Además, empleando este método, podemos modelizar las \textbf{pérdidas de una señal} estimadas durante su propagación, a través de la siguiente ecuación:\\
+
+(insertar ecuación path loss)\\
+
+Sin embargo, para nuestro caso no es relevante (aunque se añadió al módulo).\\
+
+\subsection{Módulo python de Friis}
+\label{subsec:friis-module}
+
+ToDo...
+
+\subsection{Aplicación de Friis}
+\label{subsec:friis-app}
+
 ToDo...
