@@ -168,7 +168,58 @@ Sin embargo, para nuestro caso no es relevante (aunque se añadió al módulo).\
 \subsection{Módulo python de Friis}
 \label{subsec:friis-module}
 
-ToDo...
+Una vez realizadas las pruebas iniciales, se buscó compactar todo, en un lugar accesible para cada aplicación que lo necesitase.\\
+
+De este modo, surgió la idea de crear un módulo python que se encargará de modelizar un mapa de señales. Para ello, se diseño una clase cuyo constructor se encarga de recibir por parámetros, las variables implicadas en las ecuaciones de Friis. Además, se debe especificar las dimensiones del mapa y su resolución (que afecta al tamaño de celda).\\
+
+Básicamente, primero se crea un objeto de la clase Friis donde se especifican las características de la señal y el mapa, el cual genera un mapa sin información. Luego, se selecciona el tipo de modelo que se quiera usar (propagación o pérdidas, este último no está testeado), pasando las coordenadas de la señal por parámetros, el cual retornará el mapa relleno con los valores asociados a las ecuaciones de Friis. A continuación se muestra un ejemplo de uso:
+
+\begin{code}[H]
+    \begin{lstlisting}[language=Python]
+
+    #! /usr/bin/env python    
+    import friss as fr
+
+    if __name__ == '__main__':
+        friis_object = fr.Friss(power_tras=10.0, 
+                                gain_tras=1.5, 
+                                gain_recv=2.0,
+                                freq=fr.FREQ_WIFI, 
+                                losses_factor=1.0, 
+                                losses_path=2.0,
+                                world_sz=(10,10), 
+                                resolution=1.0)
+
+        signal_map = friis_object.model_power_signal(origin=(5,3))
+
+\end{lstlisting}
+\caption[Main de center to center app]{Main de center to center app}
+\label{cod:c2c_app}
+\end{code}
+
+En este código, se puede ver que se está generando un mapa 10x10 con resolución 1 (es decir, cada celdilla es de 1x1), de una señal WIFI, donde el transmisor emite a 10 W, con una ganancia de 1.5, el receptor posee una ganancia de 2, un factor de pérdidas (L) de 1, es decir, sin pérdidas, y por último, el exponente n (\emph{path-loss exponent (PLE)}) con un valor de 2, que representa el espacio vacío. Luego se genera el mapa de propagación de la señal, indicando que la fuente se encuentra en las coordenadas (5,3).\\
+
+Sin embargo, este módulo posee otras funcionalidades útiles para trabajar con él. Como son:
+
+\begin{enumerate}
+    \item \textbf{\emph{reset\_world}}: modifica el mapa que hubiera, estableciendo todos sus valores a cero.
+    
+    \item \textbf{\emph{get\_world\_sz}}: retorna las dimensiones del mapa.
+    
+    \item \textbf{\emph{set\_values}}: modifica las características de la señal simulada.
+\end{enumerate}
+
+Recordar que aunque se modifiquen los parámetros, se debe modelar de nuevo el mapa para ver los resultados.\\
+
+Por último, se busco extender la funcionalidad del módulo, de manera que fuera posible incluir obstáculos en el mapa. La idea era crear un método capaz de posicionar obstáculos en el mapa de la señal, y simular su efecto en la señal.\\
+
+Para ello, se buscó trazar proyecciones desde la señal hasta los bordes del obstáculo, de forma que se generase un polígono con los bordes del mapa. Posteriormente, se revisó que puntos se encontraban dentro del polígono (que no fueran propiamente parte del obstáculo), a través de un algoritmo basado en el número de intersecciones del punto con el perímetro del polígono, trazando una línea horizontal y hacia la derecha. CITAAAAAAAAR!!!. Por último, para cada punto dentro del polígono se le aplicó un factor de pérdida al valor almacenado de la señal, de manera que se simulase el efecto del obstáculo.\\
+
+(imagenes de los obstáculos)\\
+
+La idea fue abrir puertas a nuevos entornos más complejos y realistas, sobre los que poder probar diversas soluciones, en nuestro caso, para testear el efecto de un muro en el camino del dron a la señal.
+
+(código ejemplo obstáculos)\\
 
 \subsection{Aplicación de Friis}
 \label{subsec:friis-app}
