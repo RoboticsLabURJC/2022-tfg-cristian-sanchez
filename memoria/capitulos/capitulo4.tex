@@ -224,4 +224,19 @@ La idea fue abrir puertas a nuevos entornos más complejos y realistas, sobre lo
 \subsection{Aplicación de Friis}
 \label{subsec:friis-app}
 
+La última sección relacionada con las señales se centro en integrar el módulo previo, en una interfaz gráfica amigable para el usuario. La idea era estudiar, en tiempo real, como evolucionaba la señal cuando alguno de sus parametros, en la ecuación de Friis, era modificado.\\
+
+Para llevarlo a cabo, se empleó la librería \textbf{matplotlib}, debido a la enorme cantidad de herramientas de las que dispone, así como de su sencillez a la hora de crear nuevas aplicaciones. Funciona de manera que se generan eventos que son gestionados en \emph{``callbacks''}, es decir, se generan bucles asociados a dichos eventos, que reaccionan a cambios en la interfaz generada. En nuestro caso, la estructura base consta de una figura, sobre la que se agregan todos los elementos, entre los que encontramos los mapas de calor o \emph{``heatmap''} en forma de plots, las barras de acción o \emph{``sliders''}, botones, entre otros elementos que se explicarán más adelante.\\
+
+Inicialmente, se optó por representar un mapa de calor con una barra de color asociada a los distintos valores de la señal. Además, se integraron sliders correspondientes a cada valor presente en la ecuación de Friis, tal y como se muestra a continuación:\\
+
+(imagen app inicial)\\
+
+El problema fue, que al actualizar los valores, también lo hacía la representación, por lo que no se apreciaba el efecto de los cambios en el plot. Por ello, se agregaron dos mapas de calor, uno con el máximo y el mínimo fijados a mano (donde sí se aprecian los cambios), y el anterior mencionado. Para elegir cual usar, se agregó una casilla marcable. Además, se incluyeron dos variables relevantes a la hora de modelar, el \textbf{tamaño del mapa} y la \textbf{resolución}, manejadas a través de \emph{``sliders''}, los cuales a su vez se activan al pulsar un botón de \textbf{SET}, que recarga la interfaz. Además, se ajustó los saltos de valores para que fueran coherentes en el resto de barras de acción, tal y como se puede apreciar a continuación:\\
+
+(imagen app final)\\
+
+\section{Integración conjunta}
+\label{sec:integration}
+
 ToDo...
