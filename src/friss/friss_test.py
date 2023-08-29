@@ -81,7 +81,7 @@ class Line:
         print()
     
 
-def intersection(line1, line2):
+def intersection(line1, line2, finite=False):
     x, y = None, None
 
     if (line1.horizontal and line2.horizontal) or (line1.vertical and line2.vertical):
@@ -104,8 +104,19 @@ def intersection(line1, line2):
         if y == None:
             try:
                 y = line1.m * x + line1.b
-            except AttributeError:
+            except TypeError:
                 y = line2.m * x + line2.b
+
+    if finite:
+        inside_x_bounds = (line1.x1 <= x <= line1.x2 or line1.x2 <= x <= line1.x1) and (line2.x1 <= x <= line2.x2 or line2.x2 <= x <= line2.x1)
+        inside_y_bounds = (line1.y1 <= y <= line1.y2 or line1.y2 <= y <= line1.y1) and (line2.y1 <= y <= line2.y2 or line2.y2 <= y <= line2.y1)
+        # print(x, y)
+        # print(line1.x1, line1.x2, line1.y1, line1.y2, line2.x1, line2.x2, line2.y1, line2.y2)
+        # print(inside_x_bounds, inside_y_bounds)
+        if inside_x_bounds and inside_y_bounds:
+            return (x, y)
+        else:
+            return None
 
     return (x, y)
 
@@ -159,7 +170,9 @@ def get_polygon_vertices(signal_origin, obstacle_vertices, edges):
         if corner != None:
             vertices.insert(-1, corner)
 
-    return vertices
+    # Convert into valid coords (trunc)
+    vert = [tuple(map(int, tup)) for tup in vertices]
+    return vert
 
 def different_edges(p1, p2):
     x1, y1 = p1
@@ -205,17 +218,28 @@ def get_corner(p1, p2, sz=SZ):
             pass
 
 
+def is_inside(point, polygon):
+    _, y = point.get_tuple()
+    h_line = Line(point, Point(sz - 1, y))
+    intersections = set()
+    for i in range(len(polygon)):
+        x_o, y_o = polygon[i]
+        try:
+            x_f, y_f = polygon[i + 1]
+        except IndexError:
+            x_f, y_f = polygon[0]
+    
+        side = Line(Point(x_o, y_o), Point(x_f, y_f))
+
+        intersect_p = intersection(h_line, side, finite=True)
+        if intersect_p != None:
+            intersections.add(intersect_p)
+
+    print(intersections)
+    return len(intersections) % 2 != 0
+
 
 if __name__ == "__main__":
-    # heatmap = fr.Friss(world_sz=(30,30))
-    # heatmap.model_power_signal(origin=(5,3))
-    # heatmap.hardcode_obstacles()
-
-    # heatmap = fr.Friss(world_sz=(5,5))
-    # heatmap.model_power_signal(origin=(1,2))
-    # heatmap.p_obs(4,1)
-    # heatmap.shoow()
-
     sz = 5
 
     corner_left_up = Point(0, 0)
@@ -231,15 +255,14 @@ if __name__ == "__main__":
     map_edges = (edge_top, edge_left, edge_bot, edge_right)    
 
     origin = Point(1,2)
-    obstacle_vertices = (Point(3,1), Point(0,3))
-    print(get_polygon_vertices(origin, obstacle_vertices, map_edges))
+    obstacle_vertices = (Point(3,1), Point(1,3))
 
+    poly = get_polygon_vertices(origin, obstacle_vertices, map_edges)
+    
+    points_inside = []
+    for x in range(sz):
+        for y in range(sz):
+            if is_inside(Point(x, y), poly):
+                points_inside.append((x,y))
 
-    # obstacle_vertex = Point(3,1)
-    # obs_line = Line(origin, obstacle_vertex)
-
-    # for edge in map_edges:
-    #     intersect_p = intersection(obs_line, edge)
-
-    #     if intersect_p != None and in_map(sz, intersect_p) and in_direction(origin, intersect_p, obs_line.direction):
-    #         print(intersect_p)
+    print(points_inside)
