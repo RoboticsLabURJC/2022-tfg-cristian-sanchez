@@ -30,14 +30,14 @@
 \contentsline {subsection}{\numberline {4.1.1}JdeRobot - drones}{17}{subsection.4.1.1}%
 \contentsline {subsection}{\numberline {4.1.2}Teleoperador}{18}{subsection.4.1.2}%
 \contentsline {section}{\numberline {4.2}Señales}{22}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Aproximación de Friis}{22}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Módulo python de Friis}{23}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Aplicación de Friis}{25}{subsection.4.2.3}%
-\contentsline {section}{\numberline {4.3}Integración conjunta}{26}{section.4.3}%
-\contentsline {chapter}{\numberline {5}Conclusiones}{27}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Objetivos cumplidos}{27}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Requisitos satisfechos}{27}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Balance global y competencias adquiridas}{27}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Líneas futuras}{27}{section.5.4}%
-\contentsline {chapter}{\numberline {6}Anexo}{28}{chapter.6}%
-\contentsline {chapter}{Bibliograf\'{\i }a}{30}{appendix*.41}%
+\contentsline {subsection}{\numberline {4.2.1}Aproximación de Friis}{23}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Módulo python de Friis}{24}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Aplicación de Friis}{26}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}Integración conjunta}{27}{section.4.3}%
+\contentsline {chapter}{\numberline {5}Conclusiones}{28}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Objetivos cumplidos}{28}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Requisitos satisfechos}{28}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Balance global y competencias adquiridas}{28}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Líneas futuras}{28}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Anexo}{29}{chapter.6}%
+\contentsline {chapter}{Bibliograf\'{\i }a}{31}{appendix*.47}%

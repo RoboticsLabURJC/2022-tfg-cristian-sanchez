@@ -91,47 +91,51 @@ Warning--entry type for "jderobot-ref" isn't style-file defined
 --line 352 of file bibliografia.bib
 Warning--entry type for "flight-modes" isn't style-file defined
 --line 359 of file bibliografia.bib
+Warning--entry type for "basics-signals" isn't style-file defined
+--line 366 of file bibliografia.bib
+Warning--entry type for "poly-info" isn't style-file defined
+--line 373 of file bibliografia.bib
 Warning--can't use both author and editor fields in Wang2022
 Warning--empty chapter and pages in data-link-definicion
-You've used 46 entries,
+You've used 48 entries,
             1791 wiz_defined-function locations,
-            648 strings with 9707 characters,
-and the built_in function-call counts, 6455 in all, are:
-= -- 553
-> -- 207
+            655 strings with 10024 characters,
+and the built_in function-call counts, 6713 in all, are:
+= -- 575
+> -- 215
 < -- 1
-+ -- 98
-- -- 52
-* -- 113
-:= -- 995
-add.period$ -- 136
-call.type$ -- 46
-change.case$ -- 44
++ -- 102
+- -- 54
+* -- 115
+:= -- 1035
+add.period$ -- 142
+call.type$ -- 48
+change.case$ -- 46
 chr.to.int$ -- 0
-cite$ -- 48
-duplicate$ -- 259
-empty$ -- 861
-format.name$ -- 52
-if$ -- 1538
+cite$ -- 50
+duplicate$ -- 269
+empty$ -- 897
+format.name$ -- 54
+if$ -- 1600
 int.to.chr$ -- 0
-int.to.str$ -- 46
+int.to.str$ -- 48
 missing$ -- 6
-newline$ -- 231
-num.names$ -- 46
-pop$ -- 269
+newline$ -- 241
+num.names$ -- 48
+pop$ -- 281
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 154
+skip$ -- 160
 stack$ -- 0
 substring$ -- 78
-swap$ -- 56
+swap$ -- 58
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 2
-while$ -- 52
-width$ -- 48
-write$ -- 462
+while$ -- 54
+width$ -- 50
+write$ -- 482
 (There were 2 error messages)

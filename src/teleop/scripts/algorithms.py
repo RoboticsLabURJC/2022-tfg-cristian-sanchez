@@ -171,7 +171,7 @@ class Drone:
 
         # Q-Learning training
         self.actions = []
-        self.generate_actions(steps=3)
+        self.generate_actions(steps=2)
         self.states = self.generate_coord_states(cell_step=1)
         self.q_table = np.zeros((len(self.states), len(self.actions)))
 

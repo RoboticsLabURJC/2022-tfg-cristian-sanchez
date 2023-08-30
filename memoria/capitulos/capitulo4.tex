@@ -10,7 +10,7 @@ Por último, se buscará determinar cuál de los métodos empleados es mejor y p
 \section{Preparación del entorno}
 \label{sec:preparacion_del_entorno}
 
-Lo primero que se debía conseguir, era un entorno de simulación compatible con \ac{ROS}, así como un sistema de control de versiones, que nos permitiera mantener la trazabilidad y los backups a mano. Por ello, se estableció un repositorio común en GitHub y se usó el paquete de herramientas dispuesto por \textbf{JdeRobot}.
+Lo primero que se debía conseguir, era un entorno de simulación compatible con \ac{ROS}, así como un sistema de control de versiones, que nos permitiera mantener la trazabilidad y los backups a mano. Por ello, se estableció un repositorio común en \textbf{GitHub} y se empleó el paquete de herramientas dispuesto por \textbf{JdeRobot}.
 
 \subsection{JdeRobot - drones}
 \label{subsec:jderobot_drones}
@@ -114,65 +114,83 @@ Donde, tras inicializar el nodo \ac{ROS}, se definen por un lado los \textbf{sus
 \section{Señales}
 \label{sec:signals}
 
-Continuando con el proyecto, entramos en el segundo gran bloque, las señales \ac{RF}. Este apartado, fue especialmente relevante, ya que nos permitió desarrollar una aplicación reactiva, con la meta de generar entornos sobre los que probar soluciones robóticas.\\
+Continuando con el proyecto, entramos en el segundo gran bloque, las \textbf{señales \ac{RF}}. Este apartado fue especialmente relevante, ya que nos permitió desarrollar una aplicación reactiva, con la meta de generar entornos sobre los que probar soluciones robóticas.\\
 
-Pero, antes de entrar en detalle, conviene familiarizarse con algunos conceptos básicos sobre el procesamiento de señales:
+Pero, antes de entrar en detalle en estos aspectos, conviene familiarizarse con algunos \textbf{conceptos básicos} sobre el \textbf{procesamiento de señales}:
 
 \begin{enumerate}
-	\item \textbf{Señal}:
+	\item \emph{Señal}: se trata de una función que describe un fenómeno físico, y que se emplea para la transmisión de información.
 	
-    \item \textbf{Dominio temporal}:
+    \item \emph{Dominio temporal}: establece el eje de abcisas con el tiempo. 
     
-    \item \textbf{Dominio de la señal}:
+    \item \emph{Dominio de la señal}: determina si la señal se expresa en tiempo o en frecuencia (a través de transformadas).
     
-    \item \textbf{ADC}:
+    \item \ac{ADC}: elemento electrónico que permite la conversión de señales analógicas a señales digitales.
     
-    \item \textbf{RSSI}:
+    \item \ac{RSSI}: permite establecer el nivel de potencia de una señal, con respecto a 1 mW de potencia. Se expresa en dBm.
     
-    \item \textbf{SNR}:
+    \item \ac{SNR}: métrica que permite medir la potencia de la señal con respecto al ruido ambiente.
 
-    \item \textbf{Frecuencia}:
+    \item \emph{Frecuencia}: parámetro de la función que define a la señal, el cual determina el número de veces que se repite en un segundo. Se mide en hercios (Hz).
     
-    \item \textbf{TX}:
+    \item \emph{TX}: Se refiere a la transmisión de la señal.
     
-    \item \textbf{RX}:
-\end{enumerate}
+    \item \emph{RX}: Hace referencia a la recepción de la señal.
+\end{enumerate} \cite{basics-signals}\\
 
-Definidos estos términos, nuestro objetivo fue obtener un modelo capaz de calcular la \textbf{propagación de la señal}, es decir, -----.\\
+Definidos estos términos, nuestro objetivo se basó en obtener un modelo capaz de calcular la \textbf{propagación de la señal}, es decir, un sistema capaz de calcular como se comporta la potencia de una señal, según las características de su entorno.\\
 
 \subsection{Aproximación de Friis}
 \label{subsec:friis}
 
-Por ello, se optó por emplear la aproximación de Friis, que nos proporciona una sencilla fórmula sobre la cual modelizar nuestro problema.\\
+Por ello, se optó por emplear la aproximación de Friis, que nos proporciona una sencilla fórmula sobre la cual modelizar nuestro problema:
 
-(insertar fórmula)
+\begin{align}
+    P_r = P_t \cdot \left( \frac{G_t G_r \lambda^2 }{(4 \pi)^2 d^n L} \right)
+\end{align}
 
 Donde cada término significa lo siguiente:
 
 \begin{enumerate}
-    \item \textbf{Ganancias}:
+    \item \emph{$P_t$ y $P_r$}: aluden a la potencia del transmisor y la potencia del receptor respectivamente.
+
+    \item \emph{Ganancias} ($G_t$, $G_r$): representan un valor incremental aplicado a la potencia de emisión y de recepción, respectivamente.
     
-    \item \textbf{Valor lambda}:
+    \item \emph{Valor lambda} ($\lambda$): hace referencia a la longitud de onda. Está directamente relacionado con la frecuencia.
     
-    \item \textbf{Distancia (d)}:
+    \item \emph{Distancia} (d): desde el origen de la señal a un punto en el espacio.
     
-    \item \textbf{Factor L}: (Insertar tabla)
-\end{enumerate}
+    \item \emph{L}: representa todas aquellas pérdidas no asociadas a la propagación de la señal.
+    
+    \item \ac{PLE} (n): permite ajustar el modelo a diversos entornos. Es un valor constante extraido de forma empírica. A continuación se muestra una tabla con varios ejemplos.
+\end{enumerate} \cite{friis-1}\\
+
+\begin{figure} [H]
+	\begin{center}
+	\includegraphics[height=5cm]{imagenes/cap4/4_PLE_table.png}
+	\end{center}
+	\caption[Tabla ejemplos exponente n]{Tabla ejemplos exponente n}
+	\label{fig:ple_table}
+\end{figure}
 
 Además, empleando este método, podemos modelizar las \textbf{pérdidas de una señal} estimadas durante su propagación, a través de la siguiente ecuación:\\
 
-(insertar ecuación path loss)\\
+\begin{align}
+    P_L(dB) = -10 \log_{10} \frac{\lambda^2}{(4 \pi d)^2} 
+\end{align}
 
-Sin embargo, para nuestro caso no es relevante (aunque se añadió al módulo).\\
+Sin embargo, para nuestro caso no es relevante (aunque está incluido dentro del módulo).\\
 
 \subsection{Módulo python de Friis}
 \label{subsec:friis-module}
 
-Una vez realizadas las pruebas iniciales, se buscó compactar todo, en un lugar accesible para cada aplicación que lo necesitase.\\
+Una vez realizadas las pruebas iniciales, se buscó compactar todo en un lugar accesible para cada aplicación que lo necesitase.\\
 
-De este modo, surgió la idea de crear un módulo python que se encargará de modelizar un mapa de señales. Para ello, se diseño una clase cuyo constructor se encarga de recibir por parámetros, las variables implicadas en las ecuaciones de Friis. Además, se debe especificar las dimensiones del mapa y su resolución (que afecta al tamaño de celda).\\
+De este modo, surgió la idea de crear un \textbf{módulo python} que se encargará de modelizar un mapa de señales. Para ello, se diseño una clase cuyo constructor se encargara de recibir por parámetros las variables implicadas en las ecuaciones de Friis, además de las dimensiones del mapa y su resolución (que afecta al tamaño de celda).\\
 
-Básicamente, primero se crea un objeto de la clase Friis donde se especifican las características de la señal y el mapa, el cual genera un mapa sin información. Luego, se selecciona el tipo de modelo que se quiera usar (propagación o pérdidas, este último no está testeado), pasando las coordenadas de la señal por parámetros, el cual retornará el mapa relleno con los valores asociados a las ecuaciones de Friis. A continuación se muestra un ejemplo de uso:
+Básicamente, el \textbf{proceso} es el siguiente, primero se crea un objeto de la clase Friis donde se especifican las características de la señal y el mapa, el cual genera un mapa sin información. Luego, se selecciona el tipo de modelo que se quiera usar (propagación o pérdidas, este último no está testeado), pasando las coordenadas de la señal por parámetros, el cual retornará el mapa relleno con los valores asociados a las ecuaciones de Friis.\\
+
+A continuación se mostrará un ejemplo sencillo de uso, donde se obtendrá un mapa de propagación de señal, en forma de Numpy array 2D:
 
 \begin{code}[H]
     \begin{lstlisting}[language=Python]
@@ -193,13 +211,13 @@ Básicamente, primero se crea un objeto de la clase Friis donde se especifican l
         signal_map = friis_object.model_power_signal(origin=(5,3))
 
 \end{lstlisting}
-\caption[Main de center to center app]{Main de center to center app}
-\label{cod:c2c_app}
+\caption[Ejemplo básico de uso del módulo Friis]{Ejemplo básico de uso del módulo Friis}
+\label{cod:friis_basics}
 \end{code}
 
-En este código, se puede ver que se está generando un mapa 10x10 con resolución 1 (es decir, cada celdilla es de 1x1), de una señal WIFI, donde el transmisor emite a 10 W, con una ganancia de 1.5, el receptor posee una ganancia de 2, un factor de pérdidas (L) de 1, es decir, sin pérdidas, y por último, el exponente n (\emph{path-loss exponent (PLE)}) con un valor de 2, que representa el espacio vacío. Luego se genera el mapa de propagación de la señal, indicando que la fuente se encuentra en las coordenadas (5,3).\\
+Concretamente, se puede ver que se está generando un mapa 10x10 con resolución 1 (es decir, cada celdilla es de 1x1), de una señal WIFI, donde el transmisor emite a 10 W, con una ganancia de 1.5, el receptor posee una ganancia de 2, un factor de pérdidas (L) de 1, es decir, sin pérdidas, y por último, el exponente n (\ac{PLE}) con un valor de 2, que representa el espacio vacío. Luego se genera el mapa de propagación de la señal, indicando que la fuente se encuentra en las coordenadas (5,3).\\
 
-Sin embargo, este módulo posee otras funcionalidades útiles para trabajar con él. Como son:
+No obstante, este módulo posee \textbf{otras funcionalidades} útiles para trabajar con él, como son:
 
 \begin{enumerate}
     \item \textbf{\emph{reset\_world}}: modifica el mapa que hubiera, estableciendo todos sus valores a cero.
@@ -209,15 +227,21 @@ Sin embargo, este módulo posee otras funcionalidades útiles para trabajar con 
     \item \textbf{\emph{set\_values}}: modifica las características de la señal simulada.
 \end{enumerate}
 
-Recordar que aunque se modifiquen los parámetros, se debe modelar de nuevo el mapa para ver los resultados.\\
+Hay que tener en cuenta que, aunque se modifiquen los parámetros, se debe modelar de nuevo el mapa para que surtan efectos los cambios.\\
+\newpage
+Por último, se busco \textbf{extender la funcionalidad del módulo}, de manera que fuera posible incluir obstáculos en el mapa. La idea era crear un método capaz de posicionar \textbf{obstáculos} en el mapa de la señal, y simular su efecto en la señal.\\
 
-Por último, se busco extender la funcionalidad del módulo, de manera que fuera posible incluir obstáculos en el mapa. La idea era crear un método capaz de posicionar obstáculos en el mapa de la señal, y simular su efecto en la señal.\\
+Para ello, se buscó trazar proyecciones desde la señal hasta los bordes del obstáculo, de forma que se generase un polígono con los bordes del mapa. Posteriormente, se revisó que puntos se encontraban dentro del polígono (que no fueran propiamente parte del obstáculo), a través de un algoritmo basado en el número de intersecciones del punto con el perímetro del polígono, trazando una línea horizontal y hacia la derecha \cite{poly-info}. Por último, para cada punto dentro del polígono se le aplicó un factor de pérdida al valor almacenado de la señal, de manera que se simulase el efecto del obstáculo.\\
 
-Para ello, se buscó trazar proyecciones desde la señal hasta los bordes del obstáculo, de forma que se generase un polígono con los bordes del mapa. Posteriormente, se revisó que puntos se encontraban dentro del polígono (que no fueran propiamente parte del obstáculo), a través de un algoritmo basado en el número de intersecciones del punto con el perímetro del polígono, trazando una línea horizontal y hacia la derecha. CITAAAAAAAAR!!!. Por último, para cada punto dentro del polígono se le aplicó un factor de pérdida al valor almacenado de la señal, de manera que se simulase el efecto del obstáculo.\\
+\begin{figure} [H]
+	\begin{center}
+	\includegraphics[height=7cm]{imagenes/cap4/5_interference.png}
+	\end{center}
+	\caption[Representación del algoritmo]{Representación del algoritmo}
+	\label{fig:interference_algorithm}
+\end{figure}
 
-(imagenes de los obstáculos)\\
-
-La idea fue abrir puertas a nuevos entornos más complejos y realistas, sobre los que poder probar diversas soluciones, en nuestro caso, para testear el efecto de un muro en el camino del dron a la señal.
+La idea fue abrir puertas a nuevos entornos más complejos y realistas, sobre los que poder probar diversas soluciones, en nuestro caso, para testear el efecto de un muro en el camino del dron a la señal.\\
 
 (código ejemplo obstáculos)\\
 
