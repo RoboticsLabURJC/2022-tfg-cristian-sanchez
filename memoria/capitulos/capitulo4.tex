@@ -184,11 +184,11 @@ Sin embargo, para nuestro caso no es relevante (aunque está incluido dentro del
 \subsection{Módulo python de Friis}
 \label{subsec:friis-module}
 
-Una vez realizadas las pruebas iniciales, se buscó compactar todo en un lugar accesible para cada aplicación que lo necesitase.\\
+Una vez realizadas las pruebas iniciales, se buscó compactar todo, de forma que fuera accesible para cada aplicación que lo necesitase.\\
 
-De este modo, surgió la idea de crear un \textbf{módulo python} que se encargará de modelizar un mapa de señales. Para ello, se diseño una clase cuyo constructor se encargara de recibir por parámetros las variables implicadas en las ecuaciones de Friis, además de las dimensiones del mapa y su resolución (que afecta al tamaño de celda).\\
+Por ello, surgió la idea de crear un \textbf{módulo python} que se encargará de modelizar las ecuaciones previamente mencionadas. Para ello, se diseño una clase cuyo constructor se encargara de recibir, por parámetros, las variables implicadas en las ecuaciones de Friis, además de las dimensiones del mapa y su resolución (la cual afecta al tamaño de celda).\\
 
-Básicamente, el \textbf{proceso} es el siguiente, primero se crea un objeto de la clase Friis donde se especifican las características de la señal y el mapa, el cual genera un mapa sin información. Luego, se selecciona el tipo de modelo que se quiera usar (propagación o pérdidas, este último no está testeado), pasando las coordenadas de la señal por parámetros, el cual retornará el mapa relleno con los valores asociados a las ecuaciones de Friis.\\
+Básicamente, el \textbf{proceso} seguido para usar este módulo es el siguiente, primero se crea un objeto de la clase Friis donde se especifican las características de la señal y las variables relacionadas con el mapa, lo que genera internamente un array 2D vacío, que será rellenado en función del modelo seleccionado. Posteriormente, se selecciona el modelo deseado (propagación o pérdidas, este último no está testeado), pasando las coordenadas del origen de la señal por parámetros. Esto, retornará el mapa relleno con los valores asociados a las ecuaciones del modelo de Friis seleccionado.\\
 
 A continuación se mostrará un ejemplo sencillo de uso, donde se obtendrá un mapa de propagación de señal, en forma de Numpy array 2D:
 
@@ -215,7 +215,7 @@ A continuación se mostrará un ejemplo sencillo de uso, donde se obtendrá un m
 \label{cod:friis_basics}
 \end{code}
 
-Concretamente, se puede ver que se está generando un mapa 10x10 con resolución 1 (es decir, cada celdilla es de 1x1), de una señal WIFI, donde el transmisor emite a 10 W, con una ganancia de 1.5, el receptor posee una ganancia de 2, un factor de pérdidas (L) de 1, es decir, sin pérdidas, y por último, el exponente n (\ac{PLE}) con un valor de 2, que representa el espacio vacío. Luego se genera el mapa de propagación de la señal, indicando que la fuente se encuentra en las coordenadas (5,3).\\
+Yendo al detalle, se puede ver que se genera un mapa 10x10 con resolución 1 (es decir, cada celdilla es de 1x1 unidades), de una señal WIFI, donde el transmisor emite a 10 W, con una ganancia de 1.5, el receptor posee una ganancia de 2, un factor de pérdidas (L) de 1, es decir, sin pérdidas, y por último, el exponente n (\ac{PLE}) con un valor de 2, que representa el espacio vacío. Luego se genera el mapa de propagación de la señal, indicando que la fuente se encuentra en las coordenadas (5,3).\\
 
 No obstante, este módulo posee \textbf{otras funcionalidades} útiles para trabajar con él, como son:
 
@@ -243,24 +243,97 @@ Para ello, se buscó trazar proyecciones desde la señal hasta los bordes del ob
 
 La idea fue abrir puertas a nuevos entornos más complejos y realistas, sobre los que poder probar diversas soluciones, en nuestro caso, para testear el efecto de un muro en el camino del dron a la señal.\\
 
-(código ejemplo obstáculos)\\
+(CÓDIGO EJEMPLO OBSTACULOS !!!!!!!!!!!!!)\\
 
 \subsection{Aplicación de Friis}
 \label{subsec:friis-app}
 
-La última sección relacionada con las señales se centro en integrar el módulo previo, en una interfaz gráfica amigable para el usuario. La idea era estudiar, en tiempo real, como evolucionaba la señal cuando alguno de sus parametros, en la ecuación de Friis, era modificado.\\
+La última sección relacionada con las señales se centro en integrar el módulo previo, en una \textbf{interfaz gráfica intuitiva para el usuario}. La idea era estudiar, en tiempo real, como evolucionaba la señal cuando alguno de sus parametros, en la ecuación de Friis, era modificado.\\
 
-Para llevarlo a cabo, se empleó la librería \textbf{matplotlib}, debido a la enorme cantidad de herramientas de las que dispone, así como de su sencillez a la hora de crear nuevas aplicaciones. Funciona de manera que se generan eventos que son gestionados en \emph{``callbacks''}, es decir, se generan bucles asociados a dichos eventos, que reaccionan a cambios en la interfaz generada. En nuestro caso, la estructura base consta de una figura, sobre la que se agregan todos los elementos, entre los que encontramos los mapas de calor o \emph{``heatmap''} en forma de plots, las barras de acción o \emph{``sliders''}, botones, entre otros elementos que se explicarán más adelante.\\
+Para llevarlo a cabo, se empleó la librería \textbf{matplotlib}, debido a la enorme cantidad de herramientas de las que dispone, así como de su sencillez a la hora de crear nuevas aplicaciones. Funciona de manera que se generan eventos que son gestionados en \emph{``callbacks''}, es decir, se generan bucles asociados a dichos eventos, que reaccionan a cambios en la interfaz generada.\\
+
+En nuestro caso, la \textbf{estructura base} consta de una figura, sobre la que se agregan todos los elementos, entre los que encontramos los mapas de calor o \emph{``heatmap''} en forma de plots, las barras de acción o \emph{``sliders''}, botones, entre otros elementos que se explicarán más adelante.\\
 
 Inicialmente, se optó por representar un mapa de calor con una barra de color asociada a los distintos valores de la señal. Además, se integraron sliders correspondientes a cada valor presente en la ecuación de Friis, tal y como se muestra a continuación:\\
 
-(imagen app inicial)\\
+\begin{figure} [H]
+	\begin{center}
+	\includegraphics[height=8cm]{imagenes/cap4/6_Friss_firstGUI.png}
+	\end{center}
+	\caption[Primera versión de la interfaz]{Primera versión de la interfaz}
+	\label{fig:friis_init_app}
+\end{figure}
+\newpage
+El problema fue, que al actualizar los valores, también lo hacía la representación, por lo que no se apreciaba el efecto de los cambios en el plot.\\
 
-El problema fue, que al actualizar los valores, también lo hacía la representación, por lo que no se apreciaba el efecto de los cambios en el plot. Por ello, se agregaron dos mapas de calor, uno con el máximo y el mínimo fijados a mano (donde sí se aprecian los cambios), y el anterior mencionado. Para elegir cual usar, se agregó una casilla marcable. Además, se incluyeron dos variables relevantes a la hora de modelar, el \textbf{tamaño del mapa} y la \textbf{resolución}, manejadas a través de \emph{``sliders''}, los cuales a su vez se activan al pulsar un botón de \textbf{SET}, que recarga la interfaz. Además, se ajustó los saltos de valores para que fueran coherentes en el resto de barras de acción, tal y como se puede apreciar a continuación:\\
+Por ello, se agregaron dos mapas de calor, uno con el máximo y el mínimo fijados a mano (donde sí se aprecian los cambios), y el anterior mencionado. Para elegir cual usar, se agregó una casilla marcable. Además, se incluyeron dos variables relevantes a la hora de modelar, el \textbf{tamaño del mapa} y la \textbf{resolución}, manejadas a través de \emph{``sliders''}, los cuales a su vez se activan al pulsar un botón de \textbf{SET}, que recarga la interfaz. Además, se ajustó los saltos de valores para que fueran coherentes en el resto de barras de acción, tal y como se puede apreciar a continuación:\\
 
-(imagen app final)\\
+\begin{figure} [H]
+    \begin{center}
+    \includegraphics[height=8cm]{imagenes/cap4/7_Friss_endGUI.png}
+    \end{center}
+	\caption[Versión final de la interfaz]{Versión final de la interfaz}
+	\label{fig:friis_end_app}
+\end{figure}
 
+Cabe destacar que, por motivos de desarrollo, no se agregó la parte de generación dinámica de obstáculos a la aplicación, ya que esta se desarrollo como un extra al final del \ac{TFG}.\\
+
+\newpage
 \section{Integración conjunta}
 \label{sec:integration}
 
-ToDo...
+La integración conjunta engloba la parte final del proyecto, es la fase donde se juntaron las secciones anteriores, con el fin de generar el entorno deseado para resolver el problema.\\
+
+El objetivo, a parte de llevar a cabo la tarea encomendada, comprobar y comparar los distintos algoritmos entre sí, a través de diversas métricas de rendimiento.\\
+
+\subsection{Primeros pasos}
+\label{subsec:primeros_pasos}
+
+(intro)\\
+
+(servidor de datos)\\
+
+(heatmap en rviz)\\
+
+\subsection{Algoritmos}
+\label{subsec:algoritmos}
+
+(intro)\\
+
+(manual)\\
+
+(manual optimizado)\\
+
+(Q-Learning)\\
+
+\subsection{Métricas empleadas}
+\label{subsec:metricas}
+
+(intro)\\
+
+(mapa de posiciones)\\
+
+(mapa de trayectorias)\\
+
+(plots de entrenamiento)\\
+
+(plots comparativos)\\
+
+\subsection{Experimentos y resultados}
+\label{subsec:experimentos_resultados}
+
+(intro y señal estática)\\
+
+(12x12)\\
+
+(30x30)\\
+
+(mismo mapa distinta señal)\\
+
+\subsection{Experimentos con obstáculos}
+\label{subsec:experimentos_obstaculos}
+
+(intro)\\
+
+(resultados)\\
+
