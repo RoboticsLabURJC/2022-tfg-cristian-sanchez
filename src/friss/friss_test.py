@@ -110,9 +110,7 @@ def intersection(line1, line2, finite=False):
     if finite:
         inside_x_bounds = (line1.x1 <= x <= line1.x2 or line1.x2 <= x <= line1.x1) and (line2.x1 <= x <= line2.x2 or line2.x2 <= x <= line2.x1)
         inside_y_bounds = (line1.y1 <= y <= line1.y2 or line1.y2 <= y <= line1.y1) and (line2.y1 <= y <= line2.y2 or line2.y2 <= y <= line2.y1)
-        # print(x, y)
-        # print(line1.x1, line1.x2, line1.y1, line1.y2, line2.x1, line2.x2, line2.y1, line2.y2)
-        # print(inside_x_bounds, inside_y_bounds)
+
         if inside_x_bounds and inside_y_bounds:
             return (x, y)
         else:
@@ -150,7 +148,7 @@ def in_direction(reference_p, intersection_p, direction):
         return ref_x >= int_x and ref_y >= int_y
 
 
-def get_polygon_vertices(signal_origin, obstacle_vertices, edges):
+def get_polygon_vertices(signal_origin, obstacle_vertices, edges, rounded=False):
     vertices = []
     vertices.append(obstacle_vertices[-1].get_tuple())
     vertices.append(obstacle_vertices[0].get_tuple())
@@ -171,8 +169,11 @@ def get_polygon_vertices(signal_origin, obstacle_vertices, edges):
             vertices.insert(-1, corner)
 
     # Convert into valid coords (trunc)
-    vert = [tuple(map(int, tup)) for tup in vertices]
-    return vert
+    if rounded:
+        vert = [tuple(map(int, tup)) for tup in vertices]
+        return vert
+    else:
+        return vertices
 
 def different_edges(p1, p2):
     x1, y1 = p1
@@ -218,10 +219,17 @@ def get_corner(p1, p2, sz=SZ):
             pass
 
 
-def is_inside(point, polygon):
-    _, y = point.get_tuple()
-    h_line = Line(point, Point(sz - 1, y))
+def is_inside(point, polygon, edge_points):
+    
+    x, y = point.get_tuple()
+    if (x, y) not in edge_points:
+        h_line = Line(point, Point(sz - 1, y))
+    else:
+        return False
+    
     intersections = set()
+
+    
     for i in range(len(polygon)):
         x_o, y_o = polygon[i]
         try:
@@ -232,12 +240,61 @@ def is_inside(point, polygon):
         side = Line(Point(x_o, y_o), Point(x_f, y_f))
 
         intersect_p = intersection(h_line, side, finite=True)
+        print(intersect_p)
         if intersect_p != None:
             intersections.add(intersect_p)
 
-    print(intersections)
+    print("for point:", (x,y), "intersects ", len(intersections), "in", intersections)
+    print()
+
     return len(intersections) % 2 != 0
 
+
+def get_edge_points(poly):
+    
+
+    poly_coords = []
+    for i in range(len(poly)):
+        x_po, y_po = poly[i]
+        try:
+            x_pf, y_pf = poly[i + 1]
+        except IndexError:
+            x_pf, y_pf = poly[0]
+
+        side = Line(Point(x_po, y_po), Point(x_pf, y_pf))
+
+        for x in range(int(min(x_po, x_pf)), int(max(x_po, x_pf) + 1)):
+            for y in range(int(min(y_po, y_pf)), int(max(y_po, y_pf) + 1)):
+                try:
+                    if y == side.m * x + side.b:
+                        poly_coords.append((x, y))
+                except TypeError:
+                    if x == side.b and min(y_po, y_pf) <= y <= max(y_po, y_pf):
+                        poly_coords.append((x, y))
+
+    
+
+    return list(set(poly_coords))
+
+def get_non_obstacle_points(edge_points, obstacle_vertices):
+    obstacle = Line(obstacle_vertices[0], obstacle_vertices[1])
+    x_o, y_o = obstacle_vertices[0].get_tuple()
+    x_f, y_f = obstacle_vertices[1].get_tuple()
+
+    obstacle_coords = []
+    for x in range(int(min(x_o, x_f)), int(max(x_o, x_f) + 1)):
+        for y in range(int(min(y_o, y_f)), int(max(y_o, y_f) + 1)):
+            try:
+                if y == obstacle.m * x + obstacle.b:
+                    obstacle_coords.append((x, y))
+            except TypeError:
+                if x == obstacle.b and min(y_o, y_f) <= y <= max(y_o, y_f):
+                    obstacle_coords.append((x, y))
+
+    for coord in obstacle_coords:
+        edge_points.remove(coord)
+
+    return edge_points
 
 if __name__ == "__main__":
     sz = 5
@@ -259,10 +316,13 @@ if __name__ == "__main__":
 
     poly = get_polygon_vertices(origin, obstacle_vertices, map_edges)
     
+    edge_points = get_edge_points(poly)
     points_inside = []
     for x in range(sz):
         for y in range(sz):
-            if is_inside(Point(x, y), poly):
+            if is_inside(Point(x, y), poly, edge_points):
                 points_inside.append((x,y))
 
-    print(points_inside)
+    result = get_non_obstacle_points(edge_points, obstacle_vertices)
+    result.extend(points_inside)
+    print(result)
