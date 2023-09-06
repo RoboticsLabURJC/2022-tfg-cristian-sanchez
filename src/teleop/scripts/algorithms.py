@@ -60,7 +60,7 @@ PWR_MIN = -100
 PWR_STEP = -1
 
 ## Training
-MAX_EPISODES = 15000
+MAX_EPISODES = 10000
 ALPHA = 0.4
 GAMMA = 0.7
 EPSILON = 0.99
@@ -136,7 +136,7 @@ class Drone:
 
         # Definition of the rviz msg
         self.rvz_msg = Float64MultiArray()
-        self.rvz_msg.data = self.rvz_client.get_result().data
+        self.rvz_msg.data = self.w.get_result().data
 
         # Waits the rviz subscriber to be available
         while self.rvz_pub.get_num_connections() == 0:

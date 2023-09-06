@@ -38,9 +38,9 @@ Para ello, inicialmente se debía conseguir enviar mensajes de forma programáti
 	\item La comunicación debe darse a \textbf{más de 2Hz}, para evitar cambios indeseados en el funcionamiento interno del controlador PX4 (de la aeronave).
 
 	\item Antes de realizar cualquier comunicación, \textbf{debe asegurarse que el estado es \emph{``connected''}}, lo que significa que el dron esta armado y en modo \emph{OFFBOARD} (nuestra aeronave posee 7 modos distintos, \emph{HOLD}, que mantiene la posición, \emph{RETURN}, que vuelve al punto de despegue, \emph{MISSION}, que permite cargar rutas programadas con anterioridad, \emph{TAKEOFF}, habilita el despegue, \emph{LAND}, habilita el aterrizaje, \emph{FOLLOW ME}, que permite seguir objetivos, y \emph{OFFBOARD}, que permite comandar al dron sin necesidad de GPS, lo que es útil de cara al desarrollo de aplicaciones robóticas) \cite{flight-modes}.
-	
+
     \item Una vez esta conectado, se deben \textbf{enviar datos} (velocidades en nuestro caso) al controlador PX4, con el fin de \textbf{evitar el cierre de la conexión}. Estos datos carecen de utilidad más que la de asegurar dicha conectividad.
-    
+
     \item Por último, y antes de enviar cualquier posición, velocidad o comando (distintos modos de actuación), se debe comprobar siempre que el \textbf{modo activo} es \emph{OFFBOARD} y que el dron esta \textbf{armado} (listo para volar). En caso contrario, se debe solicitar al controlador, mediante servicios, dichas especificaciones.
 \end{enumerate}
 
@@ -120,21 +120,21 @@ Pero, antes de entrar en detalle en estos aspectos, conviene familiarizarse con 
 
 \begin{enumerate}
 	\item \emph{Señal}: se trata de una función que describe un fenómeno físico, y que se emplea para la transmisión de información.
-	
-    \item \emph{Dominio temporal}: establece el eje de abcisas con el tiempo. 
-    
+
+    \item \emph{Dominio temporal}: establece el eje de abcisas con el tiempo.
+
     \item \emph{Dominio de la señal}: determina si la señal se expresa en tiempo o en frecuencia (a través de transformadas).
-    
+
     \item \ac{ADC}: elemento electrónico que permite la conversión de señales analógicas a señales digitales.
-    
+
     \item \ac{RSSI}: permite establecer el nivel de potencia de una señal, con respecto a 1 mW de potencia. Se expresa en dBm.
-    
+
     \item \ac{SNR}: métrica que permite medir la potencia de la señal con respecto al ruido ambiente.
 
     \item \emph{Frecuencia}: parámetro de la función que define a la señal, el cual determina el número de veces que se repite en un segundo. Se mide en hercios (Hz).
-    
+
     \item \emph{TX}: Se refiere a la transmisión de la señal.
-    
+
     \item \emph{RX}: Hace referencia a la recepción de la señal.
 \end{enumerate} \cite{basics-signals}\\
 
@@ -155,13 +155,13 @@ Donde cada término significa lo siguiente:
     \item \emph{$P_t$ y $P_r$}: aluden a la potencia del transmisor y la potencia del receptor respectivamente.
 
     \item \emph{Ganancias} ($G_t$, $G_r$): representan un valor incremental aplicado a la potencia de emisión y de recepción, respectivamente.
-    
+
     \item \emph{Valor lambda} ($\lambda$): hace referencia a la longitud de onda. Está directamente relacionado con la frecuencia.
-    
+
     \item \emph{Distancia} (d): desde el origen de la señal a un punto en el espacio.
-    
+
     \item \emph{L}: representa todas aquellas pérdidas no asociadas a la propagación de la señal.
-    
+
     \item \ac{PLE} (n): permite ajustar el modelo a diversos entornos. Es un valor constante extraido de forma empírica. A continuación se muestra una tabla con varios ejemplos.
 \end{enumerate} \cite{friis-1}\\
 
@@ -176,7 +176,7 @@ Donde cada término significa lo siguiente:
 Además, empleando este método, podemos modelizar las \textbf{pérdidas de una señal} estimadas durante su propagación, a través de la siguiente ecuación:\\
 
 \begin{align}
-    P_L(dB) = -10 \log_{10} \frac{\lambda^2}{(4 \pi d)^2} 
+    P_L(dB) = -10 \log_{10} \frac{\lambda^2}{(4 \pi d)^2}
 \end{align}
 
 Sin embargo, para nuestro caso no es relevante (aunque está incluido dentro del módulo).\\
@@ -195,17 +195,17 @@ A continuación se mostrará un ejemplo sencillo de uso, donde se obtendrá un m
 \begin{code}[H]
     \begin{lstlisting}[language=Python]
 
-    #! /usr/bin/env python    
+    #! /usr/bin/env python
     import friss as fr
 
     if __name__ == '__main__':
-        friis_object = fr.Friss(power_tras=10.0, 
-                                gain_tras=1.5, 
+        friis_object = fr.Friss(power_tras=10.0,
+                                gain_tras=1.5,
                                 gain_recv=2.0,
-                                freq=fr.FREQ_WIFI, 
-                                losses_factor=1.0, 
+                                freq=fr.FREQ_WIFI,
+                                losses_factor=1.0,
                                 losses_path=2.0,
-                                world_sz=(10,10), 
+                                world_sz=(10,10),
                                 resolution=1.0)
 
         signal_map = friis_object.model_power_signal(origin=(5,3))
@@ -221,9 +221,9 @@ No obstante, este módulo posee \textbf{otras funcionalidades} útiles para trab
 
 \begin{enumerate}
     \item \textbf{\emph{reset\_world}}: modifica el mapa que hubiera, estableciendo todos sus valores a cero.
-    
+
     \item \textbf{\emph{get\_world\_sz}}: retorna las dimensiones del mapa.
-    
+
     \item \textbf{\emph{set\_values}}: modifica las características de la señal simulada.
 \end{enumerate}
 
@@ -284,38 +284,109 @@ Cabe destacar que, por motivos de desarrollo, no se agregó la parte de generaci
 
 La integración conjunta engloba la parte final del proyecto, es la fase donde se juntaron las secciones anteriores, con el fin de generar el entorno deseado para resolver el problema.\\
 
-El objetivo, a parte de llevar a cabo la tarea encomendada, comprobar y comparar los distintos algoritmos entre sí, a través de diversas métricas de rendimiento.\\
+El objetivo, a parte de llevar a cabo la tarea encomendada, era comprobar y comparar los distintos algoritmos entre sí, a través de diversas métricas de rendimiento.\\
 
 \subsection{Primeros pasos}
 \label{subsec:primeros_pasos}
 
-(intro)\\
+Inicialmente, se debía construir todo el entorno en base a lo desarrollado anteriormente.\\
 
-(servidor de datos)\\
+Por ello, se diseñó una aplicación \textbf{servidor de datos}, que funciona como intermediaria con el módulo de Friis. Siendo concisos, dicha aplicación contiene \textbf{dos servidores} basados en \textbf{acciones \ac{ROS}}, que son especialmente útiles en este caso, dada su naturaleza asíncrona. Dichos servidores gestionan las peticiones para el dron y para rviz. A continuación detallamos cada caso:
 
-(heatmap en rviz)\\
+\begin{enumerate}
+	\item \emph{Caso dron}: a groso modo, el dron envía su posición en coordenadas transformadas al sistema de referencia del \emph{``heatmap''}, y recibe el valor de la señal de dichas coordenadas. En un caso real, el dron tan solo accedería al valor de la señal a través de un sensor que se lo permitiera. A posteriori, se agregó la funcionalidad de enviar, en dicha petición, si se deseaba un mapa con obstáculos o no.
 
+	\item \emph{Caso rviz}: recibe una petición donde se agregan todas las características del \emph{``heatmap''} deseado, vease el origen y los componentes de la señal. Esto, genera como respuesta un array de floats que contiene la información del \emph{``heatmap''}, en un formato adecuado para su representación, es decir, para generar el mapa de forma gráfica, se emplea la biblioteca \textbf{grid\_map}, que a través de un topic de \ac{ROS}, permite enviar los datos a un plugin de rviz, el cual genera la representación visual buscada \footnote[2]{Toda la funcionalidad englobada en el directorio \textbf{heatmap\_util} del proyecto}. También se agregó la funcionalidad de los obstáculos para experimentación futura.
+\end{enumerate}
+\newpage
 \subsection{Algoritmos}
 \label{subsec:algoritmos}
 
-(intro)\\
+En esta sección se resume el núcleo del proyecto, es el lugar donde se mostrarán todas las soluciones implementadas para comandar al dron hacía la resolución del problema y se explicará desde la estructura general de la aplicación, hasta la lógica empleada detrás de cada algoritmo.\\
 
-(manual)\\
+Por ello, lo primero fue definir una clase \emph{``Drone''}, cuyo constructor se encargara de conectarse a los topics del controlador, para comandar ordenes a la aeronave; establecer la comunicación con el servidor de datos (tanto para la potencia como para rviz); y definir los diferentes atributos pertenecientes a la clase, que en este caso aluden a parámetros necesarios en los algoritmos y la extracción de resultados.\\
 
-(manual optimizado)\\
+Continuando con la clase, sigue una estructura de:
 
-(Q-Learning)\\
+\begin{enumerate}
+	\item \emph{Métodos para comandar al dron}: o conjunto de funciones encargadas del movimiento del dispositivo. Mucha de esa funcionalidad fue simplemente adaptada del teleoperador realizado al inicio del \ac{TFG}.
+	
+    \item \emph{Métodos de tolerancia}: encargados de establecer un margen aceptable entre la posición del dron y el objetivo deseado. Estos métodos sirven para controlar con precisión problemas que surgen de la deriva y de condiciones externas, como puede ser el viento.
+
+	\item \emph{Métodos de conversión}: que en este caso permiten moverse entre los diversos sistemas de referencia (gazebo y el mapa de calor), tal y como se puede apreciar a continuación:
+	
+    (sistemas de referencia)\\
+
+    \item \emph{Algoritmos}: que en sí contienen el conjunto de métodos que cada cual necesita para llevarse a cabo. Podemos distinguir la solución \textbf{manual, manual optimizada y Q-Learning}. 
+\end{enumerate}
+
+En cuanto al desarrollo propiamente dicho de los algoritmos, se deben cumplir una serie de premisas de cara a la simulación. Primero que, \textbf{todos los movimientos realizados por el dron deben estar contenidos en el mapa de calor generado}; además, \textbf{la medida de la señal} sólo podra tomarse cuando el dron esté en el \textbf{centro de la celda}; los movimientos del dron deberán ser \textbf{de centro en centro} aunque esto abarque más celdas de distancia (problema resuelto y adaptado del teleoperador); cada celda mide 1x1 metros.\\
+
+\subsubsection{Algoritmo manual}
+\label{subsec:alg-manual}
+
+Es básicamente la primera aproximación, consiste en visitar todos los vecinos más cercanos y realizar el desplazamiento hacia las coordenadas del vecino con mayor señal medida.\\
+
+La condición de parada se basa en analizar si, las coordenadas objetivo de la iteración anterior son las mismas que las coordenadas objetivo de la iteración actual, además de que se cumpla que todos los vecinos colindantes tengan menor valor de señal mencionado.\\
+
+En cuanto a los métodos que usa, se encuentra el de verificar movimientos válidos y comprobar si ha llegado al final, mediante la verificación de que todos los vecinos adyacentes, tienen potencias de señal inferior.\\
+
+(algoritmo manual gráficamente)\\
+
+\subsubsection{Algoritmo manual (optimizado)}
+\label{subsec:alg-manual-opt}
+
+Tomando como referencia el algoritmo anterior, se busco agregar ciertas mejoras y eficiencia. El principio es el mismo, obtener la información de los vecinos y navegar hacia el mejor candidato.\\
+
+La diferencia radica en \textbf{no revisitar vecinos} cuya información se conozca. Para ello se implementa un array que almacena hasta 18 coordenadas de vecinos visitados, de modo que solo se navega hacia coordenadas no contenidas en el mismo, y que por supuesto cumplan las condiciones del problema (no salir del mapa de calor, mover de centro a centro, entre otras).\\
+
+La condición de parada es idéntica a la anterior, y los métodos usados también.\\
+
+(algoritmo manual optimizado gráficamente)\\
+
+\subsubsection{Algoritmo Q-Learning}
+\label{subsec:alg-q}
+
+El último algoritmo planteado, se basó en técnicas de \textbf{aprendizaje por refuerzo}. Concretamente empleando Q-Learning, que tal y como comentamos al principio de la memoria, consiste en la obtención de una tabla Q, de estados y acciones, donde se asignan valores numéricos cada acción según su estado, de modo que la acción más favorable acaba teniendo mayor valor que el resto.\\
+
+En nuestro caso, los estados son las coordenadas del dron en términos del mapa de calor, y las acciones son los movimientos cardinales y diagonales, de una o más celdas de distancia.\\
+
+Como todo algoritmo de esta naturaleza, posee dos fases bien diferenciadas, la \textbf{fase de entrenamiento}, cuyo objetivo es rellenar de forma eficaz la tabla Q, y la \textbf{fase de inferencia}, donde se prueban los resultados obtenidos en el entrenamiento.\\
+
+Dentro del entrenamiento, distinguimos los \textbf{episodios}, que en nuestro caso son las llegadas a la fuente, o las salidas del mapa de calor (adicionalmente se probó añadir otra condición que fuera basada en el número de malas acciones consecutivas, pero para nuestra solución se decidió obviar); y las \textbf{iteraciones}, que se definen como el desempeño de una acción literalmente.\\
+
+Además, para rellenar el contenido de la tabla, se definieron las pertinentes \textbf{recompensas y penalizaciones} basadas en la diferencia entre la medidas, antes y después de realizar una acción (agregando un pequeño multiplicador a las recompensas negativas), excepto si se sale del mapa, en cuyo caso se establece una recompensa fija negativa, calculada en proporción al resto de recompensas. Posteriormente se asignan valores en la tabla Q, usando la ecuación de Bellman:\\
+
+(insertar ecuación de Bellman)\\
+
+Cabe destacar que, durante el entrenamiento, se especifican una serie de parámetros que fueron ajustados a través de la experimentación, entre los que se encuentran, el \textbf{número de episodios totales}, que repercute directamente en la \textbf{\emph{fase de exploración}} (detallado a continuación); el \textbf{parámetro $\alpha$}, o la tasa de aprendizaje, que afecta a la convergencia de las soluciones durante el aprendizaje; el \textbf{parámetro $\gamma$}, o factor de descuento, que atañe a la importancia de las acciones futuras con respecto a las inmediatas; y por último los valores de \textbf{epsilon ($\epsilon$)}, que determinan si la acción tomada será aleatoria o extraida de la tabla, esto está directamente asociado a la fase de exploración, donde se prioriza la aleatoreidad con el fin de enriquecer con información la tabla Q. En nuestro caso, esta fase ocupa un 20\% del número de episodios, de forma lineal, es decir, que cada vez la prioridad se va decantando más del lado de la tabla y no de la aleatoreidad (durante el entrenamiento siempre se mantiene cierta posibilidad de tomar una acción arbitraria, para seguir actualizando los datos).\\
+
+Para poder entrenar de forma eficiente, se establecieron distintos puntos de entrenamiento repartidos de forma uniforme por el mapa, hablaremos en detalle en la sección de métricas empleadas.\\
+
+Los métodos empleados se basan en funcionalidades necesarias para desempeñar todo el proceso anterior, véase la generación de estados y acciones para la tabla, la extracción de índices dentro de la misma, tratamiento del $\epsilon$, obtención de coordenadas válidas, entre otros \footnote[3]{Todos los métodos están explicados dentro del código \url{https://github.com/RoboticsLabURJC/2022-tfg-cristian-sanchez/blob/main/src/teleop/scripts/algorithms.py}}.\\
+
+(gráfica de entrenamiento?? o diagrama de flujo??)\\
+
+Por último, en la fase de inferencia, el dron analiza su estado (o sus coordenadas dentro del mapa de calor), y observa la mejor acción disponible dentro de la tabla Q ya rellena. Esto lo realiza hasta que detecta la condición de parada, que es, si la medida anterior de señal es mayor que la actual, y todos los vecinos adyacentes a la medida anterior poseen señal inferior. Todo esto, partiendo de coordenadas distintas a las que se usaron para el entrenamiento.\\
 
 \subsection{Métricas empleadas}
 \label{subsec:metricas}
 
-(intro)\\
+He decidido comentar las métricas empleadas, en una sección individual, debido a la importancia que poseen de cara al desarrollo y los resultados del proyecto.\\
 
-(mapa de posiciones)\\
+En primer lugar se encuentra el \textbf{mapa de puntos}. Aquí se muestran los puntos donde el dron entrenará, los puntos donde el dron hará la inferencia (o desde donde partirá en los algoritmos manuales) y la posición de la señal. Además se especifican los límites del mapa.\\
+
+(mapa de puntos)\\
+
+El siguiente gráfico representa el \textbf{camino seguido} por el dron al aplicar cada algoritmo para unas mismas coordenadas.\\
 
 (mapa de trayectorias)\\
 
+A continuación se presenta uno de los gráficos más relevantes, en este caso, un gráfico triple que nos permite \textbf{conocer en detalle como ha ido el entrenamiento}. En concreto, representa tres métricas: el valor de epsilon ($\epsilon$), en el que se distingue la fase de exploración; la recompensa acumulada, que nos permite analizar la convergencia del entrenamiento; y el número de iteraciones, donde se observa que conforme el algoritmo aprende, el número se reduce. Todo ello con respecto a cada episodio.\\
+
 (plots de entrenamiento)\\
+
+Por último, se muestran los gráficos comparativos que nos dan un aproximado del \textbf{rendimiento} de cada algoritmo. En este caso, también se analizan tres cosas: el tiempo medio en segundos que tarda el dron desde que despega hasta que vuelve a su posición de despegue; el número medio de iteraciones empleadas para alcanzar la señal; y el número medio de movimientos hacía coordenadas donde la señal es menor y no mayor\footnote[4]{Los datos arrojados han sido guardados en formato \emph{csv}.}.\\
 
 (plots comparativos)\\
 

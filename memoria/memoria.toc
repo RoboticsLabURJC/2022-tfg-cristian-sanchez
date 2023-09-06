@@ -35,14 +35,17 @@
 \contentsline {subsection}{\numberline {4.2.3}Aplicación de Friis}{26}{subsection.4.2.3}%
 \contentsline {section}{\numberline {4.3}Integración conjunta}{29}{section.4.3}%
 \contentsline {subsection}{\numberline {4.3.1}Primeros pasos}{29}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Algoritmos}{29}{subsection.4.3.2}%
-\contentsline {subsection}{\numberline {4.3.3}Métricas empleadas}{29}{subsection.4.3.3}%
-\contentsline {subsection}{\numberline {4.3.4}Experimentos y resultados}{30}{subsection.4.3.4}%
-\contentsline {subsection}{\numberline {4.3.5}Experimentos con obstáculos}{30}{subsection.4.3.5}%
-\contentsline {chapter}{\numberline {5}Conclusiones}{31}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Objetivos cumplidos}{31}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Requisitos satisfechos}{31}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Balance global y competencias adquiridas}{31}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Líneas futuras}{31}{section.5.4}%
-\contentsline {chapter}{\numberline {6}Anexo}{32}{chapter.6}%
-\contentsline {chapter}{Bibliograf\'{\i }a}{34}{appendix*.49}%
+\contentsline {subsection}{\numberline {4.3.2}Algoritmos}{30}{subsection.4.3.2}%
+\contentsline {subsubsection}{Algoritmo manual}{31}{subsubsection*.47}%
+\contentsline {subsubsection}{Algoritmo manual (optimizado)}{31}{subsubsection*.48}%
+\contentsline {subsubsection}{Algoritmo Q-Learning}{32}{subsubsection*.49}%
+\contentsline {subsection}{\numberline {4.3.3}Métricas empleadas}{33}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Experimentos y resultados}{34}{subsection.4.3.4}%
+\contentsline {subsection}{\numberline {4.3.5}Experimentos con obstáculos}{35}{subsection.4.3.5}%
+\contentsline {chapter}{\numberline {5}Conclusiones}{36}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Objetivos cumplidos}{36}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Requisitos satisfechos}{36}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Balance global y competencias adquiridas}{36}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Líneas futuras}{36}{section.5.4}%
+\contentsline {chapter}{\numberline {6}Anexo}{37}{chapter.6}%
+\contentsline {chapter}{Bibliograf\'{\i }a}{39}{appendix*.52}%

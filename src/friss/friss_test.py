@@ -162,11 +162,28 @@ def get_polygon_vertices(signal_origin, obstacle_vertices, edges, rounded=False)
             if intersect_p != None and in_map(sz, intersect_p) and in_direction(origin, intersect_p, l.direction):
                 vertices.append(intersect_p)
 
-    if different_edges(vertices[-1], vertices[-2]):
-        # Parallel edges 2 corners??
+    print(check_edges(vertices[-1], vertices[-2]))
+    result = check_edges(vertices[-1], vertices[-2])
+    if result == 'different edge':
         corner = get_corner(vertices[-1], vertices[-2])
         if corner != None:
             vertices.insert(-1, corner)
+    elif result == 'opposite edge':
+        x1, y1 = vertices[-1]
+        x2, y2 = vertices[-2]
+        a = Line(signal_origin, Point(x1, y1))
+        b = Line(signal_origin, Point(x2, y2))
+
+        vertices.insert(-1, get_corner_dir(a.direction))
+        vertices.insert(-1, get_corner_dir(b.direction))
+        print(a.direction)
+        print(b.direction)
+
+    # if different_edges(vertices[-1], vertices[-2]):
+    #     # Parallel edges 2 corners??
+    #     corner = get_corner(vertices[-1], vertices[-2])
+    #     if corner != None:
+    #         vertices.insert(-1, corner)
 
     # Convert into valid coords (trunc)
     if rounded:
@@ -180,6 +197,36 @@ def different_edges(p1, p2):
     x2, y2 = p2
 
     return x1 != x2 and y1 != y2
+
+def check_edges(p1, p2):
+    x1, y1 = p1
+    x2, y2 = p2
+
+    if x1 == 0 or x1 == sz - 1:
+        if x2 == x1:
+            return "same edge"
+        elif (x1 == 0 and x2 == sz - 1) or (x1 == sz - 1 and x2 == 0):
+            return "opposite edge"
+
+    if y1 == 0 or y1 == sz - 1:
+        if y2 == y1:
+            return "same edge"
+        elif (y1 == 0 and y2 == sz - 1) or (y1 == sz - 1 and y2 == 0):
+            return "opposite edge"
+        
+    return "different edge"
+
+def get_corner_dir(dir):
+    if dir == 'NW':
+        return (0, sz - 1)
+    elif dir == 'SW':
+        return (0, 0)
+    elif dir == 'SE':
+        return (sz - 1, 0)
+    elif dir == 'NE':
+        return (sz - 1, sz - 1)
+    else:
+        return -1
 
 
 def get_corner(p1, p2, sz=SZ):
@@ -240,12 +287,12 @@ def is_inside(point, polygon, edge_points):
         side = Line(Point(x_o, y_o), Point(x_f, y_f))
 
         intersect_p = intersection(h_line, side, finite=True)
-        print(intersect_p)
+        # print(intersect_p)
         if intersect_p != None:
             intersections.add(intersect_p)
 
-    print("for point:", (x,y), "intersects ", len(intersections), "in", intersections)
-    print()
+    # print("for point:", (x,y), "intersects ", len(intersections), "in", intersections)
+    # print()
 
     return len(intersections) % 2 != 0
 
@@ -312,9 +359,10 @@ if __name__ == "__main__":
     map_edges = (edge_top, edge_left, edge_bot, edge_right)    
 
     origin = Point(1,2)
-    obstacle_vertices = (Point(3,1), Point(1,3))
+    obstacle_vertices = (Point(3,1), Point(0,3))
 
     poly = get_polygon_vertices(origin, obstacle_vertices, map_edges)
+    print(poly)
     
     edge_points = get_edge_points(poly)
     points_inside = []
