@@ -310,14 +310,14 @@ Continuando con la clase, sigue una estructura de:
 
 \begin{enumerate}
 	\item \emph{Métodos para comandar al dron}: o conjunto de funciones encargadas del movimiento del dispositivo. Mucha de esa funcionalidad fue simplemente adaptada del teleoperador realizado al inicio del \ac{TFG}.
-	
+
     \item \emph{Métodos de tolerancia}: encargados de establecer un margen aceptable entre la posición del dron y el objetivo deseado. Estos métodos sirven para controlar con precisión problemas que surgen de la deriva y de condiciones externas, como puede ser el viento.
 
 	\item \emph{Métodos de conversión}: que en este caso permiten moverse entre los diversos sistemas de referencia (gazebo y el mapa de calor), tal y como se puede apreciar a continuación:
-	
+
     (sistemas de referencia)\\
 
-    \item \emph{Algoritmos}: que en sí contienen el conjunto de métodos que cada cual necesita para llevarse a cabo. Podemos distinguir la solución \textbf{manual, manual optimizada y Q-Learning}. 
+    \item \emph{Algoritmos}: que en sí contienen el conjunto de métodos que cada cual necesita para llevarse a cabo. Podemos distinguir la solución \textbf{manual, manual optimizada y Q-Learning}.
 \end{enumerate}
 
 En cuanto al desarrollo propiamente dicho de los algoritmos, se deben cumplir una serie de premisas de cara a la simulación. Primero que, \textbf{todos los movimientos realizados por el dron deben estar contenidos en el mapa de calor generado}; además, \textbf{la medida de la señal} sólo podra tomarse cuando el dron esté en el \textbf{centro de la celda}; los movimientos del dron deberán ser \textbf{de centro en centro} aunque esto abarque más celdas de distancia (problema resuelto y adaptado del teleoperador); cada celda mide 1x1 metros.\\
@@ -393,18 +393,69 @@ Por último, se muestran los gráficos comparativos que nos dan un aproximado de
 \subsection{Experimentos y resultados}
 \label{subsec:experimentos_resultados}
 
-(intro y señal estática)\\
+Una vez sabemos que métricas se usaron, queda ver el resultado de la experimentación. A excepción del último caso, las características de la señal siempre fueron las mismas: (poner características de la señal). Además cabe destacar que la señal se toma como estática con respecto al dron.\\
 
-(12x12)\\
+Primero se probó sobre un escenario de tamaño \textbf{12x12 metros}, donde se distinguen dos posiciones de señal, una centrada y otra cerca de una esquina.\\
 
-(30x30)\\
+Para la \textbf{señal cerca del centro}, se dispuso en las coordenadas del mapa de calor (5, 5), siguiendo el siguiente mapa de puntos para los puntos de entrenamiento e inferencia:\\
 
-(mismo mapa distinta señal)\\
+(mapa de puntos centro 12x12)\\
 
-\subsection{Experimentos con obstáculos}
+Los resultados obtenidos arrojan que el algoritmo más eficiente es el de Q-Learning, ya que tarda menos tiempo, realiza menos iteraciones hasta llegar a la meta y tiene un porcentaje inferior de malas acciones, tal y como podemos ver a continuación:\\
+
+(gráficas comparativas centro 12x12)\\
+
+En el caso de la \textbf{señal cerca de la esquina}, la señal se estableció en las coordenadas (3, 1) del mapa de calor, siendo su mapa de puntos el siguiente:
+
+(mapa de puntos esquina 12x12)\\
+
+En este caso, se obtiene la misma conclusión que en el escenario anterior, tal y como se puede apreciar a continuación:\\
+
+(gráficas comparativas esquina 12x12)\\
+
+En segundo lugar, se incrementó el tamaño del mapa hasta \textbf{30x30 metros}, donde de igual modo se establecen dos coordenadas de la señal para realizar los experimentos.\\
+
+Nuevamente, para la \textbf{señal cerca del centro}, se designaron las coordenadas (12, 12) además de nuevos puntos de entrenamiento e inferencia:
+
+(mapa de puntos centro 30x30)\\
+
+En cuanto a los resultados, concluimos que Q-Learning vuelve a ser la mejor opción, que aunque se vea un incremento temporal y de iteraciones (como es de esperar debido al aumento de tamaño del escenario), se mantiene en proporción la ventaja de esta solución con respecto al resto:\\
+
+(gráficas comparativas centro 30x30)\\
+
+Continuando con la \textbf{señal cerca de la esquina}, en este caso se encuentra en las coordenadas (5, 3), y su mapa de puntos es:\\
+
+(mapa de puntos esquina 30x30)\\
+
+De igual modo vemos que el resultado de aprendizaje por refuerzo es claramente superior:\\
+
+(gráficas comparativas esquina 30x30)\\
+
+Por último, se planteó un problema sólo para Q-Learning, en el cual se \textbf{entrenaba al modelo con una señal}, y se \textbf{realizaba inferencia con otra señal con características distintas}, situada en las mismas coordenadas, en este caso (5, 3), disponiendo del siguiente mapa de puntos:\\
+
+(mapa puntos señales diferentes)\\
+
+Para este caso, el problema se resolvía de igual forma para ambos casos, con una cierta variación en el tiempo, derivada probablemente de la propia simulación (no es relevante):\\
+
+(gráficas señales diferentes)\\
+
+\subsection{Líneas a futuro - Experimentos con obstáculos}
 \label{subsec:experimentos_obstaculos}
 
-(intro)\\
+El escenario planteado durante el \ac{TFG}, al fin y al cabo, es la aproximación más simple, es decir, en un caso real no es esperable un entorno vacío de perturbaciones y obstáculos. Por ello, el siguiente paso lógico es \textbf{implementar muros que distorsionen la señal} y ver como se comporta con Q-Learning.\\
 
-(resultados)\\
+Para ello, la idea es conseguir modificar el módulo de Friis, para que pueda agregar de forma dinámica obstáculos al mapa, empleando un algoritmo que identifica si los puntos se encuentran dentro de el polígono generado por las proyecciones de la señal con los vértices del muro, para luego degradar con un factor la señal de esos puntos \cite{poly-info}. Sin embargo, para las primeras aproximaciones, se estableció a mano los valores de un mapa con obstáculos sobre el que probar los algoritmos.\\
 
+(imagen algoritmo in poly)\\
+
+Además, la idea inicial era realizar el entrenamiento \textbf{sin obstáculos}, y ajustar los algoritmos para que fueran capaces de sortear los mismos.\\
+
+De este modo, y cómo primera aproximación a este proceso, se distinguieron \textbf{dos casos}:
+
+\begin{enumerate}
+    \item \emph{El dron vuela por encima de la altura del obstáculo}: En cuyo caso se ve que es capaz de navegar satisfactoriamente hacia la señal, con las soluciones empleadas previamente.
+
+    \item \emph{El dron vuela a la misma altura que el obstáculo}: Donde se observa que la solución de Q-Learning queda insuficiente para resolver el problema, ya que el dron colisiona directamente con el obstáculo. Por ello, se plantea la idea de agregar un sistema de detección (o sensor) que permita al dron sortear los muros. Para el caso simulado simplemente se comprueba si la siguiente posición corresponde a un obstáculo en el mapa de calor y se actúa en consecuencia. Sin embargo, seguimos trabajando en este apartado.
+    
+    (imagen detección obstáculos)
+\end{enumerate}

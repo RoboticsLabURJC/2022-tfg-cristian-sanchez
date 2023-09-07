@@ -41,11 +41,10 @@
 \contentsline {subsubsection}{Algoritmo Q-Learning}{32}{subsubsection*.49}%
 \contentsline {subsection}{\numberline {4.3.3}Métricas empleadas}{33}{subsection.4.3.3}%
 \contentsline {subsection}{\numberline {4.3.4}Experimentos y resultados}{34}{subsection.4.3.4}%
-\contentsline {subsection}{\numberline {4.3.5}Experimentos con obstáculos}{35}{subsection.4.3.5}%
-\contentsline {chapter}{\numberline {5}Conclusiones}{36}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Objetivos cumplidos}{36}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Requisitos satisfechos}{36}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Balance global y competencias adquiridas}{36}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Líneas futuras}{36}{section.5.4}%
-\contentsline {chapter}{\numberline {6}Anexo}{37}{chapter.6}%
-\contentsline {chapter}{Bibliograf\'{\i }a}{39}{appendix*.52}%
+\contentsline {subsection}{\numberline {4.3.5}Líneas a futuro - Experimentos con obstáculos}{36}{subsection.4.3.5}%
+\contentsline {chapter}{\numberline {5}Conclusiones}{38}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Objetivos cumplidos}{38}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Balance global y competencias adquiridas}{38}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Líneas futuras}{39}{section.5.3}%
+\contentsline {chapter}{\numberline {6}Anexo}{40}{chapter.6}%
+\contentsline {chapter}{Bibliograf\'{\i }a}{42}{appendix*.52}%
