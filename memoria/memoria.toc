@@ -36,15 +36,15 @@
 \contentsline {section}{\numberline {4.3}Integración conjunta}{29}{section.4.3}%
 \contentsline {subsection}{\numberline {4.3.1}Primeros pasos}{29}{subsection.4.3.1}%
 \contentsline {subsection}{\numberline {4.3.2}Algoritmos}{30}{subsection.4.3.2}%
-\contentsline {subsubsection}{Algoritmo manual}{31}{subsubsection*.47}%
-\contentsline {subsubsection}{Algoritmo manual (optimizado)}{31}{subsubsection*.48}%
-\contentsline {subsubsection}{Algoritmo Q-Learning}{32}{subsubsection*.49}%
-\contentsline {subsection}{\numberline {4.3.3}Métricas empleadas}{33}{subsection.4.3.3}%
-\contentsline {subsection}{\numberline {4.3.4}Experimentos y resultados}{34}{subsection.4.3.4}%
-\contentsline {subsection}{\numberline {4.3.5}Líneas a futuro - Experimentos con obstáculos}{36}{subsection.4.3.5}%
-\contentsline {chapter}{\numberline {5}Conclusiones}{38}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Objetivos cumplidos}{38}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Balance global y competencias adquiridas}{38}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Líneas futuras}{39}{section.5.3}%
-\contentsline {chapter}{\numberline {6}Anexo}{40}{chapter.6}%
-\contentsline {chapter}{Bibliograf\'{\i }a}{42}{appendix*.52}%
+\contentsline {subsubsection}{Algoritmo manual}{31}{subsubsection*.48}%
+\contentsline {subsubsection}{Algoritmo manual (optimizado)}{32}{subsubsection*.50}%
+\contentsline {subsubsection}{Algoritmo Q-Learning}{33}{subsubsection*.52}%
+\contentsline {subsection}{\numberline {4.3.3}Métricas empleadas}{35}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Experimentos y resultados}{36}{subsection.4.3.4}%
+\contentsline {subsection}{\numberline {4.3.5}Líneas a futuro - Experimentos con obstáculos}{38}{subsection.4.3.5}%
+\contentsline {chapter}{\numberline {5}Conclusiones}{40}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Objetivos cumplidos}{40}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Balance global y competencias adquiridas}{40}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Líneas futuras}{41}{section.5.3}%
+\contentsline {chapter}{\numberline {6}Anexo}{42}{chapter.6}%
+\contentsline {chapter}{Bibliograf\'{\i }a}{44}{appendix*.55}%

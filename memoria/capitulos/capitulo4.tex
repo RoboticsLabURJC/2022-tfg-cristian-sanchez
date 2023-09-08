@@ -289,76 +289,96 @@ El objetivo, a parte de llevar a cabo la tarea encomendada, era comprobar y comp
 \subsection{Primeros pasos}
 \label{subsec:primeros_pasos}
 
-Inicialmente, se debía construir todo el entorno en base a lo desarrollado anteriormente.\\
+Inicialmente, se debía construir todo el entorno en base a lo anterior.\\
 
-Por ello, se diseñó una aplicación \textbf{servidor de datos}, que funciona como intermediaria con el módulo de Friis. Siendo concisos, dicha aplicación contiene \textbf{dos servidores} basados en \textbf{acciones \ac{ROS}}, que son especialmente útiles en este caso, dada su naturaleza asíncrona. Dichos servidores gestionan las peticiones para el dron y para rviz. A continuación detallamos cada caso:
+Por ello, se diseñó una \textbf{aplicación servidor de datos}, que funciona como intermediaria con el módulo de Friis. Siendo concisos, dicha aplicación contiene \textbf{dos servidores} basados en \textbf{acciones \ac{ROS}}, que son especialmente útiles en este caso, dada su naturaleza asíncrona. Dichos servidores gestionan las peticiones para el dron y para rviz. A continuación detallamos cada caso:
 
 \begin{enumerate}
 	\item \emph{Caso dron}: a groso modo, el dron envía su posición en coordenadas transformadas al sistema de referencia del \emph{``heatmap''}, y recibe el valor de la señal de dichas coordenadas. En un caso real, el dron tan solo accedería al valor de la señal a través de un sensor que se lo permitiera. A posteriori, se agregó la funcionalidad de enviar, en dicha petición, si se deseaba un mapa con obstáculos o no.
 
-	\item \emph{Caso rviz}: recibe una petición donde se agregan todas las características del \emph{``heatmap''} deseado, vease el origen y los componentes de la señal. Esto, genera como respuesta un array de floats que contiene la información del \emph{``heatmap''}, en un formato adecuado para su representación, es decir, para generar el mapa de forma gráfica, se emplea la biblioteca \textbf{grid\_map}, que a través de un topic de \ac{ROS}, permite enviar los datos a un plugin de rviz, el cual genera la representación visual buscada \footnote[2]{Toda la funcionalidad englobada en el directorio \textbf{heatmap\_util} del proyecto}. También se agregó la funcionalidad de los obstáculos para experimentación futura.
+	\item \emph{Caso rviz}: recibe una petición donde se agregan todas las características de la señal para generar el \emph{``heatmap''} deseado, vease el origen y sus componentes. Esto, genera como respuesta un array de floats que contiene la información del mapa de calor, en un formato adecuado para su representación, es decir, para generar el mapa de forma gráfica, se emplea la biblioteca \textbf{grid\_map}, que a través de un topic de \ac{ROS}, permite enviar los datos a un plugin de rviz, el cual genera la representación visual buscada\footnote[2]{Toda la funcionalidad englobada en el directorio \textbf{heatmap\_util} del proyecto}. También se agregó la funcionalidad de los obstáculos para experimentación futura.
 \end{enumerate}
 \newpage
 \subsection{Algoritmos}
 \label{subsec:algoritmos}
 
-En esta sección se resume el núcleo del proyecto, es el lugar donde se mostrarán todas las soluciones implementadas para comandar al dron hacía la resolución del problema y se explicará desde la estructura general de la aplicación, hasta la lógica empleada detrás de cada algoritmo.\\
+En esta sección, se resume el núcleo del proyecto. Es el lugar donde se mostrarán todas las soluciones implementadas para comandar al dron hacía la resolución del problema y se explicará, desde la estructura general de la aplicación, hasta la lógica empleada detrás de cada algoritmo.\\
 
-Por ello, lo primero fue definir una clase \emph{``Drone''}, cuyo constructor se encargara de conectarse a los topics del controlador, para comandar ordenes a la aeronave; establecer la comunicación con el servidor de datos (tanto para la potencia como para rviz); y definir los diferentes atributos pertenecientes a la clase, que en este caso aluden a parámetros necesarios en los algoritmos y la extracción de resultados.\\
+Por ello, lo primero consistió en definir una \textbf{clase \emph{``Drone''}}, cuyo constructor se encargara de conectar los topics al controlador PX4 para comandar ordenes a la aeronave. Además, establece la comunicación con el servidor de datos (tanto para la potencia como para rviz) y se definen los diferentes atributos pertenecientes a la clase, que en este caso aluden a parámetros necesarios para los algoritmos y la extracción de resultados.\\
 
-Continuando con la clase, sigue una estructura de:
+En general, la clase sigue una estructura basada en lo siguiente:
 
 \begin{enumerate}
-	\item \emph{Métodos para comandar al dron}: o conjunto de funciones encargadas del movimiento del dispositivo. Mucha de esa funcionalidad fue simplemente adaptada del teleoperador realizado al inicio del \ac{TFG}.
+	\item \emph{Métodos para comandar al dron}: o conjunto de funciones encargadas del movimiento del dispositivo (como despegar, aterrizar, desplazarse, entre otros). Mucha de esa funcionalidad fue adaptada del teleoperador realizado al inicio del \ac{TFG}.
 
     \item \emph{Métodos de tolerancia}: encargados de establecer un margen aceptable entre la posición del dron y el objetivo deseado. Estos métodos sirven para controlar con precisión problemas que surgen de la deriva y de condiciones externas, como puede ser el viento.
 
-	\item \emph{Métodos de conversión}: que en este caso permiten moverse entre los diversos sistemas de referencia (gazebo y el mapa de calor), tal y como se puede apreciar a continuación:
+	\item \emph{Métodos de conversión}: que en este caso nos permiten transformar las coordenadas entre los sistemas de referencia, tal y como se puede apreciar a continuación.
 
-    (sistemas de referencia)\\
-
-    \item \emph{Algoritmos}: que en sí contienen el conjunto de métodos que cada cual necesita para llevarse a cabo. Podemos distinguir la solución \textbf{manual, manual optimizada y Q-Learning}.
+    \item \emph{Algoritmos}: o las soluciones propiamente dichas, que en sí contienen el conjunto de métodos que cada cual necesita para llevarse a cabo. Podemos distinguir entre \textbf{manual, manual optimizado y Q-Learning}.
 \end{enumerate}
 
-En cuanto al desarrollo propiamente dicho de los algoritmos, se deben cumplir una serie de premisas de cara a la simulación. Primero que, \textbf{todos los movimientos realizados por el dron deben estar contenidos en el mapa de calor generado}; además, \textbf{la medida de la señal} sólo podra tomarse cuando el dron esté en el \textbf{centro de la celda}; los movimientos del dron deberán ser \textbf{de centro en centro} aunque esto abarque más celdas de distancia (problema resuelto y adaptado del teleoperador); cada celda mide 1x1 metros.\\
+\begin{figure} [H]
+    \begin{center}
+    \includegraphics[height=10cm]{imagenes/cap4/8_reference_system.png}
+    \end{center}
+    \caption[Sistemas de referencia]{Sistemas de referencia}
+    \label{fig:reference_sys}
+\end{figure}
+
+En cuanto al desarrollo propiamente dicho de los algoritmos, se deben cumplir una serie de premisas de cara a la simulación.\\ 
+
+Primero que, \textbf{todos los movimientos realizados por el dron deben estar contenidos en el mapa de calor generado}; además, \textbf{la medida de la señal} sólo podrá tomarse cuando el dron esté en el \textbf{centro de la celda}; los movimientos del dron deberán ser \textbf{de centro en centro} aunque esto abarque más celdas de distancia (problema resuelto y adaptado del teleoperador); y cada celda mide 1x1 metros.
 
 \subsubsection{Algoritmo manual}
 \label{subsec:alg-manual}
 
-Es básicamente la primera aproximación, consiste en visitar todos los vecinos más cercanos y realizar el desplazamiento hacia las coordenadas del vecino con mayor señal medida.\\
+Es básicamente la primera aproximación, consiste en \textbf{visitar todos los vecinos más cercanos} y realizar el desplazamiento hacia las coordenadas del \textbf{vecino con mayor señal} medida.\\
 
-La condición de parada se basa en analizar si, las coordenadas objetivo de la iteración anterior son las mismas que las coordenadas objetivo de la iteración actual, además de que se cumpla que todos los vecinos colindantes tengan menor valor de señal mencionado.\\
+La \textbf{condición de parada} se basa en analizar si, las coordenadas objetivo de la iteración anterior son las mismas que las coordenadas objetivo de la iteración actual, además de que se cumpla que todos los vecinos colindantes tengan menor valor de señal mencionado.\\
 
 En cuanto a los métodos que usa, se encuentra el de verificar movimientos válidos y comprobar si ha llegado al final, mediante la verificación de que todos los vecinos adyacentes, tienen potencias de señal inferior.\\
 
-(algoritmo manual gráficamente)\\
+\begin{figure} [H]
+    \begin{center}
+    \includegraphics[height=10cm]{imagenes/cap4/9_algoritmo_manual.png}
+    \end{center}
+    \caption[Representación algoritmo manual]{Representación algoritmo manual}
+    \label{fig:manual_algorithm}
+\end{figure}
 
 \subsubsection{Algoritmo manual (optimizado)}
 \label{subsec:alg-manual-opt}
 
-Tomando como referencia el algoritmo anterior, se busco agregar ciertas mejoras y eficiencia. El principio es el mismo, obtener la información de los vecinos y navegar hacia el mejor candidato.\\
+Tomando como referencia el algoritmo anterior, se buscó agregar ciertas mejoras y eficiencia. El principio es el mismo, obtener la información de los vecinos y navegar hacia el mejor candidato.\\
 
 La diferencia radica en \textbf{no revisitar vecinos} cuya información se conozca. Para ello se implementa un array que almacena hasta 18 coordenadas de vecinos visitados, de modo que solo se navega hacia coordenadas no contenidas en el mismo, y que por supuesto cumplan las condiciones del problema (no salir del mapa de calor, mover de centro a centro, entre otras).\\
 
 La condición de parada es idéntica a la anterior, y los métodos usados también.\\
 
-(algoritmo manual optimizado gráficamente)\\
+\begin{figure} [H]
+    \begin{center}
+    \includegraphics[height=10cm]{imagenes/cap4/10_algoritmo_optimizado.png}
+    \end{center}
+    \caption[Representación algoritmo manual optimizado]{Representación algoritmo manual optimizado}
+    \label{fig:opt_algorithm}
+\end{figure}
 
 \subsubsection{Algoritmo Q-Learning}
 \label{subsec:alg-q}
 
 El último algoritmo planteado, se basó en técnicas de \textbf{aprendizaje por refuerzo}. Concretamente empleando Q-Learning, que tal y como comentamos al principio de la memoria, consiste en la obtención de una tabla Q, de estados y acciones, donde se asignan valores numéricos cada acción según su estado, de modo que la acción más favorable acaba teniendo mayor valor que el resto.\\
 
-En nuestro caso, los estados son las coordenadas del dron en términos del mapa de calor, y las acciones son los movimientos cardinales y diagonales, de una o más celdas de distancia.\\
+En nuestro caso, los \textbf{estados} son \textbf{las coordenadas del dron} en términos del mapa de calor, y las \textbf{acciones} son los \textbf{movimientos cardinales y diagonales}, de una o más celdas de distancia.\\
 
-Como todo algoritmo de esta naturaleza, posee dos fases bien diferenciadas, la \textbf{fase de entrenamiento}, cuyo objetivo es rellenar de forma eficaz la tabla Q, y la \textbf{fase de inferencia}, donde se prueban los resultados obtenidos en el entrenamiento.\\
+Como todo algoritmo de esta naturaleza, posee dos fases bien diferenciadas, la \textbf{fase de entrenamiento}, cuyo objetivo es rellenar de forma eficaz la tabla Q, y la \textbf{fase de inferencia}, donde se prueban los resultados obtenidos del entrenamiento.\\
 
 Dentro del entrenamiento, distinguimos los \textbf{episodios}, que en nuestro caso son las llegadas a la fuente, o las salidas del mapa de calor (adicionalmente se probó añadir otra condición que fuera basada en el número de malas acciones consecutivas, pero para nuestra solución se decidió obviar); y las \textbf{iteraciones}, que se definen como el desempeño de una acción literalmente.\\
 
-Además, para rellenar el contenido de la tabla, se definieron las pertinentes \textbf{recompensas y penalizaciones} basadas en la diferencia entre la medidas, antes y después de realizar una acción (agregando un pequeño multiplicador a las recompensas negativas), excepto si se sale del mapa, en cuyo caso se establece una recompensa fija negativa, calculada en proporción al resto de recompensas. Posteriormente se asignan valores en la tabla Q, usando la ecuación de Bellman:\\
-
-(insertar ecuación de Bellman)\\
-
+Además, para rellenar el contenido de la tabla, se definieron las pertinentes \textbf{recompensas y penalizaciones} basadas en la diferencia entre la medidas, antes y después de realizar una acción (agregando un pequeño multiplicador a las recompensas negativas), excepto si se sale del mapa, en cuyo caso se establece una recompensa fija negativa, calculada en proporción al resto de recompensas. Posteriormente se asignan valores en la tabla Q, usando la ecuación de Bellman:
+\begin{equation}
+    Q(s, a) = (1 - \alpha) \cdot Q(s, a) + \alpha \cdot \left(r + \gamma \cdot \mathrm{max}_{a'} Q(s', a')\right)
+\end{equation}
 Cabe destacar que, durante el entrenamiento, se especifican una serie de parámetros que fueron ajustados a través de la experimentación, entre los que se encuentran, el \textbf{número de episodios totales}, que repercute directamente en la \textbf{\emph{fase de exploración}} (detallado a continuación); el \textbf{parámetro $\alpha$}, o la tasa de aprendizaje, que afecta a la convergencia de las soluciones durante el aprendizaje; el \textbf{parámetro $\gamma$}, o factor de descuento, que atañe a la importancia de las acciones futuras con respecto a las inmediatas; y por último los valores de \textbf{epsilon ($\epsilon$)}, que determinan si la acción tomada será aleatoria o extraida de la tabla, esto está directamente asociado a la fase de exploración, donde se prioriza la aleatoreidad con el fin de enriquecer con información la tabla Q. En nuestro caso, esta fase ocupa un 20\% del número de episodios, de forma lineal, es decir, que cada vez la prioridad se va decantando más del lado de la tabla y no de la aleatoreidad (durante el entrenamiento siempre se mantiene cierta posibilidad de tomar una acción arbitraria, para seguir actualizando los datos).\\
 
 Para poder entrenar de forma eficiente, se establecieron distintos puntos de entrenamiento repartidos de forma uniforme por el mapa, hablaremos en detalle en la sección de métricas empleadas.\\
