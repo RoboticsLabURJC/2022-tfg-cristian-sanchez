@@ -33,5 +33,23 @@
 \contentsline {figure}{\numberline {4.8}{\ignorespaces Sistemas de referencia}}{31}{figure.caption.47}%
 \contentsline {figure}{\numberline {4.9}{\ignorespaces Representación algoritmo manual}}{32}{figure.caption.49}%
 \contentsline {figure}{\numberline {4.10}{\ignorespaces Representación algoritmo manual optimizado}}{33}{figure.caption.51}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Esquema episodio fase de entrenamiento}}{35}{figure.caption.53}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Mapa de puntos 30x30 con la señal en la esquina}}{36}{figure.caption.54}%
+\contentsline {figure}{\numberline {4.13}{\ignorespaces Trayectorias seguidas en mapa 12x12 con señal en el centro}}{36}{figure.caption.55}%
+\contentsline {figure}{\numberline {4.14}{\ignorespaces Gráfico de entrenamiento}}{37}{figure.caption.56}%
+\contentsline {figure}{\numberline {4.15}{\ignorespaces Gráficos comparativos}}{38}{figure.caption.57}%
+\contentsline {figure}{\numberline {4.16}{\ignorespaces Características de la señal por defecto}}{38}{figure.caption.58}%
+\contentsline {figure}{\numberline {4.17}{\ignorespaces Mapa de puntos (12x12), señal centrada}}{39}{figure.caption.59}%
+\contentsline {figure}{\numberline {4.18}{\ignorespaces Comparativas (12x12), señal centrada}}{39}{figure.caption.60}%
+\contentsline {figure}{\numberline {4.19}{\ignorespaces Mapa de puntos (12x12), señal en la esquina}}{40}{figure.caption.61}%
+\contentsline {figure}{\numberline {4.20}{\ignorespaces Comparativas (12x12), señal en la esquina}}{40}{figure.caption.62}%
+\contentsline {figure}{\numberline {4.21}{\ignorespaces Mapa de puntos (30x30), señal centrada}}{41}{figure.caption.63}%
+\contentsline {figure}{\numberline {4.22}{\ignorespaces Comparativas (30x30), señal centrada}}{41}{figure.caption.64}%
+\contentsline {figure}{\numberline {4.23}{\ignorespaces Mapa de puntos (30x30), señal en la esquina}}{42}{figure.caption.65}%
+\contentsline {figure}{\numberline {4.24}{\ignorespaces Comparativas (30x30), señal en la esquina}}{42}{figure.caption.66}%
+\contentsline {figure}{\numberline {4.25}{\ignorespaces Mapa de puntos (30x30), señales diferentes}}{43}{figure.caption.67}%
+\contentsline {figure}{\numberline {4.26}{\ignorespaces Comparativas (30x30), señales diferentes}}{43}{figure.caption.68}%
+\contentsline {figure}{\numberline {4.27}{\ignorespaces Funcionamiento del algoritmo de puntos}}{44}{figure.caption.69}%
+\contentsline {figure}{\numberline {4.28}{\ignorespaces Simulación de sensor para obstáculo}}{45}{figure.caption.70}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
