@@ -15,7 +15,7 @@ This script let us test different algorithms to solve the RF signal seeking:
         then we use that table to navigate to the signal source.
 '''
 import rospy
-from geometry_msgs.msg import PoseStamped
+from geometry_msgs.msg import PoseStamped, Twist
 from std_msgs.msg import Float64MultiArray
 from teleop.msg import Px4Cmd
 import actionlib
@@ -25,12 +25,14 @@ import matplotlib.pyplot as plt
 import csv
 import pandas as pd
 import re
+import tf
 
 # -- CTE -- #
 # Topics
 LOCAL_POSE_TOPIC = '/mavros/local_position/pose'
 RADIO_CONTROL_POS_TOPIC = 'radio_control/pos'
 RADIO_CONTROL_CMD_TOPIC = 'radio_control/cmd'
+RADIO_CONTROL_VEL_TOPIC = 'radio_control/vel'
 RVIZ_HEATMAP_TOPIC = '/heatmap/map'
 
 # Other
@@ -93,6 +95,19 @@ TESTING_POSES_Q_30 = ((14,15),)
 
 TESTING_POSES_Q_30_OBSTACLE = ((24,9),)
 
+OBSTACLE_COORDS = ((20,5),
+                   (20,6),
+                   (20,7),
+                   (20,8),
+                   (20,9),
+                   (20,10),
+                   (21,5),
+                   (21,6),
+                   (21,7),
+                   (21,8),
+                   (21,9),
+                   (21,10))
+
 
 class Drone:
     '''
@@ -136,7 +151,7 @@ class Drone:
 
         # Definition of the rviz msg
         self.rvz_msg = Float64MultiArray()
-        self.rvz_msg.data = self.w.get_result().data
+        self.rvz_msg.data = self.rvz_client.get_result().data
 
         # Waits the rviz subscriber to be available
         while self.rvz_pub.get_num_connections() == 0:
@@ -179,7 +194,10 @@ class Drone:
         self.show_points(TESTING_POSES_Q_30_OBSTACLE)
 
         # Train the model
-        self.train_q(self.q_table, self.actions, self.states)
+        # self.train_q(self.q_table, self.actions, self.states)
+
+        # VFF part
+        self.vel_pub = rospy.Publisher(RADIO_CONTROL_VEL_TOPIC, Twist, queue_size=10)
 
 
     def takeoff(self, h=H):
@@ -1305,6 +1323,54 @@ class Drone:
             return self.read_only_pwr(end) == -999
 
         return False
+    
+    # VFF part
+    def get_distance_to_obstacle(self, minimun=False):
+        current_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
+
+        x = current_pose.pose.position.x
+        y = current_pose.pose.position.y
+
+        distances = []
+
+        for obs_coord in OBSTACLE_COORDS:
+            x_obs, y_obs = self.heatmapcoords_to_gzcoords(obs_coord)
+            d = np.sqrt(pow((x_obs - x), 2) + pow((y_obs - y), 2))
+            distances.append(d)
+
+        if minimun:
+            return min(distances)
+        else:
+            return distances
+    
+    def get_distance_to_goal(self):
+        current_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
+
+        x = current_pose.pose.position.x
+        y = current_pose.pose.position.y
+
+        x_goal, y_goal = self.heatmapcoords_to_gzcoords(SIGNAL_ORIGIN)
+        d = np.sqrt(pow((x_goal - x), 2) + pow((y_goal - y), 2))
+
+        return d
+    
+    def VFF(self):
+        goal_pose = PoseStamped()
+        goal_pose.pose.position.z = H_POSES
+
+        self.takeoff(h=H_POSES)
+
+        vel = Twist()
+        vel.linear.x = 0.1
+        vel.linear.y = 0.0
+        vel.linear.z = 0.0
+        
+        while True:
+            self.vel_pub.publish(vel)
+            print(self.get_distance_to_obstacle())
+            print(self.get_distance_to_goal())
+            print(self.get_distance_to_obstacle(minimun=True))
+
 
 
 # -- MAIN -- #
@@ -1313,11 +1379,12 @@ if __name__ == '__main__':
 
     for test_pose in TESTING_POSES_Q_30_OBSTACLE:
         iris.go_to_random_pose(test_pose)
+        iris.VFF()
         
     #     # iris.manual_algorithm()
     #     # iris.manual_algorithm_optimized()
 
-        iris.q_learning_algorithm(obstacles=True)
+        # iris.q_learning_algorithm(obstacles=True)
     #     iris.change_pwr_q_learning(2, 5 * (10**9))
     #     iris.q_learning_algorithm()
 
