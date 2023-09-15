@@ -11,21 +11,23 @@ Dentro de la robótica, existen diversas maneras de clasificar, sin embargo, una
 \begin{enumerate}
 	\item \textbf{Robótica industrial}: que involucra mecanismos fijos, capaces de realizar tareas de manera rápida, precisa y eficiente. Como es el caso de los brazos robóticos \cite{industrial-robot}.
 
-	\item \textbf{Robótica móvil}: la cual abarca el resto de dispositivos no mencionados, que engloba múltiples entornos y aplicaciones, como pueden ser, robótica aérea, terrestre y submarina \cite{mobile-robot}.
+	\item \textbf{Robótica móvil}: la cual abarca a los dispositivos móviles que se engloban en múltiples entornos y aplicaciones, como pueden ser, robótica aérea, terrestre y submarina \cite{mobile-robot}.
 \end{enumerate}
 
 \begin{figure} [h]
 	\centering
-	\subfigure[Robot industrial ABB]{\includegraphics[height=4cm]{imagenes/cap1/1_industrial_robot.jpeg}}
+	\subfigure[Robot industrial ABB]{\includegraphics[height=3cm]{imagenes/cap1/1_industrial_robot.jpeg}}
 	\quad
-	\subfigure[Robot móvil Spot]{\includegraphics[height=4cm]{imagenes/cap1/2_mobile_robot.jpeg}}
+	\subfigure[Robot móvil Spot]{\includegraphics[height=3cm]{imagenes/cap1/2_mobile_robot.jpeg}}
+	\quad
+	\subfigure[Robot móvil aéreo]{\includegraphics[height=3cm]{imagenes/cap1/1-5_real_drone.jpeg}}
 	\caption{Robótica industrial VS robótica móvil}
 	\label{fig:industrial_vs_mobile}
 \end{figure}
 
-Como tal, la robótica es especialmente buena a la hora de resolver tareas repetitivas, peligrosas, delicadas y en ambientes problemáticos (conocidas como las 4 D's, \emph{dull, dirty, dangerous and dear}) \cite{4-d}. Sin embargo, uno de los problemas más complicados de abordar, es el \textbf{contexto}, es decir, la capacidad de entender y adaptarse a las circunstancias del problema. Es ahí, donde se presenta el segundo gran protagonista, la \ac{IA} \cite{dworakowski2020robots}.\\
+Como tal, la robótica ayuda a resolver tareas repetitivas, peligrosas, delicadas y en ambientes problemáticos (conocidas como las 4 D's, \emph{dull, dirty, dangerous and dear}) \cite{4-d}. Sin embargo, uno de los problemas más complicados de abordar, es el \textbf{contexto}, es decir, la capacidad de entender y adaptarse a las circunstancias del problema, como por ejemplo en el caso de la conducción autónoma, donde detectar un simple peatón, puede derivar en infinitos inconvenientes (condiciones de visibilidad, clima, atuendo, entre muchos otros). Es ahí, donde se presenta el segundo gran protagonista, la \ac{IA} \cite{dworakowski2020robots}.\\
 
-Pero antes de entrar en materia, primero hay que definir los conceptos básicos uno a uno, como: ¿qué es exactamente un robot? ¿qué tipo de robot usaremos? ¿en qué consiste la \ac{IA} y que emplearemos? ¿cómo funcionan las señales que rastrearemos? entre otras cuestiones.
+A continuación se definirán conceptos básicos como: ¿qué es exactamente un robot? ¿qué tipo de robot usaremos? ¿en qué consiste la \ac{IA} y que emplearemos? ¿cómo funcionan las señales que rastrearemos? entre otras cuestiones.
 
 \section{Robots}
 \label{sec:robots}
@@ -40,9 +42,9 @@ Un robot es un dispositivo provisto con \textbf{sensores}, o elementos capaces d
 	\label{fig:robot_def}
 \end{figure}
 
-Según el problema que se quiera resolver conviene usar unos u otros. En nuestro caso buscamos un robot con capacidad de navegar, preferiblemente grandes distancias y que pueda tomar medidas de la intensidad de una señal. De este modo, para el primer punto se tenían dos opciones, o bien un robot terrestre, o bien un robot aéreo. Para el segundo punto no influye ya que se podía incluir el sensor en cualquier dispositivo.\\
+Según el problema que se quiera resolver conviene usar unos u otros. En nuestro caso buscamos un robot con capacidad de navegar, preferiblemente grandes distancias y que pueda tomar medidas de la intensidad de una señal de forma autónoma.\\
 
-Finalmente, y dadas las características del problema, se opta por la solución aérea, ya que permite barrer grandes superficies sin depender de la orografía terreno.
+Existen múltiples robots capaces de satisfacer estas condiciones, vease, los AGV/AMR o plataformas robóticas terrestres ampliamente empleadas logística \cite{agv-vs-amr}; robots bipedos, los cuales emulan el movimiento humanoide, lo que aumenta su adaptabilidad a cualquier entorno real (ya que el mundo esta diseñado para la biomecánica humana), sin embargo, es bastante complejo replicar la marcha bípeda \cite{10.3389/fmech.2020.00011}; y por último, drones, las cuales detallaremos a continuación.
 
 \subsection{Drones}
 \label{subsec:drones}
@@ -60,7 +62,6 @@ Los \ac{UAS} tienen origen en la primera guerra mundial, con el biplano llamado 
 	\label{fig:drone_history}
 \end{figure}
 
-\newpage
 Existen múltiples avances y ejemplos posteriores, pero en la actualidad podemos definir un \textbf{\ac{UAS}} teniendo en cuenta lo siguiente:
 
 \begin{enumerate}
@@ -83,17 +84,19 @@ También cabe destacar que hay variedad de drones, según su peso y capacidad de
 
 Tal y como fue mencionado, la gran ventaja del uso de vehículos aéreos es poder evitar las irregularidades del terreno, sin embargo, hay ligados al uso de estos dispositivos ciertos problemas, como son el clima, la carga de pago que afecta a la autonomía (peso de las baterías), los interiores (afectan a la señal GPS), entre otros. Esto, se debe tener en cuenta de cara a la resolución del problema.\\
 
+Agrupando la robótica y los drones, se pueden observar múltiples ejemplos de uso, uno muy conocido es el de un dron \emph{``sigue-persona''}, el cual permite a un \ac{SUAV} detectar y moverse al son de un objetivo móvil, tal y como puede ser una persona. Todo esto en síntesis con técnicas de \ac{IA}, la cual introduciremos a continuación.
+
 \section{Inteligencia artificial}
 \label{subsec:inteligencia_artificial}
 
-El segundo pilar mencionado en este \ac{TFG}, es el de la \ac{IA}, pero, ¿de dónde surge esto?. Quizás, la primera pregunta que se buscó responder fue la siguiente \textbf{¿Puede una máquina pensar?}, formulada en \emph{``Computing Machinery and Intelligence''} (Alan Turing, 1950), de donde surgió el famoso test de Turing, entre otras ideas \cite{turing-paper}. La búsqueda de la \ac{IA} enfrentó desafíos iniciales debido a la incapacidad de las primeras computadoras para almacenar datos y su elevado precio. Sin embargo, en 1956, se presentó el primer programa de \ac{IA} llamado \textbf{Logic Theorist} en el \textbf{Dartmouth Summer Research Project on Artificial Intelligence} \cite{logic-theorist}. Con el tiempo, la IA progresó con mejores algoritmos y mejoras en la capacidad de las computadoras. A pesar de esto, lograr los objetivos finales de la IA, como comprender el lenguaje humano y el pensamiento abstracto, sigue siendo un desafío a día de hoy \cite{history-ai}.\\
+La \ac{IA} ha tenido un auge importante en los últimos años, especialmente en el ámbito de la robótica dado su amplio abanico de soluciones sinérgicas con la misma, sin embargo, conviene conocer lo origenes. Quizás, la primera pregunta que se buscó responder fue la siguiente \textbf{¿Puede una máquina pensar?}, formulada en \emph{``Computing Machinery and Intelligence''} (Alan Turing, 1950), de donde surgió el famoso test de Turing, entre otras ideas \cite{turing-paper}. La búsqueda de la \ac{IA} enfrentó desafíos iniciales debido a la incapacidad de las primeras computadoras para almacenar datos y su elevado precio. Sin embargo, en 1956, se presentó el primer programa de \ac{IA} llamado \textbf{Logic Theorist} en el \textbf{Dartmouth Summer Research Project on Artificial Intelligence} \cite{logic-theorist}. Con el tiempo, la IA progresó con mejores algoritmos y mejoras en la capacidad de las computadoras. A pesar de esto, lograr los objetivos finales de la IA, como comprender el lenguaje humano y el pensamiento abstracto, sigue siendo un desafío a día de hoy \cite{history-ai}.\\
 
 En general, la \ac{IA} es capaz de abordar los siguientes problemas:
 
 \begin{enumerate}
 	\item \textbf{Predicción}: que busca adelantar una respuesta precisa, con ciertos datos de entrada. Por ejemplo, predecir el precio de una vivienda en función de sus metros cuadrados.
 
-	\item \textbf{Clasificación}: que engloba datos en grupos según sus características. Como puede ser, detectar rostros de personas en imagenes.
+	\item \textbf{Clasificación}: que engloba datos en grupos según sus características. Como puede ser, detectar rostros de personas en imágenes.
 	
     \item \textbf{Aprendizaje}: Que busca resolver un problema a base de prueba y error, mediante un sistema de recompensas. Como por ejemplo, el juego del ajedrez, donde se busque ganar en el menor número de movimientos posibles.
 \end{enumerate} \cite{reg-class}

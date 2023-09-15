@@ -13,129 +13,131 @@ Warning--entry type for "mobile-robot" isn't style-file defined
 --line 24 of file bibliografia.bib
 Warning--entry type for "4-d" isn't style-file defined
 --line 31 of file bibliografia.bib
-Warning--entry type for "kettering-bug" isn't style-file defined
+Warning--entry type for "agv-vs-amr" isn't style-file defined
 --line 64 of file bibliografia.bib
+Warning--entry type for "kettering-bug" isn't style-file defined
+--line 83 of file bibliografia.bib
 Warning--entry type for "queen-bee" isn't style-file defined
---line 71 of file bibliografia.bib
+--line 90 of file bibliografia.bib
 Warning--entry type for "operation-aphrodite" isn't style-file defined
---line 78 of file bibliografia.bib
+--line 97 of file bibliografia.bib
 Warning--entry type for "uas-definicion" isn't style-file defined
---line 85 of file bibliografia.bib
+--line 104 of file bibliografia.bib
 Warning--entry type for "gcs-definicion" isn't style-file defined
---line 92 of file bibliografia.bib
+--line 111 of file bibliografia.bib
 Warning--entry type for "drone-regulation" isn't style-file defined
---line 107 of file bibliografia.bib
+--line 126 of file bibliografia.bib
 Warning--entry type for "history-ai" isn't style-file defined
---line 139 of file bibliografia.bib
+--line 158 of file bibliografia.bib
 Warning--entry type for "reg-class" isn't style-file defined
---line 146 of file bibliografia.bib
+--line 165 of file bibliografia.bib
 Warning--entry type for "learn" isn't style-file defined
---line 153 of file bibliografia.bib
+--line 172 of file bibliografia.bib
 Warning--entry type for "psicologia-aprendizaje" isn't style-file defined
---line 160 of file bibliografia.bib
+--line 179 of file bibliografia.bib
 Warning--entry type for "skinner" isn't style-file defined
---line 167 of file bibliografia.bib
-Repeated entry---line 174 of file bibliografia.bib
+--line 186 of file bibliografia.bib
+Repeated entry---line 193 of file bibliografia.bib
  : @inbook{data-link-definicion
  :                             ,
 I'm skipping whatever remains of this entry
 Warning--entry type for "q-learning" isn't style-file defined
---line 182 of file bibliografia.bib
+--line 201 of file bibliografia.bib
 Warning--entry type for "friis-1" isn't style-file defined
---line 189 of file bibliografia.bib
+--line 208 of file bibliografia.bib
 Warning--entry type for "friis-2" isn't style-file defined
---line 196 of file bibliografia.bib
+--line 215 of file bibliografia.bib
 Warning--entry type for "friis-3" isn't style-file defined
---line 203 of file bibliografia.bib
+--line 222 of file bibliografia.bib
 Warning--entry type for "tfm-pedro" isn't style-file defined
---line 210 of file bibliografia.bib
+--line 229 of file bibliografia.bib
 Warning--entry type for "tiobe" isn't style-file defined
---line 226 of file bibliografia.bib
+--line 245 of file bibliografia.bib
 Warning--entry type for "python-history" isn't style-file defined
---line 233 of file bibliografia.bib
+--line 252 of file bibliografia.bib
 Warning--entry type for "python-def" isn't style-file defined
---line 240 of file bibliografia.bib
+--line 259 of file bibliografia.bib
 Warning--entry type for "compiled-vs-interpreted" isn't style-file defined
---line 247 of file bibliografia.bib
+--line 266 of file bibliografia.bib
 Warning--entry type for "c-history" isn't style-file defined
---line 254 of file bibliografia.bib
+--line 273 of file bibliografia.bib
 Warning--entry type for "middleware-def" isn't style-file defined
---line 261 of file bibliografia.bib
+--line 280 of file bibliografia.bib
 Warning--entry type for "ros-def" isn't style-file defined
---line 268 of file bibliografia.bib
-Repeated entry---line 275 of file bibliografia.bib
+--line 287 of file bibliografia.bib
+Repeated entry---line 294 of file bibliografia.bib
  : @electronic{ros-def
  :                    ,
 I'm skipping whatever remains of this entry
 Warning--entry type for "gazebo-def" isn't style-file defined
---line 282 of file bibliografia.bib
+--line 301 of file bibliografia.bib
 Warning--entry type for "rviz-def" isn't style-file defined
---line 289 of file bibliografia.bib
+--line 308 of file bibliografia.bib
 Warning--entry type for "vscode-def" isn't style-file defined
---line 296 of file bibliografia.bib
+--line 315 of file bibliografia.bib
 Warning--entry type for "github-def" isn't style-file defined
---line 303 of file bibliografia.bib
+--line 322 of file bibliografia.bib
 Warning--entry type for "opencv-def" isn't style-file defined
---line 310 of file bibliografia.bib
+--line 329 of file bibliografia.bib
 Warning--entry type for "matplotlib-def" isn't style-file defined
---line 317 of file bibliografia.bib
+--line 336 of file bibliografia.bib
 Warning--entry type for "flight-controller" isn't style-file defined
---line 324 of file bibliografia.bib
+--line 343 of file bibliografia.bib
 Warning--entry type for "px4-def" isn't style-file defined
---line 331 of file bibliografia.bib
+--line 350 of file bibliografia.bib
 Warning--entry type for "px4-mavlink" isn't style-file defined
---line 338 of file bibliografia.bib
+--line 357 of file bibliografia.bib
 Warning--entry type for "px4-mavros" isn't style-file defined
---line 345 of file bibliografia.bib
+--line 364 of file bibliografia.bib
 Warning--entry type for "jderobot-ref" isn't style-file defined
---line 352 of file bibliografia.bib
+--line 371 of file bibliografia.bib
 Warning--entry type for "flight-modes" isn't style-file defined
---line 359 of file bibliografia.bib
+--line 378 of file bibliografia.bib
 Warning--entry type for "basics-signals" isn't style-file defined
---line 366 of file bibliografia.bib
+--line 385 of file bibliografia.bib
 Warning--entry type for "poly-info" isn't style-file defined
---line 373 of file bibliografia.bib
+--line 392 of file bibliografia.bib
 Warning--can't use both author and editor fields in Wang2022
 Warning--empty chapter and pages in data-link-definicion
-You've used 48 entries,
+You've used 50 entries,
             1791 wiz_defined-function locations,
-            655 strings with 10024 characters,
-and the built_in function-call counts, 6713 in all, are:
-= -- 575
-> -- 215
+            664 strings with 10375 characters,
+and the built_in function-call counts, 6993 in all, are:
+= -- 599
+> -- 227
 < -- 1
-+ -- 102
-- -- 54
-* -- 115
-:= -- 1035
-add.period$ -- 142
-call.type$ -- 48
-change.case$ -- 46
++ -- 107
+- -- 57
+* -- 122
+:= -- 1083
+add.period$ -- 148
+call.type$ -- 50
+change.case$ -- 48
 chr.to.int$ -- 0
-cite$ -- 50
-duplicate$ -- 269
-empty$ -- 897
-format.name$ -- 54
-if$ -- 1600
+cite$ -- 52
+duplicate$ -- 282
+empty$ -- 929
+format.name$ -- 57
+if$ -- 1664
 int.to.chr$ -- 0
-int.to.str$ -- 48
-missing$ -- 6
-newline$ -- 241
-num.names$ -- 48
-pop$ -- 281
+int.to.str$ -- 50
+missing$ -- 7
+newline$ -- 251
+num.names$ -- 50
+pop$ -- 288
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 0
-skip$ -- 160
+skip$ -- 168
 stack$ -- 0
 substring$ -- 78
-swap$ -- 58
+swap$ -- 60
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 0
 warning$ -- 2
-while$ -- 54
-width$ -- 50
-write$ -- 482
+while$ -- 56
+width$ -- 52
+write$ -- 503
 (There were 2 error messages)

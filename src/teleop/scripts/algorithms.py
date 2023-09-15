@@ -1354,6 +1354,37 @@ class Drone:
 
         return d
     
+    def get_obs_resultant(self):        
+        current_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
+
+        x = current_pose.pose.position.x
+        y = current_pose.pose.position.y
+
+        x_res = 0.0
+        y_res = 0.0
+
+        counter = 0
+
+        for obs_coord in OBSTACLE_COORDS:
+            x_obs, y_obs = self.heatmapcoords_to_gzcoords(obs_coord)
+            x_res += x - x_obs
+            y_res += y - y_obs
+            counter += 1
+
+        return (x_res/counter, y_res/counter)
+    
+    def get_goal_vec(self):
+        current_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
+
+        x = current_pose.pose.position.x
+        y = current_pose.pose.position.y
+
+        x_goal, y_goal = self.heatmapcoords_to_gzcoords(SIGNAL_ORIGIN)
+
+        return (x_goal - x, y_goal - y)
+
+        
+    
     def VFF(self):
         goal_pose = PoseStamped()
         goal_pose.pose.position.z = H_POSES
@@ -1367,9 +1398,10 @@ class Drone:
         
         while True:
             self.vel_pub.publish(vel)
-            print(self.get_distance_to_obstacle())
-            print(self.get_distance_to_goal())
-            print(self.get_distance_to_obstacle(minimun=True))
+            print((self.get_goal_vec(), self.get_obs_resultant()))
+            # print(self.get_distance_to_obstacle())
+            # print(self.get_distance_to_goal())
+            # print(self.get_distance_to_obstacle(minimun=True))
 
 
 
