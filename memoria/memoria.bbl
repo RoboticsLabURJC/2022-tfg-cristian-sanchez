@@ -119,15 +119,29 @@ Rockwell Anyoha.
   2017.
 
 \bibitem{reg-class}
-datacamp.
-\newblock \textit{Classification in Machine Learning: An Introduction}.
-\newblock \url{https://www.datacamp.com/blog/classification-machine-learning},
-  2022.
+Sakshi Gupta.
+\newblock \textit{Regression vs. Classification in Machine Learning: What's the
+  Difference?}
+\newblock
+  \url{https://www.springboard.com/blog/data-science/regression-vs-classification/},
+  2021.
+
+\bibitem{chess}
+Stockfish.
+\newblock \textit{About}.
+\newblock \url{https://stockfishchess.org/about/}, 2023.
 
 \bibitem{learn}
 Prateek Bajaj.
 \newblock \textit{Reinforcement learning}.
 \newblock \url{https://www.geeksforgeeks.org/what-is-reinforcement-learning/},
+  2023.
+
+\bibitem{props-learn}
+Brijesh Modasara.
+\newblock \textit{Aprendizaje por refuerzo - Ejemplo práctico y marco}.
+\newblock
+  \url{https://www.alexanderthamm.com/es/blog/refuerzo-aprendizaje-marco-y-ejemplo-de-aplicacion/},
   2023.
 
 \bibitem{psicologia-aprendizaje}
@@ -152,22 +166,16 @@ OpenStax and Lumen Learning.
   \url{https://towardsdatascience.com/reinforcement-learning-explained-visually-part-4-q-learning-step-by-step-b65efb731d3e},
   2023.
 
-\bibitem{friis-1}
-Mathuranathan.
-\newblock \textit{Friis Free Space Propagation Model}.
-\newblock
-  \url{https://www.gaussianwaves.com/2013/09/friss-free-space-propagation-model/},
-  2013.
+\bibitem{q-learning-app}
+Beakcheol Jang, Myeonghwi Kim, Gaspard Harerimana, and Jong~Wook Kim.
+\newblock Q-learning algorithms: A comprehensive classification and
+  applications.
+\newblock {\em IEEE Access}, 7:133653--133667, 2019.
 
-\bibitem{friis-2}
-ECIT Engineering.
-\newblock \textit{Friis Free Space Propagation Model Example}.
-\newblock \url{https://www.youtube.com/watch?v=E-_oGNF3S-0}, 2022.
-
-\bibitem{friis-3}
-antenna theory.
-\newblock \textit{The Friis Equation}.
-\newblock \url{https://www.antenna-theory.com/basics/friis.php}, 2015.
+\bibitem{bandw}
+Wikiwand.
+\newblock \textit{FM broadcast band}.
+\newblock \url{https://www.wikiwand.com/en/FM_broadcast_band}, 2023.
 
 \bibitem{tfm-pedro}
 Pedro~Arias Pérez.
@@ -288,6 +296,13 @@ UPM.
   \url{https://www.youtube.com/playlist?list=PL8bSwVy8_IcPCsBE71CYBLbQSS8ckWm6x},
   2018.
 
+\bibitem{friis-1}
+Mathuranathan.
+\newblock \textit{Friis Free Space Propagation Model}.
+\newblock
+  \url{https://www.gaussianwaves.com/2013/09/friss-free-space-propagation-model/},
+  2013.
+
 \bibitem{poly-info}
 geeksforgeeks.
 \newblock \textit{How to check if a given point lies inside or outside a
@@ -295,5 +310,15 @@ geeksforgeeks.
 \newblock
   \url{https://www.geeksforgeeks.org/how-to-check-if-a-given-point-lies-inside-a-polygon/},
   2023.
+
+\bibitem{friis-2}
+ECIT Engineering.
+\newblock \textit{Friis Free Space Propagation Model Example}.
+\newblock \url{https://www.youtube.com/watch?v=E-_oGNF3S-0}, 2022.
+
+\bibitem{friis-3}
+antenna theory.
+\newblock \textit{The Friis Equation}.
+\newblock \url{https://www.antenna-theory.com/basics/friis.php}, 2015.
 
 \end{thebibliography}

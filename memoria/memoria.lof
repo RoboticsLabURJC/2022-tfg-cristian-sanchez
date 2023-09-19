@@ -10,47 +10,47 @@
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Queen Bee}}}{3}{figure.caption.17}%
 \contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Aphrodite Operation}}}{3}{figure.caption.17}%
 \contentsline {figure}{\numberline {1.4}{\ignorespaces UAS}}{4}{figure.caption.19}%
-\contentsline {figure}{\numberline {1.5}{\ignorespaces Clasificación de aprendizaje máquina}}{5}{figure.caption.21}%
+\contentsline {figure}{\numberline {1.5}{\ignorespaces Clasificación de aprendizaje máquina}}{6}{figure.caption.21}%
 \contentsline {figure}{\numberline {1.6}{\ignorespaces Aprendizaje por refuerzo}}{6}{figure.caption.22}%
-\contentsline {figure}{\numberline {1.7}{\ignorespaces Modelo de Friis}}{7}{figure.caption.23}%
+\contentsline {figure}{\numberline {1.7}{\ignorespaces Modelo de Friis}}{8}{figure.caption.23}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Esquema ROS Noetic}}{12}{figure.caption.26}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Ejemplo de uso de Gazebo}}{13}{figure.caption.27}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Ejemplo de uso de Rviz}}{13}{figure.caption.28}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces VS Code logo}}{14}{figure.caption.29}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Ejemplo de uso OpenCV (detección de bordes)}}{15}{figure.caption.30}%
-\contentsline {figure}{\numberline {3.6}{\ignorespaces Aplicación hecha en Matplotlib}}{15}{figure.caption.31}%
-\contentsline {figure}{\numberline {3.7}{\ignorespaces PX4 Autopilot logo}}{16}{figure.caption.32}%
-\contentsline {figure}{\numberline {3.8}{\ignorespaces Iris drone en Gazebo 11}}{16}{figure.caption.33}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Esquema ROS Noetic}}{13}{figure.caption.26}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Ejemplo de uso de Gazebo}}{14}{figure.caption.27}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Ejemplo de uso de Rviz}}{14}{figure.caption.28}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces VS Code logo}}{15}{figure.caption.29}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Ejemplo de uso OpenCV (detección de bordes)}}{16}{figure.caption.30}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Aplicación hecha en Matplotlib}}{16}{figure.caption.31}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces PX4 Autopilot logo}}{17}{figure.caption.32}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Iris drone en Gazebo 11}}{17}{figure.caption.33}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces 3DR Iris simulado}}{18}{figure.caption.34}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Primera versión del teleoperador}}{19}{figure.caption.35}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Versión final del teleoperador}}{20}{figure.caption.36}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Tabla ejemplos exponente n}}{23}{figure.caption.42}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Representación del algoritmo}}{26}{figure.caption.44}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Primera versión de la interfaz}}{27}{figure.caption.45}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Versión final de la interfaz}}{28}{figure.caption.46}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Sistemas de referencia}}{31}{figure.caption.47}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Representación algoritmo manual}}{32}{figure.caption.49}%
-\contentsline {figure}{\numberline {4.10}{\ignorespaces Representación algoritmo manual optimizado}}{33}{figure.caption.51}%
-\contentsline {figure}{\numberline {4.11}{\ignorespaces Esquema episodio fase de entrenamiento}}{35}{figure.caption.53}%
-\contentsline {figure}{\numberline {4.12}{\ignorespaces Mapa de puntos 30x30 con la señal en la esquina}}{36}{figure.caption.54}%
-\contentsline {figure}{\numberline {4.13}{\ignorespaces Trayectorias seguidas en mapa 12x12 con señal en el centro}}{36}{figure.caption.55}%
-\contentsline {figure}{\numberline {4.14}{\ignorespaces Gráfico de entrenamiento}}{37}{figure.caption.56}%
-\contentsline {figure}{\numberline {4.15}{\ignorespaces Gráficos comparativos}}{38}{figure.caption.57}%
-\contentsline {figure}{\numberline {4.16}{\ignorespaces Características de la señal por defecto}}{38}{figure.caption.58}%
-\contentsline {figure}{\numberline {4.17}{\ignorespaces Mapa de puntos (12x12), señal centrada}}{39}{figure.caption.59}%
-\contentsline {figure}{\numberline {4.18}{\ignorespaces Comparativas (12x12), señal centrada}}{39}{figure.caption.60}%
-\contentsline {figure}{\numberline {4.19}{\ignorespaces Mapa de puntos (12x12), señal en la esquina}}{40}{figure.caption.61}%
-\contentsline {figure}{\numberline {4.20}{\ignorespaces Comparativas (12x12), señal en la esquina}}{40}{figure.caption.62}%
-\contentsline {figure}{\numberline {4.21}{\ignorespaces Mapa de puntos (30x30), señal centrada}}{41}{figure.caption.63}%
-\contentsline {figure}{\numberline {4.22}{\ignorespaces Comparativas (30x30), señal centrada}}{41}{figure.caption.64}%
-\contentsline {figure}{\numberline {4.23}{\ignorespaces Mapa de puntos (30x30), señal en la esquina}}{42}{figure.caption.65}%
-\contentsline {figure}{\numberline {4.24}{\ignorespaces Comparativas (30x30), señal en la esquina}}{42}{figure.caption.66}%
-\contentsline {figure}{\numberline {4.25}{\ignorespaces Mapa de puntos (30x30), señales diferentes}}{43}{figure.caption.67}%
-\contentsline {figure}{\numberline {4.26}{\ignorespaces Comparativas (30x30), señales diferentes}}{43}{figure.caption.68}%
-\contentsline {figure}{\numberline {4.27}{\ignorespaces Funcionamiento del algoritmo de puntos}}{44}{figure.caption.69}%
-\contentsline {figure}{\numberline {4.28}{\ignorespaces Simulación de sensor para obstáculo}}{45}{figure.caption.70}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces 3DR Iris simulado}}{19}{figure.caption.34}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Primera versión del teleoperador}}{20}{figure.caption.35}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Versión final del teleoperador}}{21}{figure.caption.36}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Tabla ejemplos exponente n}}{24}{figure.caption.42}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Representación del algoritmo}}{27}{figure.caption.44}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Primera versión de la interfaz}}{28}{figure.caption.45}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Versión final de la interfaz}}{29}{figure.caption.46}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Sistemas de referencia}}{32}{figure.caption.47}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Representación algoritmo manual}}{33}{figure.caption.49}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Representación algoritmo manual optimizado}}{34}{figure.caption.51}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Esquema episodio fase de entrenamiento}}{36}{figure.caption.53}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Mapa de puntos 30x30 con la señal en la esquina}}{37}{figure.caption.54}%
+\contentsline {figure}{\numberline {4.13}{\ignorespaces Trayectorias seguidas en mapa 12x12 con señal en el centro}}{37}{figure.caption.55}%
+\contentsline {figure}{\numberline {4.14}{\ignorespaces Gráfico de entrenamiento}}{38}{figure.caption.56}%
+\contentsline {figure}{\numberline {4.15}{\ignorespaces Gráficos comparativos}}{39}{figure.caption.57}%
+\contentsline {figure}{\numberline {4.16}{\ignorespaces Características de la señal por defecto}}{39}{figure.caption.58}%
+\contentsline {figure}{\numberline {4.17}{\ignorespaces Mapa de puntos (12x12), señal centrada}}{40}{figure.caption.59}%
+\contentsline {figure}{\numberline {4.18}{\ignorespaces Comparativas (12x12), señal centrada}}{40}{figure.caption.60}%
+\contentsline {figure}{\numberline {4.19}{\ignorespaces Mapa de puntos (12x12), señal en la esquina}}{41}{figure.caption.61}%
+\contentsline {figure}{\numberline {4.20}{\ignorespaces Comparativas (12x12), señal en la esquina}}{41}{figure.caption.62}%
+\contentsline {figure}{\numberline {4.21}{\ignorespaces Mapa de puntos (30x30), señal centrada}}{42}{figure.caption.63}%
+\contentsline {figure}{\numberline {4.22}{\ignorespaces Comparativas (30x30), señal centrada}}{42}{figure.caption.64}%
+\contentsline {figure}{\numberline {4.23}{\ignorespaces Mapa de puntos (30x30), señal en la esquina}}{43}{figure.caption.65}%
+\contentsline {figure}{\numberline {4.24}{\ignorespaces Comparativas (30x30), señal en la esquina}}{43}{figure.caption.66}%
+\contentsline {figure}{\numberline {4.25}{\ignorespaces Mapa de puntos (30x30), señales diferentes}}{44}{figure.caption.67}%
+\contentsline {figure}{\numberline {4.26}{\ignorespaces Comparativas (30x30), señales diferentes}}{44}{figure.caption.68}%
+\contentsline {figure}{\numberline {4.27}{\ignorespaces Funcionamiento del algoritmo de puntos}}{45}{figure.caption.69}%
+\contentsline {figure}{\numberline {4.28}{\ignorespaces Simulación de sensor para obstáculo}}{46}{figure.caption.70}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

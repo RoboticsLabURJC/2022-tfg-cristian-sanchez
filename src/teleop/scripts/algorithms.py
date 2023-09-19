@@ -1373,6 +1373,22 @@ class Drone:
 
         return (x_res/counter, y_res/counter)
     
+
+    def get_obs_vec(self):        
+        current_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
+
+        x = current_pose.pose.position.x
+        y = current_pose.pose.position.y
+
+        obs_vec = []
+
+        for obs_coord in OBSTACLE_COORDS:
+            x_obs, y_obs = self.heatmapcoords_to_gzcoords(obs_coord)
+            obs_vec.append((x - x_obs, y - y_obs))
+
+        return obs_vec
+
+    
     def get_goal_vec(self):
         current_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
 
@@ -1386,24 +1402,52 @@ class Drone:
         
     
     def VFF(self):
+        LIMIT = 10.0
+
+        ALPHA = 1.0
+        BETA = 1.0
+        
         goal_pose = PoseStamped()
         goal_pose.pose.position.z = H_POSES
 
         self.takeoff(h=H_POSES)
 
         vel = Twist()
-        vel.linear.x = 0.1
-        vel.linear.y = 0.0
-        vel.linear.z = 0.0
         
         while True:
+            x_res, y_res = 0.0, 0.0
+            x_atr, y_atr = self.get_goal_vec()
+            obs_vector = self.get_obs_vec()
+
+            if x_atr > LIMIT:
+                x_atr = LIMIT
+
+            if x_atr < -LIMIT:
+                x_atr = -LIMIT
+            
+            if y_atr > LIMIT:
+                y_atr = LIMIT
+
+            if y_atr < -LIMIT:
+                y_atr = -LIMIT
+
+            print("ATRACTIVE FORCE:", (x_atr, y_atr))
+            for x_rep, y_rep in obs_vector:
+                x_res += (1/x_rep)
+                y_res += (1/y_rep)
+                print("\tREPULSIVE FORCE:", (BETA * (1/x_rep), BETA * (1/y_rep)))
+
+            print("\nRESULTANT:", (x_res, y_res))
+            print()
+
+            x_res = ALPHA * x_atr + BETA * x_res
+            y_res = ALPHA * y_atr + BETA * y_res
+
+            vel.linear.x = x_res
+            vel.linear.y = y_res
+            vel.linear.z = 0.0
+            
             self.vel_pub.publish(vel)
-            print((self.get_goal_vec(), self.get_obs_resultant()))
-            # print(self.get_distance_to_obstacle())
-            # print(self.get_distance_to_goal())
-            # print(self.get_distance_to_obstacle(minimun=True))
-
-
 
 # -- MAIN -- #
 if __name__ == '__main__':

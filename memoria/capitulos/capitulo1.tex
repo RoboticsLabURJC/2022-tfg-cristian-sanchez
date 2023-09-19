@@ -94,12 +94,12 @@ La \ac{IA} ha tenido un auge importante en los últimos años, especialmente en 
 En general, la \ac{IA} es capaz de abordar los siguientes problemas:
 
 \begin{enumerate}
-	\item \textbf{Predicción}: que busca adelantar una respuesta precisa, con ciertos datos de entrada. Por ejemplo, predecir el precio de una vivienda en función de sus metros cuadrados.
+	\item \textbf{Regresión}: se trata de aprendizaje supervisado, es decir, para construir el modelo, se emplea un conjunto de datos del que se conocen las salidas cómo las entradas a las que pertenecen. La idea es conseguir obtener una salida precisa dada una entrada concreta. Por ejemplo, dados los metros cuadrados de una vivienda (entrada), obtener su precio estimado (salida).
 
-	\item \textbf{Clasificación}: que engloba datos en grupos según sus características. Como puede ser, detectar rostros de personas en imágenes.
+	\item \textbf{Clasificación}: se encarga de distribuir un conjunto de datos en sets con características comunes. Un ejemplo común es la segmentación de imagenes, donde se clasifica cada elemento de la imagen según su naturaleza.
 	
-    \item \textbf{Aprendizaje}: Que busca resolver un problema a base de prueba y error, mediante un sistema de recompensas. Como por ejemplo, el juego del ajedrez, donde se busque ganar en el menor número de movimientos posibles.
-\end{enumerate} \cite{reg-class}
+    \item \textbf{Aprendizaje}: resuelve un problema a base de prueba y error, mediante un sistema de recompensas. Como por ejemplo \emph{``Stockfish''}, que es un modelo entrenado para ganar una partida de ajedrez en el menor número de movimientos posible, superando incluso a grandes maestros de la actualidad.
+\end{enumerate} \cite{reg-class} \cite{chess}
 
 \begin{figure} [H]
 	\begin{center}
@@ -112,7 +112,9 @@ En general, la \ac{IA} es capaz de abordar los siguientes problemas:
 \subsection{Aprendizaje por refuerzo}
 \label{subsec:aprendizaje_por_refuerzo}
 
-Dada la naturaleza de nuestro problema, el enfoque se basará en el aprendizaje por refuerzo, donde se planteará un sistema de \textbf{recompensas y penalizaciones}, que enseñará al robot a tomar las mejores acciones posibles \cite{learn}.\\
+Tal y como se comentó previamente, el aprendizaje por refuerzo, se basa en un sistema de \textbf{recompensas y penalizaciones}, que permite entrenar a un modelo para tomar buenas decisiones. Este enfoque se basa en los llamados \textbf{procesos de Markov}, que se definen como aquellos que, para un instante dado, contienen toda la información relevante sin depender de todos los procesos anteriores. \cite{learn}\\
+
+En particular, hablamos de \textbf{agente}, o modelo encargado de tomar decisiones en un \textbf{entorno} (que es el medio en el que interactúa dicho agente, y está regido por una serie de reglas); \textbf{estados}, o circunstancias en la que se sitúa el agente en un determinado instante temporal; y \textbf{acciones}, o decisiones que toma el agente y que le permiten cambiar de estado. En términos de Markov, decimos que el estado actual no depende de todos los estados previos. \cite{props-learn}\\
 
 \begin{figure} [H]
 	\begin{center}
@@ -124,15 +126,20 @@ Dada la naturaleza de nuestro problema, el enfoque se basará en el aprendizaje 
 
 Cabe destacar que, este enfoque está directamente extraido de la \textbf{psicología} y el estudio del comportamiento, donde en función de recompensas y castigos se induce al aprendizaje en distintas tareas, como por ejemplo, enseñar a jugar al ping pong a dos palomas \cite{psicologia-aprendizaje} \cite{skinner}.\\
 
-Concretamente, se hará uso de la metodología \textbf{Q-Learning}, que busca generar una tabla numérica donde cada fila se interprete como un estado del robot, que puede ser su posición; y cada columna sea una determinada acción, como puede ser moverse hacia algún lugar. De este modo, y una vez construida la tabla (que se rellena con números en función de las recompensas y penalizaciones), el robot solo tiene que identificar en que estado se encuentra y elegir la columna con mayor valor numérico, lo que se traducirá en la mejor acción para dicho estado \cite{q-learning}.
+Concretamente, se hará uso de la metodología \textbf{Q-Learning}, que busca generar una tabla numérica donde cada fila se interprete como un estado del robot, que puede ser su posición; y cada columna sea una determinada acción, como puede ser moverse hacia algún lugar. De este modo, y una vez construida la tabla (que se rellena con números en función de las recompensas y penalizaciones), el robot solo tiene que identificar en que estado se encuentra y elegir la columna con mayor valor numérico, lo que se traducirá en la mejor acción para dicho estado. \cite{q-learning}\\
 
-\newpage
-\section{Señales}
+Existen múltiples ejemplos de aplicación de esta metodología a casos reales, vease para controlar de forma adaptativa una señal de tráfico; para jugar a la Atari 2600; o para realizar un control híbrido sobre la navegación de un robot, entre otros. \cite{q-learning-app}\\
+
+\section{Vigilancia del espectro electromagnético}
 \label{subsec:señales}
 
-Es el último elemento presente en el problema, que es la fuente de datos que se empleará para construir la inteligencia del robot. En este caso, hablamos de las señales, concretamente de señales \textbf{\ac{RF}}, como son por ejemplo Wi-Fi, radio FM, 4G, 5G, entre otros tipos de señales.\\
+Es el último elemento presente en el problema, que es la fuente de datos que se empleará para construir la inteligencia del robot. En este caso, hablamos de las señales, concretamente de señales \textbf{\ac{RF}}, como son por ejemplo Wi-Fi, radio FM, 4G, 5G, entre otros tipos de señales distribuidas a lo largo del espectro electromagnético.\\
 
-En particular, se usará la aproximación de \textbf{Friis}, que ofrece un método para calcular la potencia de la señal de un receptor, en función de la potencia del transmisor, las ganancias del transmisor y el receptor, la longitud de onda (que determina el tipo de señal que es), la distancia entre ambos, el medio en el que se encuentren y un factor de pérdidas asociado al sistema empleado \cite{friis-1} \cite{friis-2} \cite{friis-3}.\\
+Dicho espectro se divide por bandas de frecuencia, que se reparten para diversos uso. El ejemplo más claro es la banda FM de radio, que se reparte entre los 87-108 Mhz para España, donde cada emisora tiene un ancho asignado para emitir. \cite{bandw}\\
+
+De este modo, se pueden encontrar soluciones a problemas como el rastreo de una señal de móvil para una persona perdida en la montaña, o seguir emisores concretos, como pueden ser convoys, entre otros. Lo único que hay que establecer, es la banda de frecuencia adecuada y establecer un dispositivo capaz de navegar hasta ella de manera autónoma, es por esto que la robótica es adecuada para resolver cuestiones de esta naturaleza.\\
+
+Más adelante, se detallarán los parámetros relevantes de cara a trabajar con señales.
 
 \begin{figure} [H]
 	\begin{center}
@@ -145,6 +152,6 @@ En particular, se usará la aproximación de \textbf{Friis}, que ofrece un méto
 \section{Síntesis}
 \label{subsec:sintesis}
 
-Como conclusión de este capítulo, queda unir las piezas que conforman este puzzle, pero no sin antes mencionar algunos proyectos relacionados, donde se destaca el uso conjunto de drones y robótica para la creación de un módulo ROS, en el que se engloban las comunicaciones para programar un sigue-persona \cite{tfm-pedro}, junto con el uso de estas aeronaves en síntesis con la \ac{IA}, para lograr la navegación en interiores de la misma \cite{paper-ia-dron}\\
+Para finalizar, cabe destacar algunos proyectos relacionados, donde se puede ver el uso conjunto de drones y robótica para la creación de un módulo ROS, en el que se engloban las comunicaciones para programar un sigue-persona \cite{tfm-pedro}, junto con el uso de estas aeronaves en síntesis con la \ac{IA}, para lograr la navegación en interiores de la misma \cite{paper-ia-dron}\\
 
-En nuestro caso, se usará el mencionado dispositivo del tipo \ac{SUAV}, provisto de un receptor \ac{RF} como sensor, y los motores propios como actuadores. Se le agregarán algoritmos sistemáticos para compararlos con soluciones Q-Learning, en la tarea de resolver la detección y posterior navegación al origen de una señal \ac{RF}, la cual será simulada mediante la aproximación de Friis.
+En nuestro caso, se usará el mencionado dispositivo del tipo \ac{SUAV}, provisto de un receptor \ac{RF} como sensor, y los motores propios como actuadores. Se le agregarán algoritmos sistemáticos para compararlos con soluciones Q-Learning, en la tarea de resolver la detección y posterior navegación al origen de una señal \ac{RF}.

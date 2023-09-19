@@ -1,23 +1,34 @@
 \chapter{Objetivos}
 \label{cap:capitulo2}
 
-Una vez presentado el contexto y el punto de partida del problema, el siguiente paso es definir el fin y los pasos a seguir para su resolución.\\
+Una vez presentado el contexto y el punto de partida del problema, el siguiente paso es definir los objetivos y los pasos a seguir para su resolución.\\
 
 \section{Descripción del problema}
 \label{sec:descripcion_problema}
 
-Tal y como se comentó previamente, los drones son una herramienta tremendamente versátil, ya que permiten solventar los inconvenientes orográficos de forma sencilla, y pueden ser provistos de múltiples sensores, lo que incrementa su adaptabilidad para solucionar un gran abanico de retos ingenieriles.\\
+Como se comentó en el capítulo anterior, los drones son una herramienta tremendamente versátil, ya que permiten solventar los inconvenientes orográficos de forma sencilla, y pueden ser provistos de múltiples sensores, lo que incrementa su adaptabilidad para solucionar un gran abanico de retos ingenieriles.\\
 
-Dicho esto, el foco de este \ac{TFG} consistirá en adaptar el funcionamiento de un dron, mediante los medios que nos proporciona la robótica, para detectar una señal \ac{RF} estática y navegar hasta ella. Todo ello, con el uso exclusivo de un sensor capaz de detectar la intensidad de la señal, lo que permite al dispositivo navegar tanto en exteriores como en interiores. Además, se realizará una comparativa a cerca del rendimiento de diversos algoritmos, donde se incluirán algoritmos de \ac{IA}, con el fin de determinar el método más óptimo para resolver el problema. Esto puede ser especialmente útil en labores de rastreo e identificación de objetivos.\\
+Por tanto, el foco de este \ac{TFG} consistirá en adaptar el funcionamiento de un dron, mediante los medios que nos proporciona la robótica, para detectar una señal \ac{RF} emitida por un transmisor estático y navegar hasta ella. Todo ello, con el uso exclusivo de un sensor capaz de detectar la intensidad de la señal, lo que permite al dispositivo navegar tanto en exteriores como en interiores. Esto puede ser especialmente útil en labores de rastreo e identificación de objetivos, tales como en casos de escenarios catastróficos donde se deben localizar personas perdidas.\\
 
 Para ello, se establecen los siguientes objetivos:
 
 \begin{enumerate}
-	\item Uso y comprensión de la herramienta de simulación Gazebo 11, para estudiar el comportamiento de un cuadracóptero. Todo ello a través de \ac{ROS} Noetic, mediante el paquete MavROS, que permite la comunicación con el dron mediante \ac{ROS}.
-	\item Desarrollo de una aplicación OpenCV, enfocada a teleoperar el dispositivo, empleando RVIZ para la visualización y el tratamiento del código.
-	\item Estudio de la propagación de señales y los diferentes parámetros involucrados, con el fin de desarrollar una aplicación responsiva (usando el módulo matplotlib), que simule el comportamiento de una señal, modificando sus características en tiempo real. Todo ello, a través del desarrollo de un módulo personalizado de Python, capaz de generar mapas de señales que siguen la aproximación de Friis.
+	\item Uso y comprensión de herramientas de simulación, para estudiar el comportamiento de un cuadracóptero. Todo ello a través de comunicación software.
+	\item Desarrollo de una aplicación, enfocada a teleoperar el dispositivo, empleando herramientas para la visualización y el tratamiento del código.
+	\item Estudio de la propagación de señales y los diferentes parámetros involucrados, con el fin de desarrollar una aplicación responsiva, que simule el comportamiento de una señal, modificando sus características en tiempo real.
 	\item Implementación conjunta de los puntos tratados previamente, con el fin de crear escenarios personalizados, sobre los que probar diversos algoritmos.
 	\item Desarrollo y testeo de diferentes algoritmos, con el fin de realizar comparativas y concluir que aproximación resuelve mejor.
+	\item Generación de un comportamiento autónomo empleando técnicas de aprendizaje por refuerzo.
+\end{enumerate}
+
+\section{Requisitos}
+\label{sec:requisitos}
+
+Las especificaciones que se deben cumplir son las siguientes:
+
+\begin{enumerate}
+	\item Determinar qué algoritmo rinde mejor y por qué.
+	\item Conseguir un funcionamiento autónomo capaz de resolver el problema planteado.
 \end{enumerate}
 
 \section{Metodología}
@@ -39,15 +50,17 @@ La metodología para llevarlo a cabo fue la siguiente:
 Para concluir este capítulo, los pasos seguidos han sido:
 
 \begin{enumerate}
-	\item Etapa inicial, donde tras establecer los objetivos del proyecto, se empezó por investigar el estado del arte del uso de drones para aplicaciones robóticas. Posteriormente, se realizó una instalación del modelo del dron, para que funcionará mediante ROS y sus herramientas. 
-	\item Primeros pasos en el \ac{TFG}. Una vez establecidos los objetivos y teniendo el dron funcional en ROS, lo primero fue realizar una serie de aplicaciones sencillas, que permitieran teleoperar al dron. El punto era realizar movimientos que posteriormente se transladarían a los algoritmos finales del proyecto, como por ejemplo, desplazarse entre centros de celdas. Para ello:
+	\item Etapa inicial, donde tras establecer los objetivos del proyecto, se empezó por investigar el estado del arte del uso de drones para aplicaciones robóticas. Posteriormente, se realizó una instalación del modelo del dron, para que funcionará mediante \ac{ROS} y sus herramientas. 
+	\item Primeros pasos en el \ac{TFG}. Una vez establecidos los objetivos y teniendo el dron funcional vía software, lo primero fue realizar una serie de aplicaciones sencillas, que permitieran teleoperar al dron. El punto era realizar movimientos que posteriormente se transladarían a los algoritmos finales del proyecto, como por ejemplo, desplazarse entre centros de celdas. Para ello:
 	\begin{itemize}
-		\item Se estudió la comunicación MavROS, y se desarrolló un controlador compatible para enviar ordenes al dron.
-		\item Se empleó openCV para el desarrollo de una interfaz gráfica intuitiva con la que controlar el dispositivo.
-		\item Se agregó una cámara al modelo SDF para previsualizar desde la aplicación.
-		\item Se desarrolló una serie de funciones para observar el funcionamiento del programa, mediante la herramienta RVIZ.
+		\item Se estudió la comunicación, y se desarrolló un controlador compatible para enviar ordenes al dron.
+		\item Se desarrolló una interfaz gráfica sencilla e intuitiva con la que controlar el dispositivo.
+		\item Se agregó una cámara al modelo para poder previsualizar imágenes desde la aplicación.
+		\item Se desarrolló una serie de funciones para observar el funcionamiento del programa y poder depurarlo.
     \end{itemize}
-	\item El siguiente punto consistió en el estudio de las señales \ac{RF} a través de la ecuación de Friis, el desarrollo de un módulo python que aplicase la teoría, y la creación de otra aplicación de previsualización mediante matplotlib.
+	\item El siguiente punto consistió en el estudio de las señales \ac{RF}; el desarrollo de un módulo python que aplicase la teoría; y la creación de otra aplicación de previsualización mediante matplotlib.
 	\item El último punto relacionado con el desarrollo, fué la síntesis de los dos pasos previos, donde a través de \ac{ROS} y sus herramientas, se desarrollaron diferentes algoritmos que se apoyaban en el módulo previo, para poder resolver el problema de detectar y navegar hasta una señal mediante un dron. Todo ello realizando diversas comparativas para poder extraer conclusiones.
 	\item Finalmente, se realizó la redacción de la memoria.
 \end{enumerate}
+
+Cabe destacar que, todo el proceso ha sido trabajado usando Github, de manera que se fueran guardando y almacenando las distintas versiones del proyecto, a modo de copia de seguridad y para mantener la trazabilidad completa.
