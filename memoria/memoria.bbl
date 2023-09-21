@@ -73,13 +73,6 @@ Mason~B. Webb.
 \newblock \url{https://warfarehistorynetwork.com/article/operation-aphrodite/},
   2014.
 
-\bibitem{uas-definicion}
-srmconsulting.
-\newblock \textit{¿UAV, UAS, RPA, dron… como llamarlos?}
-\newblock
-  \url{https://srmconsulting.es/blog/uav-uas-rpa-dron-como-llamarlos.html},
-  2021.
-
 \bibitem{gcs-definicion}
 Brett Daniel.
 \newblock \textit{Ground Control Stations: The Lifeblood of Remotely Piloted
@@ -92,17 +85,19 @@ R.~K. Nichols; H.C. Mumm; W.D. Lonstein; C.~M. Carter; and J.P. Hood.
 \newblock {\em Chapter 13: Data Links Functions, Attributes and Latency}.
 \newblock New Prairie Press, 2018.
 
+\bibitem{uas-definicion}
+srmconsulting.
+\newblock \textit{¿UAV, UAS, RPA, dron… como llamarlos?}
+\newblock
+  \url{https://srmconsulting.es/blog/uav-uas-rpa-dron-como-llamarlos.html},
+  2021.
+
 \bibitem{drone-regulation}
 SAFEDroneFlying.
 \newblock \textit{drone regulations}.
 \newblock
   \url{https://www.safedroneflying.aero/en/drone-guide/drone-regulations},
   2023.
-
-\bibitem{turing-paper}
-A.~M. Turing.
-\newblock Computing machinery and intelligence.
-\newblock {\em Mind}, 59(236):433--460, 1950.
 
 \bibitem{logic-theorist}
 Leo Gugerty.
@@ -118,6 +113,11 @@ Rockwell Anyoha.
   \url{https://sitn.hms.harvard.edu/flash/2017/history-artificial-intelligence/},
   2017.
 
+\bibitem{chess}
+Stockfish.
+\newblock \textit{About}.
+\newblock \url{https://stockfishchess.org/about/}, 2023.
+
 \bibitem{reg-class}
 Sakshi Gupta.
 \newblock \textit{Regression vs. Classification in Machine Learning: What's the
@@ -125,11 +125,6 @@ Sakshi Gupta.
 \newblock
   \url{https://www.springboard.com/blog/data-science/regression-vs-classification/},
   2021.
-
-\bibitem{chess}
-Stockfish.
-\newblock \textit{About}.
-\newblock \url{https://stockfishchess.org/about/}, 2023.
 
 \bibitem{learn}
 Prateek Bajaj.
@@ -176,18 +171,6 @@ Beakcheol Jang, Myeonghwi Kim, Gaspard Harerimana, and Jong~Wook Kim.
 Wikiwand.
 \newblock \textit{FM broadcast band}.
 \newblock \url{https://www.wikiwand.com/en/FM_broadcast_band}, 2023.
-
-\bibitem{tfm-pedro}
-Pedro~Arias Pérez.
-\newblock \textit{Infraestructura de programación de robots aéreos y
-  aplicaciones visuales con aprendizaje profundo}.
-\newblock
-  \url{https://gsyc.urjc.es/jmplaza/students/tfm-drones-followperson-pedro_arias-2022.pdf},
-  2022.
-
-\bibitem{paper-ia-dron}
-Md~Moin~Uddin Chowdhury, Fatih Erden, and Ismail Guvenc.
-\newblock Rss-based q-learning for indoor uav navigation, 2019.
 
 \bibitem{tiobe}
 Tiobe.
@@ -311,6 +294,11 @@ geeksforgeeks.
   \url{https://www.geeksforgeeks.org/how-to-check-if-a-given-point-lies-inside-a-polygon/},
   2023.
 
+\bibitem{turing-paper}
+A.~M. Turing.
+\newblock Computing machinery and intelligence.
+\newblock {\em Mind}, 59(236):433--460, 1950.
+
 \bibitem{friis-2}
 ECIT Engineering.
 \newblock \textit{Friis Free Space Propagation Model Example}.
@@ -320,5 +308,17 @@ ECIT Engineering.
 antenna theory.
 \newblock \textit{The Friis Equation}.
 \newblock \url{https://www.antenna-theory.com/basics/friis.php}, 2015.
+
+\bibitem{tfm-pedro}
+Pedro~Arias Pérez.
+\newblock \textit{Infraestructura de programación de robots aéreos y
+  aplicaciones visuales con aprendizaje profundo}.
+\newblock
+  \url{https://gsyc.urjc.es/jmplaza/students/tfm-drones-followperson-pedro_arias-2022.pdf},
+  2022.
+
+\bibitem{paper-ia-dron}
+Md~Moin~Uddin Chowdhury, Fatih Erden, and Ismail Guvenc.
+\newblock Rss-based q-learning for indoor uav navigation, 2019.
 
 \end{thebibliography}

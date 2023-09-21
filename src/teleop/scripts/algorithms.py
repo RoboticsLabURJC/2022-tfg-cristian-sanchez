@@ -1408,7 +1408,7 @@ class Drone:
         BETA = 1.0
         
         goal_pose = PoseStamped()
-        goal_pose.pose.position.z = H_POSES
+        goal_pose.pose.position.z = H
 
         self.takeoff(h=H_POSES)
 

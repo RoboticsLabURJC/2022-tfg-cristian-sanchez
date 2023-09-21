@@ -10,7 +10,7 @@
 \contentsline {section}{\numberline {2.1}Descripción del problema}{9}{section.2.1}%
 \contentsline {section}{\numberline {2.2}Requisitos}{10}{section.2.2}%
 \contentsline {section}{\numberline {2.3}Metodología}{10}{section.2.3}%
-\contentsline {section}{\numberline {2.4}Plan de trabajo}{10}{section.2.4}%
+\contentsline {section}{\numberline {2.4}Plan de trabajo}{11}{section.2.4}%
 \contentsline {chapter}{\numberline {3}Plataformas de desarrollo y herramientas utilizadas}{12}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Lenguajes de programación}{12}{section.3.1}%
 \contentsline {subsection}{\numberline {3.1.1}Python}{12}{subsection.3.1.1}%
@@ -37,9 +37,9 @@
 \contentsline {section}{\numberline {4.3}Integración conjunta}{30}{section.4.3}%
 \contentsline {subsection}{\numberline {4.3.1}Primeros pasos}{30}{subsection.4.3.1}%
 \contentsline {subsection}{\numberline {4.3.2}Algoritmos}{31}{subsection.4.3.2}%
-\contentsline {subsubsection}{Algoritmo manual}{32}{subsubsection*.48}%
-\contentsline {subsubsection}{Algoritmo manual (optimizado)}{33}{subsubsection*.50}%
-\contentsline {subsubsection}{Algoritmo Q-Learning}{34}{subsubsection*.52}%
+\contentsline {subsubsection}{Algoritmo manual}{32}{subsubsection*.51}%
+\contentsline {subsubsection}{Algoritmo manual (optimizado)}{33}{subsubsection*.53}%
+\contentsline {subsubsection}{Algoritmo Q-Learning}{34}{subsubsection*.55}%
 \contentsline {subsection}{\numberline {4.3.3}Métricas empleadas}{37}{subsection.4.3.3}%
 \contentsline {subsection}{\numberline {4.3.4}Experimentos y resultados}{39}{subsection.4.3.4}%
 \contentsline {subsection}{\numberline {4.3.5}Líneas a futuro - Experimentos con obstáculos}{45}{subsection.4.3.5}%
@@ -48,4 +48,4 @@
 \contentsline {section}{\numberline {5.2}Balance global y competencias adquiridas}{47}{section.5.2}%
 \contentsline {section}{\numberline {5.3}Líneas futuras}{48}{section.5.3}%
 \contentsline {chapter}{\numberline {6}Anexo}{49}{chapter.6}%
-\contentsline {chapter}{Bibliograf\'{\i }a}{51}{appendix*.73}%
+\contentsline {chapter}{Bibliograf\'{\i }a}{51}{appendix*.76}%
