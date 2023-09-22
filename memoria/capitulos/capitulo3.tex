@@ -1,7 +1,7 @@
 \chapter{Plataformas de desarrollo y herramientas utilizadas}
 \label{cap:capitulo3}
 
-Para hacer realidad todo lo mencionado en capítulos anteriores, se usaron diversos recursos ingenieriles que hicieron posible el proyecto. A continuación, se detallará cada uno de ellos.
+En este apartado se hablará de los recursos ingenieriles empleados para hacer posible el proyecto.
 
 \section{Lenguajes de programación}
 \label{sec:lenguajes_programacion}
@@ -9,9 +9,11 @@ Para hacer realidad todo lo mencionado en capítulos anteriores, se usaron diver
 \subsection{Python}
 \label{subsec:python}
 
-A día de hoy, considerado el lenguaje de programación más popular \cite{tiobe}, se ideó en 1991 por Guido van Rossum y se desarrolló en la Python Software Foundation \cite{python-history}. Es interpretado, es decir, usa un programa que traduce las líneas de código para la máquina en tiempo de ejecución (lo cual lo hace más intuitivo pero menos eficiente). Además, permite la programación orientada a objetos en alto nivel, lo que ofrece gran dinamismo a la hora de usarlo \cite{python-def} \cite{compiled-vs-interpreted}.\\
+A día de hoy, es considerado el lenguaje de programación más popular \cite{tiobe}. Se ideó en 1991 por Guido van Rossum y se desarrolló en la Python Software Foundation \cite{python-history}. Es interpretado, es decir, usa un programa que traduce las líneas de código para la máquina en tiempo de ejecución (lo cual lo hace más intuitivo pero menos eficiente). Además, permite la programación orientada a objetos en alto nivel, lo que ofrece gran dinamismo a la hora de usarlo \cite{python-def} \cite{compiled-vs-interpreted}.\\
 
-Debido a su amplia popularidad, podemos acceder a una gran variedad de módulos y utilidades desarrollados por la comunidad, los cuales se integran perfectamente en la resolución de nuestro problema. Entraremos en más detalles en apartados posteriores.\\
+Debido a su amplia popularidad, podemos acceder a una gran variedad de módulos y utilidades desarrollados por la comunidad, los cuales se integran perfectamente en la resolución de nuestro problema.\\
+
+En nuestro caso, python se usó para el crear la mayor parte del código empleado, es decir, para desarrollar interfaces gráficas, para trabajar con el middleware robótico \ac{ROS} (detallado posteriormente) y para el desarrollo de los diversos algoritmos. Todo ello haciendo uso del módulo \textbf{numpy}, el cual nos permite realizar operaciones matemáticas y trabajar con vectores de forma rápida y eficiente; así cómo del módulo \textbf{matplotlib}, del cual hablaremos más adelante.\\
 
 \begin{code}[H]
 \begin{lstlisting}[language=Python]
@@ -27,7 +29,9 @@ if __name__ == "__main__":
 \subsection{C++}
 \label{subsec:cplusplus}
 
-Seguido muy de cerca en fama, se encuentra el lenguaje de programación creado por Bjarne Stroustrup, en los laboratorios Bell en 1971. En este caso es compilado, lo que implica la traducción y enlazado previo a la ejecución. De corte más eficiente que Python, también permite la programación orientada a objetos. Se sitúa a medio camino entre un lenguaje de alto nivel y uno de bajo nivel \cite{c-history}.\\
+También bastante popular, se encuentra el lenguaje de programación creado por Bjarne Stroustrup, en los laboratorios Bell en 1971. En este caso es compilado, lo que implica la traducción y enlazado previo a la ejecución. De corte más eficiente que Python, también permite la programación orientada a objetos. Se sitúa a medio camino entre un lenguaje de alto nivel y uno de bajo nivel \cite{c-history}.\\
+
+El uso designado en este proyecto para este lenguaje fue para poder trabajar con mapas de calor, mediante la biblioteca de \emph{Anybotics} de grid maps\footnote[1]{\url{https://github.com/ANYbotics/grid_map}}.
 
 \begin{code}[H]
 \begin{lstlisting}[language=C++]
@@ -47,7 +51,9 @@ int main(int argc, char ** argv) {
 
 Si se habla de robótica, se habla de \ac{ROS}, ya que es el medio predilecto para el desarrollo de soluciones de este ámbito, pero, ¿qué es exactamente \ac{ROS}?.\\
 
-Se trata de un \emph{middleware}, es decir, una infraestructura software situada entre el sistema operativo y el desarrollador, que incluye una serie de módulos y funcionalidades enfocadas al desarrollo de aplicaciones robóticas \cite{middleware-def} \cite{ros-def}. La idea detrás, busca estandarizar soluciones que no dependan de los drivers de cada sensor y actuador presentes. De forma general, se trata de una arquitectura basada en nodos que se comunican entre sí, transmitiendo una serie de mensajes propios, a través de canales compartidos llamados \emph{topics}.\\
+Se trata de un \emph{middleware}, es decir, una infraestructura software situada entre el sistema operativo y el desarrollador, que incluye una serie de módulos y funcionalidades enfocadas al desarrollo de aplicaciones robóticas \cite{middleware-def} \cite{ros-def}. La idea detrás, busca estandarizar soluciones que no dependan de los drivers de cada sensor y actuador presentes. De forma general, se trata de una arquitectura basada en el paradigma de publicador-suscriptor, donde una serie de nodos se comunican entre sí, transmitiendo mensajes propios, a través de canales compartidos llamados \emph{topics}, esto es, un nodo suscriptor se suscribirá a un determinado topic, que permita la transmisión de un tipo de mensaje concreto, quedando en espera de que un nodo pulicador, envíe mensajes de este tipo a ese topic. Todo se gestiona de manera centralizada, es decir, existe un master que se encarga de gestionar las peticiones de todos los nodos y el envío de mensajes a todos los topics activos.\\
+
+Concretamente, se usa para desarrollar todos los algoritmos robóticos y para realizar las comunicaciones necesarias en la simulación del dron.\\
 
 Entre las herramientas usadas en este proyecto, se encuentran las siguientes.
 
@@ -55,23 +61,8 @@ Entre las herramientas usadas en este proyecto, se encuentran las siguientes.
 	\begin{center}
 	\includegraphics[height=3.25cm]{imagenes/cap3/1_ros_esquema.png}
 	\end{center}
-	\caption[Esquema ROS Noetic]{Esquema ROS Noetic}
+	\caption[Esquema de comunicaciones en ROS]{Esquema comunicaciones en ROS}
 	\label{fig:ros}
-\end{figure}
-
-\subsection{Gazebo 11}
-\label{subsec:gazebo}
-
-Se trata del simulador sobre el cual se desarrolla el proyecto. Concretamente consta de un conjunto de módulos optimizados para desarrollar aplicaciones robóticas, a través del previamente mencionado \ac{ROS} \cite{gazebo-def}.\\
-
-Esta herramienta, nos permite visualizar en directo, el comportamiento del dron frente a los diversos escenarios que se planteen.
-
-\begin{figure} [H]
-	\begin{center}
-	\includegraphics[height=5cm]{imagenes/cap3/2_gazebo_example.JPEG}
-	\end{center}
-	\caption[Ejemplo de uso de Gazebo]{Ejemplo de uso de Gazebo}
-	\label{fig:gazebo}
 \end{figure}
 
 \subsection{Rviz}
@@ -79,7 +70,7 @@ Esta herramienta, nos permite visualizar en directo, el comportamiento del dron 
 
 Por el otro lado, se encuentra \emph{rviz}, que es un visualizador 3D diseñado para la depuración de aplicaciones \ac{ROS} \cite{rviz-def}.\\
 
-En nuestro caso, nos permitirá ver como se dispersa la señal \ac{RF}, que trayectoria y orientación sigue el dron, que efecto tiene sobre la señal la presencia de obstáculos, y otras tantas opciones.\\
+En nuestro caso, nos permite ver como se dispersa la señal \ac{RF}, que trayectoria y orientación sigue el dron, que efecto tiene sobre la señal la presencia de obstáculos, y otras tantas opciones.\\
 
 \begin{figure} [H]
 	\begin{center}
@@ -87,6 +78,21 @@ En nuestro caso, nos permitirá ver como se dispersa la señal \ac{RF}, que tray
 	\end{center}
 	\caption[Ejemplo de uso de Rviz]{Ejemplo de uso de Rviz}
 	\label{fig:rviz}
+\end{figure}
+
+\section{Gazebo 11}
+\label{sec:gazebo}
+
+Se trata del simulador sobre el cual se desarrolla el proyecto. Concretamente consta de un conjunto de módulos optimizados para desarrollar aplicaciones robóticas, ampliamente compatible con \ac{ROS}. Además, posee un motor de físicas basado en ODE, lo que permite simular con precisión el funcionamiento de un dron \cite{gazebo-def}.\\
+
+Esta herramienta, nos permite visualizar en directo, el comportamiento del dispositivo frente a los diversos escenarios que se planteen.
+
+\begin{figure} [H]
+	\begin{center}
+	\includegraphics[height=5cm]{imagenes/cap3/2_gazebo_drone.png}
+	\end{center}
+	\caption[Simulación dron en Gazebo]{Simulación dron en Gazebo}
+	\label{fig:gazebo}
 \end{figure}
 
 \section{Plataformas de programación}
@@ -112,7 +118,7 @@ Su principal ventaja, es que es altamente personalizable a el tipo de desarrollo
 
 Github nace de la herramienta \textbf{git}, creada por Linus Torvalds (desarrollador de Linux), que es un sistema de control de versiones, que funciona a grandes rasgos a través de repositorios (o lugares donde se almacenan los sistemas de versiones de forma local), y commits (que permiten actualizar la version del código almacenado del repositorio) \cite{github-def}.\\
 
-Sabiendo esto entonces, ¿qué es github?. Consiste en trasladar la idea de, en vez de tener repositorios locales, que estén distribuidos en una plataforma online, donde además se permita el desarrollo conjunto de aplicaciones de manera distribuida.\\
+De este modo, Github consiste en trasladar la idea de tener repositorios locales, para distribuirlos en una plataforma online, donde además se permita el desarrollo de aplicaciones de manera colaborativa.\\
 
 Por ello, el papel que toma en este proyecto es de vital importancia, ya que asegura un seguimiento y una seguridad, de cara a tener copias de seguridad, donde todo el que desee puede acceder a ver en que punto se encuentra el \ac{TFG} pueda hacerlo.\\
 
@@ -122,30 +128,30 @@ Por ello, el papel que toma en este proyecto es de vital importancia, ya que ase
 \subsection{OpenCV}
 \label{subsec:opencv}
 
-Es una biblioteca software de python, enfocada a visión artificial, que dispone de métodos para desarrollar interfaces gráficas de manera intuitiva \cite{opencv-def}.\\
+Es una biblioteca software de python, enfocada a visión artificial, y que además dispone de otras funcionalidades útiles para el desarrollo \cite{opencv-def}.\\
 
-Inicialmente se usó para esto último, por su sencillez y porque se implementó una cámara al dron, de cara a una posible extensión de su funcionalidad en algún punto del proyecto.\\
+Por tanto, el uso designado en este proyecto es el de implementar interfaces gráficas sencillas, sobre las que interactuar dinámicamente con el dron, a través de barras de acción y botones.
 
 \begin{figure} [H]
 	\begin{center}
-	\includegraphics[height=2.5cm]{imagenes/cap3/5_opencv_example.png}
+	\includegraphics[height=5cm]{imagenes/cap3/5_opencv_example.png}
 	\end{center}
-	\caption[Ejemplo de uso OpenCV (detección de bordes)]{Ejemplo de uso OpenCV (detección de bordes)}
+	\caption[Interfaz gráfica usando OpenCV]{Interfaz gráfica usando OpenCV}
 	\label{fig:opencv}
 \end{figure}
 
 \subsection{Matplotlib}
 \label{subsec:matplotlib}
 
-Presentada por John Hunter en 2002, se usó como biblioteca python alternativa a la anterior mencionada. La gran diferencia radica en que está diseñada para trabajar con estructuras numéricas del tipo array (muy compatible con Numpy \footnote{\url{https://numpy.org/about/}}), lo que permite ofrecer una gran visualización y una interfaz responsiva \cite{matplotlib-def}.\\
+Presentada por John Hunter en 2002, se usó como alternativa para el desarrollo de interfaces gráficas. La gran diferencia radica en que está diseñada para trabajar con estructuras numéricas del tipo array (muy compatible con Numpy \footnote{\url{https://numpy.org/about/}}), lo que permite ofrecer una gran visualización y una interfaz responsiva \cite{matplotlib-def}.\\
 
-En el caso concreto del proyecto, se usó para desarrollar interfaz gráfica, que simula y muestra el comportamiento de una señal \ac{RF}, permitiendo modificar los parámetros de la ecuación en tiempo real.\\
+Concretamente en este proyecto se usa para desarrollar implementar mapas de calor (que en definitiva son estructuras numéricas del tipo array) dentro de una interfaz gráfica, para simular el comportamiento de una señal \ac{RF}, permitiendo modificar los parámetros de la ecuación en tiempo real.
 
 \begin{figure} [H]
 	\begin{center}
-	\includegraphics[height=3.5cm]{imagenes/cap3/6_matplotlib_app.png}
+	\includegraphics[height=7cm]{imagenes/cap3/6_matplotlib_app.png}
 	\end{center}
-	\caption[Aplicación hecha en Matplotlib]{Aplicación hecha en Matplotlib}
+	\caption[Representación de un mapa de calor usando matplotlib]{Representación de un mapa de calor usando matplotlib}
 	\label{fig:matplotlib}
 \end{figure}
 
@@ -158,16 +164,16 @@ Este sistema, usa un conocido protocolo de comunicaciones llamado \textbf{MAVLin
 
 \begin{figure} [H]
 	\begin{center}
-	\includegraphics[height=2.5cm]{imagenes/cap3/7_px4_logo.png}
+	\includegraphics[height=7cm]{imagenes/cap3/7_px4_logo.png}
 	\end{center}
-	\caption[PX4 Autopilot logo]{PX4 Autopilot logo}
+	\caption[Controlador PX4]{Controlador PX4}
 	\label{fig:px4autopilot}
 \end{figure}
 
 \section{Iris}
 \label{sec:iris}
 
-Es el nombre de la aeronave usada para solucionar los problemas planteados. En síntesis, es un dron cuadracóptero provisto de una cámara y un sensor de \ac{RF} simulado. Dicha aeronave es cortesía de \textbf{JdeRobot}, que es un conjunto de herramientas pensadas para desarrollar aplicaciones robóticas \cite{jderobot-ref}.\\
+Es el nombre de la aeronave usada para solucionar los problemas planteados. En síntesis, es un dron cuadracóptero provisto de una cámara y un sensor de \ac{RF} simulado. Dicha aeronave es cortesía de \textbf{JdeRobot}, que es una organización sin ánimo de lucro, asociada a \emph{RoboticsLabURJC}, que provee de un conjunto de herramientas pensadas para desarrollar aplicaciones robóticas \cite{jderobot-ref}.\\
 
 \begin{figure} [H]
 	\begin{center}

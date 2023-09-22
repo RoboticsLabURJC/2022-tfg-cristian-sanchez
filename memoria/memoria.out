@@ -15,16 +15,16 @@
 \BOOKMARK [2][-]{subsection.3.1.1}{Python}{section.3.1}% 15
 \BOOKMARK [2][-]{subsection.3.1.2}{C++}{section.3.1}% 16
 \BOOKMARK [1][-]{section.3.2}{ROS}{chapter.3}% 17
-\BOOKMARK [2][-]{subsection.3.2.1}{Gazebo 11}{section.3.2}% 18
-\BOOKMARK [2][-]{subsection.3.2.2}{Rviz}{section.3.2}% 19
-\BOOKMARK [1][-]{section.3.3}{Plataformas de programaci\363n}{chapter.3}% 20
-\BOOKMARK [2][-]{subsection.3.3.1}{Visual Studio Code}{section.3.3}% 21
-\BOOKMARK [2][-]{subsection.3.3.2}{Github}{section.3.3}% 22
-\BOOKMARK [1][-]{section.3.4}{M\363dulos}{chapter.3}% 23
-\BOOKMARK [2][-]{subsection.3.4.1}{OpenCV}{section.3.4}% 24
-\BOOKMARK [2][-]{subsection.3.4.2}{Matplotlib}{section.3.4}% 25
-\BOOKMARK [2][-]{subsection.3.4.3}{PX4 autopilot}{section.3.4}% 26
-\BOOKMARK [1][-]{section.3.5}{Iris}{chapter.3}% 27
+\BOOKMARK [2][-]{subsection.3.2.1}{Rviz}{section.3.2}% 18
+\BOOKMARK [1][-]{section.3.3}{Gazebo 11}{chapter.3}% 19
+\BOOKMARK [1][-]{section.3.4}{Plataformas de programaci\363n}{chapter.3}% 20
+\BOOKMARK [2][-]{subsection.3.4.1}{Visual Studio Code}{section.3.4}% 21
+\BOOKMARK [2][-]{subsection.3.4.2}{Github}{section.3.4}% 22
+\BOOKMARK [1][-]{section.3.5}{M\363dulos}{chapter.3}% 23
+\BOOKMARK [2][-]{subsection.3.5.1}{OpenCV}{section.3.5}% 24
+\BOOKMARK [2][-]{subsection.3.5.2}{Matplotlib}{section.3.5}% 25
+\BOOKMARK [2][-]{subsection.3.5.3}{PX4 autopilot}{section.3.5}% 26
+\BOOKMARK [1][-]{section.3.6}{Iris}{chapter.3}% 27
 \BOOKMARK [0][-]{chapter.4}{Dise\361o}{}% 28
 \BOOKMARK [1][-]{section.4.1}{Preparaci\363n del entorno}{chapter.4}% 29
 \BOOKMARK [2][-]{subsection.4.1.1}{JdeRobot - drones}{section.4.1}% 30

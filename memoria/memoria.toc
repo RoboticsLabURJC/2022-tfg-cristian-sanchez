@@ -16,36 +16,36 @@
 \contentsline {subsection}{\numberline {3.1.1}Python}{12}{subsection.3.1.1}%
 \contentsline {subsection}{\numberline {3.1.2}C++}{13}{subsection.3.1.2}%
 \contentsline {section}{\numberline {3.2}\ac {ROS}}{13}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Gazebo 11}{14}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Rviz}{14}{subsection.3.2.2}%
-\contentsline {section}{\numberline {3.3}Plataformas de programación}{15}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Visual Studio Code}{15}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Github}{15}{subsection.3.3.2}%
-\contentsline {section}{\numberline {3.4}Módulos}{16}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}OpenCV}{16}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}Matplotlib}{16}{subsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.4.3}PX4 autopilot}{17}{subsection.3.4.3}%
-\contentsline {section}{\numberline {3.5}Iris}{17}{section.3.5}%
-\contentsline {chapter}{\numberline {4}Diseño}{18}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Preparación del entorno}{18}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}JdeRobot - drones}{18}{subsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.1.2}Teleoperador}{19}{subsection.4.1.2}%
-\contentsline {section}{\numberline {4.2}Señales}{23}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Aproximación de Friis}{24}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Módulo python de Friis}{25}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Aplicación de Friis}{28}{subsection.4.2.3}%
-\contentsline {section}{\numberline {4.3}Integración conjunta}{30}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Primeros pasos}{30}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Algoritmos}{31}{subsection.4.3.2}%
-\contentsline {subsubsection}{Algoritmo manual}{32}{subsubsection*.51}%
-\contentsline {subsubsection}{Algoritmo manual (optimizado)}{33}{subsubsection*.53}%
-\contentsline {subsubsection}{Algoritmo Q-Learning}{34}{subsubsection*.55}%
-\contentsline {subsection}{\numberline {4.3.3}Métricas empleadas}{37}{subsection.4.3.3}%
-\contentsline {subsection}{\numberline {4.3.4}Experimentos y resultados}{39}{subsection.4.3.4}%
-\contentsline {subsection}{\numberline {4.3.5}Líneas a futuro - Experimentos con obstáculos}{45}{subsection.4.3.5}%
-\contentsline {chapter}{\numberline {5}Conclusiones}{47}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Objetivos cumplidos}{47}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Balance global y competencias adquiridas}{47}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Líneas futuras}{48}{section.5.3}%
-\contentsline {chapter}{\numberline {6}Anexo}{49}{chapter.6}%
-\contentsline {chapter}{Bibliograf\'{\i }a}{51}{appendix*.76}%
+\contentsline {subsection}{\numberline {3.2.1}Rviz}{14}{subsection.3.2.1}%
+\contentsline {section}{\numberline {3.3}Gazebo 11}{15}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Plataformas de programación}{15}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Visual Studio Code}{15}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Github}{16}{subsection.3.4.2}%
+\contentsline {section}{\numberline {3.5}Módulos}{16}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}OpenCV}{16}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Matplotlib}{17}{subsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5.3}PX4 autopilot}{18}{subsection.3.5.3}%
+\contentsline {section}{\numberline {3.6}Iris}{18}{section.3.6}%
+\contentsline {chapter}{\numberline {4}Diseño}{20}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Preparación del entorno}{20}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}JdeRobot - drones}{20}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Teleoperador}{21}{subsection.4.1.2}%
+\contentsline {section}{\numberline {4.2}Señales}{25}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Aproximación de Friis}{26}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Módulo python de Friis}{27}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Aplicación de Friis}{30}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}Integración conjunta}{32}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Primeros pasos}{32}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Algoritmos}{33}{subsection.4.3.2}%
+\contentsline {subsubsection}{Algoritmo manual}{34}{subsubsection*.51}%
+\contentsline {subsubsection}{Algoritmo manual (optimizado)}{35}{subsubsection*.53}%
+\contentsline {subsubsection}{Algoritmo Q-Learning}{36}{subsubsection*.55}%
+\contentsline {subsection}{\numberline {4.3.3}Métricas empleadas}{39}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Experimentos y resultados}{41}{subsection.4.3.4}%
+\contentsline {subsection}{\numberline {4.3.5}Líneas a futuro - Experimentos con obstáculos}{47}{subsection.4.3.5}%
+\contentsline {chapter}{\numberline {5}Conclusiones}{49}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Objetivos cumplidos}{49}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Balance global y competencias adquiridas}{49}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Líneas futuras}{50}{section.5.3}%
+\contentsline {chapter}{\numberline {6}Anexo}{51}{chapter.6}%
+\contentsline {chapter}{Bibliograf\'{\i }a}{53}{appendix*.76}%

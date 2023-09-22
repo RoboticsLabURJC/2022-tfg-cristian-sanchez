@@ -208,15 +208,15 @@ ROS.
 \newblock \textit{ROS - Robot Operating System}.
 \newblock \url{https://www.ros.org/}, 2023.
 
-\bibitem{gazebo-def}
-Gazebo.
-\newblock \textit{About Gazebo}.
-\newblock \url{https://gazebosim.org/about}, 2023.
-
 \bibitem{rviz-def}
 ros visualization.
 \newblock \textit{RVIZ}.
 \newblock \url{https://github.com/ros-visualization/rviz#readme}, 2023.
+
+\bibitem{gazebo-def}
+Gazebo.
+\newblock \textit{About Gazebo}.
+\newblock \url{https://gazebosim.org/about}, 2023.
 
 \bibitem{vscode-def}
 Visual~Studio Code.
