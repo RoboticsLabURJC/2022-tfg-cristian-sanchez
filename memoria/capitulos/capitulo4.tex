@@ -111,7 +111,7 @@ if __name__ == '__main__':
 
 Donde, tras inicializar el nodo \ac{ROS}, se definen por un lado los \textbf{suscriptores}, encargados de recibir los datos de la cámara y la posición del dron (usando MAVROS), los \textbf{publicadores}, cuya función es enviar posiciones y/o comandos al script controlador, y por último la \textbf{interfaz gráfica} diseñada con \textbf{OpenCV}, donde se define la ventana y los botones con las diversas acciones predefinidas \footnote{Código completo en \url{https://github.com/RoboticsLabURJC/2022-tfg-cristian-sanchez/blob/main/src/teleop/scripts/c2c_control.py}}.\\
 
-\section{Señales}
+\section{Modelo de propagación de señal}
 \label{sec:signals}
 
 Continuando con el proyecto, entramos en el segundo gran bloque, las \textbf{señales \ac{RF}}. Este apartado fue especialmente relevante, ya que nos permitió desarrollar una aplicación reactiva, con la meta de generar entornos sobre los que probar soluciones robóticas.\\
@@ -275,45 +275,360 @@ Por ello, se agregaron dos mapas de calor, uno con el máximo y el mínimo fijad
 \end{figure}
 
 Cabe destacar que, por motivos de desarrollo, no se agregó la parte de generación dinámica de obstáculos a la aplicación, ya que esta se desarrollo como un extra al final del \ac{TFG}.\\
+% ---------------------------------
+% \newpage
+% \section{Integración conjunta}
+% \label{sec:integration}
 
+% La integración conjunta engloba la parte final del proyecto, es la fase donde se juntaron las secciones anteriores, con el fin de generar el entorno deseado para resolver el problema.\\
+
+% El objetivo, a parte de llevar a cabo la tarea encomendada, era comprobar y comparar los distintos algoritmos entre sí, a través de diversas métricas de rendimiento.\\
+
+% \subsection{Primeros pasos}
+% \label{subsec:primeros_pasos}
+
+% Inicialmente, se debía construir todo el entorno en base a lo anterior.\\
+
+% Por ello, se diseñó una \textbf{aplicación servidor de datos}, que funciona como intermediaria con el módulo de Friis. Siendo concisos, dicha aplicación contiene \textbf{dos servidores} basados en \textbf{acciones \ac{ROS}}, que son especialmente útiles en este caso, dada su naturaleza asíncrona. Dichos servidores gestionan las peticiones para el dron y para rviz. A continuación detallamos cada caso:
+
+% \begin{enumerate}
+% 	\item \emph{Caso dron}: a groso modo, el dron envía su posición en coordenadas transformadas al sistema de referencia del \emph{``heatmap''}, y recibe el valor de la señal de dichas coordenadas. En un caso real, el dron tan solo accedería al valor de la señal a través de un sensor que se lo permitiera. A posteriori, se agregó la funcionalidad de enviar, en dicha petición, si se deseaba un mapa con obstáculos o no.
+
+% 	\item \emph{Caso rviz}: recibe una petición donde se agregan todas las características de la señal para generar el \emph{``heatmap''} deseado, vease el origen y sus componentes. Esto, genera como respuesta un array de floats que contiene la información del mapa de calor, en un formato adecuado para su representación, es decir, para generar el mapa de forma gráfica, se emplea la biblioteca \textbf{grid\_map}, que a través de un topic de \ac{ROS}, permite enviar los datos a un plugin de rviz, el cual genera la representación visual buscada\footnote[2]{Toda la funcionalidad englobada en el directorio \textbf{heatmap\_util} del proyecto}. También se agregó la funcionalidad de los obstáculos para experimentación futura.
+% \end{enumerate}
+% \newpage
+% \subsection{Algoritmos}
+% \label{subsec:algoritmos}
+
+% En esta sección, se resume el núcleo del proyecto. Es el lugar donde se mostrarán todas las soluciones implementadas para comandar al dron hacía la resolución del problema y se explicará, desde la estructura general de la aplicación, hasta la lógica empleada detrás de cada algoritmo.\\
+
+% Por ello, lo primero consistió en definir una \textbf{clase \emph{``Drone''}}, cuyo constructor se encargara de conectar los topics al controlador PX4 para comandar ordenes a la aeronave. Además, establece la comunicación con el servidor de datos (tanto para la potencia como para rviz) y se definen los diferentes atributos pertenecientes a la clase, que en este caso aluden a parámetros necesarios para los algoritmos y la extracción de resultados.\\
+
+% En general, la clase sigue una estructura basada en lo siguiente:
+
+% \begin{enumerate}
+% 	\item \emph{Métodos para comandar al dron}: o conjunto de funciones encargadas del movimiento del dispositivo (como despegar, aterrizar, desplazarse, entre otros). Mucha de esa funcionalidad fue adaptada del teleoperador realizado al inicio del \ac{TFG}.
+
+%     \item \emph{Métodos de tolerancia}: encargados de establecer un margen aceptable entre la posición del dron y el objetivo deseado. Estos métodos sirven para controlar con precisión problemas que surgen de la deriva y de condiciones externas, como puede ser el viento.
+
+% 	\item \emph{Métodos de conversión}: que en este caso nos permiten transformar las coordenadas entre los sistemas de referencia, tal y como se puede apreciar a continuación.
+
+%     \item \emph{Algoritmos}: o las soluciones propiamente dichas, que en sí contienen el conjunto de métodos que cada cual necesita para llevarse a cabo. Podemos distinguir entre \textbf{manual, manual optimizado y Q-Learning}.
+% \end{enumerate}
+
+% \begin{figure} [H]
+%     \begin{center}
+%     \includegraphics[height=10cm]{imagenes/cap4/8_reference_system.png}
+%     \end{center}
+%     \caption[Sistemas de referencia]{Sistemas de referencia}
+%     \label{fig:reference_sys}
+% \end{figure}
+
+% En cuanto al desarrollo propiamente dicho de los algoritmos, se deben cumplir una serie de premisas de cara a la simulación.\\ 
+
+% Primero que, \textbf{todos los movimientos realizados por el dron deben estar contenidos en el mapa de calor generado}; además, \textbf{la medida de la señal} sólo podrá tomarse cuando el dron esté en el \textbf{centro de la celda}; los movimientos del dron deberán ser \textbf{de centro en centro} aunque esto abarque más celdas de distancia (problema resuelto y adaptado del teleoperador); y cada celda mide 1x1 metros.
+
+% \subsubsection{Algoritmo manual}
+% \label{subsec:alg-manual}
+
+% Es básicamente la primera aproximación, consiste en \textbf{visitar todos los vecinos más cercanos} y realizar el desplazamiento hacia las coordenadas del \textbf{vecino con mayor señal} medida.\\
+
+% La \textbf{condición de parada} se basa en analizar si, las coordenadas objetivo de la iteración anterior son las mismas que las coordenadas objetivo de la iteración actual, además de que se cumpla que todos los vecinos colindantes tengan menor valor de señal mencionado.\\
+
+% En cuanto a los métodos que usa, se encuentra el de verificar movimientos válidos y comprobar si ha llegado al final, mediante la verificación de que todos los vecinos adyacentes, tienen potencias de señal inferior.\\
+
+% \begin{figure} [H]
+%     \begin{center}
+%     \includegraphics[height=10cm]{imagenes/cap4/9_algoritmo_manual.png}
+%     \end{center}
+%     \caption[Representación algoritmo manual]{Representación algoritmo manual}
+%     \label{fig:manual_algorithm}
+% \end{figure}
+
+% \subsubsection{Algoritmo manual (optimizado)}
+% \label{subsec:alg-manual-opt}
+
+% Tomando como referencia el algoritmo anterior, se buscó agregar ciertas mejoras y eficiencia. El principio es el mismo, obtener la información de los vecinos y navegar hacia el mejor candidato.\\
+
+% La diferencia radica en \textbf{no revisitar vecinos} cuya información se conozca. Para ello se implementa un array que almacena hasta 18 coordenadas de vecinos visitados, de modo que solo se navega hacia coordenadas no contenidas en el mismo, y que por supuesto cumplan las condiciones del problema (no salir del mapa de calor, mover de centro a centro, entre otras).\\
+
+% La condición de parada es idéntica a la anterior, y los métodos usados también.\\
+
+% \begin{figure} [H]
+%     \begin{center}
+%     \includegraphics[height=10cm]{imagenes/cap4/10_algoritmo_optimizado.png}
+%     \end{center}
+%     \caption[Representación algoritmo manual optimizado]{Representación algoritmo manual optimizado}
+%     \label{fig:opt_algorithm}
+% \end{figure}
+
+% \subsubsection{Algoritmo Q-Learning}
+% \label{subsec:alg-q}
+
+% El último algoritmo planteado, se basó en técnicas de \textbf{aprendizaje por refuerzo}. Concretamente empleando Q-Learning, que tal y como comentamos al principio de la memoria, consiste en la obtención de una tabla Q, de estados y acciones, donde se asignan valores numéricos cada acción según su estado, de modo que la acción más favorable acaba teniendo mayor valor que el resto.\\
+
+% En nuestro caso, los \textbf{estados} son \textbf{las coordenadas del dron} en términos del mapa de calor, y las \textbf{acciones} son los \textbf{movimientos cardinales y diagonales}, de una o más celdas de distancia.\\
+
+% Como todo algoritmo de esta naturaleza, posee dos fases bien diferenciadas, la \textbf{fase de entrenamiento}, cuyo objetivo es rellenar de forma eficaz la tabla Q, y la \textbf{fase de inferencia}, donde se prueban los resultados obtenidos del entrenamiento.\\
+
+% Dentro del entrenamiento, distinguimos los \textbf{episodios}, que en nuestro caso son las llegadas a la fuente, o las salidas del mapa de calor (adicionalmente se probó añadir otra condición que fuera basada en el número de malas acciones consecutivas, pero para nuestra solución se decidió obviar); y las \textbf{iteraciones}, que se definen como el desempeño de una acción literalmente.\\
+
+% Además, para rellenar el contenido de la tabla, se definieron las pertinentes \textbf{recompensas y penalizaciones} basadas en la diferencia entre la medidas, antes y después de realizar una acción (agregando un pequeño multiplicador a las recompensas negativas), excepto si se sale del mapa, en cuyo caso se establece una recompensa fija negativa, calculada en proporción al resto de recompensas. Posteriormente se asignan valores en la tabla Q, usando la ecuación de Bellman:
+% \begin{equation}
+%     Q(s, a) = (1 - \alpha) \cdot Q(s, a) + \alpha \cdot \left(r + \gamma \cdot \mathrm{max}_{a'} Q(s', a')\right)
+% \end{equation}
+% Cabe destacar que, durante el entrenamiento, se especifican una serie de parámetros que fueron ajustados a través de la experimentación, entre los que se encuentran: el \textbf{número de episodios totales}, que repercute directamente en la \emph{fase de exploración} (detallado a continuación); el \textbf{parámetro $\alpha$}, o la tasa de aprendizaje, que afecta a la convergencia de las soluciones durante el aprendizaje; el \textbf{parámetro $\gamma$}, o factor de descuento, que atañe a la importancia de las acciones futuras con respecto a las inmediatas; y por último los valores de \textbf{epsilon ($\epsilon$)}, que determinan si la acción tomada será aleatoria o extraida de la tabla, esto está directamente asociado a la \emph{fase de exploración}, donde se prioriza la aleatoreidad con el fin de enriquecer con información la tabla Q.\\
+
+% En nuestro caso, esta fase ocupa un \textbf{20\% del número de episodios}, de forma lineal, es decir, que cada vez la prioridad se va decantando más del lado de la tabla y no de la aleatoreidad (durante el entrenamiento siempre se mantiene cierta posibilidad de tomar una acción arbitraria, para seguir actualizando los datos).\\
+
+% Para poder entrenar de forma eficiente, se establecieron distintos puntos de entrenamiento repartidos de forma uniforme por el mapa, hablaremos en detalle de esto, en la sección de métricas empleadas.\\
+
+% Los métodos usados para Q-Learning, se basan en funcionalidades necesarias para desempeñar todo lo anterior, véase la generación de estados y acciones para la tabla, la extracción de índices dentro de la misma, el tratamiento del parámetro $\epsilon$, la obtención de coordenadas válidas, entre otros\footnote[3]{Todos los métodos están explicados dentro del código \url{https://github.com/RoboticsLabURJC/2022-tfg-cristian-sanchez/blob/main/src/teleop/scripts/algorithms.py}}.\\
+
+% \begin{figure} [H]
+%     \begin{center}
+%     \includegraphics[height=10cm]{imagenes/cap4/11_diagrama_training.png}
+%     \end{center}
+%     \caption[Esquema episodio fase de entrenamiento]{Esquema episodio fase de entrenamiento}
+%     \label{fig:training_phase}
+% \end{figure}
+
+% Cabe resaltar que, si la acción tomada lleva al dron hacia una condición de final, este acaba el episodio, viaja hacia una nueva posición de entrenamiento y actualiza ciertos parámetros, como por ejemplo el parámetro $\epsilon$. La condición de final se aplica siempre tras actualizar los valores.\\
+
+% Por último, en la \emph{fase de inferencia}, el dron analiza su estado (o sus coordenadas dentro del mapa de calor), y observa la mejor acción disponible dentro de la tabla Q ya rellena. Esto lo realiza hasta que detecta la condición de parada, que se cumple cuando la medida anterior de señal es mayor que la actual y todos los vecinos adyacentes a la medida anterior poseen señal inferior. Para hacer un correcto análisis, se parte siempre de coordenadas distintas a las que se usaron para entrenar y rellenar la tabla Q.\\
+% \newpage
+% \subsection{Métricas empleadas}
+% \label{subsec:metricas}
+
+% He decidido comentar las métricas empleadas en una sección individual, debido a la importancia que poseen de cara al desarrollo y los resultados del proyecto.\\
+
+% En primer lugar se encuentra el \textbf{mapa de puntos}. Aquí se muestran las posiciones en el mapa de calor donde el dron entrenará, hará la inferencia (o desde donde partirá en los algoritmos manuales), además de la posición de la señal y propios los límites del mapa.\\
+
+% \begin{figure} [H]
+%     \begin{center}
+%     \includegraphics[height=7cm]{imagenes/cap4/12_puntos_30_esquina.png}
+%     \end{center}
+%     \caption[Mapa de puntos 30x30 con la señal en la esquina]{Mapa de puntos 30x30 con la señal en la esquina}
+%     \label{fig:30_points}
+% \end{figure}
+
+% El siguiente gráfico representa el \textbf{camino seguido} por el dron al aplicar cada algoritmo para unas mismas coordenadas.\\
+
+% \begin{figure} [H]
+%     \begin{center}
+%     \includegraphics[height=5cm]{imagenes/cap4/13_trayectorias_12.png}
+%     \end{center}
+%     \caption[Trayectorias seguidas en mapa 12x12 con señal en el centro]{Trayectorias seguidas en mapa 12x12 con señal en el centro}
+%     \label{fig:12_traj}
+% \end{figure}
+
+% A continuación se presenta uno de los gráficos más relevantes, en este caso, un gráfico triple que nos permite \textbf{conocer en detalle como ha ido el entrenamiento}. En concreto, representa tres métricas: el valor de \textbf{epsilon} ($\epsilon$), en el que se distingue la fase de exploración; la \textbf{recompensa acumulada}, que nos permite analizar la convergencia del entrenamiento; y el \textbf{número de iteraciones}, donde se observa que conforme el algoritmo aprende, el número se reduce. Todo ello con respecto a cada episodio.\\
+
+% \begin{figure} [H]
+%     \begin{center}
+%     \includegraphics[height=8cm]{imagenes/cap4/14_training_graph.png}
+%     \end{center}
+%     \caption[Gráfico de entrenamiento]{Gráfico de entrenamiento}
+%     \label{fig:training_graph}
+% \end{figure}
+
+% Por último, se muestran los gráficos comparativos que nos dan un aproximado del \textbf{rendimiento} de cada algoritmo. En este caso, también se analizan tres cosas: el \textbf{tiempo medio} en segundos que tarda el dron desde que despega hasta que vuelve a su posición de despegue; el \textbf{número medio de iteraciones} empleadas para alcanzar la señal; y el \textbf{número medio de movimientos} hacía coordenadas donde la señal es menor y no mayor\footnote[4]{Los datos arrojados han sido guardados en formato \emph{csv}.}.\\
+
+% \begin{figure} [H]
+%     \begin{center}
+%     \includegraphics[height=8cm]{imagenes/cap4/15_avg_graphs.png}
+%     \end{center}
+%     \caption[Gráficos comparativos]{Gráficos comparativos}
+%     \label{fig:compare_graph}
+% \end{figure}
+
+% \subsection{Experimentos y resultados}
+% \label{subsec:experimentos_resultados}
+
+% Una vez sabemos que métricas se van a usar, queda ver que resultados arroja la experimentación. A excepción del último caso, las características de la señal siempre son los valores por defecto a excepción del tamaño del mapa, que se va modificando conforme el experimento. Además cabe destacar que la señal se toma como estática con respecto al dron, en posiciones diversas, también según el experimento a realizar.\\
+
+% \begin{figure} [H]
+%     \begin{center}
+%     \includegraphics[height=1cm]{imagenes/cap4/16_default_values.png}
+%     \end{center}
+%     \caption[Características de la señal por defecto]{Características de la señal por defecto}
+%     \label{fig:compare_graph}
+% \end{figure}
+
+% Primero se probó sobre un escenario de tamaño \textbf{12x12 metros}, donde se distinguen dos posiciones de señal, una centrada y otra cerca de una esquina.\\
+% \newpage
+% Para la \textbf{señal cerca del centro}, se dispuso en las coordenadas (5, 5) del \emph{``heatmap''}, siguiendo el siguiente mapa de puntos para los puntos de entrenamiento e inferencia:\\
+
+% \begin{figure} [H]
+%     \begin{center}
+%     \includegraphics[height=8cm]{imagenes/cap4/17_mapa_p_centro_12.png}
+%     \end{center}
+%     \caption[Mapa de puntos (12x12), señal centrada]{Mapa de puntos (12x12), señal centrada}
+%     \label{fig:map_p_center_12}
+% \end{figure}
+
+% Los resultados obtenidos arrojan que el algoritmo más eficiente es el de Q-Learning, ya que tarda menos tiempo, realiza menos iteraciones hasta llegar a la meta y tiene un porcentaje inferior de malas acciones, tal y como podemos ver a continuación:\\
+
+% \begin{figure} [H]
+%     \begin{center}
+%     \includegraphics[height=8cm]{imagenes/cap4/18_comp_centro_12.png}
+%     \end{center}
+%     \caption[Comparativas (12x12), señal centrada]{Comparativas (12x12), señal centrada}
+%     \label{fig:comp_center_12}
+% \end{figure}
+
+% En el caso de la \textbf{señal cerca de la esquina}, la señal se estableció en (3, 1) referente a las coordenadas del \emph{``heatmap''}, siendo su mapa de puntos el siguiente:
+
+% \begin{figure} [H]
+%     \begin{center}
+%     \includegraphics[height=8cm]{imagenes/cap4/19_mapa_p_esq_12.png}
+%     \end{center}
+%     \caption[Mapa de puntos (12x12), señal en la esquina]{Mapa de puntos (12x12), señal en la esquina}
+%     \label{fig:map_p_esq_12}
+% \end{figure}
+
+% En este caso, se obtiene la misma conclusión que en el escenario anterior, tal y como se puede apreciar a continuación:\\
+
+% \begin{figure} [H]
+%     \begin{center}
+%     \includegraphics[height=8cm]{imagenes/cap4/20_comp_esq_12.png}
+%     \end{center}
+%     \caption[Comparativas (12x12), señal en la esquina]{Comparativas (12x12), señal en la esquina}
+%     \label{fig:comp_esq_12}
+% \end{figure}
+% \newpage
+% En segundo lugar, se incrementó el tamaño del mapa hasta \textbf{30x30 metros}.\\
+
+% Nuevamente, para la \textbf{señal cerca del centro} en (12, 12):
+
+% \begin{figure} [H]
+%     \begin{center}
+%     \includegraphics[height=8cm]{imagenes/cap4/21_mapa_p_centro_30.png}
+%     \end{center}
+%     \caption[Mapa de puntos (30x30), señal centrada]{Mapa de puntos (30x30), señal centrada}
+%     \label{fig:map_p_center_30}
+% \end{figure}
+
+% En cuanto a los resultados, concluimos que Q-Learning vuelve a ser la mejor opción, que aunque se vea un incremento temporal y de iteraciones por el aumento de mapa, sigue superando al resto:\\
+
+% \begin{figure} [H]
+%     \begin{center}
+%     \includegraphics[height=8cm]{imagenes/cap4/22_comp_centro_30.png}
+%     \end{center}
+%     \caption[Comparativas (30x30), señal centrada]{Comparativas (30x30), señal centrada}
+%     \label{fig:comp_center_30}
+% \end{figure}
+
+% Continuando con la \textbf{señal cerca de la esquina}, en este caso se encuentra en las coordenadas (5, 3), y su mapa de puntos es:\\
+
+% \begin{figure} [H]
+%     \begin{center}
+%     \includegraphics[height=8cm]{imagenes/cap4/23_mapa_p_esq_30.png}
+%     \end{center}
+%     \caption[Mapa de puntos (30x30), señal en la esquina]{Mapa de puntos (30x30), señal en la esquina}
+%     \label{fig:map_p_esq_30}
+% \end{figure}
+
+% De igual modo vemos que el resultado de aprendizaje por refuerzo es claramente superior:\\
+
+% \begin{figure} [H]
+%     \begin{center}
+%     \includegraphics[height=8cm]{imagenes/cap4/24_comp_esq_30.png}
+%     \end{center}
+%     \caption[Comparativas (30x30), señal en la esquina]{Comparativas (30x30), señal en la esquina}
+%     \label{fig:comp_esq_30}
+% \end{figure}
+% \newpage
+% Por último, se planteó un problema sólo para Q-Learning, en el cual se \textbf{entrenaba al modelo con una señal}, y se \textbf{realizaba inferencia con otra señal con características distintas}, aumentando la potencia del transmisor al doble y cambiando la frecuencia para simular una señal 5G, situada en (5, 3):\\
+
+% \begin{figure} [H]
+%     \begin{center}
+%     \includegraphics[height=8cm]{imagenes/cap4/25_mapa_p_diff.png}
+%     \end{center}
+%     \caption[Mapa de puntos (30x30), señales diferentes]{Mapa de puntos (30x30), señales diferentes}
+%     \label{fig:map_p_diff_30}
+% \end{figure}
+
+% Para este caso, el problema se resolvía de igual forma para ambos casos, con una cierta variación en el tiempo, derivada probablemente de la propia simulación:\\
+
+% \begin{figure} [H]
+%     \begin{center}
+%     \includegraphics[height=7.5cm]{imagenes/cap4/26_comp_diff.png}
+%     \end{center}
+%     \caption[Comparativas (30x30), señales diferentes]{Comparativas (30x30), señales diferentes}
+%     \label{fig:comp_diff_30}
+% \end{figure}
+
+% \subsection{Líneas a futuro - Experimentos con obstáculos}
+% \label{subsec:experimentos_obstaculos}
+
+% El escenario planteado durante el \ac{TFG}, al fin y al cabo, es la aproximación más simple, es decir, en un \textbf{caso real} no es esperable un entorno vacío de perturbaciones y obstáculos. Por ello, el siguiente paso lógico es \textbf{implementar muros que distorsionen la señal} y ver como se comporta con Q-Learning.\\
+
+% Para ello, la idea es conseguir modificar el módulo de Friis, para que pueda agregar de forma dinámica obstáculos al mapa, empleando un algoritmo que identifica si los puntos se encuentran dentro del polígono generado por las proyecciones de la señal, con los vértices del muro \cite{poly-info}. Posteriormente se degrada la señal usando un factor de pérdidas.\\
+
+% \begin{figure} [H]
+%     \begin{center}
+%     \includegraphics[height=6cm]{imagenes/cap4/27_points_poly.png}
+%     \end{center}
+%     \caption[Funcionamiento del algoritmo de puntos]{Funcionamiento del algoritmo de puntos}
+%     \label{fig:poly_algorithm}
+% \end{figure}
+
+% Para las primeras pruebas, se estableciieron a mano los valores degradados de la señal, sobre un mapa con obstáculos.\\
+
+% Además, la idea inicial era realizar el entrenamiento \textbf{sin obstáculos}, y ajustar los algoritmos para que fueran capaces de sortear los mismos.\\
+% \newpage
+% De este modo, y cómo primera aproximación a este proceso, se distinguieron \textbf{dos casos}:
+
+% \begin{enumerate}
+%     \item \emph{El dron vuela por encima de la altura del obstáculo}: En cuyo caso se ve que es capaz de navegar satisfactoriamente hacia la señal, con las soluciones empleadas previamente.
+
+%     \item \emph{El dron vuela a la misma altura que el obstáculo}: Donde se observa que la solución de Q-Learning queda insuficiente para resolver el problema, ya que el dron colisiona directamente con el obstáculo. Por ello, se plantea la idea de agregar un sistema de detección (o sensor) que permita al dron sortear los muros. Para el caso simulado simplemente se comprueba si la siguiente posición corresponde a un obstáculo en el mapa de calor y se actúa en consecuencia. Sin embargo, seguimos trabajando en este apartado.
+% \end{enumerate}
+
+% \begin{figure} [H]
+%     \begin{center}
+%     \includegraphics[height=9cm]{imagenes/cap4/28_pseudosensor.png}
+%     \end{center}
+%     \caption[Simulación de sensor para obstáculo]{Simulación de sensor para obstáculo}
+%     \label{fig:pseudosensor}
+% \end{figure}
+
+% --------------------------------------
 \newpage
-\section{Integración conjunta}
-\label{sec:integration}
+\section{Comportamiento sigue señal basado en \ac{RF}}
+\label{sec:signal_follow}
 
-La integración conjunta engloba la parte final del proyecto, es la fase donde se juntaron las secciones anteriores, con el fin de generar el entorno deseado para resolver el problema.\\
+\subsection{Introducción al problema}
+\label{subsec:intro_sf}
 
-El objetivo, a parte de llevar a cabo la tarea encomendada, era comprobar y comparar los distintos algoritmos entre sí, a través de diversas métricas de rendimiento.\\
+El problema a resolver en este caso, es el de detectar y navegar hacia una señal, empleando diversos algoritmos, para compararlos posteriormente. Por consiguiente, se ha realizado una integración conjunta de todos los puntos mencionados anteriormente.\\
 
-\subsection{Primeros pasos}
-\label{subsec:primeros_pasos}
-
-Inicialmente, se debía construir todo el entorno en base a lo anterior.\\
-
-Por ello, se diseñó una \textbf{aplicación servidor de datos}, que funciona como intermediaria con el módulo de Friis. Siendo concisos, dicha aplicación contiene \textbf{dos servidores} basados en \textbf{acciones \ac{ROS}}, que son especialmente útiles en este caso, dada su naturaleza asíncrona. Dichos servidores gestionan las peticiones para el dron y para rviz. A continuación detallamos cada caso:
+Para ello, se ha diseñado una \textbf{aplicación servidor de datos}, que funciona como intermediaria con el módulo de Friis. Siendo concisos, dicha aplicación contiene \textbf{dos servidores} basados en \textbf{acciones \ac{ROS}}, que son especialmente útiles en este caso, dada su naturaleza asíncrona. Dichos servidores gestionan las peticiones para el dron y para rviz, tal y como se cuenta a continuación:
 
 \begin{enumerate}
-	\item \emph{Caso dron}: a groso modo, el dron envía su posición en coordenadas transformadas al sistema de referencia del \emph{``heatmap''}, y recibe el valor de la señal de dichas coordenadas. En un caso real, el dron tan solo accedería al valor de la señal a través de un sensor que se lo permitiera. A posteriori, se agregó la funcionalidad de enviar, en dicha petición, si se deseaba un mapa con obstáculos o no.
+	\item \emph{Caso dron}: en términos generales, el dron envía su posición en coordenadas transformadas al sistema de referencia del \emph{``heatmap''}, y recibe el valor de la señal de dichas coordenadas. En un caso real, el dron tan solo accedería al valor de la señal a través de un sensor que se lo permitiera. Además, se le ha agregado la funcionalidad de enviar, en dicha petición, si se deseaba un mapa con obstáculos o no, para compatibilizar el funcionamiento con entornos dinámicos.
 
-	\item \emph{Caso rviz}: recibe una petición donde se agregan todas las características de la señal para generar el \emph{``heatmap''} deseado, vease el origen y sus componentes. Esto, genera como respuesta un array de floats que contiene la información del mapa de calor, en un formato adecuado para su representación, es decir, para generar el mapa de forma gráfica, se emplea la biblioteca \textbf{grid\_map}, que a través de un topic de \ac{ROS}, permite enviar los datos a un plugin de rviz, el cual genera la representación visual buscada\footnote[2]{Toda la funcionalidad englobada en el directorio \textbf{heatmap\_util} del proyecto}. También se agregó la funcionalidad de los obstáculos para experimentación futura.
+	\item \emph{Caso rviz}: recibe una petición donde se agregan todas las características de la señal para generar el \emph{``heatmap''} deseado, vease el origen y sus componentes. Esto, genera como respuesta un array de floats que contienen la información del mapa de calor, en un formato adecuado para su representación, es decir, para generar el mapa de forma gráfica, se emplea la biblioteca \textbf{grid\_map}, que a través de un topic de \ac{ROS}, permite enviar los datos a un plugin de rviz, el cual genera la representación visual buscada\footnote[2]{Toda la funcionalidad englobada en el directorio \textbf{heatmap\_util} del proyecto}. También ha sido agregada la funcionalidad de los obstáculos para la experimentación futura.
 \end{enumerate}
-\newpage
+
 \subsection{Algoritmos}
-\label{subsec:algoritmos}
+\label{subsec:algoritmo_sf}
 
-En esta sección, se resume el núcleo del proyecto. Es el lugar donde se mostrarán todas las soluciones implementadas para comandar al dron hacía la resolución del problema y se explicará, desde la estructura general de la aplicación, hasta la lógica empleada detrás de cada algoritmo.\\
+Antes de definir los algoritmos empleados, lo primero es determinar la base de la que se ha partido para desarrollarlos.\\
 
-Por ello, lo primero consistió en definir una \textbf{clase \emph{``Drone''}}, cuyo constructor se encargara de conectar los topics al controlador PX4 para comandar ordenes a la aeronave. Además, establece la comunicación con el servidor de datos (tanto para la potencia como para rviz) y se definen los diferentes atributos pertenecientes a la clase, que en este caso aluden a parámetros necesarios para los algoritmos y la extracción de resultados.\\
+Por ello, inicialmente se ha definido una \textbf{clase \emph{``Drone''}}, cuyo constructor se encarga de conectar los topics al controlador PX4 para comandar ordenes a la aeronave. Además, se encarga de establecer la comunicación con el servidor de datos (tanto para la potencia como para rviz) y define los diferentes atributos pertenecientes a la clase, que en este caso aluden a los parámetros necesarios para el funcionamiento de los algoritmos y la extracción de datos en los resultados.\\
 
-En general, la clase sigue una estructura basada en lo siguiente:
+En general, la clase sigue la siguiente estructura:
 
 \begin{enumerate}
-	\item \emph{Métodos para comandar al dron}: o conjunto de funciones encargadas del movimiento del dispositivo (como despegar, aterrizar, desplazarse, entre otros). Mucha de esa funcionalidad fue adaptada del teleoperador realizado al inicio del \ac{TFG}.
+	\item \emph{Métodos para comandar al dron}: que se definen como el conjunto de funciones encargadas del movimiento del dispositivo (como despegar, aterrizar, desplazarse, entre otros). Mucha de esta funcionalidad ha sido adaptada del teleoperador comentado al de este capitulo.
 
-    \item \emph{Métodos de tolerancia}: encargados de establecer un margen aceptable entre la posición del dron y el objetivo deseado. Estos métodos sirven para controlar con precisión problemas que surgen de la deriva y de condiciones externas, como puede ser el viento.
+    \item \emph{Métodos de tolerancia}: encargados de establecer un margen aceptable entre la posición del dron y el objetivo deseado. Estos métodos permiten controlar con precisión problemas que surgen de la deriva y de condiciones externas, como puede ser el viento.
 
-	\item \emph{Métodos de conversión}: que en este caso nos permiten transformar las coordenadas entre los sistemas de referencia, tal y como se puede apreciar a continuación.
+	\item \emph{Métodos de conversión}: que permiten transformar las coordenadas entre los distintos sistemas de referencia presentes en el problema, tal y como se puede apreciar a continuación.
 
-    \item \emph{Algoritmos}: o las soluciones propiamente dichas, que en sí contienen el conjunto de métodos que cada cual necesita para llevarse a cabo. Podemos distinguir entre \textbf{manual, manual optimizado y Q-Learning}.
+    \item \emph{Algoritmos}: o las soluciones \emph{``sigue señal''} propiamente dichas, que en sí, contienen el conjunto de métodos que cada cual necesita para llevarse a cabo. Se puede distinguir entre \textbf{manual, manual optimizado y Q-Learning}.
 \end{enumerate}
 
 \begin{figure} [H]
@@ -324,18 +639,18 @@ En general, la clase sigue una estructura basada en lo siguiente:
     \label{fig:reference_sys}
 \end{figure}
 
-En cuanto al desarrollo propiamente dicho de los algoritmos, se deben cumplir una serie de premisas de cara a la simulación.\\ 
+Por último y antes de entrar en los detalles de cada algoritmo, se deben cumplir una serie de premisas de cara a la simulación.\\ 
 
-Primero que, \textbf{todos los movimientos realizados por el dron deben estar contenidos en el mapa de calor generado}; además, \textbf{la medida de la señal} sólo podrá tomarse cuando el dron esté en el \textbf{centro de la celda}; los movimientos del dron deberán ser \textbf{de centro en centro} aunque esto abarque más celdas de distancia (problema resuelto y adaptado del teleoperador); y cada celda mide 1x1 metros.
+Estas son que, \textbf{todos los movimientos realizados por el dron deben estar contenidos en el mapa de calor generado}; además, \textbf{la medida de la señal} sólo podrá tomarse cuando el dron esté en el \textbf{centro de la celda}; los movimientos del dron deberán ser \textbf{de centro en centro} aunque esto abarque más celdas de distancia (problema resuelto y adaptado del teleoperador); y que la métrica de cada celda es de 1x1 metros.
 
 \subsubsection{Algoritmo manual}
 \label{subsec:alg-manual}
 
 Es básicamente la primera aproximación, consiste en \textbf{visitar todos los vecinos más cercanos} y realizar el desplazamiento hacia las coordenadas del \textbf{vecino con mayor señal} medida.\\
 
-La \textbf{condición de parada} se basa en analizar si, las coordenadas objetivo de la iteración anterior son las mismas que las coordenadas objetivo de la iteración actual, además de que se cumpla que todos los vecinos colindantes tengan menor valor de señal mencionado.\\
+La \textbf{condición de parada} analiza si las coordenadas objetivo de la iteración anterior, son las mismas que las coordenadas objetivo de la iteración actual, además, se debe cumplir que todos los vecinos colindantes tengan un valor de la señal menor.\\
 
-En cuanto a los métodos que usa, se encuentra el de verificar movimientos válidos y comprobar si ha llegado al final, mediante la verificación de que todos los vecinos adyacentes, tienen potencias de señal inferior.\\
+En cuanto a los métodos que se usan, se encuentra el de verificar movimientos válidos y el de comprobar si ha llegado a la casilla final, mediante la verificación anterior (vecindad con menor señal).\\
 
 \begin{figure} [H]
     \begin{center}
@@ -348,9 +663,9 @@ En cuanto a los métodos que usa, se encuentra el de verificar movimientos váli
 \subsubsection{Algoritmo manual (optimizado)}
 \label{subsec:alg-manual-opt}
 
-Tomando como referencia el algoritmo anterior, se buscó agregar ciertas mejoras y eficiencia. El principio es el mismo, obtener la información de los vecinos y navegar hacia el mejor candidato.\\
+Tomando como referencia el algoritmo anterior, se han agregado ciertas mejoras y eficiencia. El principio es el mismo, se obtiene la información de los vecinos y se navega hacia el mejor candidato.\\
 
-La diferencia radica en \textbf{no revisitar vecinos} cuya información se conozca. Para ello se implementa un array que almacena hasta 18 coordenadas de vecinos visitados, de modo que solo se navega hacia coordenadas no contenidas en el mismo, y que por supuesto cumplan las condiciones del problema (no salir del mapa de calor, mover de centro a centro, entre otras).\\
+La diferencia radica en \textbf{no revisitar vecinos} cuya información se conozce. Para ello, se ha implementado un array que almacena hasta 18 coordenadas de vecinos visitados, de modo que solo se navega hacia coordenadas nuevas, y que por supuesto cumplan las condiciones del problema (no salirse del mapa de calor, moverse de centro a centro, entre otras).\\
 
 La condición de parada es idéntica a la anterior, y los métodos usados también.\\
 
@@ -365,25 +680,25 @@ La condición de parada es idéntica a la anterior, y los métodos usados tambi�
 \subsubsection{Algoritmo Q-Learning}
 \label{subsec:alg-q}
 
-El último algoritmo planteado, se basó en técnicas de \textbf{aprendizaje por refuerzo}. Concretamente empleando Q-Learning, que tal y como comentamos al principio de la memoria, consiste en la obtención de una tabla Q, de estados y acciones, donde se asignan valores numéricos cada acción según su estado, de modo que la acción más favorable acaba teniendo mayor valor que el resto.\\
+Por último, se ha planteado un algoritmo basado en técnicas de \textbf{aprendizaje por refuerzo}. Concretamente empleando Q-Learning, que tal y como comentamos al principio de la memoria, consiste en la obtención de una tabla Q, de estados y acciones, donde se asignan valores numéricos cada acción según su estado, de modo que la acción más favorable acaba teniendo mayor valor numérico que el resto.\\
 
 En nuestro caso, los \textbf{estados} son \textbf{las coordenadas del dron} en términos del mapa de calor, y las \textbf{acciones} son los \textbf{movimientos cardinales y diagonales}, de una o más celdas de distancia.\\
 
-Como todo algoritmo de esta naturaleza, posee dos fases bien diferenciadas, la \textbf{fase de entrenamiento}, cuyo objetivo es rellenar de forma eficaz la tabla Q, y la \textbf{fase de inferencia}, donde se prueban los resultados obtenidos del entrenamiento.\\
+Como todo algoritmo de esta naturaleza, se distinguen dos fases: la \textbf{fase de entrenamiento}, cuyo objetivo es rellenar de forma eficaz la tabla Q, y la \textbf{fase de inferencia}, donde se prueban los resultados obtenidos durante el entrenamiento.\\
 
-Dentro del entrenamiento, distinguimos los \textbf{episodios}, que en nuestro caso son las llegadas a la fuente, o las salidas del mapa de calor (adicionalmente se probó añadir otra condición que fuera basada en el número de malas acciones consecutivas, pero para nuestra solución se decidió obviar); y las \textbf{iteraciones}, que se definen como el desempeño de una acción literalmente.\\
+Dentro del entrenamiento, podemos encontrar \textbf{episodios}, que en nuestro caso son las llegadas a la casilla final, o a casillas fuera del mapa definido (adicionalmente se añadió otra condición basada en el número de malas acciones consecutivas, pero de cara a extraer el máximo número de datos posibles para la tabla Q, esta condición no era adecuada, por ello se obvió); y las \textbf{iteraciones}, que se definen literalmente como la realización de una acción.\\
 
-Además, para rellenar el contenido de la tabla, se definieron las pertinentes \textbf{recompensas y penalizaciones} basadas en la diferencia entre la medidas, antes y después de realizar una acción (agregando un pequeño multiplicador a las recompensas negativas), excepto si se sale del mapa, en cuyo caso se establece una recompensa fija negativa, calculada en proporción al resto de recompensas. Posteriormente se asignan valores en la tabla Q, usando la ecuación de Bellman:
+Además, para rellenar el contenido de la tabla, se han definido las pertinentes \textbf{recompensas y penalizaciones} basadas en la diferencia entre la medidas, antes y después de realizar una acción (agregando un pequeño multiplicador a las recompensas negativas), contemplando casos extra, como cuando el dron se sale del mapa, donde se establece una recompensa fija negativa, calculada en proporción al resto de recompensas. Posteriormente, se asignan los valores obtenidos en la tabla Q, haciendo uso de la ecuación de Bellman:
 \begin{equation}
     Q(s, a) = (1 - \alpha) \cdot Q(s, a) + \alpha \cdot \left(r + \gamma \cdot \mathrm{max}_{a'} Q(s', a')\right)
 \end{equation}
-Cabe destacar que, durante el entrenamiento, se especifican una serie de parámetros que fueron ajustados a través de la experimentación, entre los que se encuentran: el \textbf{número de episodios totales}, que repercute directamente en la \emph{fase de exploración} (detallado a continuación); el \textbf{parámetro $\alpha$}, o la tasa de aprendizaje, que afecta a la convergencia de las soluciones durante el aprendizaje; el \textbf{parámetro $\gamma$}, o factor de descuento, que atañe a la importancia de las acciones futuras con respecto a las inmediatas; y por último los valores de \textbf{epsilon ($\epsilon$)}, que determinan si la acción tomada será aleatoria o extraida de la tabla, esto está directamente asociado a la \emph{fase de exploración}, donde se prioriza la aleatoreidad con el fin de enriquecer con información la tabla Q.\\
+Cabe destacar que, durante el entrenamiento, se especifican una serie de parámetros que han sido ajustados a través de la experimentación, estos son: el \textbf{número de episodios totales}, que repercute directamente en la \emph{fase de exploración} (detallado a continuación); el \textbf{parámetro $\alpha$}, o la tasa de aprendizaje, que afecta a la convergencia de las soluciones durante el aprendizaje; el \textbf{parámetro $\gamma$}, o factor de descuento, que alude a la importancia de las acciones futuras con respecto a las inmediatas; y por último los valores de \textbf{epsilon ($\epsilon$)}, que determinan si la acción tomada será aleatoria o extraida de la tabla, esto está directamente asociado a la \emph{fase de exploración}, donde se prioriza la aleatoreidad con el fin de enriquecer con información la tabla Q.\\
 
 En nuestro caso, esta fase ocupa un \textbf{20\% del número de episodios}, de forma lineal, es decir, que cada vez la prioridad se va decantando más del lado de la tabla y no de la aleatoreidad (durante el entrenamiento siempre se mantiene cierta posibilidad de tomar una acción arbitraria, para seguir actualizando los datos).\\
 
-Para poder entrenar de forma eficiente, se establecieron distintos puntos de entrenamiento repartidos de forma uniforme por el mapa, hablaremos en detalle de esto, en la sección de métricas empleadas.\\
+Para poder entrenar de forma eficiente, se han establecido distintos puntos de entrenamiento repartidos de forma uniforme por el mapa, tal y como se mencionará en la sección de métricas.\\
 
-Los métodos usados para Q-Learning, se basan en funcionalidades necesarias para desempeñar todo lo anterior, véase la generación de estados y acciones para la tabla, la extracción de índices dentro de la misma, el tratamiento del parámetro $\epsilon$, la obtención de coordenadas válidas, entre otros\footnote[3]{Todos los métodos están explicados dentro del código \url{https://github.com/RoboticsLabURJC/2022-tfg-cristian-sanchez/blob/main/src/teleop/scripts/algorithms.py}}.\\
+Los métodos usados para Q-Learning, se basan en las funcionalidades necesarias para desempeñar todo el proceso definido anteriormente, véase la generación de estados y acciones para la tabla, la extracción de índices dentro de la misma, el tratamiento del parámetro $\epsilon$, la obtención de coordenadas válidas, entre otros\footnote[3]{Todos los métodos están explicados dentro del código \url{https://github.com/RoboticsLabURJC/2022-tfg-cristian-sanchez/blob/main/src/teleop/scripts/algorithms.py}}.\\
 
 \begin{figure} [H]
     \begin{center}
@@ -393,59 +708,14 @@ Los métodos usados para Q-Learning, se basan en funcionalidades necesarias para
     \label{fig:training_phase}
 \end{figure}
 
-Cabe resaltar que, si la acción tomada lleva al dron hacia una condición de final, este acaba el episodio, viaja hacia una nueva posición de entrenamiento y actualiza ciertos parámetros, como por ejemplo el parámetro $\epsilon$. La condición de final se aplica siempre tras actualizar los valores.\\
+Cabe destacar que, si la acción tomada lleva al dron hacia una condición de final, este finaliza automáticamente el episodio, viajando hacia una nueva posición de entrenamiento y actualizando ciertos parámetros, como es el caso  del parámetro $\epsilon$. La condición de final se aplica siempre tras actualizar los valores intrínsecos en la iteración.\\
 
-Por último, en la \emph{fase de inferencia}, el dron analiza su estado (o sus coordenadas dentro del mapa de calor), y observa la mejor acción disponible dentro de la tabla Q ya rellena. Esto lo realiza hasta que detecta la condición de parada, que se cumple cuando la medida anterior de señal es mayor que la actual y todos los vecinos adyacentes a la medida anterior poseen señal inferior. Para hacer un correcto análisis, se parte siempre de coordenadas distintas a las que se usaron para entrenar y rellenar la tabla Q.\\
-\newpage
-\subsection{Métricas empleadas}
-\label{subsec:metricas}
+Por último, en la \emph{fase de inferencia}, el dron analiza su estado (o sus coordenadas dentro del mapa de calor), y observa la mejor acción disponible dentro de la tabla Q ya rellena. Esto lo realiza hasta que detecta la condición de parada, que se cumple cuando la medida anterior de señal es mayor que la actual y todos los vecinos adyacentes a la mayor de las medidas, poseen señal inferior. Para hacer un correcto análisis, se parte siempre de coordenadas distintas a las que se usaron para entrenar y rellenar la tabla Q.
 
-He decidido comentar las métricas empleadas en una sección individual, debido a la importancia que poseen de cara al desarrollo y los resultados del proyecto.\\
+\subsection{Experimentos}
+\label{subsec:experimentos_sf}
 
-En primer lugar se encuentra el \textbf{mapa de puntos}. Aquí se muestran las posiciones en el mapa de calor donde el dron entrenará, hará la inferencia (o desde donde partirá en los algoritmos manuales), además de la posición de la señal y propios los límites del mapa.\\
-
-\begin{figure} [H]
-    \begin{center}
-    \includegraphics[height=7cm]{imagenes/cap4/12_puntos_30_esquina.png}
-    \end{center}
-    \caption[Mapa de puntos 30x30 con la señal en la esquina]{Mapa de puntos 30x30 con la señal en la esquina}
-    \label{fig:30_points}
-\end{figure}
-
-El siguiente gráfico representa el \textbf{camino seguido} por el dron al aplicar cada algoritmo para unas mismas coordenadas.\\
-
-\begin{figure} [H]
-    \begin{center}
-    \includegraphics[height=5cm]{imagenes/cap4/13_trayectorias_12.png}
-    \end{center}
-    \caption[Trayectorias seguidas en mapa 12x12 con señal en el centro]{Trayectorias seguidas en mapa 12x12 con señal en el centro}
-    \label{fig:12_traj}
-\end{figure}
-
-A continuación se presenta uno de los gráficos más relevantes, en este caso, un gráfico triple que nos permite \textbf{conocer en detalle como ha ido el entrenamiento}. En concreto, representa tres métricas: el valor de \textbf{epsilon} ($\epsilon$), en el que se distingue la fase de exploración; la \textbf{recompensa acumulada}, que nos permite analizar la convergencia del entrenamiento; y el \textbf{número de iteraciones}, donde se observa que conforme el algoritmo aprende, el número se reduce. Todo ello con respecto a cada episodio.\\
-
-\begin{figure} [H]
-    \begin{center}
-    \includegraphics[height=8cm]{imagenes/cap4/14_training_graph.png}
-    \end{center}
-    \caption[Gráfico de entrenamiento]{Gráfico de entrenamiento}
-    \label{fig:training_graph}
-\end{figure}
-
-Por último, se muestran los gráficos comparativos que nos dan un aproximado del \textbf{rendimiento} de cada algoritmo. En este caso, también se analizan tres cosas: el \textbf{tiempo medio} en segundos que tarda el dron desde que despega hasta que vuelve a su posición de despegue; el \textbf{número medio de iteraciones} empleadas para alcanzar la señal; y el \textbf{número medio de movimientos} hacía coordenadas donde la señal es menor y no mayor\footnote[4]{Los datos arrojados han sido guardados en formato \emph{csv}.}.\\
-
-\begin{figure} [H]
-    \begin{center}
-    \includegraphics[height=8cm]{imagenes/cap4/15_avg_graphs.png}
-    \end{center}
-    \caption[Gráficos comparativos]{Gráficos comparativos}
-    \label{fig:compare_graph}
-\end{figure}
-
-\subsection{Experimentos y resultados}
-\label{subsec:experimentos_resultados}
-
-Una vez sabemos que métricas se van a usar, queda ver que resultados arroja la experimentación. A excepción del último caso, las características de la señal siempre son los valores por defecto a excepción del tamaño del mapa, que se va modificando conforme el experimento. Además cabe destacar que la señal se toma como estática con respecto al dron, en posiciones diversas, también según el experimento a realizar.\\
+A excepción del último caso, las características de la señal siempre son los valores por defecto a excepción del tamaño del mapa, que se va modificando según el experimento. Además, cabe destacar que la señal se toma como un foco estático con respecto al dron, en posición centrada o cerca de una esquina, también en función del experimento.\\
 
 \begin{figure} [H]
     \begin{center}
@@ -455,9 +725,9 @@ Una vez sabemos que métricas se van a usar, queda ver que resultados arroja la 
     \label{fig:compare_graph}
 \end{figure}
 
-Primero se probó sobre un escenario de tamaño \textbf{12x12 metros}, donde se distinguen dos posiciones de señal, una centrada y otra cerca de una esquina.\\
-\newpage
-Para la \textbf{señal cerca del centro}, se dispuso en las coordenadas (5, 5) del \emph{``heatmap''}, siguiendo el siguiente mapa de puntos para los puntos de entrenamiento e inferencia:\\
+Primero se ha probado sobre un escenario de tamaño \textbf{12x12 metros}, con las dos posiciones de señal mencionadas:\\
+
+Para la \textbf{señal cerca del centro}, situada en las coordenadas (5, 5) del \emph{``heatmap''}, se puede ver el siguiente mapa para los puntos de entrenamiento e inferencia:\\
 
 \begin{figure} [H]
     \begin{center}
@@ -467,7 +737,7 @@ Para la \textbf{señal cerca del centro}, se dispuso en las coordenadas (5, 5) d
     \label{fig:map_p_center_12}
 \end{figure}
 
-Los resultados obtenidos arrojan que el algoritmo más eficiente es el de Q-Learning, ya que tarda menos tiempo, realiza menos iteraciones hasta llegar a la meta y tiene un porcentaje inferior de malas acciones, tal y como podemos ver a continuación:\\
+Los resultados obtenidos arrojan que el algoritmo más eficiente es el de Q-Learning, ya que tarda menos tiempo, realiza menos iteraciones hasta llegar a la meta y tiene un porcentaje inferior de malas acciones, tal y como se puede ver a continuación:\\
 
 \begin{figure} [H]
     \begin{center}
@@ -477,7 +747,7 @@ Los resultados obtenidos arrojan que el algoritmo más eficiente es el de Q-Lear
     \label{fig:comp_center_12}
 \end{figure}
 
-En el caso de la \textbf{señal cerca de la esquina}, la señal se estableció en (3, 1) referente a las coordenadas del \emph{``heatmap''}, siendo su mapa de puntos el siguiente:
+En el caso de la \textbf{señal cerca de la esquina}, la señal se sitúa en (3, 1) con respecto a las coordenadas del \emph{``heatmap''}, siendo su mapa de puntos el siguiente:
 
 \begin{figure} [H]
     \begin{center}
@@ -487,7 +757,7 @@ En el caso de la \textbf{señal cerca de la esquina}, la señal se estableció e
     \label{fig:map_p_esq_12}
 \end{figure}
 
-En este caso, se obtiene la misma conclusión que en el escenario anterior, tal y como se puede apreciar a continuación:\\
+En este caso, se obtiene la misma conclusión que en el escenario anterior, tal y como se ve a continuación:\\
 
 \begin{figure} [H]
     \begin{center}
@@ -497,9 +767,9 @@ En este caso, se obtiene la misma conclusión que en el escenario anterior, tal 
     \label{fig:comp_esq_12}
 \end{figure}
 \newpage
-En segundo lugar, se incrementó el tamaño del mapa hasta \textbf{30x30 metros}.\\
+En segundo lugar, se incrementa el tamaño del mapa hasta \textbf{30x30 metros}.\\
 
-Nuevamente, para la \textbf{señal cerca del centro} en (12, 12):
+Nuevamente, para la \textbf{señal cerca del centro} situada en este caso en las coordenadas (12, 12), tenemos:
 
 \begin{figure} [H]
     \begin{center}
@@ -509,7 +779,7 @@ Nuevamente, para la \textbf{señal cerca del centro} en (12, 12):
     \label{fig:map_p_center_30}
 \end{figure}
 
-En cuanto a los resultados, concluimos que Q-Learning vuelve a ser la mejor opción, que aunque se vea un incremento temporal y de iteraciones por el aumento de mapa, sigue superando al resto:\\
+En cuanto a los resultados, se concluye que el algoritmo de Q-Learning vuelve a ser la mejor opción, aunque se vea un incremento temporal y de iteraciones por el aumento del tamaño del mapa, sigue siendo superior en todo al resto:\\
 
 \begin{figure} [H]
     \begin{center}
@@ -519,7 +789,7 @@ En cuanto a los resultados, concluimos que Q-Learning vuelve a ser la mejor opci
     \label{fig:comp_center_30}
 \end{figure}
 
-Continuando con la \textbf{señal cerca de la esquina}, en este caso se encuentra en las coordenadas (5, 3), y su mapa de puntos es:\\
+Continuando con la \textbf{señal cerca de la esquina}, que en este caso se encuentra en las coordenadas (5, 3), y donde su mapa de puntos es:\\
 
 \begin{figure} [H]
     \begin{center}
@@ -529,7 +799,7 @@ Continuando con la \textbf{señal cerca de la esquina}, en este caso se encuentr
     \label{fig:map_p_esq_30}
 \end{figure}
 
-De igual modo vemos que el resultado de aprendizaje por refuerzo es claramente superior:\\
+Vemos que el resultado de aprendizaje por refuerzo es claramente nuevamente mejor que el resto:\\
 
 \begin{figure} [H]
     \begin{center}
@@ -539,7 +809,7 @@ De igual modo vemos que el resultado de aprendizaje por refuerzo es claramente s
     \label{fig:comp_esq_30}
 \end{figure}
 \newpage
-Por último, se planteó un problema sólo para Q-Learning, en el cual se \textbf{entrenaba al modelo con una señal}, y se \textbf{realizaba inferencia con otra señal con características distintas}, aumentando la potencia del transmisor al doble y cambiando la frecuencia para simular una señal 5G, situada en (5, 3):\\
+Finalmente, se ha realizado un experimento sólo para Q-Learning, en el cual se \textbf{entrena al modelo con una señal}, y se \textbf{realizaba inferencia con otra señal de características distintas}, aumentando la potencia del transmisor al doble y cambiando la frecuencia de Wi-Fi a 5G, pero manteniendo las coordenadas en las que se sitúa, que en este caso son (5, 3), lo que se ve en el siguiente mapa de puntos:\\
 
 \begin{figure} [H]
     \begin{center}
@@ -549,7 +819,7 @@ Por último, se planteó un problema sólo para Q-Learning, en el cual se \textb
     \label{fig:map_p_diff_30}
 \end{figure}
 
-Para este caso, el problema se resolvía de igual forma para ambos casos, con una cierta variación en el tiempo, derivada probablemente de la propia simulación:\\
+Para este caso, el problema se resuelve de igual forma para ambos casos, con una cierta variación irrelevante en la métrica temporal, derivada probablemente de la propia simulación:\\
 
 \begin{figure} [H]
     \begin{center}
@@ -559,37 +829,22 @@ Para este caso, el problema se resolvía de igual forma para ambos casos, con un
     \label{fig:comp_diff_30}
 \end{figure}
 
-\subsection{Líneas a futuro - Experimentos con obstáculos}
-\label{subsec:experimentos_obstaculos}
+\subsection{Resultados}
+\label{subsec:resultados_sf}
 
-El escenario planteado durante el \ac{TFG}, al fin y al cabo, es la aproximación más simple, es decir, en un \textbf{caso real} no es esperable un entorno vacío de perturbaciones y obstáculos. Por ello, el siguiente paso lógico es \textbf{implementar muros que distorsionen la señal} y ver como se comporta con Q-Learning.\\
+En conclusión, se puede ver que el algoritmo basado en aprendizaje por refuerzo es mejor en todos los casos, tal y como se pretendía demostrar, ya que toma un camino directo a la señal, lo que le hace más óptimo y eficiente en su labor.\\
 
-Para ello, la idea es conseguir modificar el módulo de Friis, para que pueda agregar de forma dinámica obstáculos al mapa, empleando un algoritmo que identifica si los puntos se encuentran dentro del polígono generado por las proyecciones de la señal, con los vértices del muro \cite{poly-info}. Posteriormente se degrada la señal usando un factor de pérdidas.\\
+\section{Comportamiento sigue señal basado en \ac{RF} en un entorno dinámico}
+\label{sec:signal_follow_obs}
 
-\begin{figure} [H]
-    \begin{center}
-    \includegraphics[height=6cm]{imagenes/cap4/27_points_poly.png}
-    \end{center}
-    \caption[Funcionamiento del algoritmo de puntos]{Funcionamiento del algoritmo de puntos}
-    \label{fig:poly_algorithm}
-\end{figure}
+\subsection{Introducción al problema}
+\label{subsec:intro_sfo}
 
-Para las primeras pruebas, se estableciieron a mano los valores degradados de la señal, sobre un mapa con obstáculos.\\
+\subsection{Algoritmo}
+\label{subsec:algoritmo_sfo}
 
-Además, la idea inicial era realizar el entrenamiento \textbf{sin obstáculos}, y ajustar los algoritmos para que fueran capaces de sortear los mismos.\\
-\newpage
-De este modo, y cómo primera aproximación a este proceso, se distinguieron \textbf{dos casos}:
+\subsection{Experimentos}
+\label{subsec:experimentos_sfo}
 
-\begin{enumerate}
-    \item \emph{El dron vuela por encima de la altura del obstáculo}: En cuyo caso se ve que es capaz de navegar satisfactoriamente hacia la señal, con las soluciones empleadas previamente.
-
-    \item \emph{El dron vuela a la misma altura que el obstáculo}: Donde se observa que la solución de Q-Learning queda insuficiente para resolver el problema, ya que el dron colisiona directamente con el obstáculo. Por ello, se plantea la idea de agregar un sistema de detección (o sensor) que permita al dron sortear los muros. Para el caso simulado simplemente se comprueba si la siguiente posición corresponde a un obstáculo en el mapa de calor y se actúa en consecuencia. Sin embargo, seguimos trabajando en este apartado.
-\end{enumerate}
-
-\begin{figure} [H]
-    \begin{center}
-    \includegraphics[height=9cm]{imagenes/cap4/28_pseudosensor.png}
-    \end{center}
-    \caption[Simulación de sensor para obstáculo]{Simulación de sensor para obstáculo}
-    \label{fig:pseudosensor}
-\end{figure}
+\subsection{Resultados}
+\label{subsec:resultados_sfo}
