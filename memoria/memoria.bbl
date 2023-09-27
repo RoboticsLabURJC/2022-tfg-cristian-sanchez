@@ -149,14 +149,6 @@ Mathuranathan.
   \url{https://www.gaussianwaves.com/2013/09/friss-free-space-propagation-model/},
   2013.
 
-\bibitem{poly-info}
-geeksforgeeks.
-\newblock \textit{How to check if a given point lies inside or outside a
-  polygon?}
-\newblock
-  \url{https://www.geeksforgeeks.org/how-to-check-if-a-given-point-lies-inside-a-polygon/},
-  2023.
-
 \bibitem{rae-robotica}
 Real~Academia Española.
 \newblock \textit{robótico, ca}.
@@ -320,5 +312,13 @@ Pedro~Arias Pérez.
 \bibitem{paper-ia-dron}
 Md~Moin~Uddin Chowdhury, Fatih Erden, and Ismail Guvenc.
 \newblock Rss-based q-learning for indoor uav navigation, 2019.
+
+\bibitem{poly-info}
+geeksforgeeks.
+\newblock \textit{How to check if a given point lies inside or outside a
+  polygon?}
+\newblock
+  \url{https://www.geeksforgeeks.org/how-to-check-if-a-given-point-lies-inside-a-polygon/},
+  2023.
 
 \end{thebibliography}

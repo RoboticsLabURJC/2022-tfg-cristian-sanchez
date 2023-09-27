@@ -28,23 +28,27 @@
 \contentsline {figure}{\numberline {4.2}{\ignorespaces Primera versión del teleoperador}}{23}{figure.caption.38}%
 \contentsline {figure}{\numberline {4.3}{\ignorespaces Versión final del teleoperador}}{24}{figure.caption.39}%
 \contentsline {figure}{\numberline {4.4}{\ignorespaces Tabla ejemplos exponente n}}{27}{figure.caption.45}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Representación del algoritmo}}{30}{figure.caption.47}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Primera versión de la interfaz}}{31}{figure.caption.48}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Versión final de la interfaz}}{32}{figure.caption.49}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Sistemas de referencia}}{35}{figure.caption.50}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Representación algoritmo manual}}{36}{figure.caption.52}%
-\contentsline {figure}{\numberline {4.10}{\ignorespaces Representación algoritmo manual optimizado}}{37}{figure.caption.54}%
-\contentsline {figure}{\numberline {4.11}{\ignorespaces Esquema episodio fase de entrenamiento}}{39}{figure.caption.56}%
-\contentsline {figure}{\numberline {4.12}{\ignorespaces Características de la señal por defecto}}{40}{figure.caption.57}%
-\contentsline {figure}{\numberline {4.13}{\ignorespaces Mapa de puntos (12x12), señal centrada}}{40}{figure.caption.58}%
-\contentsline {figure}{\numberline {4.14}{\ignorespaces Comparativas (12x12), señal centrada}}{41}{figure.caption.59}%
-\contentsline {figure}{\numberline {4.15}{\ignorespaces Mapa de puntos (12x12), señal en la esquina}}{41}{figure.caption.60}%
-\contentsline {figure}{\numberline {4.16}{\ignorespaces Comparativas (12x12), señal en la esquina}}{42}{figure.caption.61}%
-\contentsline {figure}{\numberline {4.17}{\ignorespaces Mapa de puntos (30x30), señal centrada}}{43}{figure.caption.62}%
-\contentsline {figure}{\numberline {4.18}{\ignorespaces Comparativas (30x30), señal centrada}}{44}{figure.caption.63}%
-\contentsline {figure}{\numberline {4.19}{\ignorespaces Mapa de puntos (30x30), señal en la esquina}}{44}{figure.caption.64}%
-\contentsline {figure}{\numberline {4.20}{\ignorespaces Comparativas (30x30), señal en la esquina}}{45}{figure.caption.65}%
-\contentsline {figure}{\numberline {4.21}{\ignorespaces Mapa de puntos (30x30), señales diferentes}}{46}{figure.caption.66}%
-\contentsline {figure}{\numberline {4.22}{\ignorespaces Comparativas (30x30), señales diferentes}}{47}{figure.caption.67}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Primera versión de la interfaz}}{30}{figure.caption.47}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Versión final de la interfaz}}{31}{figure.caption.48}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Sistemas de referencia}}{33}{figure.caption.49}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Representación algoritmo manual}}{34}{figure.caption.51}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Representación algoritmo manual optimizado}}{35}{figure.caption.53}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Esquema episodio fase de entrenamiento}}{37}{figure.caption.55}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Mapa de puntos 30x30 con la señal en la esquina}}{38}{figure.caption.57}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces Trayectorias seguidas en mapa 12x12 con señal en el centro}}{39}{figure.caption.58}%
+\contentsline {figure}{\numberline {4.13}{\ignorespaces Gráfico de entrenamiento}}{39}{figure.caption.59}%
+\contentsline {figure}{\numberline {4.14}{\ignorespaces Gráficos comparativos}}{40}{figure.caption.60}%
+\contentsline {figure}{\numberline {4.15}{\ignorespaces Características de la señal por defecto}}{40}{figure.caption.62}%
+\contentsline {figure}{\numberline {4.16}{\ignorespaces Mapa de puntos (12x12), señal centrada}}{41}{figure.caption.63}%
+\contentsline {figure}{\numberline {4.17}{\ignorespaces Comparativas (12x12), señal centrada}}{42}{figure.caption.64}%
+\contentsline {figure}{\numberline {4.18}{\ignorespaces Mapa de puntos (12x12), señal en la esquina}}{42}{figure.caption.65}%
+\contentsline {figure}{\numberline {4.19}{\ignorespaces Comparativas (12x12), señal en la esquina}}{43}{figure.caption.66}%
+\contentsline {figure}{\numberline {4.20}{\ignorespaces Mapa de puntos (30x30), señal centrada}}{43}{figure.caption.67}%
+\contentsline {figure}{\numberline {4.21}{\ignorespaces Comparativas (30x30), señal centrada}}{44}{figure.caption.68}%
+\contentsline {figure}{\numberline {4.22}{\ignorespaces Mapa de puntos (30x30), señal en la esquina}}{44}{figure.caption.69}%
+\contentsline {figure}{\numberline {4.23}{\ignorespaces Comparativas (30x30), señal en la esquina}}{45}{figure.caption.70}%
+\contentsline {figure}{\numberline {4.24}{\ignorespaces Mapa de puntos (30x30), señales diferentes}}{46}{figure.caption.71}%
+\contentsline {figure}{\numberline {4.25}{\ignorespaces Comparativas (30x30), señales diferentes}}{46}{figure.caption.72}%
+\contentsline {figure}{\numberline {4.26}{\ignorespaces Simulación de sensor para obstáculo}}{48}{figure.caption.73}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
