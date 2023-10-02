@@ -20,9 +20,11 @@ En nuestro caso, python se usó para el crear la mayor parte del código emplead
 #! /usr/bin/env python
 
 if __name__ == "__main__":
-    print("Hello world!")
+	C = 3.0 * (10 ** 8)
+	freq = 5 * (10 ** 9)
+	lmbda = C / freq
 \end{lstlisting}
-\caption[Hello world en Python]{\emph{Hello world} en Python}
+\caption[Obtención del parámetro lambda en función de una frecuencia (en este caso 5G)]{Obtención del parámetro $\lambda$ en función de una frecuencia (en este caso 5G)}
 \label{cod:helloworld_python}
 \end{code}
 
@@ -49,9 +51,9 @@ int main(int argc, char ** argv) {
 \section{\ac{ROS}}
 \label{sec:ros}
 
-Si se habla de robótica, se habla de \ac{ROS}, ya que es el medio predilecto para el desarrollo de soluciones de este ámbito, pero, ¿qué es exactamente \ac{ROS}?.\\
+Si se habla de robótica, se habla de \ac{ROS}, ya que es el framework para el desarrollo de soluciones de este ámbito, pero, ¿qué es exactamente \ac{ROS}?.\\
 
-Se trata de un \emph{middleware}, es decir, una infraestructura software situada entre el sistema operativo y el desarrollador, que incluye una serie de módulos y funcionalidades enfocadas al desarrollo de aplicaciones robóticas \cite{middleware-def} \cite{ros-def}. La idea detrás, busca estandarizar soluciones que no dependan de los drivers de cada sensor y actuador presentes. De forma general, se trata de una arquitectura basada en el paradigma de publicador-suscriptor, donde una serie de nodos se comunican entre sí, transmitiendo mensajes propios, a través de canales compartidos llamados \emph{topics}, esto es, un nodo suscriptor se suscribirá a un determinado topic, que permita la transmisión de un tipo de mensaje concreto, quedando en espera de que un nodo pulicador, envíe mensajes de este tipo a ese topic. Todo se gestiona de manera centralizada, es decir, existe un master que se encarga de gestionar las peticiones de todos los nodos y el envío de mensajes a todos los topics activos.\\
+Se trata de un \emph{middleware}, es decir, una infraestructura software situada entre el sistema operativo y el desarrollador, que incluye una serie de módulos y funcionalidades enfocadas al desarrollo de aplicaciones robóticas \cite{middleware-def} \cite{ros-def}. La idea detrás, busca estandarizar soluciones que no dependan de los drivers de cada sensor y actuador presentes. De forma general, se trata de una arquitectura basada en el paradigma de publicador-suscriptor, donde una serie de nodos se comunican entre sí, transmitiendo mensajes propios, a través de canales compartidos llamados \emph{topics}, esto es, un nodo suscriptor se suscribirá a un determinado topic, que permita la transmisión de un tipo de mensaje concreto, quedando en espera de que un nodo pulicador, envíe mensajes de este tipo a ese topic. Todo se gestiona de manera centralizada, es decir, existe un master que se encarga de gestionar el registro de todos los nodos a los topics pertinentes.\\
 
 Concretamente, se usa para desarrollar todos los algoritmos robóticos y para realizar las comunicaciones necesarias en la simulación del dron.\\
 

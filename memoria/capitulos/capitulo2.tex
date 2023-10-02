@@ -8,16 +8,16 @@ En este capítulo se tratará el propósito de este proyecto, así como los requ
 
 Los drones son una herramienta tremendamente versátil, ya que permiten solventar los inconvenientes orográficos de forma sencilla, y pueden ser provistos de múltiples sensores, lo que incrementa su adaptabilidad para solucionar un gran abanico de retos ingenieriles.\\
 
-Por tanto, el foco de este \ac{TFG} consistirá en desarrollar un comportamiento autónomo en un dron, para detectar una señal \ac{RF}. Esto puede ser especialmente útil en labores de rastreo e identificación de objetivos, tales como en casos de escenarios catastróficos donde se deben localizar personas perdidas.\\
+Por tanto, el foco de este \ac{TFG} consistirá en desarrollar un comportamiento autónomo en un dron, para detectar y localizar el origen de una señal \ac{RF}. Esto puede ser especialmente útil en labores de rastreo e identificación de objetivos, tales como en casos de escenarios catastróficos donde se deben localizar personas perdidas o de rastreo de señales en entornos indoor.\\
 
 Para ello, se establecen los siguientes objetivos:
 
 \begin{enumerate}
-	\item Desarrollo de una aplicación, enfocada a teleoperar un cuadracóptero, empleando herramientas de simulación y visualización así cómo el tratamiento del código.
-	\item Implementación de un modelo sencillo de propagación de señales.
-	\item Desarrollo de un comportamiento autónomo capaz de identificar y navegar hacia una señal \ac{RF}.
+	\item Desarrollo de una aplicación, enfocada a teleoperar un \ac{UAV}, empleando herramientas de simulación y visualización.
+	\item Implementación de un modelo de propagación de señales.
+	\item Desarrollo de un comportamiento autónomo capaz de detectar y navegar hacia la fuente de una señal \ac{RF}.
 	\item Comparativa frente a los algoritmos navegación tradicionales.
-	\item Desarrollo de un comportamiento autónomo en un escenario con obstáculos.
+	\item Desarrollo de un comportamiento autónomo en un escenario dinámico.
 \end{enumerate}
 
 \section{Requisitos}
@@ -28,8 +28,8 @@ Las especificaciones que se deben cumplir son las siguientes:
 \begin{enumerate}
 	\item El modelo de propagación de señal debe ser el modelo de Friis.
 	\item Se debe usar \ac{ROS} como middleware robótico y Gazebo como herramienta de simulación.
-	\item Se debe seleccionar el algoritmo que navegue de forma más óptima.
-	\item Se debe seleccionar el algoritmo más seguro.
+	\item Se debe seleccionar el algoritmo que navegue de forma más eficiente.
+	\item Se debe seleccionar el algoritmo más seguro en cuanto a salvaguardar la integridad del dispositivo y sus alrededores.
 \end{enumerate}
 
 \section{Metodología}
@@ -67,4 +67,4 @@ Para concluir este capítulo, los pasos seguidos han sido:
 	\item A continuación, se realizó una fase de pruebas y extracción de información sobre la que se realizaron diversas comparativas.
 	\item Cerrando la fase de desarrollo, lo último fue implementar soluciones sobre escenarios más realistas que incluían obstáculos.
 	\item Finalmente, se realizó la redacción de la memoria.
-\end{enumerate}
+\end{enumerate} 

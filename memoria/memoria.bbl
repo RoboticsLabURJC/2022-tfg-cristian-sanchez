@@ -29,11 +29,49 @@ Leo Gugerty.
 \newblock {\em Proceedings of the Human Factors and Ergonomics Society Annual
   Meeting}, 50:880--884, 10 2006.
 
+\bibitem{christl2020visionbased}
+Max Christl.
+\newblock Vision-based autonomous drone control using supervised learning in
+  simulation, 2020.
+
+\bibitem{wang2019unsupervised}
+Y.~Wang, R.~Yoshihashi, R.~Kawakami, et~al.
+\newblock Unsupervised anomaly detection with compact deep features for wind
+  turbine blade images taken by a drone.
+\newblock {\em IPSJ Transactions on Computer Vision and Applications},
+  11(3):1--10, 2019.
+
+\bibitem{electronics10090999}
+Ahmad~Taher Azar, Anis Koubaa, Nada Ali~Mohamed, Habiba~A. Ibrahim, Zahra~Fathy
+  Ibrahim, Muhammad Kazim, Adel Ammar, Bilel Benjdira, Alaa~M. Khamis,
+  Ibrahim~A. Hameed, and Gabriella Casalino.
+\newblock Drone deep reinforcement learning: A review.
+\newblock {\em Electronics}, 10(9), 2021.
+
+\bibitem{9636053}
+Yunlong Song, Mats Steinweg, Elia Kaufmann, and Davide Scaramuzza.
+\newblock Autonomous drone racing with deep reinforcement learning.
+\newblock In {\em 2021 IEEE/RSJ International Conference on Intelligent Robots
+  and Systems (IROS)}, pages 1205--1212, 2021.
+
 \bibitem{q-learning-app}
 Beakcheol Jang, Myeonghwi Kim, Gaspard Harerimana, and Jong~Wook Kim.
 \newblock Q-learning algorithms: A comprehensive classification and
   applications.
 \newblock {\em IEEE Access}, 7:133653--133667, 2019.
+
+\bibitem{CHEN2022939}
+Xinwei Chen, Marlin~W. Ulmer, and Barrett~W. Thomas.
+\newblock Deep q-learning for same-day delivery with vehicles and drones.
+\newblock {\em European Journal of Operational Research}, 298(3):939--952,
+  2022.
+
+\bibitem{s23010188}
+Meisam Kabiri, Claudio Cimarelli, Hriday Bavle, Jose~Luis Sanchez-Lopez, and
+  Holger Voos.
+\newblock A review of radio frequency based localisation for aerial and ground
+  robots with 5g future perspectives.
+\newblock {\em Sensors}, 23(1), 2023.
 
 \bibitem{tiobe}
 Tiobe.
