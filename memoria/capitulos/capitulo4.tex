@@ -1,15 +1,17 @@
 \chapter{Diseño}
 \label{cap:capitulo4}
 
-En este capítulo se expone, de forma detallada, el proceso seguido para conseguir que un dron detecte y navegue hacia una señal \ac{RF}.\\
+En este capítulo se expone, de forma detallada, el proceso seguido para conseguir que un dron detecte y navegue autónomamente hacia una señal \ac{RF}. Además, se muestra el desarrollo de una aplicación responsiva, que simula el comportamiento de una señal (en un espacio libre de obstáculos), basada en la aproximación de Friis. A continuación, se puede observar un diagrama de bloques donde se ve una panorámica del sistema empleado:\\
 
-Además, se muestra el desarrollo de una aplicación responsiva, que simula el comportamiento de una señal (en un espacio libre de obstáculos), basada en la aproximación de Friis.\\
+\begin{figure} [H]
+	\begin{center}
+	\includegraphics[height=10cm]{imagenes/cap4/0_diagrama_general.png}
+	\end{center}
+	\caption[Diagrama esquemático del sistema completo]{Diagrama esquemático del sistema completo}
+	\label{fig:diagrama}
+\end{figure}
 
-Por último, se determina cuál de los métodos empleados es mejor y por qué, a través de diversas métricas comparativas.\\
-
-A continuación, se puede observar un diagrama de bloques donde se ve una vista general del sistema empleado:\\
-
-(METER DIAGRAMA DE BLOQUES)\\
+Básicamente, se tiene un controlador, encargado de comandar órdenes al dron; un simulador, que nos permite visualizar el modelo y el comportamiento del dron; el propio dron, que devuelve datos a otros bloques, tales como su posición o la imagen de la cámara instalada, entre otros; Rviz, como bloque de depuración y visualización; mánager de datos, encargado de gestionar la transmisión de información entre el modelo de propagación de señal y el bloque de algoritmos o comportamientos autónomos, así como con Rviz; modelo de señal, cuya función es generar un mapa de propagación de señal; bloque de comportamientos autónomos, que almacena la algoritmia responsable de resolver la navegación autónoma hacia el origen de la señal \ac{RF}; y por último, el bloque de teleoperación, el cual se encarga de solicitar órdenes al controlador para desencadenar acciones en el dron.
 
 \section{Preparación del entorno}
 \label{sec:preparacion_del_entorno}
@@ -19,13 +21,11 @@ Inicialmente, se pone en funcionamiento el entorno de simulación (compatible co
 \subsection{JdeRobot - drones}
 \label{subsec:jderobot_drones}
 
-Gracias a esta plataforma, se obtienen los modelos y los módulos necesarios para simular en Gazebo 11 el desempeño de un cuadracóptero, provisto de un sistema autopilot PX4.\\
-
-Específicamente, el modelo usado es el 3DR Iris simulado, con un plugin de una cámara frontal. Este dispositivo utiliza MAVROS para realizar la comunicación, lo que nos permite enviar y recibir mesajes ROS compatibles con el protocolo de comunicaciones típico de estas aeronaves, MAVLink.\\
+Gracias a esta plataforma, se obtienen los modelos y módulos necesarios para simular en Gazebo 11 un cuadracóptero, provisto de un sistema autopilot PX4. Específicamente, el modelo usado es el 3DR Iris simulado, con un plugin de una cámara frontal, el cual se ha incluido manualmente en el fichero original, debido a que el modelo específico disponible no funcionaba correctamente. Este dispositivo utiliza MAVROS para realizar la comunicación, lo que nos permite enviar y recibir mesajes ROS compatibles con el protocolo de comunicaciones típico de estas aeronaves, MAVLink.\\
 
 \begin{figure} [H]
 	\begin{center}
-	\includegraphics[height=4cm]{imagenes/cap4/1_px4_drone_gz.png}
+	\includegraphics[height=6cm]{imagenes/cap4/1_px4_drone_gz.png}
 	\end{center}
 	\caption[3DR Iris simulado]{3DR Iris simulado}
 	\label{fig:3dr_iris}
@@ -34,9 +34,7 @@ Específicamente, el modelo usado es el 3DR Iris simulado, con un plugin de una 
 \subsection{Teleoperador}
 \label{subsec:teleoperador}
 
-Una vez es funcional el entorno y los modelos, la primera aproximación ha consistido en realizar una interfaz gráfica simple, para enviar órdenes a la aeronave.\\
-
-Para ello, se debe conseguir enviar mensajes de forma programática. Por tanto, se diseña un script controlador encargado de la comunicación directa con el controlador de la aeronave, que a su vez se encarga enviar y recibir diversos datos vía MAVROS. De igual modo, se satisfacen una serie de requisitos para asegurar el correcto funcionamiento del sistema:
+Una vez es funcional el entorno y los modelos, la primera aproximación ha consistido en realizar una interfaz gráfica, para enviar órdenes a la aeronave a modo de teleoperador. Para ello, se debe conseguir enviar mensajes de forma programática. Por tanto, se diseña un script controlador encargado de la comunicación directa con el controlador de la aeronave, que a su vez se encarga enviar y recibir diversos datos vía MAVROS. De igual modo, se satisfacen una serie de requisitos para asegurar el correcto funcionamiento del sistema:
 
 \begin{enumerate}
 	\item La comunicación se debe dar a más de 2 Hz, para evitar cambios indeseados en el funcionamiento interno del controlador PX4 (de la aeronave).
@@ -48,30 +46,31 @@ Para ello, se debe conseguir enviar mensajes de forma programática. Por tanto, 
     \item Por último, y antes de enviar cualquier posición, velocidad o comando (distintos modos de actuación), se debe comprobar siempre que el modo activo es \emph{OFFBOARD} y que el dron esta armado (listo para volar). En caso contrario, se debe solicitar al controlador, mediante servicios, dichos requerimientos.
 \end{enumerate}
 
-Por tanto, la manera de generar comportamientos en el dron en sí, es mediante \emph{topics}. Concretamente, los que genera MAVROS automáticamente cuando se lanza todo el sistema. Tal y como se comentó en apartados anteriores, estos \emph{topics} sólo admiten mensajes \ac{ROS}, lo que encapsula el mensaje real transmitido al controlador PX4, que solo es compatible con MAVLINK.\\
-
-En nuestro caso, se envían posiciones (PoseStamped), velocidades (Twist) y comandos (sevicios formados por mensajes personalizados, creados por MAVROS, con formato \ac{ROS}). Esto, nos permite conectar el resto de aplicaciones con el script controlador, mediante \emph{topics} comunes, de forma de que el script controlador se encargue de enviar la acción final al dron, mientras el resto de scripts se encarguen de resolver otras tareas.\\
-
-De este modo, el teleoperador se diseña con el fin de generar comportamientos que se usarán en las fases finales del \ac{TFG}. Sin embargo, para la primera versión, tan solo se construye una interfaz gráfica sencilla, encargada de enviar ordenes usando \ac{ROS} que, en última instancia, llegan al dron y producen diversos comportamientos, tales como moverse y girar, a través de barras de acción.\\
+Por tanto, la manera de generar comportamientos en el dron en sí, es mediante \emph{topics}. Concretamente, los que genera MAVROS automáticamente cuando se lanza todo el sistema. Tal y como se comentó en apartados anteriores, estos \emph{topics} sólo admiten mensajes \ac{ROS}, lo que encapsula el mensaje real transmitido al controlador PX4, que solo es compatible con MAVLINK. En nuestro caso, se envían posiciones (PoseStamped), velocidades (Twist) y comandos (sevicios formados por mensajes personalizados, creados por MAVROS, con formato \ac{ROS}). Esto, nos permite conectar el resto de aplicaciones con el script controlador, mediante \emph{topics} comunes, de forma de que el script controlador se encargue de enviar la acción final al dron, mientras el resto de scripts se encarguen de resolver otras tareas, tal y como se aprecia a continuación, con el teleoperador como ejemplo:\\
 
 \begin{figure} [H]
 	\begin{center}
-	\includegraphics[height=4.5cm]{imagenes/cap4/2_axes_rc.png}
+	\includegraphics[height=10cm]{imagenes/cap4/4_esquema_coms.png}
 	\end{center}
-	\caption[Primera versión del teleoperador]{Primera versión del teleoperador}
-	\label{fig:teleoperador_v1}
+	\caption[Esquema comunicaciones del controlador]{Esquema comunicaciones del controlador}
+	\label{fig:diagrama}
 \end{figure}
+
+De este modo, el teleoperador se diseña con el fin de generar comportamientos que se usarán en las fases finales del \ac{TFG}. Sin embargo, para la primera versión, tan solo se construye una interfaz gráfica, encargada de enviar ordenes usando \ac{ROS} que, en última instancia, llegan al dron y producen diversos comportamientos, tales como moverse y girar, a través de barras de acción.\\
 
 En la siguiente versión, se programan comportamientos predefinidos, es decir, acciones predeterminadas tales como desplazarse distancias concretas en ciertas direcciones, o girar un número específico de grados en un sentido u otro. Para ello, se diseña una ampliación sobre la interfaz anterior, en la que se añade un botón por cada acción concreta desarrollada, además de una imagen de la cámara frontal en tiempo real.\\
 
-Por últmo, se afina el comportamiento de las acciones predefinidas, para hacer que el dron se desplazase de celda en celda, concretamente de centro en centro. La idea de esto es que, el dron solo podrá tomar medidas de la señal en posiciones concretas y no en movimiento. Además, se agregan marcadores en \emph{rviz}, para determinar las celdas visitadas (con colores aleatorios), junto con otro marcador que muestra la trayectoria que sigue la aeronave.\\
+Por último, se simplifica la interfaz, con el fin de seleccionar los comportamientos más relevantes de cara al proyecto. Además, se agregan marcadores en \emph{rviz}, para determinar las celdas visitadas (con colores aleatorios), junto con otro marcador que muestra la trayectoria que sigue la aeronave.\\
 
-\begin{figure} [H]
-	\begin{center}
-	\includegraphics[height=8cm]{imagenes/cap4/3_c2c_gui.png}
-	\end{center}
-	\caption[Versión final del teleoperador]{Versión final del teleoperador}
-	\label{fig:teleoperador_end}
+\begin{figure} [h]
+	\centering
+	\subfigure[Primera versión]{\includegraphics[height=4cm]{imagenes/cap4/2_axes_rc.png}}
+	\quad
+	\subfigure[Versión final]{\includegraphics[height=4cm]{imagenes/cap4/3_c2c_gui.png}}
+	\caption{Teleoperador}
+    \subfigure[Marcadores Rviz]{\includegraphics[height=4cm]{imagenes/cap4/3_rviz_path.png}}
+	\caption{Marcadores Rviz}
+	\label{fig:teleop_figs}
 \end{figure}
 
 A continuación, se muestra el \emph{``main''} de la aplicación mencionada:\\
@@ -108,7 +107,7 @@ if __name__ == '__main__':
     except rospy.ROSInterruptException:
         pass
 \end{lstlisting}
-\caption[Main de center to center app]{Main de center to center app}
+\caption[Bloque de código principal de la versión final del teleoperador]{Bloque de código principal de la versión final del teleoperador}
 \label{cod:c2c_app}
 \end{code}
 
@@ -119,7 +118,7 @@ Donde, tras inicializar el nodo \ac{ROS}, se definen por un lado los suscriptore
 
 El siguiente paso consiste en generar un modelo de propagación de señales \ac{RF}. Este apartado es especialmente relevante, ya que nos permite desarrollar una aplicación reactiva, con la idea de generar entornos en tiempo real, sobre los que probar nuestras soluciones.\\
 
-Pero, antes de entrar en detalle en estos aspectos, conviene familiarizarse con algunos conceptos básicos sobre el procesamiento de señales:
+Pero, antes de entrar en detalle en estos aspectos, conviene familiarizarse con algunos conceptos básicos sobre el procesamiento de señales\footnote[1]{Información extraida de la siguiente colección de videos didácticos \url{https://www.youtube.com/playlist?list=PL8bSwVy8_IcPCsBE71CYBLbQSS8ckWm6x}}\\:
 
 \begin{enumerate}
 	\item \emph{Señal}: se trata de una función que describe un fenómeno físico, y que se emplea para la transmisión de información.
@@ -139,20 +138,20 @@ Pero, antes de entrar en detalle en estos aspectos, conviene familiarizarse con 
     \item \emph{TX}: Se refiere a la transmisión de la señal.
 
     \item \emph{RX}: Hace referencia a la recepción de la señal.
-\end{enumerate} \cite{basics-signals}\\
+\end{enumerate}
 
-En cuanto al modelo de propagación de señal, se puede definir como un sistema capaz de calcular de que manera comporta la potencia de una señal, según las características de su entorno.\\
+En cuanto al modelo de propagación de señal, se puede definir como un sistema capaz de calcular de que manera se propaga una señal por el aire. La idea es obtener el modelo e integrarlo en \ac{ROS}, ya que no hay nada desarrollado y de cara a resolver problemas de este tipo, puede ser realmente útil.\\
 
 \subsection{Aproximación de Friis}
 \label{subsec:friis}
 
-Por ello, se opta por emplear la aproximación de Friis, que nos proporciona una ecuación para  modelizar nuestro problema:
+Para ello, se opta por emplear la aproximación de Friis, presentada por el ingeniero Danés-Americano Harald T. Friis en 1946, el cual buscaba una manera de medir el rendimiento de una antena \cite{johnson1984antenna}. De este modo, nos ofrece la siguiente ecuación para modelar nuestro problema:
 
 \begin{align}
     P_r = P_t \cdot \left( \frac{G_t G_r \lambda^2 }{(4 \pi)^2 d^n L} \right)
 \end{align}
 
-Donde cada término significa lo siguiente:
+Donde cada término significa lo siguiente\footnote[2]{\url{https://www.gaussianwaves.com/2013/09/friss-free-space-propagation-model/}}:
 
 \begin{enumerate}
     \item \emph{$P_t$ y $P_r$}: aluden a la potencia del transmisor y la potencia del receptor respectivamente.
@@ -165,8 +164,8 @@ Donde cada término significa lo siguiente:
 
     \item \emph{L}: representa todas aquellas pérdidas no asociadas a la propagación de la señal.
 
-    \item \ac{PLE} (n): permite ajustar el modelo a diversos entornos. Es un valor constante extraido de forma empírica. A continuación se muestra una tabla con varios ejemplos.
-\end{enumerate} \cite{friis-1}\\
+    \item \ac{PLE} (n): permite ajustar el modelo a diversos entornos. Es un valor constante extraido de forma empírica. Como se puede observar en la figura~\ref{fig:ple_table}.
+\end{enumerate}
 
 \begin{figure} [H]
 	\begin{center}
@@ -176,24 +175,18 @@ Donde cada término significa lo siguiente:
 	\label{fig:ple_table}
 \end{figure}
 
-Además, empleando este método, podemos modelizar las pérdidas de una señal estimadas durante su propagación, a través de la siguiente ecuación:\\
+Además, empleando este método, podemos modelar las pérdidas de una señal estimadas durante su propagación, a través de la siguiente ecuación:\\
 
 \begin{align}
     P_L(dB) = -10 \log_{10} \frac{\lambda^2}{(4 \pi d)^2}
 \end{align}
 
-Sin embargo, para nuestro caso no es relevante (aunque se incluye dentro del módulo).\\
-
 \subsection{Módulo python de Friis}
 \label{subsec:friis-module}
 
-Una vez desarrollado lo anterior, lo siguiente consiste en encontrar la forma de que todo esto sea accesible para cualquier aplicación que lo desee.\\
+Una vez desarrollado lo anterior, lo siguiente consiste en encontrar la forma de que todo esto sea accesible para cualquier aplicación que lo desee en el ecosistema Python. Debido a esto, surge la idea de crear un módulo python encargado de modelar las ecuaciones previamente mencionadas. Para ello, se diseña una clase cuyo constructor recibe, por parámetros, las variables implicadas en las ecuaciones de Friis, además de las dimensiones del mapa y su resolución (la cual afecta al tamaño de celda).\\
 
-Por ello, surge la idea de crear un módulo python encargado de modelizar las ecuaciones previamente mencionadas. Para ello, se diseña una clase cuyo constructor recibe, por parámetros, las variables implicadas en las ecuaciones de Friis, además de las dimensiones del mapa y su resolución (la cual afecta al tamaño de celda).\\
-
-Básicamente, el proceso a seguir para usar este módulo es el siguiente, primero se crea un objeto de la clase Friis donde se especifican las características de la señal y las variables relacionadas con el mapa, lo que genera internamente un array 2D vacío, que será rellenado en función del modelo seleccionado. Posteriormente, se selecciona el modelo deseado (propagación o pérdidas, este último no está testeado), pasando las coordenadas del origen de la señal por parámetros. Esto, retornará el mapa relleno con los valores asociados a las ecuaciones del modelo de Friis seleccionado.\\
-
-A continuación se muestra un ejemplo sencillo de uso, donde se obtiene un mapa de propagación de señal, en forma de Numpy array 2D:
+Básicamente, el proceso a seguir para usar este módulo es el siguiente, primero se crea un objeto de la clase Friis donde se especifican las características de la señal y las variables relacionadas, lo que genera internamente un array 2D vacío, que será rellenado en función del modelo seleccionado. Posteriormente, se selecciona el modelo deseado (propagación o pérdidas), pasando las coordenadas del origen de la señal por parámetros. Esto, retornará el array relleno con los valores asociados a las ecuaciones del modelo de Friis seleccionado. A continuación se muestra un ejemplo de uso sencillo, donde se obtiene un mapa de propagación de señal, en forma de Numpy array 2D:
 
 \begin{code}[H]
     \begin{lstlisting}[language=Python]
@@ -218,9 +211,17 @@ A continuación se muestra un ejemplo sencillo de uso, donde se obtiene un mapa 
 \label{cod:friis_basics}
 \end{code}
 
-Concretamente, se genera un mapa 10x10 con resolución 1 (es decir, cada celdilla es de 1x1 unidades), de una señal WIFI, donde el transmisor emite a 10 W, con una ganancia de 1.5, el receptor posee una ganancia de 2, un factor de pérdidas (L) de 1, es decir, sin pérdidas, y por último, el exponente n (\ac{PLE}) con un valor de 2, que representa el espacio vacío. Luego se genera el mapa de propagación de la señal, indicando que la fuente se encuentra en las coordenadas (5,3).\\
+Concretamente, se genera un array 10x10 con resolución 1 (es decir, representa celdillas de 1x1 metros), de una señal WIFI, donde el transmisor emite a 10 W, con una ganancia de 1.5, el receptor posee una ganancia de 2, un factor de pérdidas (L) de 1, es decir, sin pérdidas, y por último, el exponente n (\ac{PLE}) con un valor de 2, que representa el espacio vacío. Luego se genera el modelo de propagación de la señal, indicando que la fuente se encuentra en las coordenadas (5,3). A continuación se muestra gráficamente dicho ejemplo:\\
 
-No obstante, este módulo posee otras funcionalidades útiles para trabajar con él, como son:
+\begin{figure} [H]
+	\begin{center}
+	\includegraphics[height=5cm]{imagenes/cap4/4_heatmap_example.png}
+	\end{center}
+	\caption[Representación del ejemplo básico de uso del módulo Friis]{Representación del ejemplo básico de uso del módulo Friis}
+	\label{fig:heat_ex}
+\end{figure}
+
+Adicionalmente, este módulo posee otras funcionalidades útiles para trabajar con él, como son:
 
 \begin{enumerate}
     \item \emph{reset\_world}: modifica el mapa que hubiera, estableciendo todos sus valores a cero.
@@ -235,25 +236,11 @@ Hay que tener en cuenta que, aunque se modifiquen los parámetros, se debe model
 \subsection{Aplicación de Friis}
 \label{subsec:friis-app}
 
-Finalmente y agrupando lo anterior, se integra el módulo previo, en una interfaz gráfica intuitiva para el usuario. La idea es estudiar, en tiempo real, como evoluciona la señal cuando alguno de sus parametros, en la ecuación de Friis, es modificado.\\
+Finalmente y agrupando lo anterior, se integra el módulo previo, en una interfaz gráfica intuitiva que ha servido para depurar. La idea es estudiar, en tiempo real, como evoluciona la señal cuando alguno de sus parametros, en la ecuación de Friis, es modificado.\\
 
-Para ello, se emplea la librería matplotlib, debido a la enorme cantidad de herramientas de las que dispone, así como de su sencillez a la hora de crear nuevas aplicaciones. Funciona de manera que se generan eventos que son gestionados en \emph{``callbacks''}, es decir, se generan bucles asociados a dichos eventos, que reaccionan a cambios en la interfaz generada.\\
+Para ello, se emplea la librería matplotlib, debido a la enorme cantidad de herramientas de las que dispone, así como de su sencillez a la hora de crear nuevas aplicaciones. Funciona de manera que se generan eventos que son gestionados en \emph{``callbacks''}, es decir, se generan bucles asociados a dichos eventos, que reaccionan a cambios en la interfaz generada. En nuestro caso, la estructura base consta de una figura, sobre la que se agregan todos los elementos, entre los que encontramos los mapas de calor o \emph{``heatmap''} en forma de plots, las barras de acción o \emph{``sliders''}, botones, entre otros elementos que se explicarán más adelante.\\
 
-En nuestro caso, la estructura base consta de una figura, sobre la que se agregan todos los elementos, entre los que encontramos los mapas de calor o \emph{``heatmap''} en forma de plots, las barras de acción o \emph{``sliders''}, botones, entre otros elementos que se explicarán más adelante.\\
-
-Inicialmente, se opta por representar un mapa de calor con una barra de color asociada a los distintos valores de la señal. Además, se integran sliders correspondientes a cada valor presente en la ecuación de Friis, tal y como se muestra a continuación:\\
-
-\begin{figure} [H]
-	\begin{center}
-	\includegraphics[height=7cm]{imagenes/cap4/6_Friss_firstGUI.png}
-	\end{center}
-	\caption[Primera versión de la interfaz]{Primera versión de la interfaz}
-	\label{fig:friis_init_app}
-\end{figure}
-
-El problema es, que al actualizar los valores, también lo hace la representación, por lo que no se aprecia el efecto de los cambios en el plot.\\
-
-Por ello, se decide agregar dos mapas de calor, uno con el máximo y el mínimo fijados a mano (donde sí se aprecian los cambios), y el anterior mencionado. Para elegir cual usar, se añade una casilla marcable. Además, se incluyen dos variables relevantes a la hora de modelar, el tamaño del mapa y la resolución, manejadas a través de \emph{``sliders''}, los cuales a su vez se activan al pulsar un botón de SET, que recarga la interfaz. Además, se ajustan los saltos de valores para que sean coherentes en el resto de barras de acción, tal y como se puede apreciar a continuación:\\
+Inicialmente, se opta por representar un mapa de calor con una barra de color asociada a los distintos valores de la señal. Además, se integran sliders correspondientes a cada valor presente en la ecuación de Friis. El problema es, que al actualizar los valores, también lo hace la representación, por lo que no se aprecia el efecto de los cambios en el plot. Por ello, se decide agregar dos mapas de calor, uno con el máximo y el mínimo fijados a mano (donde sí se aprecian los cambios), y el anterior mencionado. Para elegir cual usar, se añade una casilla marcable. Además, se incluyen dos variables relevantes a la hora de modelar, el tamaño del mapa y la resolución, manejadas a través de \emph{``sliders''}, los cuales a su vez se activan al pulsar un botón de SET, que recarga la interfaz. Además, se ajustan los saltos de valores para que sean coherentes en el resto de barras de acción, tal y como se puede apreciar a continuación:\\
 
 \begin{figure} [H]
     \begin{center}
@@ -263,7 +250,16 @@ Por ello, se decide agregar dos mapas de calor, uno con el máximo y el mínimo 
 	\label{fig:friis_end_app}
 \end{figure}
 
-Cabe destacar que, por motivos de desarrollo, no se ha añadido la parte de generación dinámica de obstáculos a la aplicación, ya que esta planteó como un extra al final del \ac{TFG}.\\
+\subsection{Mánager de datos - Integración de Friis con \ac{ROS}}
+\label{subsec:friis-ros}
+
+Por último y cómo se comentó al inicio de la sección~\ref{sec:signals}, se ha diseñado una aplicación servidor de datos, que funciona como intermediaria entre el módulo de Friis y otras aplicaciones \ac{ROS} (en este caso, con un diseño enfocado a simular de manera realista el escenario con el dron). Básicamente, la aplicación hace uso del módulo de Friis para gestionar la información que envía a según que aplicación. Siendo concisos, este programa se compone de dos servidores basados en acciones \ac{ROS}, los cuales son especialmente útiles dada su naturaleza asíncrona. Dichos servidores, se encargan de las peticiones y respuestas para el dron y para rviz, tal y como se detalla a continuación:
+
+\begin{enumerate}
+	\item \emph{Caso dron}: en términos generales, el dron envía su posición en coordenadas transformadas al sistema de referencia del \emph{``heatmap''}, y recibe el valor de la señal de dichas coordenadas. En un caso real, el dron tan solo accedería al valor de la señal a través de un sensor que se lo permitiera. Adicionalmente, se le ha agregado la funcionalidad de enviar, en dicha petición, si se deseaba un mapa con obstáculos o no, para compatibilizar el funcionamiento con entornos dinámicos.
+
+	\item \emph{Caso rviz}: recibe una petición donde se agregan todas las características de la señal para generar el \emph{``heatmap''} deseado, vease el origen y sus componentes. Esto, genera como respuesta un array de floats que contienen la información del mapa de calor, en un formato adecuado para su representación, es decir, para generar el mapa de forma gráfica, se emplea la biblioteca grid\_map, que a través de un topic de \ac{ROS}, permite enviar los datos a un plugin de rviz, el cual genera la representación visual buscada\footnote[3]{Toda la funcionalidad englobada en el directorio heatmap\_util del proyecto}. También ha sido agregada la funcionalidad de los obstáculos para la experimentación futura.
+\end{enumerate}
 
 \section{Comportamiento sigue señal basado en \ac{RF}}
 \label{sec:signal_follow}
@@ -271,15 +267,7 @@ Cabe destacar que, por motivos de desarrollo, no se ha añadido la parte de gene
 \subsection{Introducción al problema}
 \label{subsec:intro_sf}
 
-El problema a resolver en este caso, es el de detectar y navegar hacia una señal, empleando diversos algoritmos, para compararlos posteriormente. Por consiguiente, se ha realizado una integración conjunta de todos los puntos mencionados anteriormente.\\
-
-Para ello, se ha diseñado una aplicación servidor de datos, que funciona como intermediaria con el módulo de Friis. Siendo concisos, dicha aplicación contiene dos servidores basados en acciones \ac{ROS}, que son especialmente útiles en este caso, dada su naturaleza asíncrona. Dichos servidores gestionan las peticiones para el dron y para rviz, tal y como se cuenta a continuación:
-
-\begin{enumerate}
-	\item \emph{Caso dron}: en términos generales, el dron envía su posición en coordenadas transformadas al sistema de referencia del \emph{``heatmap''}, y recibe el valor de la señal de dichas coordenadas. En un caso real, el dron tan solo accedería al valor de la señal a través de un sensor que se lo permitiera. Además, se le ha agregado la funcionalidad de enviar, en dicha petición, si se deseaba un mapa con obstáculos o no, para compatibilizar el funcionamiento con entornos dinámicos.
-
-	\item \emph{Caso rviz}: recibe una petición donde se agregan todas las características de la señal para generar el \emph{``heatmap''} deseado, vease el origen y sus componentes. Esto, genera como respuesta un array de floats que contienen la información del mapa de calor, en un formato adecuado para su representación, es decir, para generar el mapa de forma gráfica, se emplea la biblioteca grid\_map, que a través de un topic de \ac{ROS}, permite enviar los datos a un plugin de rviz, el cual genera la representación visual buscada\footnote[2]{Toda la funcionalidad englobada en el directorio heatmap\_util del proyecto}. También ha sido agregada la funcionalidad de los obstáculos para la experimentación futura.
-\end{enumerate}
+El primer problema a resolver, es el de detectar y navegar hacia una señal, empleando diversos algoritmos, para compararlos posteriormente. Por consiguiente, se ha realizado una integración conjunta de todos los puntos mencionados anteriormente.\\
 
 \subsection{Algoritmos}
 \label{subsec:algoritmo_sf}
