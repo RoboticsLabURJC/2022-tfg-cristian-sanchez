@@ -1,7 +1,7 @@
 \chapter{Diseño}
 \label{cap:capitulo4}
 
-En este capítulo se expone, de forma detallada, el proceso seguido para conseguir que un dron detecte y navegue autónomamente hacia una señal \ac{RF}. Además, se muestra el desarrollo de una aplicación responsiva, que simula el comportamiento de una señal (en un espacio libre de obstáculos), basada en la aproximación de Friis. A continuación, se puede observar un diagrama de bloques donde se ve una panorámica del sistema empleado:\\
+En este capítulo se expone, de forma detallada, el proceso seguido para conseguir que un dron detecte y navegue autónomamente hacia una señal \ac{RF}. Además, se muestra el desarrollo de una aplicación responsiva, que simula el comportamiento de una señal (en un espacio libre de obstáculos), basada en la aproximación de Friis. A continuación, se puede observar un diagrama de bloques donde se ve una panorámica del sistema empleado:
 
 \begin{figure} [H]
 	\begin{center}
@@ -116,29 +116,29 @@ Donde, tras inicializar el nodo \ac{ROS}, se definen por un lado los suscriptore
 \section{Modelo de propagación de señal}
 \label{sec:signals}
 
-El siguiente paso consiste en generar un modelo de propagación de señales \ac{RF}. Este apartado es especialmente relevante, ya que nos permite desarrollar una aplicación reactiva, con la idea de generar entornos en tiempo real, sobre los que probar nuestras soluciones.\\
+El siguiente paso consiste en generar un modelo de propagación de señales \ac{RF}. Este apartado es especialmente relevante, ya que nos permite desarrollar una aplicación reactiva, con la idea de generar entornos en tiempo real, sobre los que probar nuestras soluciones. Para entender bien todo, dejo una referencia en el anexo~\ref{cap:anexo} con una serie de conceptos introductorios últiles para abordar esta sección.\\
 
-Pero, antes de entrar en detalle en estos aspectos, conviene familiarizarse con algunos conceptos básicos sobre el procesamiento de señales\footnote[1]{Información extraida de la siguiente colección de videos didácticos \url{https://www.youtube.com/playlist?list=PL8bSwVy8_IcPCsBE71CYBLbQSS8ckWm6x}}\\:
+% Pero, antes de entrar en detalle en estos aspectos, conviene familiarizarse con algunos conceptos básicos sobre el procesamiento de señales\footnote[1]{Información extraida de la siguiente colección de videos didácticos \url{https://www.youtube.com/playlist?list=PL8bSwVy8_IcPCsBE71CYBLbQSS8ckWm6x}}\\:
 
-\begin{enumerate}
-	\item \emph{Señal}: se trata de una función que describe un fenómeno físico, y que se emplea para la transmisión de información.
+% \begin{enumerate}
+% 	\item \emph{Señal}: se trata de una función que describe un fenómeno físico, y que se emplea para la transmisión de información.
 
-    \item \emph{Dominio temporal}: establece el eje de abcisas con el tiempo.
+%     \item \emph{Dominio temporal}: establece el eje de abcisas con el tiempo.
 
-    \item \emph{Dominio de la señal}: determina si la señal se expresa en tiempo o en frecuencia (a través de transformadas).
+%     \item \emph{Dominio de la señal}: determina si la señal se expresa en tiempo o en frecuencia (a través de transformadas).
 
-    \item \ac{ADC}: elemento electrónico que permite la conversión de señales analógicas a señales digitales.
+%     \item \ac{ADC}: elemento electrónico que permite la conversión de señales analógicas a señales digitales.
 
-    \item \ac{RSSI}: permite establecer el nivel de potencia de una señal, con respecto a 1 mW de potencia. Se expresa en dBm.
+%     \item \ac{RSSI}: permite establecer el nivel de potencia de una señal, con respecto a 1 mW de potencia. Se expresa en dBm.
 
-    \item \ac{SNR}: métrica que permite medir la potencia de la señal con respecto al ruido ambiente.
+%     \item \ac{SNR}: métrica que permite medir la potencia de la señal con respecto al ruido ambiente.
 
-    \item \emph{Frecuencia}: parámetro de la función que define a la señal, el cual determina el número de veces que se repite en un segundo. Se mide en hercios (Hz).
+%     \item \emph{Frecuencia}: parámetro de la función que define a la señal, el cual determina el número de veces que se repite en un segundo. Se mide en hercios (Hz).
 
-    \item \emph{TX}: Se refiere a la transmisión de la señal.
+%     \item \emph{TX}: Se refiere a la transmisión de la señal.
 
-    \item \emph{RX}: Hace referencia a la recepción de la señal.
-\end{enumerate}
+%     \item \emph{RX}: Hace referencia a la recepción de la señal.
+% \end{enumerate}
 
 En cuanto al modelo de propagación de señal, se puede definir como un sistema capaz de calcular de que manera se propaga una señal por el aire. La idea es obtener el modelo e integrarlo en \ac{ROS}, ya que no hay nada desarrollado y de cara a resolver problemas de este tipo, puede ser realmente útil.\\
 
@@ -341,6 +341,14 @@ Como todo algoritmo de esta naturaleza, se distinguen dos fases: la fase de entr
 \subsubsection{Fase de entrenamiento}
 \label{subsubsec:train}
 
+\begin{figure} [H]
+    \begin{center}
+    \includegraphics[height=10cm]{imagenes/cap4/11_diagrama_training.png}
+    \end{center}
+    \caption[Esquema de condición de final y selección de puntos]{Esquema de condición de final y selección de puntos}
+    \label{fig:training_phase}
+\end{figure}
+
 Dentro del entrenamiento, podemos encontrar episodios, que en nuestro caso son las llegadas a la casilla final, o a casillas fuera del mapa definido (adicionalmente se añadió otra condición basada en el número de malas acciones consecutivas, pero de cara a extraer el máximo número de datos posibles para la tabla Q, esta condición no era adecuada, por ello se obvió); y las iteraciones, que se definen literalmente como la realización de una acción. Además, para rellenar el contenido de la tabla, se han definido las pertinentes recompensas y penalizaciones basadas en la diferencia entre la medidas, antes y después de realizar una acción (agregando un pequeño multiplicador a las recompensas negativas), contemplando casos extra, como cuando el dron se sale del mapa, donde se establece una recompensa fija negativa, calculada en proporción al resto de recompensas. Posteriormente, se asignan los valores obtenidos en la tabla Q, haciendo uso de la ecuación de Bellman:
 \begin{equation}
     Q(s, a) = (1 - \alpha) \cdot Q(s, a) + \alpha \cdot \left(r + \gamma \cdot \mathrm{max}_{a'} Q(s', a')\right)
@@ -359,50 +367,13 @@ La fase de exploración ocupa un 20\% del número de episodios, de forma lineal,
 
 Los métodos usados para Q-Learning, se basan en las funcionalidades necesarias para desempeñar todo el proceso definido anteriormente, véase la generación de estados y acciones para la tabla, la extracción de índices dentro de la misma, el tratamiento del parámetro $\epsilon$, la obtención de coordenadas válidas, entre otros\footnote[3]{Todos los métodos están explicados dentro del código \url{https://github.com/RoboticsLabURJC/2022-tfg-cristian-sanchez/blob/main/src/teleop/scripts/algorithms.py}}.\\
 
-\begin{figure} [H]
-    \begin{center}
-    \includegraphics[height=10cm]{imagenes/cap4/11_diagrama_training.png}
-    \end{center}
-    \caption[Esquema episodio fase de entrenamiento]{Esquema episodio fase de entrenamiento}
-    \label{fig:training_phase}
-\end{figure}
+Cabe destacar que, si la acción tomada lleva al dron hacia una condición de final, este finaliza automáticamente el episodio, viajando hacia una nueva posición de entrenamiento y actualizando ciertos parámetros, como es el caso  del parámetro $\epsilon$. La condición de final se aplica siempre tras actualizar los valores intrínsecos en la iteración, tal y como se puede apreciar en la figura~\ref{fig:training_phase}. De forma general, en la actualización de parámetros, se incluye la adición de pesos en la tabla Q según la función de recompensa y un factor aplicado, lo que se traduce en la siguiente ecuación:
+\begin{equation}
+    r = (P_f - P_o) \cdot factor
+\end{equation}
+Donde $P_f$ representa el valor leido de la potencia en la nueva posición (tras haber realizado la acción), $P_o$ es el valor de la lectura obtenida antes de realizar la acción, y \emph{factor} equivale a un valor numérico fijo establecido en función de si se le quiere dar más importancia a las recompensas positivas y/o negativas (en nuestro caso es de 1'05 sólo para las recompensas negativas). El orden de magnitud trabajado para esta diferencia se encuentra en torno a las unidades, por ello, se establece el caso de que el dron salga del mapa con una recompensa fija de \emph{``-10''}, que escala al orden de las decenas, lo que nos permite penalizar más dichas decisiones.\\
 
-Cabe destacar que, si la acción tomada lleva al dron hacia una condición de final, este finaliza automáticamente el episodio, viajando hacia una nueva posición de entrenamiento y actualizando ciertos parámetros, como es el caso  del parámetro $\epsilon$. La condición de final se aplica siempre tras actualizar los valores intrínsecos en la iteración.\\
-
-\subsubsection{Fase de inferencia}
-\label{subsubsec:test}
-
-Por último, en la \emph{fase de inferencia}, el dron analiza su estado (o sus coordenadas dentro del mapa de calor), y observa la mejor acción disponible dentro de la tabla Q ya rellena. Esto lo realiza hasta que detecta la condición de parada, que se cumple cuando la medida anterior de señal es mayor que la actual y todos los vecinos adyacentes a la mayor de las medidas, poseen señal inferior. Para hacer un correcto análisis, se parte siempre de coordenadas distintas a las que se usaron para entrenar y rellenar la tabla Q.
-
-\subsection{Experimentos y resultados}
-\label{subsec:experimentos_sf}
-
-\subsubsection{Tipos de gráficos}
-\label{subsubsec:graficos}
-
-Antes de entrar en las pruebas realizadas, es conveniente introducir el tipo de gráficos que han sido usados.\\
-
-En primer lugar se encuentra el mapa de puntos. Aquí se muestran las posiciones en el mapa de calor donde el dron entrena, infiere (o desde donde empieza a moverse en los algoritmos), además de la posición de la señal y propios los límites del mapa.\\
-
-\begin{figure} [H]
-    \begin{center}
-    \includegraphics[height=7cm]{imagenes/cap4/12_puntos_30_esquina.png}
-    \end{center}
-    \caption[Mapa de puntos 30x30 con la señal en la esquina]{Mapa de puntos 30x30 con la señal en la esquina}
-    \label{fig:30_points}
-\end{figure}
-
-El siguiente gráfico representa el camino seguido por el dron al aplicar cada algoritmo para unas mismas coordenadas.\\
-
-\begin{figure} [H]
-    \begin{center}
-    \includegraphics[height=5cm]{imagenes/cap4/13_trayectorias_12.png}
-    \end{center}
-    \caption[Trayectorias seguidas en mapa 12x12 con señal en el centro]{Trayectorias seguidas en mapa 12x12 con señal en el centro}
-    \label{fig:12_traj}
-\end{figure}
-
-A continuación se presenta uno de los gráficos más relevantes, en este caso, un gráfico triple que nos permite conocer en detalle como ha ido el entrenamiento. En concreto, representa tres métricas: el valor de epsilon ($\epsilon$), en el que se distingue la fase de exploración; la recompensa acumulada, que nos permite analizar la convergencia del entrenamiento; y el número de iteraciones, donde se observa que conforme el algoritmo aprende, el número se reduce. Todo ello con respecto a cada episodio.\\
+Una vez realizado el entrenamiento, podemos analizar cómo ha ido a través de un gráfico, en este caso, un gráfico triple que nos permite conocer en detalle características del proceso. En concreto, representa tres métricas: el valor de epsilon ($\epsilon$), en el que se distingue la fase de exploración; la recompensa acumulada, que nos permite analizar la convergencia del entrenamiento; y el número de iteraciones, donde se observa que conforme el algoritmo aprende, el número se reduce. Todo ello con respecto a cada episodio, tal y como se puede apreciar a continuación:\\
 
 \begin{figure} [H]
     \begin{center}
@@ -412,20 +383,18 @@ A continuación se presenta uno de los gráficos más relevantes, en este caso, 
     \label{fig:training_graph}
 \end{figure}
 
-Por último, se muestran los gráficos comparativos que nos dan un aproximado del rendimiento de cada algoritmo. En este caso, también se analizan tres cosas: el tiempo medio en segundos que tarda el dron desde que despega hasta que vuelve a su posición de despegue; el número medio de iteraciones empleadas para alcanzar la señal; y el número medio de movimientos hacía coordenadas donde la señal es menor y no mayor\footnote[4]{Los datos arrojados han sido guardados en formato \emph{csv}.}.\\
+\subsubsection{Fase de inferencia}
+\label{subsubsec:test}
 
-\begin{figure} [H]
-    \begin{center}
-    \includegraphics[height=8cm]{imagenes/cap4/15_avg_graphs.png}
-    \end{center}
-    \caption[Gráficos comparativos]{Gráficos comparativos}
-    \label{fig:compare_graph}
-\end{figure}
+Por último, en la \emph{fase de inferencia}, el dron analiza su estado (o sus coordenadas dentro del mapa de calor), y observa la mejor acción disponible dentro de la tabla Q ya rellena. Esto lo realiza hasta que detecta la condición de parada, que se cumple cuando la medida anterior de señal es mayor que la actual y todos los vecinos adyacentes a la mayor de las medidas, poseen señal inferior. Para hacer un correcto análisis, se parte siempre de coordenadas distintas a las que se usaron para entrenar y rellenar la tabla Q.
 
-\subsubsection{Experimentos realizados}
-\label{subsubsec:experimentos}
+\subsection{Experimentos y resultados}
+\label{subsec:experimentos_sf}
 
-En cuanto a las pruebas realizadas propiamente dichas, y a excepción del último caso, los parámetros de la señal siempre son los valores por defecto establecidos en la clase, donde sólo varía el tamaño del mapa, que se va modificando según el experimento. Además, cabe destacar que la señal se toma como un punto estático dentro del mapa de calor y con respecto al dron, distinguiendo la posición centrada y la posición cercana a una esquina, que también dependen del experimento.\\
+\subsubsection{Experimento 1 - Comparativa de algoritmos para escenarios de distintas dimensiones}
+\label{subsubsec:experimentos_1}
+
+Durante todos los experimentos realizados, los parámetros de la señal siempre son los valores por defecto establecidos en la clase, donde sólo varía el tamaño del mapa, que se va modificando según el experimento. Además, cabe destacar que la señal se toma como un punto estático dentro del mapa de calor y con respecto al dron, distinguiendo la posición centrada y la posición cercana a una esquina, que también dependen del experimento.\\
 
 \begin{figure} [H]
     \begin{center}
@@ -435,9 +404,7 @@ En cuanto a las pruebas realizadas propiamente dichas, y a excepción del últim
     \label{fig:compare_graph}
 \end{figure}
 
-Primero se ha probado sobre un escenario de tamaño 12x12 metros, con las dos posiciones de señal mencionadas:\\
-
-Para la señal cerca del centro, situada en las coordenadas (5, 5) del \emph{``heatmap''}, se puede ver el siguiente mapa para los puntos de entrenamiento e inferencia:\\
+Primero se ha probado sobre un escenario de tamaño 12x12 metros. Para la señal cerca del centro, situada en las coordenadas (5, 5) del \emph{``heatmap''}, extraemos un mapa de puntos donde se muestran las posiciones de entrenamiento, inferencia y del origen de la señal, así como de los límites del escenario para el mapa de calor. El mapa de puntos es el siguiente:\\
 
 \begin{figure} [H]
     \begin{center}
@@ -447,7 +414,7 @@ Para la señal cerca del centro, situada en las coordenadas (5, 5) del \emph{``h
     \label{fig:map_p_center_12}
 \end{figure}
 
-Los resultados obtenidos arrojan que el algoritmo más eficiente es el de Q-Learning, ya que tarda menos tiempo, realiza menos iteraciones hasta llegar a la meta y tiene un porcentaje inferior de malas acciones, tal y como se puede ver a continuación:\\
+Los resultados obtenidos, son representados en una serie de gráficas comparativas. En ellas observamos un aproximado del rendimiento de cada algoritmo, es decir, se analizan tres cosas: el tiempo medio en segundos que tarda el dron desde que despega hasta que vuelve a su posición de despegue; el número medio de iteraciones empleadas para alcanzar la señal; y el número medio de movimientos hacía coordenadas donde la señal es menor y no mayor\footnote[4]{Los datos arrojados han sido guardados en formato \emph{csv}.}.  Para este caso, los resultados arrojan que el algoritmo más eficiente es el de Q-Learning, ya que tarda menos tiempo, realiza menos iteraciones hasta llegar a la meta y tiene un porcentaje inferior de malas acciones, tal y como se puede ver a continuación:\\
 
 \begin{figure} [H]
     \begin{center}
@@ -477,49 +444,12 @@ En este caso, se obtiene la misma conclusión que en el escenario anterior, tal 
     \label{fig:comp_esq_12}
 \end{figure}
 
-En segundo lugar, se incrementa el tamaño del mapa hasta 30x30 metros.\\
+Nuevamente, para el escenario de tamaño 30x30, los resultados obtenidos son idénticos, donde, con la salvedad de que el tiempo empleado es mayor y el número de iteraciones también, se concluye que el algoritmo de \ac{RL} es el mejor en todos los casos.\\
 
-Nuevamente, para la señal cerca del centro situada en este caso en las coordenadas (12, 12), tenemos:
+\subsubsection{Experimento 2 - Desempeño del algoritmo Q-Learning para dos señales distintas}
+\label{subsubsec:experimentos_1}
 
-\begin{figure} [H]
-    \begin{center}
-    \includegraphics[height=8cm]{imagenes/cap4/21_mapa_p_centro_30.png}
-    \end{center}
-    \caption[Mapa de puntos (30x30), señal centrada]{Mapa de puntos (30x30), señal centrada}
-    \label{fig:map_p_center_30}
-\end{figure}
-
-En cuanto a los resultados, se concluye que el algoritmo de Q-Learning vuelve a ser la mejor opción, aunque se vea un incremento temporal y de iteraciones por el aumento del tamaño del mapa, sigue siendo superior en todo al resto:\\
-
-\begin{figure} [H]
-    \begin{center}
-    \includegraphics[height=8cm]{imagenes/cap4/22_comp_centro_30.png}
-    \end{center}
-    \caption[Comparativas (30x30), señal centrada]{Comparativas (30x30), señal centrada}
-    \label{fig:comp_center_30}
-\end{figure}
-
-Continuando con la señal cerca de la esquina, que en este caso se encuentra en las coordenadas (5, 3), y donde su mapa de puntos es:\\
-
-\begin{figure} [H]
-    \begin{center}
-    \includegraphics[height=8cm]{imagenes/cap4/23_mapa_p_esq_30.png}
-    \end{center}
-    \caption[Mapa de puntos (30x30), señal en la esquina]{Mapa de puntos (30x30), señal en la esquina}
-    \label{fig:map_p_esq_30}
-\end{figure}
-
-Vemos que el resultado de aprendizaje por refuerzo es claramente nuevamente mejor que el resto:\\
-
-\begin{figure} [H]
-    \begin{center}
-    \includegraphics[height=8cm]{imagenes/cap4/24_comp_esq_30.png}
-    \end{center}
-    \caption[Comparativas (30x30), señal en la esquina]{Comparativas (30x30), señal en la esquina}
-    \label{fig:comp_esq_30}
-\end{figure}
-
-Finalmente, se ha realizado un experimento sólo para Q-Learning, en el cual se entrena al modelo con una señal, y se realizaba inferencia con otra señal de características distintas, aumentando la potencia del transmisor al doble y cambiando la frecuencia de Wi-Fi a 5G, pero manteniendo las coordenadas en las que se sitúa, que en este caso son (5, 3), lo que se ve en el siguiente mapa de puntos:\\
+En este caso, se ha realizado un experimento en el cual se entrena al modelo de Q-Learning con una señal, y se realiza inferencia, luego se modifica las características de la señal aumentando la potencia del transmisor al doble y cambiando la frecuencia de Wi-Fi a 5G, y se vuelve a realizar inferencia. Las coordenadas en las que se sitúa son (5, 3) y se mantienen en todo momento, y los puntos de entrenamiento se pueden ver en el siguiente mapa de puntos:\\
 
 \begin{figure} [H]
     \begin{center}
@@ -529,7 +459,7 @@ Finalmente, se ha realizado un experimento sólo para Q-Learning, en el cual se 
     \label{fig:map_p_diff_30}
 \end{figure}
 
-Para este caso, el problema se resuelve de igual forma para ambos casos, con una cierta variación irrelevante en la métrica temporal, derivada probablemente de la propia simulación:\\
+Para este caso, el problema se resuelve de igual forma para ambos casos, con una cierta variación irrelevante en la métrica temporal, derivada probablemente de la propia simulación, lo que se puede concluir como que el modelo aprende como se propaga la señal, independientemente de las características de la misma. A continuación se muestran las gráficas comparativas y un gráfico de trayectorias, que representa el camino seguido por el dron al aplicar la inferencia en ambos casos:\\
 
 \begin{figure} [H]
     \begin{center}
@@ -537,6 +467,14 @@ Para este caso, el problema se resuelve de igual forma para ambos casos, con una
     \end{center}
     \caption[Comparativas (30x30), señales diferentes]{Comparativas (30x30), señales diferentes}
     \label{fig:comp_diff_30}
+\end{figure}
+
+\begin{figure} [H]
+    \begin{center}
+    \includegraphics[height=5cm]{imagenes/cap4/13_trayectorias_12.png}
+    \end{center}
+    \caption[Trayectorias seguidas durante la inferencia]{Trayectorias seguidas durante la inferencia}
+    \label{fig:12_traj}
 \end{figure}
 
 \section{Comportamiento sigue señal basado en \ac{RF} en un entorno dinámico}
