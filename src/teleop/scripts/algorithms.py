@@ -28,6 +28,8 @@ import re
 import tf
 
 # -- CTE -- #
+D_TO_WALL = 2.0
+traj_poses = [] # Stores last 3 coords during inference
 # Topics
 LOCAL_POSE_TOPIC = '/mavros/local_position/pose'
 RADIO_CONTROL_POS_TOPIC = 'radio_control/pos'
@@ -93,7 +95,7 @@ TESTING_POSES_30 = ((8,5),
 
 TESTING_POSES_Q_30 = ((14,15),)
 
-TESTING_POSES_Q_30_OBSTACLE = ((24,9),)
+TESTING_POSES_Q_30_OBSTACLE = ((25,6),)
 
 OBSTACLE_COORDS = ((20,5),
                    (20,6),
@@ -127,6 +129,8 @@ class Drone:
         self.pos_pub = rospy.Publisher(RADIO_CONTROL_POS_TOPIC, PoseStamped, queue_size=10)
         self.cmd_pub = rospy.Publisher(RADIO_CONTROL_CMD_TOPIC, Px4Cmd, queue_size=10)
         self.rvz_pub = rospy.Publisher(RVIZ_HEATMAP_TOPIC, Float64MultiArray, queue_size=10)
+        ## VFF part
+        self.vel_pub = rospy.Publisher(RADIO_CONTROL_VEL_TOPIC, Twist, queue_size=10)
 
         # ROS action client --> RF Data server
         self.pwr_client = actionlib.SimpleActionClient('drone_friss_action', GetPowerFrissAction)
@@ -193,11 +197,13 @@ class Drone:
         # Display all points
         self.show_points(TESTING_POSES_Q_30_OBSTACLE)
 
-        # Train the model
+        # # Train the model
         # self.train_q(self.q_table, self.actions, self.states)
 
-        # VFF part
-        self.vel_pub = rospy.Publisher(RADIO_CONTROL_VEL_TOPIC, Twist, queue_size=10)
+        # # To test it faster
+        # with open('/home/csanrod/Desktop/q.csv', 'w') as file:
+        #     np.savetxt(file, self.q_table, delimiter=',')
+        self.q_table = np.loadtxt('/home/csanrod/Desktop/q.csv', delimiter=',')
 
 
     def takeoff(self, h=H):
@@ -845,44 +851,57 @@ class Drone:
         previous_pwr = PWR_MIN
         
         path = []
-        coord_pair = []
+        global traj_poses
 
         # Start algorithm
         self.takeoff()
         start_time = rospy.Time.now()
         while True:
-            ## Take readings
-            pwr, current_coords_gz = self.read_pwr()
-            current_coords_hm = self.gzcoords_to_heatmapcoords(current_coords_gz)
-            path.append(current_coords_hm)
+            d = self.get_distance_to_obstacle(minimun=True)
+            if d <= D_TO_WALL:
+                print("ENTERING VFF!!!!!!!!!!!!!!!!!!!!")
+                self.VFF()
+                print("OUT VFF!!!!!!!!!!!!!!!!!!!!")
+            else:
+                ## Take readings
+                pwr, current_coords_gz = self.read_pwr()
 
-            if previous_pwr > pwr:
-                bad_moves_it += 1
+                if len(traj_poses) <= 3:
+                    traj_poses.append(current_coords_gz)
+                else:
+                    traj_poses.pop(0)
+                    traj_poses.append(current_coords_gz)
 
-                # END CONDITION V.2
-                path.append(self.gzcoords_to_heatmapcoords(previous_coords_gz))
-                goal_pose.pose.position.x = previous_coords_gz[0]
-                goal_pose.pose.position.y = previous_coords_gz[1]
-                self.move_to(pose=goal_pose)
+                current_coords_hm = self.gzcoords_to_heatmapcoords(current_coords_gz)
+                path.append(current_coords_hm)
 
-                if self.is_goal():
-                    self.paths.append((path))
-                    break
+                if previous_pwr > pwr:
+                    bad_moves_it += 1
 
-            ## Look for state in Q table
-            state_idx = self.get_coord_state_idx(current_coords_hm, states)
+                    # END CONDITION V.2
+                    path.append(self.gzcoords_to_heatmapcoords(previous_coords_gz))
+                    goal_pose.pose.position.x = previous_coords_gz[0]
+                    goal_pose.pose.position.y = previous_coords_gz[1]
+                    self.move_to(pose=goal_pose)
 
-            ## Get best possible action using Q table
-            sorted_indices = np.argsort(q_table[state_idx])[::-1].tolist()
-            for index in sorted_indices:
-                ## Set new goal and move
-                next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[index])
+                    if self.is_goal():
+                        self.paths.append((path))
+                        break
 
-                ## Simulate obstacle detection with another sensor (not specified)
-                if not self.check_if_obstacle(current_coords_hm, next_coords_hm, actions[index]):
-                    break
+                ## Look for state in Q table
+                state_idx = self.get_coord_state_idx(current_coords_hm, states)
 
-            next_coords_gz = self.heatmapcoords_to_gzcoords(next_coords_hm)
+                ## Get best possible action using Q table
+                sorted_indices = np.argsort(q_table[state_idx])[::-1].tolist()
+                for index in sorted_indices:
+                    ## Set new goal and move
+                    next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[index])
+
+                    ## Simulate obstacle detection with another sensor (not specified)
+                    if not self.check_if_obstacle(current_coords_hm, next_coords_hm, actions[index]):
+                        break
+
+                next_coords_gz = self.heatmapcoords_to_gzcoords(next_coords_hm)
             
             # # If first iteration store the pair of coords
             # if not coord_pair:
@@ -916,14 +935,14 @@ class Drone:
             #         coord_pair.pop(0)
             #         coord_pair.append(next_coords_hm)
 
-            goal_pose.pose.position.x = next_coords_gz[0]
-            goal_pose.pose.position.y = next_coords_gz[1]
-            self.move_to(pose=goal_pose)               
+                goal_pose.pose.position.x = next_coords_gz[0]
+                goal_pose.pose.position.y = next_coords_gz[1]
+                self.move_to(pose=goal_pose)               
 
-            ## Update values
-            previous_pwr = pwr
-            previous_coords_gz = current_coords_gz
-            total_it += 1
+                ## Update values
+                previous_pwr = pwr
+                previous_coords_gz = current_coords_gz
+                total_it += 1
 
         # Calcule times and land
         elapsed_time = rospy.Time.now() - start_time
@@ -1325,6 +1344,7 @@ class Drone:
         return False
     
     # VFF part
+    
     def get_distance_to_obstacle(self, minimun=False):
         current_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
 
@@ -1399,49 +1419,54 @@ class Drone:
 
         return (x_goal - x, y_goal - y)
 
+
+    def get_realistic_goal_vec(self):    
+        global traj_poses
+        x_res, y_res = 0, 0
+
+        for i in range(len(traj_poses)):
+            x_o, y_o = traj_poses[i]
+            try:                
+                x_f, y_f = traj_poses[i + 1]                
+            except IndexError:
+                break
+
+            x_res += x_f - x_o
+            y_res += y_f - y_o
+
+        mod = np.sqrt((x_res ** 2) + (y_res ** 2))
+        return (x_res / mod, y_res / mod)
         
     
     def VFF(self):
-        LIMIT = 10.0
-
-        ALPHA = 1.0
-        BETA = 1.0
+        ALPHA = 2.0
+        BETA = 0.1
         
         goal_pose = PoseStamped()
         goal_pose.pose.position.z = H
 
-        self.takeoff(h=H_POSES)
-
-        vel = Twist()
-        
+        # self.takeoff(h=H_POSES)
+        vel = Twist()        
         while True:
+            d = self.get_distance_to_obstacle(minimun=True)
+            print(d)
             x_res, y_res = 0.0, 0.0
-            x_atr, y_atr = self.get_goal_vec()
+            x_total_rep, y_total_rep = 0.0, 0.0
+            x_atr, y_atr = self.get_realistic_goal_vec()
             obs_vector = self.get_obs_vec()
 
-            if x_atr > LIMIT:
-                x_atr = LIMIT
-
-            if x_atr < -LIMIT:
-                x_atr = -LIMIT
-            
-            if y_atr > LIMIT:
-                y_atr = LIMIT
-
-            if y_atr < -LIMIT:
-                y_atr = -LIMIT
-
-            print("ATRACTIVE FORCE:", (x_atr, y_atr))
+            print("ATRACTIVE FORCE:", (ALPHA * x_atr, ALPHA * y_atr))
             for x_rep, y_rep in obs_vector:
-                x_res += (1/x_rep)
-                y_res += (1/y_rep)
-                print("\tREPULSIVE FORCE:", (BETA * (1/x_rep), BETA * (1/y_rep)))
+                x_total_rep += (1/x_rep)
+                y_total_rep += (1/y_rep)
+                # print("\tREPULSIVE FORCE:", (BETA * (1/x_rep), BETA * (1/y_rep)))
+            print("REPULSIVE FORCE:", (BETA * x_total_rep, BETA * y_total_rep))
+            
+            x_res = ALPHA * x_atr + BETA * x_total_rep
+            y_res = ALPHA * y_atr + BETA * y_total_rep
 
             print("\nRESULTANT:", (x_res, y_res))
             print()
-
-            x_res = ALPHA * x_atr + BETA * x_res
-            y_res = ALPHA * y_atr + BETA * y_res
 
             vel.linear.x = x_res
             vel.linear.y = y_res
@@ -1449,18 +1474,22 @@ class Drone:
             
             self.vel_pub.publish(vel)
 
+            
+            if d > D_TO_WALL:
+                break
+
 # -- MAIN -- #
 if __name__ == '__main__':
     iris = Drone()
 
     for test_pose in TESTING_POSES_Q_30_OBSTACLE:
         iris.go_to_random_pose(test_pose)
-        iris.VFF()
+        # iris.VFF()
         
     #     # iris.manual_algorithm()
     #     # iris.manual_algorithm_optimized()
 
-        # iris.q_learning_algorithm(obstacles=True)
+        iris.q_learning_algorithm(obstacles=True)
     #     iris.change_pwr_q_learning(2, 5 * (10**9))
     #     iris.q_learning_algorithm()
 
