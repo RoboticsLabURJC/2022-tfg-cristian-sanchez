@@ -503,11 +503,9 @@ Por ello se distinguen dos casos:
 \subsection{Experimentos y resultados}
 \label{subsec:experimentos_sfo}
 
-Por ello, se observa que para el primer caso donde el dron sobrevuela cualquier muro, no existe inconveniente, puesto que el dron toma el camino que tomaría si no hubiera obstáculos. Esto es debido a que en inferencia, tan solo se tiene en cuenta su posición con respecto al mapa de calor, y por tanto no identifica si hay o no obstáculos.\\
+Por ello, se observa que para el primer caso donde el dron sobrevuela cualquier muro, no existe inconveniente, puesto que el dron toma el camino que tomaría si no hubiera obstáculos. Esto es debido a que en inferencia, tan solo se tiene en cuenta su posición con respecto al mapa de calor, y por tanto no identifica si hay o no obstáculos. Sin embargo, sí es relevante a la hora de abordar la condición de finalización, ya que al modificar el mapa de señal, se pueden dar falsos positivos y generar mínimos locales. Por ello, se ha empleado una técnica que analiza, por pares, las coordenadas visitadas, de modo que se tiene la coordenada actual y la nueva, y por iteración se compara con la siguiente actual y la siguiente nueva, y si coinciden, se cumple la condición pasando al análisis de los vecinos cercanos, como en todos los casos anteriores. Por último cabe destacar que esta condición funciona para desplazamientos de 1 m, o dicho de otro modo, de celdilla en celdilla.\\
 
-En el otro escenario, donde el dron vuela a la altura de los obstáculos, se debe implementar un método de detección de obstáculos. En general, se puede generar un caso realista usando un láser LiDAR o una cámara 3D, pero para simplificar el problema, se ha empleado la información del mapa realizando una simulación del comportamiento que tendría un sensor genérico de este tipo.\\
-
-Por ello, primero se prueba excluyendo las acciones que desemboquen en colisión, donde se presupone que el entrenamiento evitará acciones que alejen al dron de la señal, tal y cómo se observa a continuación:
+En el otro escenario, donde el dron vuela a la altura de los obstáculos, se debe implementar un método de detección de obstáculos. En general, se puede generar un caso realista usando un láser LiDAR o una cámara 3D, pero para simplificar el problema, se ha empleado la información del mapa realizando una simulación del comportamiento que tendría un sensor genérico de este tipo. Por ello, primero se prueba excluyendo las acciones que desemboquen en colisión, donde se presupone que el entrenamiento evitará acciones que alejen al dron de la señal, tal y cómo se observa en la figura~\ref{fig:pseudosensor}:
 
 \begin{figure} [H]
     \begin{center}
@@ -517,8 +515,11 @@ Por ello, primero se prueba excluyendo las acciones que desemboquen en colisión
     \label{fig:pseudosensor}
 \end{figure}
 
-Sin embargo, los resultados no son concluyentes, de modo que en ocasiones sortea el obstáculo, pero en otras simplemente retrocede o alcanza un mínimo local.\\
+Sin embargo, los resultados no son concluyentes, de modo que en ocasiones sortea el obstáculo, pero en otras simplemente retrocede o alcanza un mínimo local. De este modo, y volviendo a la conclusión extraida del primer escenario, se ve la necesidad de aplicar un comportamiento híbrido, de modo que se navegue hacia la señal, hasta topar con un obstáculo lo suficientemente cercano, como para que cambie el modo de actuación para evitarlo. Una vez sorteado, se vuelve modo de navegación normal, hasta llegar a la señal o a otro obstáculo.\\
 
-Por ello, y volviendo a la conclusión extraida del primer escenario, se ve la necesidad de aplicar un comportamiento híbrido, de modo que se navegue hacia la señal, hasta topar con un obstáculo lo suficientemente cercano, como para que cambie el modo de actuación para evitarlo. Una vez sorteado, se vuelve modo de navegación normal, hasta llegar a la señal o a otro obstáculo.\\
-
-De este modo, se opta por emplear un algoritmo basado en \ac{VFF}, ... (RELLENAR SI PROCEDE).
+Por ello, se opta por emplear un algoritmo basado en \ac{VFF}, que consiste en generar un comportamiento basado en vectores de fuerzas virtuales, de modo que se alcanzen subobjetivos cercanos, evitando colisiones con obstáculos. Para nuestro caso concreto, se ha decidido adaptar de modo que: los obstáculos son dispuestos en el mapa por celdillas ocupadas, de modo que cada celdilla genera un vector inversamente proporcional a la distancia, desde la celdilla a la posición del dron, generando un vector de repulsión; los subobjetivos que generarían el vector de fuerza atractiva, son sustituidos por un vector basado en la tendencia seguida por el dron, durante la navegación basada en Q-Learning, es decir, se obtiene un vector unitario resultante de todas las posiciones visitadas por el dron, previamente. Todo esto, se ajusta siguiendo la ecuación~\ref{eq:vff}:
+\begin{equation}
+    F_{res} = \alpha \cdot F_{atr} + \beta \cdot F_{rep}
+    \label{eq:vff}
+\end{equation}
+Donde tras el ajuste por experimentación, $\alpha$ (que determina la importancia que tendrá la fuerza atractiva en la ejecución) toma el valor de 2'5, y $\beta$ (que por contra determina la importancia de la fuerza repulsiva) toma el valor de 0'05. Adicionalmente, es necesario comentar un problema derivado del diseño a la hora de simular el escenario. A causa de que el transmisor se sitúa esquinado y el obstáculo también, y dado que el dron solo actuaba sobre el muro, si el algoritmo \ac{VFF} desplazaba al dron fuera de las coordenadas del mapa de calor, se generaban comportamientos impredecibles (lo cual en la realidad no sucedería, ya que la señal se propagaría en todas direcciones). Para solucionarlo, se agregaron muros virtuales que actúan como obstáculos, con el fin de delimitar estas áreas fuera del mapa de calor. El resultado final es satisfactorio, ya que se consigue navegar hacia la señal, evitando obstáculos.
