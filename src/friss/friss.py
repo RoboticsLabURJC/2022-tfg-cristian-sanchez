@@ -202,22 +202,52 @@ class Friss:
 
 
     def hardcode_obstacles(self):
-        for y in range(5,11):
-            self.__place_obstacle((20, y))
-            self.__place_obstacle((21, y))
+        # for y in range(5,11):
+        #     self.__place_obstacle((20, y))
+        #     self.__place_obstacle((21, y))
 
-        lines = ((5,10), 
-                 (5,10),
-                 (5,11),
-                 (6,11),
-                 (6,12),
-                 (6,12))
+        for y in range(3,9):
+            self.__place_obstacle((11, y))
+            self.__place_obstacle((12, y))
+
+        # lines = ((5,10), 
+        #          (5,10),
+        #          (5,11),
+        #          (6,11),
+        #          (6,12),
+        #          (6,12))
+        
+        lines = ((3,7), #13
+                 (3,7),
+                 (3,7),
+                 (3,8),
+                 (3,8),
+                 (3,8),
+                 (3,9),
+                 (3,9), #20
+                 (2,9),
+                 (2,10),
+                 (2,10),
+                 (2,10),
+                 (2,11),
+                 (2,11),
+                 (2,11),
+                 (2,12),
+                 (1,12),
+                 (1,12),
+                 (1,13))
         
         for line in lines:
             init, end = line
-            for x in range(22, 30):
+            for x in range(13, 30):
                 for y in range(init, end + 1):
                     self.__raw_data[x, y] *= 1.015
+        
+        # for line in lines:
+        #     init, end = line
+        #     for x in range(22, 30):
+        #         for y in range(init, end + 1):
+        #             self.__raw_data[x, y] *= 1.015
 
         rows, cols = self.__raw_data.shape
         data = np.zeros((rows, cols))

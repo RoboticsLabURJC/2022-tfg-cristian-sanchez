@@ -10,8 +10,8 @@
 	<arg name="x_ann" default="9.5"/>
 	<arg name="y_ann" default="11.5"/>
 
-	<arg name="x_wall" default="-6.0"/>
-	<arg name="y_wall" default="7.0"/>
+	<arg name="x_wall" default="3.0"/>
+	<arg name="y_wall" default="9.0"/>
 
 	<arg name="vehicle" default="iris"/>
 	<arg name="x" default="0.5"/>

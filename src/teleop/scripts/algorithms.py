@@ -25,11 +25,11 @@ import matplotlib.pyplot as plt
 import csv
 import pandas as pd
 import re
-import tf
 
 # -- CTE -- #
-D_TO_WALL = 2.0
-traj_poses = [] # Stores last 3 coords during inference
+D_TO_WALL = 3.0
+traj_poses = []
+
 # Topics
 LOCAL_POSE_TOPIC = '/mavros/local_position/pose'
 RADIO_CONTROL_POS_TOPIC = 'radio_control/pos'
@@ -75,7 +75,7 @@ OFFSET_CENTER = 1
 
 ## End conditions
 NOT_VALID_POWER = -100
-NEGATIVE_REWARD_FACTOR = 1.05
+NEGATIVE_REWARD_FACTOR = 1.0
 POSITIVE_REWARD_FACTOR = 1.0
 OUT_OF_MAP_REWARD = -10
 EXPLORATION_PERCENT = 0.2
@@ -95,20 +95,24 @@ TESTING_POSES_30 = ((8,5),
 
 TESTING_POSES_Q_30 = ((14,15),)
 
-TESTING_POSES_Q_30_OBSTACLE = ((25,6),)
+TESTING_POSES_Q_30_OBSTACLE = ((24,6),)
 
-OBSTACLE_COORDS = ((20,5),
-                   (20,6),
-                   (20,7),
-                   (20,8),
-                   (20,9),
-                   (20,10),
-                   (21,5),
-                   (21,6),
-                   (21,7),
-                   (21,8),
-                   (21,9),
-                   (21,10))
+OBSTACLE_COORDS = ((11,3),
+                   (11,4),
+                   (11,5),
+                   (11,6),
+                   (11,7),
+                   (11,8),
+                   (12,3),
+                   (12,4),
+                   (12,5),
+                   (12,6),
+                   (12,7),
+                   (12,8))
+
+NEAR_WALLS =((11,0),
+             (12,0),
+             (13,0))
 
 
 class Drone:
@@ -190,20 +194,20 @@ class Drone:
 
         # Q-Learning training
         self.actions = []
-        self.generate_actions(steps=2)
+        self.generate_actions(steps=1)
         self.states = self.generate_coord_states(cell_step=1)
         self.q_table = np.zeros((len(self.states), len(self.actions)))
 
         # Display all points
-        self.show_points(TESTING_POSES_Q_30_OBSTACLE)
+        # self.show_points(TESTING_POSES_Q_30_OBSTACLE)
 
         # # Train the model
-        # self.train_q(self.q_table, self.actions, self.states)
+        # # self.train_q(self.q_table, self.actions, self.states)
 
-        # # To test it faster
-        # with open('/home/csanrod/Desktop/q.csv', 'w') as file:
-        #     np.savetxt(file, self.q_table, delimiter=',')
-        self.q_table = np.loadtxt('/home/csanrod/Desktop/q.csv', delimiter=',')
+        # # # To test it faster
+        # # with open('/home/csanrod/Desktop/q_single_v2.csv', 'w') as file:
+        # #     np.savetxt(file, self.q_table, delimiter=',')
+        self.q_table = np.loadtxt('/home/csanrod/Desktop/q_single_v2.csv', delimiter=',')
 
 
     def takeoff(self, h=H):
@@ -692,8 +696,10 @@ class Drone:
         goal_pose.pose.position.z = H
 
         # Training
-        ## Initial conditions        
+        ## Initial conditions
+        training_poses_idx = 0
         current_coords_hm = self.training_poses_hm[np.random.randint(len(self.training_poses_hm))]
+        current_coords_hm = self.training_poses_hm[training_poses_idx % len(self.training_poses_hm)]
         end_condition = False
         start_time = rospy.Time.now()
         while episode_counter < MAX_EPISODES:            
@@ -729,6 +735,7 @@ class Drone:
                 end_condition = True
                 reward = OUT_OF_MAP_REWARD
                 error = reward - q_table[current_state_idx, current_action_idx]
+                # print("out of map... -->", reward)
 
             else:
                 reward = pwr_next - pwr_current
@@ -737,6 +744,7 @@ class Drone:
                 if target_coords_hm == next_coords_hm:
                     end_condition = True
                     reward *= POSITIVE_REWARD_FACTOR
+                    # print("REACHED -->", reward)
 
                 ### Otherwise
                 else:
@@ -748,10 +756,12 @@ class Drone:
                         reward *= POSITIVE_REWARD_FACTOR
 
                     ### (END CONDITION) If agent does n consecutive bad actions --> end
-                    if negative_reward_counter >= self.size:
+                    # if negative_reward_counter >= self.size:
+                    if negative_reward_counter >= 100000000:
                         end_condition = True
                 
-                reward *= 10
+                # reward *= 10
+                # print("normal -->", reward)
 
                 ## Get next state index and calculate error
                 next_state_idx = self.get_coord_state_idx(next_coords_hm, states)
@@ -776,7 +786,9 @@ class Drone:
                 eps = max(eps - eps_increment, eps_end)
 
                 ### Reset position
-                current_coords_hm = self.training_poses_hm[np.random.randint(len(self.training_poses_hm))]
+                training_poses_idx += 1                
+                # current_coords_hm = self.training_poses_hm[np.random.randint(len(self.training_poses_hm))]
+                current_coords_hm = self.training_poses_hm[training_poses_idx % len(self.training_poses_hm)]
 
                 ### Update all plots info
                 eps_to_plot.append(eps)
@@ -851,6 +863,7 @@ class Drone:
         previous_pwr = PWR_MIN
         
         path = []
+        coord_pair = []
         global traj_poses
 
         # Start algorithm
@@ -859,90 +872,77 @@ class Drone:
         while True:
             d = self.get_distance_to_obstacle(minimun=True)
             if d <= D_TO_WALL:
-                print("ENTERING VFF!!!!!!!!!!!!!!!!!!!!")
                 self.VFF()
-                print("OUT VFF!!!!!!!!!!!!!!!!!!!!")
+
+            ## Take readings
+            pwr, current_coords_gz = self.read_pwr()
+            current_coords_hm = self.gzcoords_to_heatmapcoords(current_coords_gz)
+            traj_poses.append(current_coords_hm)
+
+            path.append(current_coords_hm)
+
+            if previous_pwr > pwr:
+                bad_moves_it += 1
+
+            ## Look for state in Q table
+            state_idx = self.get_coord_state_idx(current_coords_hm, states)
+
+            ## Get best possible action using Q table
+            sorted_indices = np.argsort(q_table[state_idx])[::-1].tolist()
+            for index in sorted_indices:
+                ## Set new goal and move
+                try:
+                    rospy.logwarn(index)
+                    next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[index])
+                except TypeError:
+                    rospy.logerr(index)
+
+                ## Simulate obstacle detection with another sensor (not specified)
+                if not self.check_if_obstacle(current_coords_hm, next_coords_hm, actions[index]):
+                    break
+
+            next_coords_gz = self.heatmapcoords_to_gzcoords(next_coords_hm)
+            
+            # If first iteration store the pair of coords
+            if not coord_pair:
+                coord_pair.extend((current_coords_hm, next_coords_hm))
             else:
-                ## Take readings
-                pwr, current_coords_gz = self.read_pwr()
+                # If next coords are revisited
+                if next_coords_hm in coord_pair:
+                    # If not in the highest power position candidate
+                    if previous_pwr > pwr:
+                        path.append(self.gzcoords_to_heatmapcoords(previous_coords_gz))
+                        goal_pose.pose.position.x = previous_coords_gz[0]
+                        goal_pose.pose.position.y = previous_coords_gz[1]
+                        self.move_to(pose=goal_pose)
 
-                if len(traj_poses) <= 3:
-                    traj_poses.append(current_coords_gz)
-                else:
-                    traj_poses.pop(0)
-                    traj_poses.append(current_coords_gz)
-
-                current_coords_hm = self.gzcoords_to_heatmapcoords(current_coords_gz)
-                path.append(current_coords_hm)
-
-                if previous_pwr > pwr:
-                    bad_moves_it += 1
-
-                    # END CONDITION V.2
-                    path.append(self.gzcoords_to_heatmapcoords(previous_coords_gz))
-                    goal_pose.pose.position.x = previous_coords_gz[0]
-                    goal_pose.pose.position.y = previous_coords_gz[1]
-                    self.move_to(pose=goal_pose)
-
+                    # (END CONDITION)
                     if self.is_goal():
                         self.paths.append((path))
                         break
+                    # If not end --> reset and continue in the highest power detected.
+                    else:
+                        coord_pair.clear()
+                        pwr, current_coords_gz = self.read_pwr()
+                        current_coords_hm = self.gzcoords_to_heatmapcoords(current_coords_gz)
+                        path.append(current_coords_hm)
+                        state_idx = self.get_coord_state_idx(current_coords_hm, states)
+                        action_idx = np.argmax(q_table[state_idx])
+                        next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[action_idx])
+                        next_coords_gz = self.heatmapcoords_to_gzcoords(next_coords_hm)
+                        coord_pair.extend((current_coords_hm, next_coords_hm))
+                else:
+                    coord_pair.pop(0)
+                    coord_pair.append(next_coords_hm)
 
-                ## Look for state in Q table
-                state_idx = self.get_coord_state_idx(current_coords_hm, states)
+            goal_pose.pose.position.x = next_coords_gz[0]
+            goal_pose.pose.position.y = next_coords_gz[1]
+            self.move_to(pose=goal_pose)               
 
-                ## Get best possible action using Q table
-                sorted_indices = np.argsort(q_table[state_idx])[::-1].tolist()
-                for index in sorted_indices:
-                    ## Set new goal and move
-                    next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[index])
-
-                    ## Simulate obstacle detection with another sensor (not specified)
-                    if not self.check_if_obstacle(current_coords_hm, next_coords_hm, actions[index]):
-                        break
-
-                next_coords_gz = self.heatmapcoords_to_gzcoords(next_coords_hm)
-            
-            # # If first iteration store the pair of coords
-            # if not coord_pair:
-            #     coord_pair.extend((current_coords_hm, next_coords_hm))
-            # else:
-            #     # If next coords are revisited
-            #     if next_coords_hm in coord_pair:
-            #         # If not in the highest power position candidate
-            #         if previous_pwr > pwr:
-            #             path.append(self.gzcoords_to_heatmapcoords(previous_coords_gz))
-            #             goal_pose.pose.position.x = previous_coords_gz[0]
-            #             goal_pose.pose.position.y = previous_coords_gz[1]
-            #             self.move_to(pose=goal_pose)
-
-            #         # (END CONDITION)
-            #         if self.is_goal():
-            #             self.paths.append((path))
-            #             break
-            #         # If not end --> reset and continue in the highest power detected.
-            #         else:
-            #             coord_pair.clear()
-            #             pwr, current_coords_gz = self.read_pwr()
-            #             current_coords_hm = self.gzcoords_to_heatmapcoords(current_coords_gz)
-            #             path.append(current_coords_hm)
-            #             state_idx = self.get_coord_state_idx(current_coords_hm, states)
-            #             action_idx = np.argmax(q_table[state_idx])
-            #             next_coords_hm = self.get_next_coords_heatmap(current_coords_hm, actions[action_idx])
-            #             next_coords_gz = self.heatmapcoords_to_gzcoords(next_coords_hm)
-            #             coord_pair.extend((current_coords_hm, next_coords_hm))
-            #     else:
-            #         coord_pair.pop(0)
-            #         coord_pair.append(next_coords_hm)
-
-                goal_pose.pose.position.x = next_coords_gz[0]
-                goal_pose.pose.position.y = next_coords_gz[1]
-                self.move_to(pose=goal_pose)               
-
-                ## Update values
-                previous_pwr = pwr
-                previous_coords_gz = current_coords_gz
-                total_it += 1
+            ## Update values
+            previous_pwr = pwr
+            previous_coords_gz = current_coords_gz
+            total_it += 1
 
         # Calcule times and land
         elapsed_time = rospy.Time.now() - start_time
@@ -1343,9 +1343,16 @@ class Drone:
 
         return False
     
-    # VFF part
-    
+
+    #######
+    # VFF #
+    #######
+        
     def get_distance_to_obstacle(self, minimun=False):
+        '''
+        Returns an array with distances of every cell placed with and obstacle,
+        or only the closest one if minimum flag is True.
+        '''
         current_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
 
         x = current_pose.pose.position.x
@@ -1363,71 +1370,19 @@ class Drone:
         else:
             return distances
     
-    def get_distance_to_goal(self):
-        current_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
 
-        x = current_pose.pose.position.x
-        y = current_pose.pose.position.y
-
-        x_goal, y_goal = self.heatmapcoords_to_gzcoords(SIGNAL_ORIGIN)
-        d = np.sqrt(pow((x_goal - x), 2) + pow((y_goal - y), 2))
-
-        return d
-    
-    def get_obs_resultant(self):        
-        current_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
-
-        x = current_pose.pose.position.x
-        y = current_pose.pose.position.y
-
-        x_res = 0.0
-        y_res = 0.0
-
-        counter = 0
-
-        for obs_coord in OBSTACLE_COORDS:
-            x_obs, y_obs = self.heatmapcoords_to_gzcoords(obs_coord)
-            x_res += x - x_obs
-            y_res += y - y_obs
-            counter += 1
-
-        return (x_res/counter, y_res/counter)
-    
-
-    def get_obs_vec(self):        
-        current_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
-
-        x = current_pose.pose.position.x
-        y = current_pose.pose.position.y
-
-        obs_vec = []
-
-        for obs_coord in OBSTACLE_COORDS:
-            x_obs, y_obs = self.heatmapcoords_to_gzcoords(obs_coord)
-            obs_vec.append((x - x_obs, y - y_obs))
-
-        return obs_vec
-
-    
-    def get_goal_vec(self):
-        current_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
-
-        x = current_pose.pose.position.x
-        y = current_pose.pose.position.y
-
-        x_goal, y_goal = self.heatmapcoords_to_gzcoords(SIGNAL_ORIGIN)
-
-        return (x_goal - x, y_goal - y)
-
-
-    def get_realistic_goal_vec(self):    
+    def get_realistic_goal_vec(self):
+        '''
+        Creates an unitary vector from the result of the previous moves of the dron,
+        while it was navigating with Q-Learning.
+        '''
         global traj_poses
-        x_res, y_res = 0, 0
+        x_res, y_res = 0.0, 0.0
 
         for i in range(len(traj_poses)):
-            x_o, y_o = traj_poses[i]
+            x_o, y_o = self.heatmapcoords_to_gzcoords(traj_poses[i])
             try:                
-                x_f, y_f = traj_poses[i + 1]                
+                x_f, y_f = self.heatmapcoords_to_gzcoords(traj_poses[i + 1])       
             except IndexError:
                 break
 
@@ -1436,47 +1391,68 @@ class Drone:
 
         mod = np.sqrt((x_res ** 2) + (y_res ** 2))
         return (x_res / mod, y_res / mod)
-        
     
-    def VFF(self):
-        ALPHA = 2.0
-        BETA = 0.1
+    
+    def get_realistic_obs_vec(self):
+        '''
+        Creates a resultant from every cell with and obstacle placed, 
+        using inversed proportionality to increase magnitud when the drone
+        approach to it.
+        '''
+        current_pose = rospy.wait_for_message(LOCAL_POSE_TOPIC, PoseStamped)
+
+        x = current_pose.pose.position.x
+        y = current_pose.pose.position.y
+
+        x_res, y_res = 0.0, 0.0
+        all_obs = []
         
-        goal_pose = PoseStamped()
-        goal_pose.pose.position.z = H
+        for coord in OBSTACLE_COORDS:
+            all_obs.append(coord)
 
-        # self.takeoff(h=H_POSES)
+        for coord in NEAR_WALLS:
+            all_obs.append(coord)
+
+        for obs_coord in all_obs:
+            x_obs, y_obs = self.heatmapcoords_to_gzcoords(obs_coord)
+
+            x_rep = 1 / (x - x_obs)
+            y_rep = 1 / (y - y_obs)
+
+            x_res += x_rep
+            y_res += y_rep
+
+        return (x_res, y_res)
+        
+
+    def VFF(self):
+        '''
+        Core algorithm to avoid obstacles, takes tuned atractive and repulsive
+        forces, to avoid walls. (Adapted to simulation)
+        '''
+        ALPHA = 2.5
+        BETA = 0.05
+
         vel = Twist()        
-        while True:
-            d = self.get_distance_to_obstacle(minimun=True)
-            print(d)
+        while True:            
             x_res, y_res = 0.0, 0.0
-            x_total_rep, y_total_rep = 0.0, 0.0
-            x_atr, y_atr = self.get_realistic_goal_vec()
-            obs_vector = self.get_obs_vec()
-
-            print("ATRACTIVE FORCE:", (ALPHA * x_atr, ALPHA * y_atr))
-            for x_rep, y_rep in obs_vector:
-                x_total_rep += (1/x_rep)
-                y_total_rep += (1/y_rep)
-                # print("\tREPULSIVE FORCE:", (BETA * (1/x_rep), BETA * (1/y_rep)))
-            print("REPULSIVE FORCE:", (BETA * x_total_rep, BETA * y_total_rep))
             
-            x_res = ALPHA * x_atr + BETA * x_total_rep
-            y_res = ALPHA * y_atr + BETA * y_total_rep
-
-            print("\nRESULTANT:", (x_res, y_res))
-            print()
+            x_atr, y_atr = self.get_realistic_goal_vec()            
+            x_rep, y_rep = self.get_realistic_obs_vec()
+            
+            x_res = ALPHA * x_atr + BETA * x_rep
+            y_res = ALPHA * y_atr + BETA * y_rep
 
             vel.linear.x = x_res
             vel.linear.y = y_res
-            vel.linear.z = 0.0
+            vel.linear.z = 0.001
             
             self.vel_pub.publish(vel)
 
-            
+            d = self.get_distance_to_obstacle(minimun=True)
             if d > D_TO_WALL:
                 break
+
 
 # -- MAIN -- #
 if __name__ == '__main__':
@@ -1486,14 +1462,15 @@ if __name__ == '__main__':
         iris.go_to_random_pose(test_pose)
         # iris.VFF()
         
-    #     # iris.manual_algorithm()
-    #     # iris.manual_algorithm_optimized()
+        # iris.manual_algorithm()
+        # iris.manual_algorithm_optimized()
 
         iris.q_learning_algorithm(obstacles=True)
-    #     iris.change_pwr_q_learning(2, 5 * (10**9))
-    #     iris.q_learning_algorithm()
 
-    #     iris.show_results()
-    #     iris.reset_plots()
+        # iris.change_pwr_q_learning(2, 5 * (10**9))
+        # iris.q_learning_algorithm()
+
+        # iris.show_results()
+        # iris.reset_plots()
 
     rospy.spin()
