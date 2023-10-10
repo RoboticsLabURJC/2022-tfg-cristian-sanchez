@@ -16,9 +16,9 @@ from matplotlib.widgets import Slider, CheckButtons, Button
 import friss as fr
 
 # -- CONSTANTS -- #
-DEFAULT_WORLD_SIZE = (50, 50)   # size range --> 10 <= (a x a) <= 100
+DEFAULT_WORLD_SIZE = (10, 10)   # size range --> 10 <= (a x a) <= 100
 DEFAULT_RESOLUTION = 1.0        # 1 default
-DEFAULT_ORIGIN = (20, 20)       # Origin of the signal
+DEFAULT_ORIGIN = (3, 5)       # Origin of the signal
 CUSTOM_RANGE = (-40, 40)        # Limits for fixed representation
 
 
@@ -161,8 +161,8 @@ if __name__ ==  "__main__":
     ax_world_sz = fig.add_axes([0.15, 0.04, 0.7, 0.01])
 
     power_t = Slider(ax_Pt, 'PowerTransmitter (W)', 0.00001, 100.0, 1.0, valstep=1.0)
-    gain_t = Slider(ax_Gt, 'GainTransmitter (W)', 0.00001, 100.0, 1.0, valstep=1.0)
-    gain_r = Slider(ax_Gr, 'GainReceiver (W)', 0.00001, 100.0, 1.0, valstep=1.0)
+    gain_t = Slider(ax_Gt, 'GainTransmitter (W)', 0.00001, 100.0, 1.0, valstep=0.5)
+    gain_r = Slider(ax_Gr, 'GainReceiver (W)', 0.00001, 100.0, 1.0, valstep=0.5)
     freq = Slider(ax_Fq, 'Frequency (GHz)', 0.00001, 10.0, fr.FREQ_WIFI/(10**9), valstep=0.1)
     losses_factor = Slider(ax_l, 'OtherLosses [L]', 1.0, 10.0, 1.0, valstep=0.1)
     loss_exp = Slider(ax_n, 'PathLossExponent [n]', 1.6, 6.0, 2.0, valstep=0.1)
