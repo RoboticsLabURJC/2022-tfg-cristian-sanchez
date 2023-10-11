@@ -6,14 +6,14 @@ En esta última sección, se comentarán las ideas extraidas tras el desarrollo 
 \section{Objetivos cumplidos}
 \label{sec:objetivos_cumplidos}
 
-Entre los objetivos planteados y resueltos encontramos los siguientes:
+Durante el desarrollo de este \ac{TFG}, se ha conseguido satisfactoriamente desarrollar una solución de navegación autónoma para comandar a un dron hacia un transmisor de \ac{RF}, demostrando que la aproximación realizada con \ac{RL} cumple con lo esperado. En detalle se puede afirmar que:
 
 \begin{enumerate}
-    \item Desarrollo de una solución \ac{ROS} para una aeronave no tripulada o dron.
-    
-    \item Creación de una aplicación reactiva de simulación de señales, siguiendo el modelo de Friis, y empleando Matplotlib.
-    
-    \item Extracción del mejor algoritmo (entre los probados), a través de métricas comparativas y experimentación, haciendo uso de Gazebo 11, rviz y técnicas de aprendizaje por refuerzo (Q-Learning).
+    \item Se ha desarrollado una interfaz capaz de interactuar de manera reactiva con el dron, comandando tanto posiciones como velocidades.
+    \item Se ha creado un nodo \ac{ROS} el cual gestiona un modelo de propagación de señales, a demanda de las aplicaciones que lo usen.
+    \item Se ha conseguido implementar diversos algoritmos capaces de rastrear transmisores \ac{RF} de manera autónoma.
+    \item Se ha demostrado que el algoritmo basado en Q-Learning es el más eficiente y óptimo de todos los planteados.
+    \item Se ha adaptado la mejor solución a un entorno realista donde se presentan obstáculos, a través de un enfoque híbrido empleando \ac{VFF}.
 \end{enumerate}
 
 \section{Balance global y competencias adquiridas}
@@ -22,24 +22,18 @@ Entre los objetivos planteados y resueltos encontramos los siguientes:
 En cuanto a los conocimientos adquiridos, podemos distinguir:
 
 \begin{enumerate}
-    \item Desarollo de aplicaciones usando OpenCV y Matplotlib.
-    
-    \item Uso de plugins y trabajo con el modelo SDF del Iris Drone.
-    
-    \item Creación de entornos personalizados empleando Gazebo 11.
-    
+    \item Desarollo de aplicaciones usando OpenCV y Matplotlib.    
+    \item Uso de plugins y trabajo con el modelo SDF del Iris Drone.    
+    \item Creación de entornos personalizados empleando Gazebo 11.    
     \item Uso de marcadores y del módulo grid\_map para rviz, así como su aplicación conjunta a través ROS en C++ y Python.
-    
-    \item Empleo de PX4 y MAVROS para el control de la aeronave.
-    
-    \item Desarrollo de soluciones basadas en Q-Learning a través de Python.
-    
+    \item Empleo de PX4 y MAVROS para el control de la aeronave.    
+    \item Desarrollo de soluciones basadas en Q-Learning a través de Python.    
     \item Adquisición de conocimientos relacionados al estudio de señales y su comportamiento.
 \end{enumerate}
 
 \section{Líneas futuras}
 \label{sec:lineas_futuras}
 
-Finalmente, y tal y como se comentó en la sección anterior, la manera de continuar este proyecto es haciéndolo más afín a entornos realistas, lo que implica agregar elementos como obstáculos y perturbaciones, así como añadir modos de funcionamento para el dron que le permita mejorar su adaptabilidad.\\
+Finalmente, y tal y como se comentó en la sección~\ref{sec:signal_follow_obs}, la manera de continuar este proyecto es haciéndolo más afín a entornos realistas, lo que implica agregar elementos como obstáculos y perturbaciones, así como añadir modos de funcionamento para el dron que le permita mejorar su adaptabilidad.\\
 
-Además, el mejor algoritmo según los resultados obtenidos alude a la solución por Q-Learning, sin embargo, se podría considerar emplear otras variantes (como empleando aprendizaje profundo) y comprobar si arrojan mejores resultados.
+Además, el mejor algoritmo según los resultados obtenidos alude a la solución por Q-Learning, sin embargo, se podría considerar emplear otras variantes (como empleando aprendizaje profundo) y comprobar si arrojan mejores resultados. Todo con el fin de llevar las soluciones a un dron real y ver su desempeño.

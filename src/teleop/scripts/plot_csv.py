@@ -7,12 +7,12 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
-TIMES_PATH = '/home/csanrod/Desktop/tests_tfg/30x30/center (12,12)/times.csv'
-IT_PATH = '/home/csanrod/Desktop/tests_tfg/30x30/center (12,12)/iterations.csv'
-BAD_PATH = '/home/csanrod/Desktop/tests_tfg/30x30/center (12,12)/bad_moves.csv'
+TIMES_PATH = '/home/csanrod/Desktop/tests_tfg/12x12/corner (3,1)/times.csv'
+IT_PATH = '/home/csanrod/Desktop/tests_tfg/12x12/corner (3,1)/iterations.csv'
+BAD_PATH = '/home/csanrod/Desktop/tests_tfg/12x12/corner (3,1)/bad_moves.csv'
 
 LABELS = ('Time (s)', 'Iterations', 'Bad moves (%)')
-LABELS_EXP = ('Manual', 'Manual Opt', 'Q-Learning')
+LABELS_EXP = ('ANAIV', 'ANAIV +', 'Q-Learning')
 
 def get_avg_column_list(path):
     '''
@@ -44,8 +44,8 @@ def plot_all(data):
         ax = plt.subplot(1, len(LABELS), i + 1)
         bars = plt.bar(LABELS_EXP, variable)
 
-        ax.bar_label(bars)
-        ax.set_ylabel(LABELS[i])
+        ax.bar_label(bars, fontsize=10)
+        ax.set_ylabel(LABELS[i], fontsize=14)
 
         if i == len(LABELS) - 1:
             ax.set_yticks(range(0, 101, 10))

@@ -199,10 +199,11 @@ class Drone:
         self.q_table = np.zeros((len(self.states), len(self.actions)))
 
         # Display all points
+        # self.show_points(TESTING_POSES_Q_30)
         # self.show_points(TESTING_POSES_Q_30_OBSTACLE)
 
-        # # Train the model
-        # # self.train_q(self.q_table, self.actions, self.states)
+        # Train the model
+        # self.train_q(self.q_table, self.actions, self.states)
 
         # # # To test it faster
         # # with open('/home/csanrod/Desktop/q_single_v2.csv', 'w') as file:
@@ -739,6 +740,7 @@ class Drone:
 
             else:
                 reward = pwr_next - pwr_current
+                reward *= 10
 
                 ### (END CONDITION) Target reached
                 if target_coords_hm == next_coords_hm:
@@ -757,8 +759,8 @@ class Drone:
 
                     ### (END CONDITION) If agent does n consecutive bad actions --> end
                     # if negative_reward_counter >= self.size:
-                    if negative_reward_counter >= 100000000:
-                        end_condition = True
+                    # if negative_reward_counter >= 100000000:
+                    #     end_condition = True
                 
                 # reward *= 10
                 # print("normal -->", reward)
@@ -814,8 +816,8 @@ class Drone:
         ## End normal plots
         plt.subplot(3, 1, 1)
         plt.plot(eps_to_plot)
-        plt.xlabel('Episodes')
-        plt.ylabel('Epsilon')
+        plt.xlabel('Episodes', fontsize=20)
+        plt.ylabel('Epsilon', fontsize=20)
 
         ### Moving avg technique to clean the plot
         series = pd.Series(reward_to_plot)
@@ -825,13 +827,13 @@ class Drone:
 
         plt.subplot(3, 1, 2)
         plt.plot(reward_to_plot)
-        plt.xlabel('Episodes')
-        plt.ylabel('Cumulative reward')
+        plt.xlabel('Episodes', fontsize=20)
+        plt.ylabel('Cumulative reward', fontsize=20)
 
         plt.subplot(3, 1, 3)
         plt.plot(it_to_plot)
-        plt.xlabel('Episodes')
-        plt.ylabel('Iterations')
+        plt.xlabel('Episodes', fontsize=20)
+        plt.ylabel('Iterations', fontsize=20)
 
         plt.tight_layout()
         plt.show()
@@ -1209,7 +1211,7 @@ class Drone:
         plt.plot(x_values, y_values, 'go', label='Inference', markersize=point_size)
 
         # Signal
-        plt.plot(SIGNAL_ORIGIN[0], SIGNAL_ORIGIN[1], 'b^', label='Signal', markersize=point_size)
+        plt.plot(SIGNAL_ORIGIN[0], SIGNAL_ORIGIN[1], 'b^', label='TX', markersize=point_size)
 
         # Limits of the map
         plt.plot([0, 0], [0, self.size - 1], 'k-', linewidth=limit_size)
@@ -1218,15 +1220,16 @@ class Drone:
         plt.plot([self.size - 1, 0], [0, 0], 'k-', linewidth=limit_size)
 
         # Set parameters
-        plt.xlabel('X')
-        plt.ylabel('Y')
-        plt.title('Scenario map (points)')
+        plt.xlabel('X', fontsize=20)
+        plt.ylabel('Y', fontsize=20)
+        plt.title('Scenario map (points)', fontsize=20)
         plt.xlim(-1, self.size)
         plt.ylim(-1, self.size)
-        plt.xticks(range(0, self.size, 1))
-        plt.yticks(range(0, self.size, 1))
+        plt.xticks(range(0, self.size, 1), fontsize=15)
+        plt.yticks(range(0, self.size, 1), fontsize=15)
         plt.grid()
-        plt.legend(loc='upper right')
+        plt.legend(loc='upper right', fontsize=20)
+        plt.axis('equal')
 
         # Display the plot
         plt.show()
