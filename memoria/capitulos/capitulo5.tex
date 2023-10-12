@@ -10,9 +10,9 @@ Durante el desarrollo de este \ac{TFG}, se ha conseguido satisfactoriamente desa
 
 \begin{enumerate}
     \item Se ha desarrollado una interfaz capaz de interactuar de manera reactiva con el dron, comandando tanto posiciones como velocidades.
-    \item Se ha creado un nodo \ac{ROS} el cual gestiona un modelo de propagación de señales, a demanda de las aplicaciones que lo usen.
-    \item Se ha conseguido implementar diversos algoritmos capaces de rastrear transmisores \ac{RF} de manera autónoma.
-    \item Se ha demostrado que el algoritmo basado en Q-Learning es el más eficiente y óptimo de todos los planteados.
+    \item Se ha creado un nodo \ac{ROS} disponible para la comunidad\footnote[1]{\url{https://github.com/RoboticsLabURJC/2022-tfg-cristian-sanchez/blob/main/src/heatmap_util/scripts/rf_data_server.py}}, el cual gestiona un modelo de propagación de señales, a demanda de las aplicaciones que lo usen.
+    \item Se ha conseguido implementar diversos algoritmos capaces de navegar hacia transmisores \ac{RF} de manera autónoma.
+    \item Se ha demostrado que el algoritmo basado en Q-Learning es el más eficiente en términos de tiempo, número de movimientos, y movimientos malos (hacia potencias de señal inferiores), de todos los planteados.
     \item Se ha adaptado la mejor solución a un entorno realista donde se presentan obstáculos, a través de un enfoque híbrido empleando \ac{VFF}.
 \end{enumerate}
 
@@ -34,6 +34,4 @@ En cuanto a los conocimientos adquiridos, podemos distinguir:
 \section{Líneas futuras}
 \label{sec:lineas_futuras}
 
-Finalmente, y tal y como se comentó en la sección~\ref{sec:signal_follow_obs}, la manera de continuar este proyecto es haciéndolo más afín a entornos realistas, lo que implica agregar elementos como obstáculos y perturbaciones, así como añadir modos de funcionamento para el dron que le permita mejorar su adaptabilidad.\\
-
-Además, el mejor algoritmo según los resultados obtenidos alude a la solución por Q-Learning, sin embargo, se podría considerar emplear otras variantes (como empleando aprendizaje profundo) y comprobar si arrojan mejores resultados. Todo con el fin de llevar las soluciones a un dron real y ver su desempeño.
+Finalmente, y tras demostrar que el mejor algoritmo según los resultados obtenidos alude a la solución por Q-Learning, cabe preguntarse si se podrían encontrar variantes relacionadas (siguiendo la línea de \ac{RL}) que arrojasen mejores resultados, es decir, ver si rinden mejor que las soluciones planteadas, vease \ac{PPO}, \ac{DDPG}, \ac{SAC}, entre otros. Todo ello, con el fin último de transladarlo a un dispositivo real y verificar su funcionamiento.

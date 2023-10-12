@@ -4,17 +4,16 @@
 
 En la actualidad, la tecnología forma parte de nuestro día a día. Prácticamente, constituye un elemento imprescindible para llevar a cabo cualquier actividad, sea profesional o cotidiana. Su función consiste en solucionar problemas para hacernos la vida más sencilla.\\
 
-Con esto en mente, se presenta la \textbf{robótica} que, según la \ac{RAE}, se define cómo \emph{``técnica que aplica la informática al diseño y empleo de aparatos que, en sustitución de personas, realizan operaciones o trabajos, por lo general en instalaciones industriales.''} (Real Academia Española, s.f., definición 2) \footnote[1]{\href{https://dle.rae.es/rob\%C3\%B3tico\#WYTncqf}{https://dle.rae.es/robótico\#WYTncqf}}. Sin embargo, no es precisa, por ello una definición más concreta podría ser, ciencia que engloba diversas ramas tecnológicas, encargada del estudio y diseño de dispositivos mecánicos, provistos de sensores y actuadores, capaces de realizar tareas a través de la extracción y posterior procesamiento de la información, con el fin de generar respuestas adecuadas para resolver determinados problemas \footnote[2]{\url{https://revistaderobots.com/robots-y-robotica/que-es-la-robotica/?cn-reloaded=1}}.\\
+Con esto en mente, se presenta la robótica que, según la \ac{RAE}, se define cómo \emph{``técnica que aplica la informática al diseño y empleo de aparatos que, en sustitución de personas, realizan operaciones o trabajos, por lo general en instalaciones industriales.''} (Real Academia Española, s.f., definición 2) \footnote[1]{\href{https://dle.rae.es/rob\%C3\%B3tico\#WYTncqf}{https://dle.rae.es/robótico\#WYTncqf}}. Sin embargo, no es precisa, por ello una definición más concreta podría ser, ciencia que engloba diversas ramas tecnológicas, encargada del estudio y diseño de dispositivos mecánicos, provistos de sensores y actuadores, capaces de realizar tareas a través de la extracción y posterior procesamiento de la información, con el fin de generar respuestas adecuadas para resolver determinados problemas \footnote[2]{\url{https://revistaderobots.com/robots-y-robotica/que-es-la-robotica/?cn-reloaded=1}}.\\
 
-Dentro de la robótica, existen diversas maneras de clasificar, sin embargo, una de las más comunes esta relacionada con la movilidad del dispositivo, esto es, si el mecanismo se puede desplazar por su entorno o no, por tanto se distingue lo siguiente:
+Dentro de la robótica, existen diversas maneras de clasificar, sin embargo, una de las más comunes esta relacionada con la movilidad del dispositivo, esto es, si el mecanismo se puede desplazar por su entorno o no (figura~\ref{fig:industrial_vs_mobile}), por tanto se distingue lo siguiente:
 
 \begin{enumerate}
-	\item \textbf{Robótica industrial}: que involucra mecanismos fijos, capaces de realizar tareas de manera rápida, precisa y eficiente. Como es el caso de los brazos robóticos \footnote[3]{\url{https://www.geeksforgeeks.org/industrial-robots/}}.
-
-	\item \textbf{Robótica móvil}: la cual abarca a los dispositivos móviles que se engloban en múltiples entornos y aplicaciones, como pueden ser, robótica aérea, terrestre y submarina \footnote[4]{\url{https://www.geeksforgeeks.org/mobile-robots/}}.
+	\item Robótica industrial: que involucra mecanismos fijos, capaces de realizar tareas de manera rápida, precisa y eficiente. Como es el caso de los brazos robóticos \footnote[3]{\url{https://www.geeksforgeeks.org/industrial-robots/}}.
+	\item Robótica móvil: la cual abarca a los dispositivos móviles que se engloban en múltiples entornos y aplicaciones, como pueden ser, robótica aérea, terrestre y submarina \footnote[4]{\url{https://www.geeksforgeeks.org/mobile-robots/}}.
 \end{enumerate}
 
-\begin{figure} [h]
+\begin{figure} [tp]
 	\centering
 	\subfigure[Robot industrial ABB]{\includegraphics[height=3cm]{imagenes/cap1/1_industrial_robot.jpeg}}
 	\quad
@@ -25,14 +24,14 @@ Dentro de la robótica, existen diversas maneras de clasificar, sin embargo, una
 	\label{fig:industrial_vs_mobile}
 \end{figure}
 
-Como tal, la robótica ayuda a resolver tareas repetitivas, peligrosas, delicadas y en ambientes problemáticos (conocidas como las 4 D's, \emph{dull, dirty, dangerous and dear}) \footnote[5]{\url{https://bernardmarr.com/the-4-ds-of-robotisation-dull-dirty-dangerous-and-dear/}}. Sin embargo, uno de los problemas más complicados de abordar, es el \textbf{contexto}, es decir, la capacidad de entender y adaptarse a las circunstancias del problema, como por ejemplo en el caso de la conducción autónoma, donde detectar un simple peatón, puede derivar en infinitos inconvenientes (condiciones de visibilidad, clima, atuendo, entre muchos otros). Es ahí, donde se presenta el segundo punto importante, la \ac{IA} \cite{dworakowski2020robots}.\\
+Como tal, la robótica ayuda a resolver tareas repetitivas, peligrosas, delicadas y en ambientes problemáticos (conocidas como las 4 D's, \emph{dull, dirty, dangerous and dear}) \footnote[5]{\url{https://bernardmarr.com/the-4-ds-of-robotisation-dull-dirty-dangerous-and-dear/}}. Sin embargo, uno de los problemas más complicados de abordar, es el contexto, es decir, la capacidad de entender y adaptarse a las circunstancias del problema, como por ejemplo en el caso de la conducción autónoma, donde detectar un simple peatón, puede derivar en infinitos inconvenientes (condiciones de visibilidad, clima, atuendo, entre muchos otros). Es ahí, donde se presenta el segundo punto importante, la \ac{IA} \cite{dworakowski2020robots}.\\
 
 \section{Robots}
 \label{sec:robots}
 
-Un robot es un dispositivo provisto con \textbf{sensores}, o elementos capaces de extraer información del entorno (por ejemplo una cámara), \textbf{actuadores}, o elementos que permiten al dispositivo realizar acciones (por ejemplo un motor), y una \textbf{unidad de procesamiento}, que se encarga de generar acciones a través de la información obtenida con los sensores, todo ello mediante algoritmos \cite{Wang2022}.\\
+Un robot es un dispositivo provisto con sensores, o elementos capaces de extraer información del entorno (por ejemplo una cámara), actuadores, o elementos que permiten al dispositivo realizar acciones (por ejemplo un motor), y una unidad de procesamiento, que se encarga de generar acciones a través de la información obtenida con los sensores, todo ello mediante algoritmos \cite{Wang2022}, tal y como se puede ver en la~\ref{fig:robot_def}.\\
 
-\begin{figure} [H]
+\begin{figure} [tp]
 	\begin{center}
 	\includegraphics[height=5cm]{imagenes/cap1/3_robot.png}
 	\end{center}
@@ -40,16 +39,14 @@ Un robot es un dispositivo provisto con \textbf{sensores}, o elementos capaces d
 	\label{fig:robot_def}
 \end{figure}
 
-Según el problema que se quiera resolver conviene usar unos u otros. En nuestro caso buscamos un robot con capacidad de navegar, preferiblemente grandes distancias y que pueda tomar medidas de la intensidad de una señal de forma autónoma.\\
-
 Existen múltiples robots capaces de satisfacer estas condiciones, vease, los \ac{AGV}/\ac{AMR} o plataformas robóticas terrestres ampliamente empleadas logística, que permiten mover mercancía y navegar de forma autónoma por almacenes y naves industriales \footnote[6]{\url{https://www.mobile-industrial-robots.com/insights/get-started-with-amrs/agv-vs-amr-whats-the-difference/}}; los robots bipedos, los cuales emulan el movimiento humanoide, lo que aumenta su adaptabilidad a cualquier entorno real (ya que el mundo esta diseñado para la biomecánica humana), sin embargo, son bastante complejos debido a la dificultad de replicar la marcha bípeda \cite{10.3389/fmech.2020.00011}; y por último, los drones, empleados en labores de \ac{SAR}, o de inspección en lugares poco accesibles, entre otros.
 
 \subsection{Drones}
 \label{subsec:drones}
 
-Los drones tienen origen en la primera guerra mundial, con el biplano llamado \textbf{Kettering bug}. Se trataba de un torpedo que era lanzado desde una carretilla, capaz de volar de forma no tripulada, hasta que se liberaba de sus alas y caía sobre el objetivo \footnote[7]{\url{https://www.nationalmuseum.af.mil/Visit/Museum-Exhibits/Fact-Sheets/Display/Article/198095/kettering-aerial-torpedo-bug/}}. Más tarde, entre la primera y segunda guerra mundial (1935), se diseño el \textbf{Queen Bee}, de donde surgió el termino \emph{``drone''}, como abeja macho en busca de la reina, que se trataba de un avión no tripulado, con el fin de servir de objetivo para realizar prácticas de artillería aérea \footnote[8]{\url{https://www.dehavillandmuseum.co.uk/aircraft/de-havilland-dh82b-queen-bee/}}. Sin embargo, no fue hasta \textbf{Operation Aphrodite}, en la segunda guerra mundial, donde realmente se vió el primer dron radio tripulado, con el fin de poder volar en entornos ``sucios'' o dirty, dado el nuevo paradigma de las bombas atómicas \footnote[9]{\url{https://warfarehistorynetwork.com/article/operation-aphrodite/}}.\\
+Los drones tienen origen en la primera guerra mundial, con el biplano llamado Kettering bug. Se trataba de un torpedo que era lanzado desde una carretilla, capaz de volar de forma no tripulada, hasta que se liberaba de sus alas y caía sobre el objetivo \footnote[7]{\url{https://www.nationalmuseum.af.mil/Visit/Museum-Exhibits/Fact-Sheets/Display/Article/198095/kettering-aerial-torpedo-bug/}}. Más tarde, entre la primera y segunda guerra mundial (1935), se diseño el Queen Bee, de donde surgió el termino \emph{``drone''}, como abeja macho en busca de la reina, que se trataba de un avión no tripulado, con el fin de servir de objetivo para realizar prácticas de artillería aérea \footnote[8]{\url{https://www.dehavillandmuseum.co.uk/aircraft/de-havilland-dh82b-queen-bee/}}. Sin embargo, no fue hasta Operation Aphrodite, en la segunda guerra mundial, donde realmente se vió el primer dron radio tripulado, con el fin de poder volar en entornos ``sucios'' o dirty, dado el nuevo paradigma de las bombas atómicas \footnote[9]{\url{https://warfarehistorynetwork.com/article/operation-aphrodite/}}. En la figura~\ref{fig:drone_history}, se pueden ver los ejemplos mencionados.\\
 
-\begin{figure} [h]
+\begin{figure} [tp]
 	\centering
 	\subfigure[Kettering Bug]{\includegraphics[height=2.5cm]{imagenes/cap1/4_kettering_bug.jpeg}}
 	\quad
@@ -60,17 +57,15 @@ Los drones tienen origen en la primera guerra mundial, con el biplano llamado \t
 	\label{fig:drone_history}
 \end{figure}
 
-Existen múltiples avances y ejemplos posteriores, pero en la actualidad podemos definir un \textbf{\ac{UAS}} teniendo en cuenta lo siguiente:
+Existen múltiples avances y ejemplos posteriores, pero en la actualidad podemos definir un \ac{UAS} (ver figura~\ref{fig:drone_components}) teniendo en cuenta lo siguiente:
 
 \begin{enumerate}
-	\item \textbf{\ac{GCS}}: es la estación de tierra o el elemento encargado de controlar la nave \footnote[10]{\url{https://www.trentonsystems.com/blog/ground-control-stations}}
-
-	\item \textbf{Comunicación}: conecta y gestiona la transmisión de datos entre el \ac{UAV} y la \ac{GCS}, mediante \textbf{data links}, o canales de transmisión \cite{data-link-definicion}.
-	
-    \item \textbf{\ac{UAV}}: hace referencia directamente a la aeronave.
+	\item \ac{GCS}: es la estación de tierra o el elemento encargado de controlar la nave \footnote[10]{\url{https://www.trentonsystems.com/blog/ground-control-stations}}
+	\item Comunicación: conecta y gestiona la transmisión de datos entre el \ac{UAV} y la \ac{GCS}, mediante data links, o canales de transmisión \cite{data-link-definicion}.
+    \item \ac{UAV}: hace referencia directamente a la aeronave.
 \end{enumerate} \footnote[11]{\url{https://srmconsulting.es/blog/uav-uas-rpa-dron-como-llamarlos.html}}
 
-\begin{figure} [H]
+\begin{figure} [tp]
 	\begin{center}
 	\includegraphics[height=6cm]{imagenes/cap1/7_drone_components.jpeg}
 	\end{center}
@@ -78,30 +73,26 @@ Existen múltiples avances y ejemplos posteriores, pero en la actualidad podemos
 	\label{fig:drone_components}
 \end{figure}
 
-También cabe destacar que hay variedad de drones, según su peso y capacidad de carga de pago, o elementos que sea capaz de cargar, lo cual influye en la \textbf{legislación} detras de su uso (de forma general, cuanto mayor sea el peso, más legislación debe cumplir y mayores restricciones de uso tiene) \footnote[12]{\url{https://www.safedroneflying.aero/en/drone-guide/drone-regulations}}.\\
+También cabe destacar que hay variedad de drones, según su peso y capacidad de carga de pago, o elementos que sea capaz de cargar, lo cual influye en la legislación detrás de su uso (de forma general, cuanto mayor sea el peso, más legislación debe cumplir y mayores restricciones de uso tiene) \footnote[12]{\url{https://www.safedroneflying.aero/en/drone-guide/drone-regulations}}. Tal y como fue mencionado, la gran ventaja del uso de vehículos aéreos es poder evitar las irregularidades del terreno, sin embargo, hay ligados al uso de estos dispositivos ciertos problemas, como son el clima, la carga de pago que afecta a la autonomía (peso de las baterías), los interiores (afectan a la señal GPS), entre otros.\\
 
-Tal y como fue mencionado, la gran ventaja del uso de vehículos aéreos es poder evitar las irregularidades del terreno, sin embargo, hay ligados al uso de estos dispositivos ciertos problemas, como son el clima, la carga de pago que afecta a la autonomía (peso de las baterías), los interiores (afectan a la señal GPS), entre otros.\\
-
-Agrupando la robótica y los drones, se pueden observar múltiples ejemplos de uso, uno muy conocido es el de un dron \emph{``sigue-persona''}, el cual permite a un \ac{SUAV} detectar y moverse al son de un objetivo móvil, tal y como puede ser una persona; o bien para controlar desastres naturales, como por ejemplo un incendio, donde mediante visión artificial se puedan localizar y controlar los focos activos \footnote[13]{https://www.euronews.com/2023/09/19/could-ai-powered-drones-be-the-solution-to-europes-wildfire-problems}.\\
+Agrupando la robótica y los drones, se pueden observar múltiples ejemplos de uso, uno muy conocido es el de un dron \emph{``sigue-persona''}, el cual permite a un \ac{SUAV} detectar y moverse al son de un objetivo móvil, tal y como puede ser una persona \cite{8967675}; o bien para controlar desastres naturales, como por ejemplo un incendio, donde mediante visión artificial se puedan localizar y controlar los focos activos \footnote[13]{https://www.euronews.com/2023/09/19/could-ai-powered-drones-be-the-solution-to-europes-wildfire-problems}.\\
 
 Estos comportamientos, son especialmente complejos debido a que se navega por entornos desconocidos (es decir, sin un mapa disponible), además de estar sujetos a una reactividad elevada, lo que requiere un procesamiento de datos eficiente y una baja latencia en las comunicaciones, lo cual está directamente relacionado con las condiciones del entorno y su contexto.
 
 \section{Inteligencia artificial}
 \label{subsec:inteligencia_artificial}
 
-La \ac{IA} ha tenido un auge importante en los últimos años, especialmente en el ámbito de la robótica dado su amplio abanico de soluciones sinérgicas con la misma, desde \emph{``Computing Machinery and Intelligence''} (Alan Turing, 1950), donde se buscó responder fue la siguiente \textbf{¿Puede una máquina pensar?}, formulada en \emph{``Computing Machinery and Intelligence''} (Alan Turing, 1950); pasando por \textbf{Logic Theorist} en el \textbf{Dartmouth Summer Research Project on Artificial Intelligence} \cite{logic-theorist}; hasta la actualidad, donde los algoritmos mejoraron a la par de la capacidad de computación, destacando por ejemplo la navegación autónoma, empleada en drones entre otros vehículos \footnote[14]{\url{https://sitn.hms.harvard.edu/flash/2017/history-artificial-intelligence/}}.\\
+La \ac{IA} ha tenido un auge importante en los últimos años, especialmente en el ámbito de los drones dado su amplio abanico de soluciones sinérgicas con la robótica, desde \emph{``Computing Machinery and Intelligence''} (Alan Turing, 1950), donde se buscó responder fue la siguiente ¿Puede una máquina pensar?, formulada en \emph{``Computing Machinery and Intelligence''} (Alan Turing, 1950); pasando por Logic Theorist en el Dartmouth Summer Research Project on Artificial Intelligence \cite{logic-theorist}; hasta la actualidad, donde los algoritmos mejoraron a la par de la capacidad de computación, destacando por ejemplo la navegación autónoma, empleada en drones entre otros vehículos \footnote[14]{\url{https://sitn.hms.harvard.edu/flash/2017/history-artificial-intelligence/}}.\\
 
-En general, la \ac{IA} es capaz de abordar los siguientes problemas de aprendizaje:
+En general, la \ac{IA} se puede clasificar en función de los siguientes enfoques (ver figura~\ref{fig:ai_types}):
 
 \begin{enumerate}
-	\item \textbf{Supervisado}: es decir, se emplea un conjunto de datos del que se conocen tanto las salidas cómo las entradas a las que pertenecen. La idea es conseguir obtener una salida precisa dada una entrada concreta. Por ejemplo, para detectar obstrucciones mediante datos etiquetados, en una imagen de un dron \cite{christl2020visionbased}.
-
-	\item \textbf{No supervisado}: donde se tiene un conjunto de datos de entrada de los que no se conoce la salida. Básicamente, se encarga de distribuir dicho conjunto en sets con características comunes. Un ejemplo común es la segmentación de imagenes, donde se clasifica cada elemento de la imagen según su naturaleza, como puede ser el caso de detectar turbinas defectuosas o no defectuosas, en aeronaves empleando reconocimiento por imagen \cite{wang2019unsupervised}.
-	
-    \item \textbf{Por refuerzo}: resuelve un problema a base de prueba y error, mediante un sistema de recompensas. Como por ejemplo \emph{``Stockfish''}, que es un modelo entrenado para ganar una partida de ajedrez en el menor número de movimientos posible, superando incluso a grandes maestros de la actualidad \footnote[15]{\url{https://stockfishchess.org/about/}}, o por ejemplo, en un caso más relacionado, para mejorar la navegación en drones \cite{electronics10090999}.
+	\item Aprendizaje supervisado: es decir, se emplea un conjunto de datos del que se conocen tanto las salidas cómo las entradas a las que pertenecen. La idea es conseguir obtener una salida exacta dada una entrada concreta. Por ejemplo, para detectar obstrucciones o cualquier obstáculo presente en la ruta generada por el plan de navegación de un dron entrenado a través de datos etiquetados por imágenes \cite{christl2020visionbased}.
+	\item Aprendizaje no supervisado: donde se tiene un conjunto de datos de entrada sin etiquetar. Básicamente, se encarga de distribuir dicho conjunto en sets con características comunes. Un ejemplo común es la segmentación de imagenes, donde se clasifica cada elemento de la imagen según su naturaleza, como puede ser el caso de detectar turbinas defectuosas o no defectuosas, en aeronaves empleando reconocimiento por imagen \cite{wang2019unsupervised}.
+    \item Aprendizaje por refuerzo: resuelve un problema a base de prueba y error, mediante un sistema de recompensas. Como por ejemplo \emph{``Stockfish''}, que es un modelo entrenado para ganar una partida de ajedrez en el menor número de movimientos posible, superando incluso a grandes maestros de la actualidad \footnote[15]{\url{https://stockfishchess.org/about/}}, o por ejemplo, en un caso más relacionado, para mejorar la navegación en drones \cite{electronics10090999}.
 \end{enumerate} \footnote[16]{\url{https://www.springboard.com/blog/data-science/regression-vs-classification/}}
 
-\begin{figure} [H]
+\begin{figure} [tp]
 	\begin{center}
 	\includegraphics[height=5.5cm]{imagenes/cap1/8_AI_types.png}
 	\end{center}
@@ -112,11 +103,11 @@ En general, la \ac{IA} es capaz de abordar los siguientes problemas de aprendiza
 \subsection{Aprendizaje por refuerzo}
 \label{subsec:aprendizaje_por_refuerzo}
 
-Se basa en un sistema de \textbf{recompensas y penalizaciones}, que permite entrenar a un modelo para converger hacia la toma de buenas decisiones. Este enfoque se basa en los llamados \textbf{procesos de Markov}, que se definen como aquellos que, para un instante dado, contienen toda la información relevante sin depender de todos los procesos anteriores. \footnote[17]{\url{https://www.geeksforgeeks.org/what-is-reinforcement-learning/}}\\
+Se basa en un sistema de recompensas y penalizaciones, que permite entrenar a un modelo para converger hacia la toma de buenas decisiones. Este enfoque se basa en los llamados procesos de Markov, que se definen como aquellos que, para un instante dado, contienen toda la información relevante sin depender de todos los procesos anteriores. \footnote[17]{\url{https://www.geeksforgeeks.org/what-is-reinforcement-learning/}}\\
 
-En particular, hablamos de \textbf{agente}, o modelo encargado de tomar decisiones en un \textbf{entorno} (que es el medio en el que interactúa dicho agente, y está regido por una serie de reglas); \textbf{estados}, o circunstancias en la que se sitúa el agente en un determinado instante temporal; y \textbf{acciones}, o decisiones que toma el agente y que le permiten cambiar de estado. En términos de Markov, decimos que el estado actual no depende de todos los estados previos. \footnote[18]{\url{https://www.alexanderthamm.com/es/blog/refuerzo-aprendizaje-marco-y-ejemplo-de-aplicacion/}}\\
+En particular, hablamos de agente, o modelo encargado de tomar decisiones en un entorno (que es el medio en el que interactúa dicho agente, y está regido por una serie de reglas); estados, o circunstancias en la que se sitúa el agente en un determinado instante temporal; y acciones, o decisiones que toma el agente y que le permiten cambiar de estado, como se puede ver en la figura~\ref{fig:reinforcement_learning}. En términos de Markov, decimos que el estado actual no depende de todos los estados previos. \footnote[18]{\url{https://www.alexanderthamm.com/es/blog/refuerzo-aprendizaje-marco-y-ejemplo-de-aplicacion/}}\\
 
-\begin{figure} [H]
+\begin{figure} [tp]
 	\begin{center}
 	\includegraphics[height=4cm]{imagenes/cap1/9_reinforcement.png}
 	\end{center}
@@ -124,22 +115,19 @@ En particular, hablamos de \textbf{agente}, o modelo encargado de tomar decision
 	\label{fig:reinforcement_learning}
 \end{figure}
 
-Cabe destacar que, este enfoque está directamente extraido de la \textbf{psicología} y el estudio del comportamiento, donde en función de recompensas y castigos se induce al aprendizaje en distintas tareas, como por ejemplo, enseñar a jugar al ping pong a dos palomas \footnote[19]{\url{https://pressbooks.online.ucf.edu/lumenpsychology/chapter/operant-conditioning/} \url{https://pressbooks-dev.oer.hawaii.edu/psychology/chapter/operant-conditioning/}}, o más en relación a aplicaciones con aeronaves, para obtener rutas óptimas en carreras de drones \cite{9636053}.\\
+Cabe destacar que, este enfoque está directamente extraido de la psicología y el estudio del comportamiento, donde en función de recompensas y castigos se induce al aprendizaje en distintas tareas, como por ejemplo, enseñar a jugar al ping pong a dos palomas \footnote[19]{\url{https://pressbooks.online.ucf.edu/lumenpsychology/chapter/operant-conditioning/} \url{https://pressbooks-dev.oer.hawaii.edu/psychology/chapter/operant-conditioning/}}, o más en relación a aplicaciones con aeronaves, para obtener rutas óptimas en carreras de drones \cite{9636053}.\\
 
-Entre los distintos modelos, encontramos \textbf{Q-Learning}, que busca generar una tabla numérica donde cada fila se interprete como un estado del robot, que puede ser su posición; y cada columna sea una determinada acción, como puede ser moverse hacia algún lugar. De este modo, y a través de una \textbf{función de recompensa}, se rellenan los valores de la tabla, los cuales, según el tipo de función escogida, convergerá comportamientos de un tipo u otro. Una vez obtenida la tabla, el robot solo debe identificar en que estado se encuentra (fila) y elegir la columna con mayor valor numérico, lo que se traducirá en la mejor acción para dicho estado \footnote[20]{\url{https://towardsdatascience.com/reinforcement-learning-explained-visually-part-4-q-learning-step-by-step-b65efb731d3e}}.\\
+Entre los distintos modelos, encontramos Q-Learning, que busca generar una tabla numérica donde cada fila se interprete como un estado del robot, que puede ser su posición; y cada columna sea una determinada acción, como puede ser moverse hacia algún lugar. De este modo, y a través de una función de recompensa, se rellenan los valores de la tabla, los cuales, según el tipo de función escogida, convergerá comportamientos de un tipo u otro. Una vez obtenida la tabla, el robot solo debe identificar en que estado se encuentra (fila) y elegir la columna con mayor valor numérico, lo que se traducirá en la mejor acción para dicho estado \footnote[20]{\url{https://towardsdatascience.com/reinforcement-learning-explained-visually-part-4-q-learning-step-by-step-b65efb731d3e}}.\\
 
 Existen múltiples ejemplos de aplicación de esta metodología a casos reales, vease para controlar de forma adaptativa una señal de tráfico; para jugar a la Atari 2600; o para realizar un control híbrido sobre la navegación de un Robot \cite{q-learning-app}; o para seleccionar que vehículos reduce costes y mejorar la eficiencia, de cara a entregar mercancía (vía aerea empleando drones o vía terrestre) \cite{CHEN2022939}.
 
 \section{Vigilancia del espectro electromagnético}
 \label{subsec:señales}
 
-Las comunicaciones inalámbricas son aquellas donde tanto el emisor como el receptor se intercambian información mediante ondas electromagnéticas. En su defecto usan ondas electromagnéticas moduladas transmitidas generalmente por el aire. En este caso concreto, hablamos de señales \ac{RF}, como son por ejemplo Wi-Fi, radio FM, 4G, 5G, entre otros tipos de señales distribuidas a lo largo del espectro.\\
+Las comunicaciones inalámbricas son aquellas donde tanto el emisor como el receptor se intercambian información mediante ondas electromagnéticas. En su defecto usan ondas electromagnéticas moduladas transmitidas generalmente por el aire. En este caso concreto, hablamos de señales \ac{RF}, como son por ejemplo Wi-Fi, radio FM, 4G, 5G, entre otros tipos de señales distribuidas a lo largo del espectro \ac{EM}.\\
 
-Dicho espectro se divide por bandas de frecuencia, que se reparten para diversos uso. El ejemplo más claro es la banda FM de radio, que se reparte entre los 87-108 MHz para España, donde cada emisora tiene un ancho asignado para emitir, o por ejemplo la banda GPS, dispuesta para el posicionamiento, situada en 1565 MHz, o también la banda GSM, que distribuye la telefonía móvil y se encuentra entre 900 y 1800 MHz. \footnote[21]{\url{https://www.wikiwand.com/en/FM_broadcast_band}}\\
+Dicho espectro se divide por bandas de frecuencia, que se reparten para diversos uso. El ejemplo más claro es la banda FM de radio, que se reparte entre los 87-108 MHz para España, donde cada emisora tiene un ancho asignado para emitir, o por ejemplo la banda GPS, dispuesta para el posicionamiento, situada en 1575 MHz, o también la banda GSM, que distribuye la telefonía móvil y se encuentra en las bandas de 900 y 1800 MHz. \footnote[21]{\url{https://www.wikiwand.com/en/FM_broadcast_band}}\\
 
-De este modo, se pueden encontrar soluciones a problemas como el rastreo de una señal de móvil para una persona perdida en la montaña, o seguir emisores concretos, como pueden ser convoys, o también en casos de ataques del tipo jamming (introducción de interferencias para invalidar la comunicación), donde se necesite hallar el origen del ataque, entre otros. Lo único que hay que establecer, es la banda de frecuencia adecuada y establecer un comportamiento que permita navegar hasta la señal de manera autónoma. Otro ejemplo de uso, es para mejorar la localización en robots, mediante el uso de redes 5G \cite{s23010188}.
+De este modo, se pueden encontrar soluciones a problemas como el rastreo de una señal de móvil para una persona perdida en la montaña, o seguir emisores concretos, como pueden ser convoys, o también en casos de ataques del tipo jamming (introducción de interferencias para invalidar la comunicación), donde se necesite hallar el origen del ataque, entre otros. Lo único que hay que establecer, es la banda de frecuencia adecuada y establecer un comportamiento que permita navegar hasta la señal de manera autónoma. Otro ejemplo de uso, es para mejorar la localización en robots, mediante el uso de redes 5G \cite{s23010188}. De manera más específica, podemos pensar en una aplicación donde se requiera navegar hacia una señal en un entorno interior de baja visibilidad, sea por ejemplo para guiar a las personas hacia una salida de emergencia, situando un transmisor en la misma, en una situación de incendio.\\
 
-\section{Síntesis}
-\label{subsec:sintesis}
-
-Este proyecto se centra en desarrollar un comportamiento autónomo de un dron, basado en aprendizaje por refuerzo, con el fin de detectar el origen de una señal \ac{RF} en un entorno dinámico, esto es, un escenario con obstáculos sobre el cual se navegue hasta la fuente de la señal.
+En definitiva, este proyecto se centra en desarrollar un comportamiento autónomo de un dron, basado en aprendizaje por refuerzo, con el fin de detectar el origen de una señal \ac{RF} en un entorno dinámico, esto es, un escenario con obstáculos sobre el cual se navegue hasta la fuente de la señal.

@@ -1,9 +1,9 @@
 \chapter{Diseño}
 \label{cap:capitulo4}
 
-En este capítulo se expone, de forma detallada, el proceso seguido para conseguir que un dron detecte y navegue autónomamente hacia una señal \ac{RF}. Además, se muestra el desarrollo de una aplicación responsiva, que simula el comportamiento de una señal (en un espacio libre de obstáculos), basada en la aproximación de Friis. A continuación, en la figura~\ref{fig:diagrama}, se muestra un diagrama de bloques donde se ve una panorámica del sistema empleado.\\
+En este capítulo se expone, de forma detallada, el proceso seguido para conseguir que un dron detecte y navegue autónomamente hacia una señal \ac{RF}. Además, se muestra el desarrollo de una aplicación responsiva, que simula el comportamiento de una señal (en un espacio libre de obstáculos), basada en la aproximación de Friis. A continuación, en la figura~\ref{fig:diagrama}, se muestra un diagrama de bloques donde se ve un esquema del sistema empleado.\\
 
-\begin{figure} [t]
+\begin{figure} [tp]
 	\begin{center}
 	\includegraphics[height=10cm]{imagenes/cap4/0_diagrama_general.png}
 	\end{center}
@@ -11,7 +11,7 @@ En este capítulo se expone, de forma detallada, el proceso seguido para consegu
 	\label{fig:diagrama}
 \end{figure}
 
-Tal y como se puede apreciar, se tiene un controlador, encargado de comandar órdenes al dron; un simulador, que nos permite visualizar el modelo y el comportamiento del dron; el propio dron, que devuelve datos a otros bloques, tales como su posición o la imagen de la cámara instalada, entre otros; Rviz, como bloque de depuración y visualización; \ac{MPSS}, encargado de gestionar la transmisión de información del bloque de algoritmos de navegación autónoma y Rviz, a través del modelo de propagación de señal; bloque de comportamientos autónomos, que almacena la algoritmia responsable de resolver la navegación autónoma hacia el transmisor de la señal \ac{RF}; y por último, el bloque de teleoperación, el cual se encarga de solicitar órdenes al controlador para desencadenar acciones en el dron, tales como desplazamientos y giros.
+Tal y como se puede apreciar, se tiene un controlador, encargado de comandar órdenes al dron; un simulador, que nos permite visualizar el modelo y el comportamiento del dron; el propio dron, que devuelve datos a otros bloques, tales como su posición o la imagen de la cámara instalada, entre otros; Rviz, como bloque de depuración y visualización; \ac{MPSS}, o Módulo de Propagación de Señal Simulado, encargado de gestionar la transmisión de información del bloque de algoritmos de navegación autónoma y Rviz, a través del modelo de propagación de señal; bloque de comportamientos autónomos, que almacena la algoritmia responsable de resolver la navegación autónoma hacia el transmisor de la señal \ac{RF}, en el se incluyen los \ac{ANAIV}, o Algoritmos de Navegación Autónoma basados en la Información de la Vecindad (que extraen la información de la cercania para navegar), y los \ac{RL}, que son los algoritmos basados en Reinforcement Learning; y por último, el bloque de teleoperación, el cual se encarga de solicitar órdenes al controlador para desencadenar acciones en el dron, tales como desplazamientos y giros.
 
 \section{Preparación del entorno}
 \label{sec:preparacion_del_entorno}
@@ -23,7 +23,7 @@ Inicialmente, se pone en funcionamiento el entorno de simulación (compatible co
 
 Gracias a esta plataforma, se obtienen los modelos y módulos necesarios para simular en Gazebo 11 un cuadracóptero, provisto de un sistema autopilot PX4. Específicamente, el modelo usado es el 3DR Iris simulado, con un plugin de una cámara frontal, el cual se ha incluido manualmente en el fichero original, debido a que el modelo específico disponible no funcionaba correctamente. Este dispositivo utiliza MAVROS para realizar la comunicación, lo que nos permite enviar y recibir mesajes ROS compatibles con el protocolo de comunicaciones típico de estas aeronaves, MAVLink.\\
 
-\begin{figure} [t]
+\begin{figure} [tp]
 	\begin{center}
 	\includegraphics[height=6cm]{imagenes/cap4/1_px4_drone_gz.png}
 	\end{center}
@@ -37,7 +37,7 @@ Gracias a esta plataforma, se obtienen los modelos y módulos necesarios para si
 Una vez es funcional el entorno y los modelos, la primera aproximación ha consistido en realizar una interfaz gráfica, para enviar órdenes a la aeronave a modo de teleoperador. Para ello, se debe conseguir enviar mensajes de forma programática. Por tanto, se diseña un script controlador encargado de la comunicación directa con el controlador de la aeronave, que a su vez se encarga enviar y recibir diversos datos vía MAVROS. De igual modo, se satisfacen una serie de requisitos para asegurar el correcto funcionamiento del sistema:
 
 \begin{enumerate}
-	\item La comunicación se debe dar a más de 2 Hz, para evitar cambios indeseados en el funcionamiento interno del controlador PX4 (de la aeronave).
+	\item La comunicación se debe dar a más de 2 Hz, para evitar cambios indeseados en el funcionamiento interno del controlador PX4.
 	\item Antes de realizar cualquier comunicación, se debe asegurar que el estado es \emph{``connected''}, lo que significa que el dron esta armado y en modo \emph{OFFBOARD} (nuestra aeronave posee 7 modos distintos, \emph{HOLD}, que mantiene la posición, \emph{RETURN}, que vuelve al punto de despegue, \emph{MISSION}, que permite cargar rutas programadas con anterioridad, \emph{TAKEOFF}, habilita el despegue, \emph{LAND}, habilita el aterrizaje, \emph{FOLLOW ME}, que permite seguir objetivos, y \emph{OFFBOARD}, que permite comandar al dron sin necesidad de GPS, lo que es útil de cara al desarrollo de aplicaciones robóticas)\footnote[1]{\url{https://docs.px4.io/main/en/getting_started/flight_modes.html}}.
     \item Una vez está conectado, se deben enviar velocidades al controlador PX4, con el fin de evitar el cierre de la conexión. Estos datos carecen de utilidad más que la de asegurar dicha conectividad.
     \item Por último, y antes de enviar cualquier posición, velocidad o comando (distintos modos de actuación), se debe comprobar siempre que el modo activo es \emph{OFFBOARD} y que el dron esta armado (listo para volar). En caso contrario, se debe solicitar al controlador, mediante servicios, dichos requerimientos.
@@ -45,7 +45,7 @@ Una vez es funcional el entorno y los modelos, la primera aproximación ha consi
 
 Por tanto, la manera de generar comportamientos en el dron en sí, es mediante \emph{topics}. Concretamente, los que genera MAVROS automáticamente cuando se lanza todo el sistema. Tal y como se comentó en apartados anteriores, estos \emph{topics} sólo admiten mensajes \ac{ROS}, lo que encapsula el mensaje real transmitido al controlador PX4, que solo es compatible con MAVLINK. En nuestro caso, se envían posiciones (PoseStamped), velocidades (Twist) y comandos (sevicios formados por mensajes personalizados, creados por MAVROS, con formato \ac{ROS}, como por ejemplo aterrizar). Esto, nos permite conectar el resto de aplicaciones con el script controlador, mediante \emph{topics} comunes, es decir a través de \emph{``radio\_control/[pos, vel o cmd]''}, de forma de que el script controlador se encargue de enviar la acción final al dron, empleando los \emph{topics} propios de MAVROS, vease \emph{``mavros/setpoint\_position/local''} (que solicita al dron una posición en coordenadas del simulador), \emph{``mavros/setpoint\_velocity/cmd\_vel\_unstamped''} (que de igual modo solicita velocidades), \emph{``mavros/cmd/land''} (para solicitar el aterrizaje), \emph{``mavros/cmd/arming''} (para armar el dron, o dicho de otro modo, para que el dron este listo para actuar), y por último \emph{``mavros/setmode''} (para solicitar un modo de actuación determinado). Para más detalle, mirar la figura~\ref{fig:diagrama2}, donde se especifican los tipos de mensaje enviados de forma gráfica.\\
 
-\begin{figure} [t]
+\begin{figure} [tp]
 	\begin{center}
 	\includegraphics[height=10cm]{imagenes/cap4/4_esquema_coms.png}
 	\end{center}
@@ -53,13 +53,11 @@ Por tanto, la manera de generar comportamientos en el dron en sí, es mediante \
 	\label{fig:diagrama2}
 \end{figure}
 
-De este modo, el teleoperador se diseña con el fin de generar comportamientos que se usarán en las fases finales del \ac{TFG}. Sin embargo, para la primera versión, tan solo se construye una interfaz gráfica, encargada de enviar ordenes usando \ac{ROS} que, en última instancia, llegan al dron y producen diversos comportamientos, tales como moverse y girar, a través de barras de acción.\\
+De este modo, el teleoperador se diseña con el fin de ofrecer una interfaz gráfica, capaz de generar comportamientos que se usarán en las fases finales del \ac{TFG}. Sin embargo, para la primera versión, tan solo se construye una interfaz gráfica, encargada de enviar ordenes usando \ac{ROS} que, en última instancia, llegan al dron y producen diversos comportamientos, tales como moverse y girar, a través de barras de acción.\\
 
 En la siguiente versión, se programan comportamientos predefinidos, es decir, acciones predeterminadas tales como desplazarse distancias concretas en ciertas direcciones, o girar un número específico de grados en un sentido u otro. Para ello, se diseña una ampliación sobre la interfaz anterior, en la que se añade un botón por cada acción concreta desarrollada, además de una imagen de la cámara frontal en tiempo real.\\
 
-Por último, se simplifica la interfaz, con el fin de seleccionar los comportamientos más relevantes de cara al proyecto. Además, se agregan marcadores en \emph{rviz}, para determinar las celdas visitadas (con colores aleatorios), junto con otro marcador que muestra la trayectoria que sigue la aeronave, como se puede observar en la figura~\ref{fig:teleop_figs}.\\
-
-\begin{figure} [t]
+\begin{figure} [tp]
 	\centering
 	\subfigure[Primera versión]{\includegraphics[height=5.5cm]{imagenes/cap4/2_axes_rc.png}}
 	\quad
@@ -70,43 +68,45 @@ Por último, se simplifica la interfaz, con el fin de seleccionar los comportami
 	\label{fig:teleop_figs}
 \end{figure}
 
-A continuación, en el código~\ref{cod:c2c_app}, se muestra la última versión comentada de la interfaz. En este caso se muestra el \emph{``main''}, donde, tras inicializar el nodo \ac{ROS}, se definen por un lado los suscriptores, encargados de recibir los datos de la cámara y la posición del dron (usando MAVROS), los publicadores, cuya función es enviar posiciones y/o comandos al script controlador, y por último la interfaz gráfica diseñada con OpenCV, donde se define la ventana y los botones con las diversas acciones predefinidas\footnote[2]{Código completo en \url{https://github.com/RoboticsLabURJC/2022-tfg-cristian-sanchez/blob/main/src/teleop/scripts/c2c_control.py}}.\\
-
-\begin{code}[t]
-\begin{lstlisting}[language=Python]
-if __name__ == '__main__':
-    try:
-        rospy.init_node(NODENAME, anonymous=True)
-
-        # Msgs
-        ## Subscribers
-        image_sub = rospy.Subscriber(IMAGE_TOPIC, Image, callback = image_cb)
-        current_pos_sub = rospy.Subscriber(LOCAL_POSE_TOPIC, PoseStamped, callback = current_pos_cb)
-
-        ## Publishers
-        pos_pub = rospy.Publisher(RADIO_CONTROL_POS_TOPIC, PoseStamped, queue_size=10)
-        cmd_pub = rospy.Publisher(RADIO_CONTROL_CMD_TOPIC, Px4Cmd, queue_size=10)
-
-        # -- OPENCV -- #
-        cv2.namedWindow(WINDOWNAME)
-
-        # Buttons
-        cv2.createButton('Launch', launch_button, None, cv2.QT_PUSH_BUTTON, 1)
-        cv2.createButton('Land', land_button, None, cv2.QT_PUSH_BUTTON, 1)
-        cv2.createButton('←', left_button, None, cv2.QT_PUSH_BUTTON, 1)
-        cv2.createButton('↑', front_button, None, cv2.QT_PUSH_BUTTON, 1)
-        cv2.createButton('↓', back_button, None, cv2.QT_PUSH_BUTTON, 1)
-        cv2.createButton('→', right_button, None, cv2.QT_PUSH_BUTTON, 1)
-        cv2.createButton('STOP', stop_button, None, cv2.QT_PUSH_BUTTON, 1)
-
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-    except rospy.ROSInterruptException:
-        pass
-\end{lstlisting}
-\caption[Bloque de código principal de la versión final del teleoperador]{Bloque de código principal de la versión final del teleoperador}
-\label{cod:c2c_app}
+\begin{code}[tp]
+    \begin{lstlisting}[language=Python]
+    if __name__ == '__main__':
+        try:
+            rospy.init_node(NODENAME, anonymous=True)
+    
+            # Msgs
+            ## Subscribers
+            image_sub = rospy.Subscriber(IMAGE_TOPIC, Image, callback = image_cb)
+            current_pos_sub = rospy.Subscriber(LOCAL_POSE_TOPIC, PoseStamped, callback = current_pos_cb)
+    
+            ## Publishers
+            pos_pub = rospy.Publisher(RADIO_CONTROL_POS_TOPIC, PoseStamped, queue_size=10)
+            cmd_pub = rospy.Publisher(RADIO_CONTROL_CMD_TOPIC, Px4Cmd, queue_size=10)
+    
+            # -- OPENCV -- #
+            cv2.namedWindow(WINDOWNAME)
+    
+            # Buttons
+            cv2.createButton('Launch', launch_button, None, cv2.QT_PUSH_BUTTON, 1)
+            cv2.createButton('Land', land_button, None, cv2.QT_PUSH_BUTTON, 1)
+            cv2.createButton('←', left_button, None, cv2.QT_PUSH_BUTTON, 1)
+            cv2.createButton('↑', front_button, None, cv2.QT_PUSH_BUTTON, 1)
+            cv2.createButton('↓', back_button, None, cv2.QT_PUSH_BUTTON, 1)
+            cv2.createButton('→', right_button, None, cv2.QT_PUSH_BUTTON, 1)
+            cv2.createButton('STOP', stop_button, None, cv2.QT_PUSH_BUTTON, 1)
+    
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
+        except rospy.ROSInterruptException:
+            pass
+    \end{lstlisting}
+    \caption[Bloque de código principal de la versión final del teleoperador]{Bloque de código principal de la versión final del teleoperador}
+    \label{cod:c2c_app}
 \end{code}
+
+Por último, se simplifica la interfaz, con el fin de seleccionar los comportamientos más relevantes de cara al proyecto. Además, se agregan marcadores en \emph{rviz}, para determinar las celdas visitadas (con colores aleatorios), junto con otro marcador que muestra la trayectoria que sigue la aeronave, como se puede observar en la figura~\ref{fig:teleop_figs}.\\
+
+En el código~\ref{cod:c2c_app}, se muestra la última versión comentada de la interfaz. En este caso se muestra el \emph{``main''}, donde, tras inicializar el nodo \ac{ROS}, se definen por un lado los suscriptores, encargados de recibir los datos de la cámara y la posición del dron (usando MAVROS), los publicadores, cuya función es enviar posiciones y/o comandos al script controlador, y por último la interfaz gráfica diseñada con OpenCV, donde se define la ventana y los botones con las diversas acciones predefinidas\footnote[2]{Código completo en \url{https://github.com/RoboticsLabURJC/2022-tfg-cristian-sanchez/blob/main/src/teleop/scripts/c2c_control.py}}.\\
 
 \section{Modelo de propagación de señal}
 \label{sec:signals}
@@ -118,7 +118,7 @@ En cuanto al modelo de propagación de señal, se define como un modelo que nos 
 \subsection{Aproximación de Friis}
 \label{subsec:friis}
 
-Para ello, se opta por emplear la aproximación de Friis, presentada por el ingeniero Danés-Americano Harald T. Friis en 1946, el cual buscaba una manera de medir el rendimiento de una antena \cite{johnson1984antenna}. De este modo, nos ofrece la siguiente ecuación para modelar nuestro problema:
+Se opta por emplear la aproximación de Friis, presentada por el ingeniero Danés-Americano Harald T. Friis en 1946, el cual buscaba una manera de medir el rendimiento de una antena \cite{johnson1984antenna}. De este modo, nos ofrece la siguiente ecuación para modelar nuestro problema:
 
 \begin{align}
     P_r = P_t \cdot \left( \frac{G_t G_r \lambda^2 }{(4 \pi)^2 d^n L} \right)
@@ -188,11 +188,11 @@ Básicamente, el proceso a seguir para usar este módulo es el siguiente, primer
 
 Concretamente, se genera un array 10x10 con resolución 1 (es decir, representa celdillas de 1x1 metros), de una señal WIFI (2'4 GHz), donde el transmisor emite a 10 W, con una ganancia de 1.5, el receptor posee una ganancia de 2, un factor de pérdidas (L) de 1, es decir, sin pérdidas, y por último, el exponente n (\ac{PLE}) con un valor de 2, que representa el espacio vacío. Luego se genera el modelo de propagación de la señal, indicando que la fuente se encuentra en las coordenadas (5,3). En la figura~\ref{fig:heat_ex}, se muestra una representación del código~\ref{cod:friis_basics}, pero para un mapa de mayor dimensión (50 x 50 metros), de modo que se aprecie mejor las diferencias entre unos y otros.\\
 
-\begin{figure} [t]
+\begin{figure} [tp]
 	\begin{center}
 	\includegraphics[height=6cm]{imagenes/cap4/4_heatmap_example.png}
 	\end{center}
-	\caption[Uso del módulo Friis con señal WIFI (2'4 Ghz) VS señal GSM (0'9 GHz)]{Uso del módulo Friis con señal WIFI (2'4 Ghz) VS señal GSM (0'9 GHz)}
+	\caption[Uso del módulo Friis con señal WIFI (5 GHz) VS señal GSM (0'9 GHz)]{Uso del módulo Friis con señal WIFI (2'4 Ghz) VS señal GSM (0'9 GHz)}
 	\label{fig:heat_ex}
 \end{figure}
 
@@ -215,7 +215,7 @@ Para ello, se emplea la librería matplotlib, debido a la enorme funcionalidad q
 
 Inicialmente, se opta por representar un mapa de calor con una barra de color asociada a los distintos valores de la señal. Además, se integran sliders correspondientes a cada valor presente en la ecuación de Friis. El problema es, que al actualizar los valores, también lo hace la representación, por lo que no se aprecia el efecto de los cambios en el plot. Por ello, se decide agregar dos mapas de calor, uno con el máximo y el mínimo fijados a mano (donde sí se aprecian los cambios), y el anterior mencionado. Para elegir cual usar, se añade una casilla marcable. Además, se incluyen dos variables relevantes a la hora de modelar, el tamaño del mapa y la resolución, manejadas a través de \emph{``sliders''}, los cuales a su vez se activan al pulsar un botón de SET, que recarga la interfaz. Además, se ajustan los saltos de valores para que sean coherentes en el resto de barras de acción, tal y como se puede apreciar a continuación:\\
 
-\begin{figure} [t]
+\begin{figure} [tp]
     \begin{center}
     \includegraphics[height=8cm]{imagenes/cap4/7_Friss_endGUI.png}
     \end{center}
@@ -226,7 +226,7 @@ Inicialmente, se opta por representar un mapa de calor con una barra de color as
 \subsection{\ac{MPSS} - Integración de Friis con \ac{ROS}}
 \label{subsec:friis-ros}
 
-\begin{figure} [t]
+\begin{figure} [tp]
     \begin{center}
     \includegraphics[height=8cm]{imagenes/cap4/5_MPSS_esquema.png}
     \end{center}
@@ -234,22 +234,19 @@ Inicialmente, se opta por representar un mapa de calor con una barra de color as
 	\label{fig:esquema_mpss}
 \end{figure}
 
-Por último y cómo se comentó al inicio de la sección~\ref{sec:signals} y siguiendo el esquema de la figura~\ref{fig:esquema_mpss}, se ha diseñado una aplicación servidor de datos, que funciona como intermediaria entre el módulo de Friis y otros nodos \ac{ROS} (en este caso, con un diseño enfocado a simular de manera realista el escenario con el dron). Básicamente, la aplicación hace uso del módulo de Friis para gestionar la información que envía a según que aplicación. Este programa se compone de dos servidores basados en acciones \ac{ROS}, los cuales son especialmente útiles dada su naturaleza asíncrona. Dichos servidores, se encargan de las peticiones y respuestas para el dron y para rviz, tal y como se detalla a continuación:
+Cómo se comentó al inicio de la sección~\ref{sec:signals} y siguiendo el esquema de la figura~\ref{fig:esquema_mpss}, el módulo de propagación de señal simulado, se ha diseñado como una aplicación servidor de datos, que funciona como intermediaria entre el módulo de Friis y otros nodos \ac{ROS} (en este caso, con un diseño enfocado a simular de manera realista el escenario con el dron). Básicamente, la aplicación hace uso del módulo de Friis para gestionar la información que envía a según que aplicación. Este programa se compone de dos servidores basados en acciones \ac{ROS}, los cuales son especialmente útiles dada su naturaleza asíncrona. Dichos servidores, se encargan de las peticiones y respuestas para el dron y para rviz, tal y como se detalla a continuación:
 
 \begin{enumerate}
-	\item \emph{Bloque de comunicaciones}: en términos generales, el dron envía su posición en coordenadas transformadas al sistema de referencia del \emph{``heatmap''}, y recibe el valor de la señal de dichas coordenadas, mediante acciones \ac{ROS} (\emph{``drone\_friis\_action''}). En un caso real, el dron tan solo accedería al valor de la señal a través de un sensor que se lo permitiera. Adicionalmente, se le ha agregado la funcionalidad de enviar, en dicha petición, si se deseaba un mapa con obstáculos o no en la misma petición (de manera que \ac{MPSS} generase un modelo con obstáculos). En paralelo, recibe una petición para agregar todas las características de la señal y sobre la que generar el \emph{``heatmap''}, vease el origen y sus componentes. Esto, genera como respuesta un array de floats que contienen la información del mapa de calor, en un formato adecuado para su representación. Todo ello, nuevamente a través de acciones \ac{ROS}, en \emph{``drone\_friis\_action''}. De igual modo, ha sido agregada la funcionalidad de los obstáculos para la experimentación futura.
+	\item \emph{Bloque de comunicaciones}: en términos generales, el dron envía su posición en coordenadas transformadas al sistema de referencia del \emph{``heatmap''}, y recibe el valor de la señal de dichas coordenadas, mediante acciones \ac{ROS} (\emph{``drone\_friis\_action''}). En un caso real, el dron tan solo accedería al valor de la señal a través de un sensor que se lo permitiera (por ejemplo un receptor \ac{RF} como el RTL-SDR V3\footnote[1]{Más información aquí \url{https://www.rtl-sdr.com/about-rtl-sdr/}}). Adicionalmente, se le ha agregado la funcionalidad de enviar, en dicha petición, si se deseaba un mapa con obstáculos o no en la misma petición (de manera que \ac{MPSS} generase un modelo con obstáculos). En paralelo, recibe una petición para agregar todas las características de la señal y sobre la que generar el \emph{``heatmap''}, vease el origen y sus componentes. Esto, genera como respuesta un array de floats que contienen la información del mapa de calor, en un formato adecuado para su representación. Todo ello, nuevamente a través de acciones \ac{ROS}, en \emph{``drone\_friis\_action''}. De igual modo, ha sido agregada la funcionalidad de los obstáculos para la experimentación futura.
 	\item \emph{Bloque grid map}: se encarga de transformar el mapa de calor en formato array, a un objeto compatible con la biblioteca grid\_map, que a través del topic de \ac{ROS} \emph{``heatmap/map''}, permite enviar los datos a un nodo que los transforma y reenvía a un plugin de rviz (usando el topic \emph{``grid\_map\_simple\_demo/grid\_map''}), el cual genera la representación visual buscada\footnote[4]{Toda la funcionalidad englobada en el directorio heatmap\_util del proyecto}.
 \end{enumerate}
 
 \section{Navegación autónoma para localizar el origen de una señal \ac{RF}}
 \label{sec:signal_follow}
 
-\subsection{Introducción al problema}
-\label{subsec:intro_sf}
-
-\begin{figure} [t]
+\begin{figure} [tp]
     \begin{center}
-    \includegraphics[height=8cm]{imagenes/cap4/5_esquema_comp_auto.png}
+    \includegraphics[height=10cm]{imagenes/cap4/5_esquema_comp_auto.png}
     \end{center}
 	\caption[Esquema comunicaciones del bloque de comportamiento autónomo]{Esquema comunicaciones del bloque de comportamiento autónomo}
 	\label{fig:esquema_auto}
@@ -260,7 +257,7 @@ Tal y como se observa en la figura~\ref{fig:esquema_auto}, el bloque de algoritm
 \subsection{\ac{ANAIV}}
 \label{subsec:algoritmo_sf}
 
-\begin{figure} [t]
+\begin{figure} [tp]
     \begin{center}
     \includegraphics[height=12cm]{imagenes/cap4/9_algoritmo_manual.png}
     \end{center}
@@ -268,7 +265,7 @@ Tal y como se observa en la figura~\ref{fig:esquema_auto}, el bloque de algoritm
     \label{fig:manual_algorithm}
 \end{figure}
 
-Antes de nada, dentro del bloque de algoritmos de navegación autónoma y como nexo de unión para cada algoritmo implementado, se parte de una clase \emph{``Drone''}, cuyo constructor se encarga de conectar los topics al controlador PX4 para comandar ordenes a la aeronave. Además, se encarga de establecer la comunicación con el servidor de datos (tanto para la potencia como para rviz) y define los diferentes atributos pertenecientes a la clase, que en este caso aluden a los parámetros necesarios para el funcionamiento de los algoritmos y la extracción de datos en los resultados, siguiendo esta estructura:
+En los algoritmos de navegación autónoma basados en la información de la vecindad, parte de una clase \emph{``Drone''} que se usa como base para todas las soluciones desarrolladas del bloque de algoritmos de navegación autónoma, cuyo constructor se encarga de conectar los topics al controlador PX4 para comandar ordenes a la aeronave. Además, se encarga de establecer la comunicación con el servidor de datos (tanto para la potencia como para rviz) y define los diferentes atributos pertenecientes a la clase, que en este caso aluden a los parámetros necesarios para el funcionamiento de los algoritmos y la extracción de datos en los resultados, siguiendo esta estructura:
 
 \begin{enumerate}
 	\item \emph{Métodos para comandar al dron}: que se definen como el conjunto de funciones encargadas del movimiento del dispositivo (como despegar, aterrizar, desplazarse, entre otros). Mucha de esta funcionalidad ha sido adaptada del teleoperador comentado al de este capitulo.
@@ -283,10 +280,10 @@ Por ello, la primera aproximación se basa en visitar todos los vecinos más cer
 
 En cuanto a los métodos que se usan, se encuentra el de verificar movimientos válidos y el de comprobar si ha llegado a la casilla final, mediante la verificación anterior (vecindad con menor señal).\\
 
-\subsection{\ac{ANAIV} (mejorado)}
+\subsection{\ac{ANAIV} mejorado}
 \label{subsec:alg-manual-opt}
 
-\begin{figure} [t]
+\begin{figure} [tp]
     \begin{center}
     \includegraphics[height=12cm]{imagenes/cap4/10_algoritmo_optimizado.png}
     \end{center}
@@ -301,7 +298,7 @@ Teniendo en cuenta lo anterior, se han agregado ciertas mejoras y eficiencia. El
 
 Por último, se ha planteado un algoritmo de navegación basado en técnicas de aprendizaje por refuerzo. Concretamente empleando Q-Learning, que tal y como comentamos en la sección~\ref{subsec:aprendizaje_por_refuerzo}, consiste en la obtención de una tabla Q, de estados y acciones, donde se asignan valores numéricos cada acción según su estado, de modo que la acción más favorable acaba teniendo mayor valor numérico que el resto. Esto es a través de las recompensas, donde si la acción es buena, la recompensa es positiva y el valor asignado es mayor que en el caso contrario. En nuestro caso, los estados son las coordenadas del dron en términos del mapa de calor, y las acciones son los movimientos cardinales y diagonales, de una o más celdas de distancia, tal y como se puede observar en la figura~\ref{fig:expl_q}\\
 
-\begin{figure} [t]
+\begin{figure} [tp]
     \begin{center}
     \includegraphics[height=10cm]{imagenes/cap4/6_act_st.png}
     \end{center}
@@ -314,7 +311,7 @@ Como todo algoritmo basado en \ac{RL}, se distinguen dos fases: la fase de entre
 \subsubsection{Fase de entrenamiento}
 \label{subsubsec:train}
 
-\begin{figure} [t]
+\begin{figure} [tp]
     \begin{center}
     \includegraphics[height=10cm]{imagenes/cap4/11_diagrama_training.png}
     \end{center}
@@ -322,7 +319,7 @@ Como todo algoritmo basado en \ac{RL}, se distinguen dos fases: la fase de entre
     \label{fig:training_phase}
 \end{figure}
 
-Dentro del entrenamiento, podemos encontrar episodios, que en nuestro caso son las llegadas a la casilla final, o a casillas fuera del mapa definido (adicionalmente se añadió otra condición basada en el número de malas acciones consecutivas, pero de cara a extraer el máximo número de datos posibles para la tabla Q, esta condición no era adecuada, por ello se obvió); y las iteraciones, que se definen literalmente como la realización de una acción. Además, para rellenar el contenido de la tabla, se han definido las pertinentes recompensas y penalizaciones basadas en la diferencia entre la medidas, antes y después de realizar una acción (agregando un pequeño multiplicador a las recompensas negativas), contemplando casos extra, como cuando el dron se sale del mapa, donde se establece una recompensa fija negativa, calculada en proporción al resto de recompensas. Posteriormente, se asignan los valores obtenidos en la tabla Q, haciendo uso de la ecuación~\ref{eq:bellman}, que representa la ecuación de Bellman.
+Dentro del entrenamiento, se definen episodios como intervalo de eventos dentro del algoritmo, que abarca desde el inicio o despegue del dron hasta donde se alcanza una condición de final, vease llegadas a la casilla final, o a casillas fuera del mapa definido; y las iteraciones, que se definen literalmente como la realización de una vuelta del bucle, es decir, desde obtener la medida de potencia de señal de la posición actual, hasta realizar una acción, tomar la nueva medida y actualizar los valores pertinentes. Además, para rellenar el contenido de la tabla, se han definido las pertinentes recompensas y penalizaciones basadas en la diferencia entre la medidas, antes y después de realizar una acción (agregando un pequeño multiplicador a las recompensas negativas), contemplando casos extra, como cuando el dron se sale del mapa, donde se establece una recompensa fija negativa, calculada en proporción al resto de recompensas. Posteriormente, se asignan los valores obtenidos en la tabla Q, haciendo uso de la ecuación~\ref{eq:bellman}, que representa la ecuación de Bellman.
 \begin{equation}
     Q(s, a) = (1 - \alpha) \cdot Q(s, a) + \alpha \cdot \left(r + \gamma \cdot \mathrm{max}_{a'} Q(s', a')\right)
     \label{eq:bellman}
@@ -342,18 +339,35 @@ Cabe destacar que, durante el entrenamiento, se especifican una serie de paráme
     \label{table:params}
 \end{table}
 
-La fase de exploración ocupa un 20\% del número de episodios, de forma lineal, es decir, que cada vez hay más probabilidad de que se tome la acción con mayor peso en la tabla y no de tomar una acción aleatoria (durante el entrenamiento siempre se mantiene cierta posibilidad de tomar una acción arbitraria, para seguir actualizando los datos). Además, para evitar el overfitting (o sobreajuste al entrenamiento, lo que reduciría la adaptabilidad del modelo a escenarios distintos a los del entrenamiento), se han establecido distintos puntos de entrenamiento, para el inicio de los episodios, repartidos de forma uniforme por el mapa, tal y como se mencionará en la sección de métricas.\\
+La fase de exploración ocupa un 20\% del número de episodios, de forma lineal, es decir, que cada vez hay más probabilidad de que se tome la acción con mayor peso en la tabla y no de tomar una acción aleatoria (durante el entrenamiento siempre se mantiene cierta posibilidad de tomar una acción arbitraria, para seguir actualizando los datos). Además, para evitar el overfitting (o sobreajuste al entrenamiento, lo que reduciría la adaptabilidad del modelo a escenarios distintos a los del entrenamiento), se han establecido distintos puntos de inicio para el entrenamiento, para el inicio de los episodios, repartidos de forma uniforme por el mapa, tal y como se mencionará en la sección de métricas.\\
 
 Cabe destacar que, si la acción tomada lleva al dron hacia una condición de final, este finaliza automáticamente el episodio, viajando hacia una nueva posición de entrenamiento y actualizando ciertos parámetros, como es el caso  del parámetro $\epsilon$. La condición de final se aplica siempre tras actualizar los valores intrínsecos en la iteración, tal y como se puede apreciar en la figura~\ref{fig:training_phase}. De forma general, en la actualización de parámetros, se incluye la adición de pesos en la tabla Q según la función de recompensa y un factor aplicado, lo que se traduce en la ecuación~\ref{eq:reward}.
 \begin{equation}
     r = (P_f - P_o) \cdot factor
     \label{eq:reward}
 \end{equation}
-Donde $P_f$ representa el valor leido de la potencia en la nueva posición (tras haber realizado la acción), $P_o$ es el valor de la lectura obtenida antes de realizar la acción, y \emph{factor} equivale a un valor numérico fijo establecido en función de si se le quiere dar más importancia a las recompensas positivas y/o negativas (en nuestro caso es de 1'05 sólo para las recompensas negativas). El orden de magnitud trabajado para esta diferencia se encuentra en torno a las unidades, por ello, se establece el caso de que el dron salga del mapa con una recompensa fija de \emph{``-10''}, que escala al orden de las decenas, lo que nos permite penalizar más dichas decisiones.\\
+Donde $P_f$ representa el valor leido de la potencia de la señal en la nueva posición (tras haber realizado la acción), $P_o$ es el valor de la lectura obtenida antes de realizar la acción, y \emph{factor} equivale a un valor numérico fijo establecido en función de si se le quiere dar más importancia a las recompensas positivas y/o negativas (en nuestro caso es de 1'05 sólo para las recompensas negativas). El orden de magnitud trabajado para esta diferencia se encuentra en torno a las unidades, por ello, se establece el caso de que el dron salga del mapa con una recompensa fija de \emph{``-10''}, que escala al orden de las decenas, lo que nos permite penalizar más dichas decisiones, tal y como se puede apreciar en el código~\ref{cod:reward_python}.\\
 
-Una vez realizado el entrenamiento, podemos analizar cómo ha ido a través de la figura~\ref{fig:training_graph}, en este caso, un gráfico triple que nos permite conocer en detalle características del proceso. En concreto, representa tres métricas: el valor de epsilon ($\epsilon$), en el que se distingue la fase de exploración; la recompensa acumulada, que nos permite analizar la convergencia del entrenamiento; y el número de iteraciones, donde se observa que conforme el algoritmo aprende, el número se reduce. Todo ello con respecto a cada episodio. Observamos como en torno al episodio 600 la recompensa acumulada se estabiliza, lo que es una señal de convergencia que indica que el dron alcanza el origen de la señal. Además, conforme se va acabando la fase de exploración, en el episodio 1000, se ve que el número de iteraciones se reduce significativamente, lo que indica menos acciones aleatorias y mayor convergencia hacia una condición de final. En cuanto al tiempo empleado por entrenamiento, usando un portátil ASUS ROG Strix G513QR, con 32 GB de memoria RAM, AMD Ryzen 7 5800h y tarjeta gráfica NVIDIA 3070, tarda aproximadamente 1 hora y 20 minutos, donde 30 minutos son empleados en la fase de exploración.\\
+\begin{code}[tp]
+    \begin{lstlisting}[language=Python]
+    if pwr_next == NOT_VALID_POWER:
+        reward = -10
+        error = reward - q_table[current_state_idx, current_action_idx]
+    else:
+        reward = pwr_next - pwr_current
+        if target_coords_hm != next_coords_hm and reward < 0:
+            reward *= 1.05
+        next_state_idx = self.get_coord_state_idx(next_coords_hm, states)
+        error = (reward + gamma * np.max(q_table[next_state_idx])) - q_table[current_state_idx, current_action_idx]
+    q_table[current_state_idx, current_action_idx] += alpha * error
+    \end{lstlisting}
+    \caption[Código simplificado de la función de recompensa y actualización tabla Q]{Código simplificado de la función de recompensa y actualización tabla Q}
+    \label{cod:reward_python}
+\end{code}
 
-\begin{figure} [t]
+Una vez realizado el entrenamiento, podemos analizar su rendimiento a través de la figura~\ref{fig:training_graph}, en este caso, un gráfico triple que nos permite conocer en detalle características del proceso. En concreto, representa tres métricas: el valor de epsilon ($\epsilon$), en el que se distingue la fase de exploración; la recompensa acumulada, que nos permite analizar la convergencia del entrenamiento; y el número de iteraciones, donde se observa que conforme el algoritmo aprende, el número se reduce. Todo ello con respecto a cada episodio. Observamos como en torno al episodio 900 la recompensa acumulada se estabiliza, lo que es una señal de convergencia que indica que el dron alcanza el origen de la señal. Además, conforme se va acabando la fase de exploración, en el episodio 1000, se ve que el número de iteraciones se reduce significativamente, lo que indica menos acciones aleatorias y mayor convergencia hacia una condición de final. En cuanto al tiempo empleado por entrenamiento, usando un portátil ASUS ROG Strix G513QR, con 32 GB de memoria RAM, AMD Ryzen 7 5800h y tarjeta gráfica NVIDIA 3070, tarda aproximadamente 1 hora y 20 minutos, donde en torno a 30 minutos son necesarios para la convergencia del modelo.\\
+
+\begin{figure} [tp]
     \begin{center}
     \includegraphics[height=8cm]{imagenes/cap4/14_training_graph.png}
     \end{center}
@@ -372,36 +386,16 @@ Por último, en la \emph{fase de inferencia}, el dron analiza su estado (o sus c
 \subsubsection{Experimento 1 - Comparativa de algoritmos para escenarios de distintas dimensiones}
 \label{subsubsec:experimentos_1}
 
-Durante todos los experimentos realizados, los parámetros de la señal siempre son los valores por defecto representados en la tabla~\ref{table:compare_graph}, donde sólo varía el tamaño del mapa, que se va modificando según el experimento. Además, cabe destacar que la señal se toma como un punto estático dentro del mapa de calor y con respecto al dron, distinguiendo la posición centrada y la posición cercana a una esquina, que también dependen del experimento. Además, para los todos los entrenamientos realizados, los parámetros usados son los representados en la tabla~\ref{table:params}.\\
-
-\begin{table} [t]
-    \centering
-    \begin{tabular}{ll}
-    Potencia del transmisor & 1 W            \\
-    Ganancia del transmisor & 1 W            \\
-    Ganancia del receptor   & 1 W            \\
-    Frecuencia              & 2'4 GHz (WiFi) \\
-    Factor de pérdidas (L)  & 2'4            \\
-    Exponente n             & 2              \\
-    Resolución              & 1              \\
-    \end{tabular}
-    \caption[Características de la señal por defecto]{Características de la señal por defecto}
-    \label{table:compare_graph}
-\end{table}
-
-Primero se ha probado sobre un escenario de tamaño 12x12 metros. Para el transmisor cerca del centro, situada en las coordenadas (5, 5) del \emph{``heatmap''}, extraemos un mapa de puntos donde se muestran las posiciones de entrenamiento o puntos donde el dron despega durante su aprendizaje (representados con una ``X'' roja); inferencia o puntos donde el dron despega para probar lo que ha aprendido (representados por circulos verdes); y del origen del transmisor de la señal (representado por un triángulo azul), así como de los límites del escenario para el mapa de calor (que se distinguen con líneas gruesas). El mapa de puntos obtenido es el representado en la figura~\ref{fig:map_p_center_12}.\\
-
-\begin{figure} [t]
-    \begin{center}
-    \includegraphics[height=8cm]{imagenes/cap4/17_mapa_p_centro_12.png}
-    \end{center}
-    \caption[Mapa de puntos (12x12), transmisor centrado]{Mapa de puntos (12x12), transmisor centrado}
-    \label{fig:map_p_center_12}
+\begin{figure} [tp]
+	\centering
+	\subfigure[Mapa de puntos]{\includegraphics[height=5.25cm]{imagenes/cap4/17_mapa_p_centro_12.png}}
+	\quad
+	\subfigure[Mapa de calor]{\includegraphics[height=5cm]{imagenes/cap4/31_hm.png}}
+	\caption{Transmisor centrado (12x12)}
+	\label{fig:map_p_center_12}
 \end{figure}
 
-Los resultados obtenidos, son representados en una serie de gráficas comparativas. En ellas observamos el rendimiento de cada algoritmo, es decir, se analizan tres cosas: el tiempo medio en segundos que tarda el dron desde que despega hasta que vuelve a su posición de despegue; el número medio de iteraciones empleadas para alcanzar el transmisor; y el número medio de movimientos hacía coordenadas donde la potencia de señal es menor y no mayor\footnote[5]{Los datos arrojados han sido guardados en formato \emph{csv}.}.  Para este caso, los resultados obtenidos en la figura~\ref{fig:comp_center_12} arrojan que el algoritmo más eficiente es el de Q-Learning, ya que tarda menos tiempo, realiza menos iteraciones hasta llegar a la meta y tiene un porcentaje inferior de malas acciones. Esto es esperable, debido a que el algoritmo basado en \ac{RL} ha realizado un entrenamiento sobre el que aprende como se propaga la señal, lo que aumenta la exactitud y eficiencia del algoritmo.\\
-
-\begin{figure} [t]
+\begin{figure} [tp]
     \begin{center}
     \includegraphics[height=8cm]{imagenes/cap4/18_comp_centro_12.png}
     \end{center}
@@ -409,19 +403,37 @@ Los resultados obtenidos, son representados en una serie de gráficas comparativ
     \label{fig:comp_center_12}
 \end{figure}
 
-En el caso del transmisor cerca de la esquina, se sitúa en las coordenadas (3, 1) con respecto a las coordenadas del \emph{``heatmap''}, siendo su mapa de puntos el observado en la figura~\ref{fig:map_p_esq_12}.\\
+Durante todos los experimentos realizados, los parámetros de la señal siempre son los valores por defecto representados en la tabla~\ref{table:compare_graph}, donde sólo varía el tamaño del mapa, que se va modificando según el experimento. Además, cabe destacar que la señal se toma como un punto estático dentro del mapa de calor y con respecto al dron, distinguiendo la posición centrada y la posición cercana a una esquina, que también dependen del experimento. Además, para los todos los entrenamientos realizados, los parámetros usados son los descritos en la tabla~\ref{table:params}.\\
 
-\begin{figure} [t]
-    \begin{center}
-    \includegraphics[height=8cm]{imagenes/cap4/19_mapa_p_esq_12.png}
-    \end{center}
-    \caption[Mapa de puntos (12x12), transmisor en la esquina]{Mapa de puntos (12x12), transmisor en la esquina}
-    \label{fig:map_p_esq_12}
+\begin{table} [t]
+    \centering
+    \begin{tabular}{ll}
+    Potencia del transmisor & 1 W            \\
+    Ganancia del transmisor & 1 W            \\
+    Ganancia del receptor   & 1 W            \\
+    Frecuencia              & 2.4 GHz (WiFi) \\
+    Factor de pérdidas (L)  & 2.4            \\
+    Exponente n             & 2              \\
+    Resolución              & 1              \\
+    \end{tabular}
+    \caption[Características de la señal por defecto]{Características de la señal por defecto}
+    \label{table:compare_graph}
+\end{table}
+
+Primero se ha probado sobre un escenario de tamaño 12x12 metros (figura~\ref{fig:map_p_center_12}). Para el transmisor cerca del centro, situada en las coordenadas (5, 5) del \emph{``heatmap''}, extraemos un mapa de puntos donde se muestran las posiciones de entrenamiento o puntos donde el dron despega durante su aprendizaje (representados con una ``X'' roja); inferencia o puntos donde el dron despega para probar lo que ha aprendido (representados por circulos verdes); y del origen del transmisor de la señal (representado por un triángulo azul), así como de los límites del escenario para el mapa de calor (que se distinguen con líneas gruesas).\\
+
+Los resultados obtenidos, son representados en una serie de gráficas comparativas. En ellas observamos el rendimiento de cada algoritmo (\ac{ANAIV}, \ac{ANAIV} + o mejorado, y Q-Learning), es decir, se analizan tres métricas: el tiempo medio en segundos que tarda el dron desde que despega hasta que vuelve a su posición de despegue; el número medio de iteraciones empleadas para alcanzar el transmisor; y el número medio de movimientos hacía coordenadas donde la potencia de señal es menor y no mayor, por lo que son considerados como \emph{``bad moves''}\footnote[5]{Los datos arrojados han sido guardados en formato \emph{csv}.}. Para este caso, los resultados obtenidos en la figura~\ref{fig:comp_center_12} arrojan que el algoritmo más eficiente es el de Q-Learning, ya que tarda menos tiempo, realiza menos iteraciones hasta llegar a la meta y tiene un porcentaje inferior de malas acciones. Esto es esperable, debido a que el algoritmo basado en \ac{RL} ha realizado un entrenamiento sobre el que aprende como se propaga la señal, lo que aumenta la exactitud y eficiencia del algoritmo.\\
+
+\begin{figure} [tp]
+	\centering
+	\subfigure[Mapa de puntos]{\includegraphics[height=5.25cm]{imagenes/cap4/19_mapa_p_esq_12.png}}
+	\quad
+	\subfigure[Mapa de calor]{\includegraphics[height=5cm]{imagenes/cap4/32_hm.png}}
+	\caption{Transmisor en la esquina (12x12)}
+	\label{fig:map_p_esq_12}
 \end{figure}
 
-En este caso, se obtiene la misma conclusión que en el escenario anterior, tal y como se aprecia en la figura~\ref{fig:comp_esq_12}.\\
-
-\begin{figure} [t]
+\begin{figure} [tp]
     \begin{center}
     \includegraphics[height=8cm]{imagenes/cap4/20_comp_esq_12.png}
     \end{center}
@@ -429,24 +441,23 @@ En este caso, se obtiene la misma conclusión que en el escenario anterior, tal 
     \label{fig:comp_esq_12}
 \end{figure}
 
-Nuevamente, para el escenario de tamaño 30x30, los resultados obtenidos son idénticos, donde, con la salvedad de que el tiempo empleado es mayor y el número de iteraciones también, se concluye que el algoritmo de \ac{RL} es el mejor en todos los casos.\\
+En el caso del transmisor cerca de la esquina, se sitúa en las coordenadas (3, 1) con respecto a las coordenadas del \emph{``heatmap''}, siendo su mapa de puntos el observado en la figura~\ref{fig:map_p_esq_12}. En este caso, se obtiene la misma conclusión que en el escenario anterior, tal y como se aprecia en la figura~\ref{fig:comp_esq_12}. Nuevamente, para el escenario de tamaño 30x30, los resultados obtenidos son idénticos, donde, con la salvedad de que el tiempo empleado es mayor y el número de iteraciones también, se concluye que el algoritmo de \ac{RL} es el mejor en todos los casos.\\
 
 \subsubsection{Experimento 2 - Desempeño del algoritmo Q-Learning para dos señales distintas}
 \label{subsubsec:experimentos_1}
 
 En este caso, se ha realizado un experimento en el cual se entrena al modelo de Q-Learning con los parámetros especificados en la tabla~\ref{table:params}, donde el transmisor emite con las características de señal mencionadas en la tabla~\ref{table:compare_graph} (en gráficas comparativas hace referencia a \emph{``Q-Learning''}). A continuación se realiza inferencia, y posteriormente se modifican las características de la señal, aumentando la potencia del transmisor al doble (2 W) y cambiando la frecuencia (de 2'4 GHz a 5 GHz), de modo que en las gráficas comparativas se nombra como \emph{``Q-Learning 2''}. Nuevamente se realiza inferencia y se extraen resultados. Las coordenadas en las que se sitúa el transmisor están en (5, 3) y no son modificadas en ningún momento. Además, los puntos de entrenamiento seleccionados se pueden ver en el mapa de puntos de la figura~\ref{fig:map_p_diff_30}.\\
 
-\begin{figure} [t]
-    \begin{center}
-    \includegraphics[height=8cm]{imagenes/cap4/25_mapa_p_diff.png}
-    \end{center}
-    \caption[Mapa de puntos del escenario planteado (30x30)]{Mapa de puntos del escenario planteado (30x30)}
-    \label{fig:map_p_diff_30}
+\begin{figure} [tp]
+	\centering
+	\subfigure[Mapa de puntos]{\includegraphics[height=5.25cm]{imagenes/cap4/25_mapa_p_diff.png}}
+	\quad
+	\subfigure[Mapa de calor]{\includegraphics[height=5cm]{imagenes/cap4/33_hm.png}}
+	\caption{Transmisor en la esquina (30x30)}
+	\label{fig:map_p_diff_30}
 \end{figure}
 
-Para este caso, el problema se resuelve de igual forma para ambos casos, con una cierta variación irrelevante en la métrica temporal, derivada probablemente de la propia simulación, lo que se puede concluir como que el modelo aprende como se propaga la señal, independientemente de las características de la misma. Como se puede observar en la figura~\ref{fig:comp_diff_30}, se muestran las gráficas comparativas y un gráfico de trayectorias (figura~\ref{fig:12_traj}), que representa el camino seguido por el dron al aplicar la inferencia en ambos casos.\\
-
-\begin{figure} [t]
+\begin{figure} [tp]
     \begin{center}
     \includegraphics[height=7.5cm]{imagenes/cap4/26_comp_diff.png}
     \end{center}
@@ -454,7 +465,9 @@ Para este caso, el problema se resuelve de igual forma para ambos casos, con una
     \label{fig:comp_diff_30}
 \end{figure}
 
-\begin{figure} [t]
+Para este caso, el problema se resuelve de igual forma para ambos casos, con una cierta variación irrelevante en la métrica temporal, derivada probablemente de la propia simulación, lo que se puede concluir como que el modelo aprende como se propaga la señal, independientemente de las características de la misma. Como se puede observar en la figura~\ref{fig:comp_diff_30}, se muestran las gráficas comparativas y un gráfico de trayectorias (figura~\ref{fig:12_traj}), que representa el camino seguido por el dron al aplicar la inferencia en ambos casos.\\
+
+\begin{figure} [tp]
     \begin{center}
     \includegraphics[height=8cm]{imagenes/cap4/13_trayectorias_12.png}
     \end{center}
@@ -468,9 +481,17 @@ Para este caso, el problema se resuelve de igual forma para ambos casos, con una
 \subsection{Introducción al problema}
 \label{subsec:intro_sfo}
 
+\begin{figure} [tp]
+    \begin{center}
+    \includegraphics[height=10cm]{imagenes/cap4/34_hm.png}
+    \end{center}
+    \caption[Mapa de calor con obstáculo]{Mapa de calor con obstáculo}
+    \label{fig:obshm}
+\end{figure}
+
 El escenario planteado anteriormente, es una aproximación poco realista, es decir, en un entorno real se esperan perturbaciones y obstáculos. Por ello, se ha implementado un escenario con muros que distorsionan la señal.\\
 
-Inicialmente, se ha establecido el mapa a mano, es decir, se han sobreescrito los valores degradados de la señal sobre el mapa original para simular un mapa con obstáculos.\\
+Inicialmente, se ha simulado el degradado de la señal en presencia de obstáculos (ver figura~\ref{fig:obshm}), es decir, se han sobreescrito los valores degradados de la señal sobre el mapa original.\\
 
 \subsection{Algoritmos}
 \label{subsec:algoritmo_sfo}
@@ -491,7 +512,7 @@ Por ello, se observa que para el primer caso donde el dron sobrevuela cualquier 
 
 En el otro escenario, donde el dron vuela a la altura de los obstáculos, se debe implementar un método de detección de obstáculos. En general, se puede generar un caso realista usando un láser LiDAR o una cámara 3D, pero para simplificar el problema, se ha empleado la información del mapa realizando una simulación del comportamiento que tendría un sensor genérico de este tipo. Por ello, primero se prueba excluyendo las acciones que desemboquen en colisión, donde se presupone que el entrenamiento evitará acciones que alejen al dron de la señal, tal y cómo se observa en la figura~\ref{fig:pseudosensor}.\\
 
-\begin{figure} [t]
+\begin{figure} [tp]
     \begin{center}
     \includegraphics[height=9cm]{imagenes/cap4/28_pseudosensor.png}
     \end{center}
@@ -499,20 +520,36 @@ En el otro escenario, donde el dron vuela a la altura de los obstáculos, se deb
     \label{fig:pseudosensor}
 \end{figure}
 
-Sin embargo, los resultados no son concluyentes, de modo que en ocasiones sortea el obstáculo, pero en otras simplemente retrocede o alcanza un mínimo local. De este modo, y volviendo a la conclusión extraida del primer escenario, se ve la necesidad de aplicar un comportamiento híbrido, de modo que se navegue hacia la señal, hasta topar con un obstáculo lo suficientemente cercano, como para que cambie el modo de actuación para evitarlo. Una vez sorteado, se vuelve modo de navegación normal, hasta llegar a la señal o a otro obstáculo.\\
+\begin{figure} [tp]
+    \begin{center}
+    \includegraphics[height=8cm]{imagenes/cap4/29_hyb.png}
+    \end{center}
+    \caption[Diagrama de funcionamiento híbrido]{Diagrama de funcionamiento híbrido}
+    \label{fig:hyb}
+\end{figure}
 
-Por ello, se opta por emplear un algoritmo basado en \ac{VFF}, que consiste en generar un comportamiento basado en vectores de fuerzas virtuales, de modo que se alcanzen subobjetivos cercanos, evitando colisiones con obstáculos. Para nuestro caso concreto, se ha decidido adaptar de modo que: los obstáculos son dispuestos en el mapa por celdillas ocupadas, de modo que cada celdilla genera un vector inversamente proporcional a la distancia, desde la celdilla a la posición del dron, generando un vector de repulsión; los subobjetivos que generarían el vector de fuerza atractiva, son sustituidos por un vector basado en la tendencia seguida por el dron, durante la navegación basada en Q-Learning, es decir, se obtiene un vector unitario resultante de todas las posiciones visitadas por el dron, previamente. Todo esto, se ajusta siguiendo la ecuación~\ref{eq:vff}, que traducido a comandos para el dron son velocidades en x, y, ya que es lo que mejor se ajusta al comportamiento reactivo buscado.
+Sin embargo, los resultados no son concluyentes, de modo que en ocasiones sortea el obstáculo, pero en otras simplemente retrocede o alcanza un mínimo local. De este modo, y volviendo a la conclusión extraida del primer escenario, se ve la necesidad de aplicar un comportamiento híbrido, de modo que se navegue hacia la señal, hasta topar con un obstáculo lo suficientemente cercano, como para que cambie el modo de actuación para evitarlo. Una vez sorteado, se vuelve modo de navegación normal, hasta llegar a la señal o a otro obstáculo (ver figura~\ref{fig:hyb}).\\
+
+\begin{figure} [tp]
+    \begin{center}
+    \includegraphics[height=10cm]{imagenes/cap4/30_vff.png}
+    \end{center}
+    \caption[Funcionamiento general del algoritmo \ac{VFF}]{Funcionamiento general del algoritmo \ac{VFF}}
+    \label{fig:vffwork}
+\end{figure}
+
+Por ello, se opta por emplear un algoritmo basado en \ac{VFF} (ver figura~\ref{fig:vffwork}), que consiste en generar un comportamiento basado en vectores de fuerzas virtuales, de modo que se alcanzen subobjetivos cercanos, evitando colisiones con obstáculos (ver figura). Para nuestro caso concreto, se ha decidido adaptar de modo que: los obstáculos son dispuestos en el mapa por celdillas ocupadas, de modo que cada celdilla genera un vector inversamente proporcional a la distancia, desde la celdilla a la posición del dron, generando un vector de repulsión; los subobjetivos que generarían el vector de fuerza atractiva, son sustituidos por un vector basado en la tendencia seguida por el dron, durante la navegación basada en Q-Learning, es decir, se obtiene un vector unitario resultante de todas las posiciones visitadas por el dron, previamente. Todo esto, se ajusta siguiendo la ecuación~\ref{eq:vff}, que traducido a comandos para el dron son velocidades en x, y, ya que es lo que mejor se ajusta al comportamiento reactivo buscado.
 \begin{equation}
     F_{res} = \alpha \cdot F_{atr} + \beta \cdot F_{rep}
     \label{eq:vff}
 \end{equation}
 Donde tras el ajuste por experimentación, $\alpha$ (que determina la importancia que tendrá la fuerza atractiva en la ejecución) toma el valor de 2'5, y $\beta$ (que por contra determina la importancia de la fuerza repulsiva) toma el valor de 0'05. Adicionalmente, es necesario comentar un problema derivado del diseño a la hora de simular el escenario. A causa de que el transmisor se sitúa esquinado y el obstáculo también, y dado que el dron solo actuaba sobre el muro, si el algoritmo \ac{VFF} desplazaba al dron fuera de las coordenadas del mapa de calor, se generaban comportamientos impredecibles (lo cual en la realidad no sucedería, ya que la señal se propagaría en todas direcciones). Para solucionarlo, se agregaron muros virtuales que actúan como obstáculos, con el fin de delimitar estas áreas fuera del mapa de calor. El resultado final es satisfactorio, ya que se consigue navegar hacia la señal, evitando obstáculos. En la figura~\ref{fig:hybrid}, se puede ver una representación gráfica del escenario y su funcionamiento, donde se dispone un muro, el transmisor y el algoritmo funcionando en ambos modos.
 
-\begin{figure} [t]
+\begin{figure} [tp]
 	\centering
-	\subfigure[Q-Learning]{\includegraphics[height=10cm]{imagenes/cap4/0_ql.png}}
+	\subfigure[Q-Learning]{\includegraphics[height=11cm]{imagenes/cap4/0_ql.png}}
 	\quad
-	\subfigure[VFF]{\includegraphics[height=10cm]{imagenes/cap4/0_vff.png}}
+	\subfigure[VFF]{\includegraphics[height=11cm]{imagenes/cap4/0_vff.png}}
 	\caption{Enfoque híbrido}
 	\label{fig:hybrid}
 \end{figure}

@@ -873,7 +873,7 @@ class Drone:
         start_time = rospy.Time.now()
         while True:
             d = self.get_distance_to_obstacle(minimun=True)
-            if d <= D_TO_WALL:
+            if d <= D_TO_WALL and obstacles:
                 self.VFF()
 
             ## Take readings
@@ -1010,8 +1010,8 @@ class Drone:
             ax = plt.subplot(1, len(self.labels), i + 1)
             bars = plt.bar(self.labels_exp, variable)
 
-            ax.bar_label(bars)
-            ax.set_ylabel(self.labels[i])
+            ax.bar_label(bars, fontsize=10)
+            ax.set_ylabel(self.labels[i], fontsize=14)
 
             # Ticks for percent plot
             if i == len(self.labels) - 1:
@@ -1169,9 +1169,9 @@ class Drone:
                         ec=rainbow_colors[k % len(self.labels_exp)])
 
             # Set parameters
-            ax.set_xlabel('X')
-            ax.set_ylabel('Y')
-            ax.set_title(self.labels_exp[k])
+            ax.set_xlabel('X', fontsize=20)
+            ax.set_ylabel('Y', fontsize=20)
+            ax.set_title(self.labels_exp[k], fontsize=20)
             ax.set_xlim(0, self.size - 1)
             ax.set_ylim(0, self.size - 1)
             ax.set_xticks(range(0, self.size, 1))
@@ -1461,19 +1461,19 @@ class Drone:
 if __name__ == '__main__':
     iris = Drone()
 
-    for test_pose in TESTING_POSES_Q_30_OBSTACLE:
+    for test_pose in TESTING_POSES_Q_30_OBSTACLE:      
         iris.go_to_random_pose(test_pose)
-        # iris.VFF()
-        
+
         # iris.manual_algorithm()
         # iris.manual_algorithm_optimized()
 
         iris.q_learning_algorithm(obstacles=True)
 
+        # iris.q_learning_algorithm()
         # iris.change_pwr_q_learning(2, 5 * (10**9))
         # iris.q_learning_algorithm()
 
-        # iris.show_results()
+        iris.show_results()
         # iris.reset_plots()
 
     rospy.spin()
