@@ -9,7 +9,7 @@ En este apartado se hablará de los recursos ingenieriles empleados para hacer p
 \subsection{Python}
 \label{subsec:python}
 
-\begin{code}[tp]
+\begin{code}[hp]
 	\begin{lstlisting}[language=Python]
 	#! /usr/bin/env python
 	
@@ -31,7 +31,7 @@ En nuestro caso, python se usó para el crear la mayor parte del código emplead
 \subsection{C++}
 \label{subsec:cplusplus}
 
-\begin{code}[tp]
+\begin{code}[hp]
 	\begin{lstlisting}[language=C++]
 	#include <iostream>
 	
@@ -53,7 +53,7 @@ El uso designado en este proyecto para este lenguaje fue para poder trabajar con
 
 \begin{figure} [tp]
 	\begin{center}
-	\includegraphics[height=3.25cm]{imagenes/cap3/1_ros_esquema.png}
+	\includegraphics[height=4cm]{imagenes/cap3/1_ros_esquema.png}
 	\end{center}
 	\caption[Esquema de comunicaciones en ROS]{Esquema comunicaciones en ROS}
 	\label{fig:ros}
@@ -68,9 +68,9 @@ Concretamente, se usa para desarrollar todos los algoritmos robóticos y para re
 \subsection{Rviz}
 \label{subsec:rviz}
 
-\begin{figure} [tp]
+\begin{figure} [t]
 	\begin{center}
-	\includegraphics[height=5cm]{imagenes/cap3/3_rviz_example.png}
+	\includegraphics[height=10cm]{imagenes/cap3/3_rviz_example.png}
 	\end{center}
 	\caption[Ejemplo de uso de Rviz]{Ejemplo de uso de Rviz}
 	\label{fig:rviz}
@@ -83,9 +83,9 @@ En nuestro caso, nos permite ver como se dispersa la señal \ac{RF}, que trayect
 \section{Gazebo 11}
 \label{sec:gazebo}
 
-\begin{figure} [tp]
+\begin{figure} [t]
 	\begin{center}
-	\includegraphics[height=5cm]{imagenes/cap3/2_gazebo_drone.png}
+	\includegraphics[height=10cm]{imagenes/cap3/2_gazebo_drone.png}
 	\end{center}
 	\caption[Simulación dron en Gazebo]{Simulación dron en Gazebo}
 	\label{fig:gazebo}
@@ -101,13 +101,13 @@ Esta herramienta, nos permite visualizar en directo, el comportamiento del dispo
 \subsection{Visual Studio Code}
 \label{subsec:visual_studio_code}
 
-\begin{figure} [tp]
-	\begin{center}
-	\includegraphics[height=3cm]{imagenes/cap3/4_vscode_logo.png}
-	\end{center}
-	\caption[VS Code logo]{VS Code logo}
-	\label{fig:vscode}
-\end{figure}
+% \begin{figure} [hp]
+% 	\begin{center}
+% 	\includegraphics[height=3cm]{imagenes/cap3/4_vscode_logo.png}
+% 	\end{center}
+% 	\caption[VS Code logo]{VS Code logo}
+% 	\label{fig:vscode}
+% \end{figure}
 
 Entre las plataformas usadas para programar, \emph{Visual Studio Code}, o mejor conocido como \emph{VS code}, es un editor de código ligero, funcional tanto en Linux, Windows y macOS \footnote[9]{\url{https://code.visualstudio.com/docs}}.\\
 
@@ -116,7 +116,7 @@ Su principal ventaja, es que es altamente personalizable a el tipo de desarrollo
 \subsection{Github}
 \label{subsec:github}
 
-Github nace de la herramienta \textbf{git}, creada por Linus Torvalds (desarrollador de Linux), que es un sistema de control de versiones, que funciona a grandes rasgos a través de repositorios (o lugares donde se almacenan los sistemas de versiones de forma local), y commits (que permiten actualizar la version del código almacenado del repositorio) \footnote[10]{\url{https://www.howtogeek.com/180167/htg-explains-what-is-github-and-what-do-geeks-use-it-for/}}.\\
+Github nace de la herramienta git, creada por Linus Torvalds (desarrollador de Linux), que es un sistema de control de versiones, que funciona a grandes rasgos a través de repositorios (o lugares donde se almacenan los sistemas de versiones de forma local), y commits (que permiten actualizar la version del código almacenado del repositorio) \footnote[10]{\url{https://www.howtogeek.com/180167/htg-explains-what-is-github-and-what-do-geeks-use-it-for/}}.\\
 
 De este modo, Github consiste en trasladar la idea de tener repositorios locales, para distribuirlos en una plataforma online, donde además se permita el desarrollo de aplicaciones de manera colaborativa.\\
 
@@ -128,9 +128,9 @@ Por ello, el papel que toma en este proyecto es de vital importancia, ya que ase
 \subsection{OpenCV}
 \label{subsec:opencv}
 
-\begin{figure} [tp]
+\begin{figure} [t]
 	\begin{center}
-	\includegraphics[height=5cm]{imagenes/cap3/5_opencv_example.png}
+	\includegraphics[height=8cm]{imagenes/cap3/5_opencv_example.png}
 	\end{center}
 	\caption[Interfaz gráfica usando OpenCV]{Interfaz gráfica usando OpenCV}
 	\label{fig:opencv}
@@ -143,7 +143,7 @@ Por tanto, el uso designado en este proyecto es el de implementar interfaces gr�
 \subsection{Matplotlib}
 \label{subsec:matplotlib}
 
-\begin{figure} [tp]
+\begin{figure} [t]
 	\begin{center}
 	\includegraphics[height=7cm]{imagenes/cap3/6_matplotlib_app.png}
 	\end{center}
@@ -160,7 +160,7 @@ Concretamente en este proyecto se usa para desarrollar implementar mapas de calo
 
 \begin{figure} [tp]
 	\begin{center}
-	\includegraphics[height=7cm]{imagenes/cap3/7_px4_logo.jpeg}
+	\includegraphics[height=6cm]{imagenes/cap3/7_px4_logo.jpeg}
 	\end{center}
 	\caption[Panorámica de PX4 con \ac{ROS}]{Panorámica de PX4 con \ac{ROS}}
 	\label{fig:px4autopilot}
@@ -170,9 +170,6 @@ Es la capa de software que permite hacer funcionar las aeronaves con sus compone
 
 Este sistema, usa un conocido protocolo de comunicaciones llamado \textbf{MAVLink} (ver figura~\ref{fig:px4autopilot}), que se encarga de gestionar la comunicación entre el controlador de vuelo y la \ac{GCS}. En nuestro caso, y como queremos desarrollar aplicaciones mediante \ac{ROS}, debemos añadir una capa más, que se encarga de traducir los mensajes ROS a mensajes compatibles con el protocolo MAVLink, y de esto se encarga \textbf{MAVROS} \footnote[15]{\url{https://docs.px4.io/main/en/middleware/mavlink.html} \url{https://docs.px4.io/main/en/ros/ros1.html}}.\\
 
-\section{Iris}
-\label{sec:iris}
-
 \begin{figure} [tp]
 	\begin{center}
 	\includegraphics[height=5cm]{imagenes/cap3/8_iris_drone.png}
@@ -180,5 +177,8 @@ Este sistema, usa un conocido protocolo de comunicaciones llamado \textbf{MAVLin
 	\caption[Iris drone en Gazebo 11]{Iris drone en Gazebo 11}
 	\label{fig:irisdrone}
 \end{figure}
+
+\section{Iris}
+\label{sec:iris}
 
 Es el nombre de la aeronave representada en la figura~\ref{fig:irisdrone} y usada para solucionar los problemas planteados. En síntesis, es un dron cuadracóptero provisto de una cámara y un sensor de \ac{RF} simulado. Dicha aeronave es cortesía de \textbf{JdeRobot}, que es una organización sin ánimo de lucro, asociada a \emph{RoboticsLabURJC}, que provee de un conjunto de herramientas pensadas para desarrollar aplicaciones robóticas \footnote[16]{\url{https://jderobot.github.io/}}.\\

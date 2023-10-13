@@ -200,7 +200,7 @@ class Drone:
 
         # Display all points
         # self.show_points(TESTING_POSES_Q_30)
-        # self.show_points(TESTING_POSES_Q_30_OBSTACLE)
+        self.show_points(TESTING_POSES_Q_30_OBSTACLE)
 
         # Train the model
         # self.train_q(self.q_table, self.actions, self.states)
@@ -1474,6 +1474,6 @@ if __name__ == '__main__':
         # iris.q_learning_algorithm()
 
         iris.show_results()
-        # iris.reset_plots()
+        iris.reset_plots()
 
     rospy.spin()

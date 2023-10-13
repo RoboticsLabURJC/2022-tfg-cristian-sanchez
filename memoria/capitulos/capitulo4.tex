@@ -1,5 +1,6 @@
 \chapter{Diseño}
 \label{cap:capitulo4}
+\renewcommand{\tablename}{Tabla}
 
 En este capítulo se expone, de forma detallada, el proceso seguido para conseguir que un dron detecte y navegue autónomamente hacia una señal \ac{RF}. Además, se muestra el desarrollo de una aplicación responsiva, que simula el comportamiento de una señal (en un espacio libre de obstáculos), basada en la aproximación de Friis. A continuación, en la figura~\ref{fig:diagrama}, se muestra un diagrama de bloques donde se ve un esquema del sistema empleado.\\
 
@@ -137,14 +138,17 @@ Donde cada término significa lo siguiente\footnote[3]{\url{https://www.gaussian
 
 \begin{table} [t]
     \centering
-    \begin{tabular}{ll}
-    \textbf{Entorno}            & \textbf{Exponente n} \\
+    \begin{tabular}{|l|l|}
+    \hline
+    Entorno                     & Exponente n \\
+    \hline
     Sin obstáculos              & 2 \\
-    Zona urbana                 & 2'7 a 3'5\\
+    Zona urbana                 & 2.7 a 3.5\\
     Zona urbana densa           & 3 a 5  \\
-    Interior (a la vista)       & 1'6 a 1'8 \\
+    Interior (a la vista)       & 1.6 a 1.8 \\
     Interior (obstaculizado)    & 4 a 6 \\
     Almacen (obstaculizado)     & 2 a 3 \\
+    \hline
     \end{tabular}
     \caption[Valores n de referencia]{Valores n de referencia}
     \label{table:ple_table}
@@ -161,7 +165,7 @@ Además, empleando este método, podemos modelar las pérdidas de una señal est
 
 Una vez desarrollado lo anterior, lo siguiente consiste en encontrar la forma de que todo esto sea accesible para cualquier aplicación que lo desee en el ecosistema Python. Debido a esto, surge la idea de crear un módulo python encargado de modelar las ecuaciones previamente mencionadas. Para ello, se diseña una clase cuyo constructor recibe, por parámetros, las variables implicadas en las ecuaciones de Friis, además de las dimensiones del mapa y su resolución (la cual afecta al tamaño de celda).\\
 
-Básicamente, el proceso a seguir para usar este módulo es el siguiente, primero se crea un objeto de la clase Friis donde se especifican las características de la señal y las variables relacionadas, lo que genera internamente un array 2D vacío, que será rellenado en función de la configuración seleccionada. Posteriormente, se selecciona el modelo deseado (propagación o pérdidas), pasando las coordenadas del origen de la señal por parámetros. Esto, retornará el array relleno con los valores de potencia asociados a las ecuaciones del modelo de Friis seleccionado. A continuación, en el código~\ref{cod:friis_basics}, se muestra un ejemplo de uso sencillo, donde se obtiene un mapa de propagación de señal, en forma de Numpy array 2D:
+Básicamente, el proceso a seguir para usar este módulo es el siguiente, primero se crea un objeto de la clase Friis donde se especifican las características de la señal y las variables relacionadas, lo que genera internamente un array 2D vacío, que será rellenado en función de la configuración seleccionada. Posteriormente, se selecciona el modelo deseado (propagación o pérdidas), pasando las coordenadas del origen de la señal por parámetros. Esto, retornará el array relleno con los valores de potencia asociados a las ecuaciones del modelo de Friis seleccionado. A continuación, en el código~\ref{cod:friis_basics}, se muestra un ejemplo de uso sencillo, donde se obtiene un mapa de propagación de señal, en forma de Numpy array 2D.
 
 \begin{code}[H]
     \begin{lstlisting}[language=Python]
@@ -186,13 +190,13 @@ Básicamente, el proceso a seguir para usar este módulo es el siguiente, primer
 \label{cod:friis_basics}
 \end{code}
 
-Concretamente, se genera un array 10x10 con resolución 1 (es decir, representa celdillas de 1x1 metros), de una señal WIFI (2'4 GHz), donde el transmisor emite a 10 W, con una ganancia de 1.5, el receptor posee una ganancia de 2, un factor de pérdidas (L) de 1, es decir, sin pérdidas, y por último, el exponente n (\ac{PLE}) con un valor de 2, que representa el espacio vacío. Luego se genera el modelo de propagación de la señal, indicando que la fuente se encuentra en las coordenadas (5,3). En la figura~\ref{fig:heat_ex}, se muestra una representación del código~\ref{cod:friis_basics}, pero para un mapa de mayor dimensión (50 x 50 metros), de modo que se aprecie mejor las diferencias entre unos y otros.\\
+Concretamente, se genera un array 10x10 con resolución 1 (es decir, representa celdillas de 1x1 metros), de una señal WIFI (2.4 GHz), donde el transmisor emite a 10 W, con una ganancia de 1.5, el receptor posee una ganancia de 2, un factor de pérdidas (L) de 1, es decir, sin pérdidas, y por último, el exponente n (\ac{PLE}) con un valor de 2, que representa el espacio vacío. Luego se genera el modelo de propagación de la señal, indicando que la fuente se encuentra en las coordenadas (5,3). En la figura~\ref{fig:heat_ex}, se muestra una representación del código~\ref{cod:friis_basics}, pero para un mapa de mayor dimensión (50 x 50 metros), de modo que se aprecie mejor las diferencias entre unos y otros.\\
 
 \begin{figure} [tp]
 	\begin{center}
 	\includegraphics[height=6cm]{imagenes/cap4/4_heatmap_example.png}
 	\end{center}
-	\caption[Uso del módulo Friis con señal WIFI (5 GHz) VS señal GSM (0'9 GHz)]{Uso del módulo Friis con señal WIFI (2'4 Ghz) VS señal GSM (0'9 GHz)}
+	\caption[Uso del módulo Friis con señal WIFI (5 GHz) VS señal GSM (0.9 GHz)]{Uso del módulo Friis con señal WIFI (2.4 GHz) VS señal GSM (0.9 GHz)}
 	\label{fig:heat_ex}
 \end{figure}
 
@@ -328,12 +332,16 @@ Cabe destacar que, durante el entrenamiento, se especifican una serie de paráme
 
 \begin{table} [t]
     \centering
-    \begin{tabular}{ll}
-    Número de episodios totales & 10000 \\
-    $\alpha$                       & 0'4   \\
-    $\gamma$                       & 0'7   \\
-    $\epsilon$ (inicial)           & 0'99  \\
-    $\epsilon$ (final)             & 0'1   \\
+    \begin{tabular}{|l|l|}
+    \hline
+    Parámetro                       & Valor \\
+    \hline
+    Número de episodios totales     & 10000 \\
+    $\alpha$                        & 0.4   \\
+    $\gamma$                        & 0.7   \\
+    $\epsilon$ (inicial)            & 0.99  \\
+    $\epsilon$ (final)              & 0.1   \\
+    \hline
     \end{tabular}
     \caption[Parámetros usados durante todos los entrenamientos]{Parámetros usados durante todos los entrenamientos}
     \label{table:params}
@@ -346,9 +354,9 @@ Cabe destacar que, si la acción tomada lleva al dron hacia una condición de fi
     r = (P_f - P_o) \cdot factor
     \label{eq:reward}
 \end{equation}
-Donde $P_f$ representa el valor leido de la potencia de la señal en la nueva posición (tras haber realizado la acción), $P_o$ es el valor de la lectura obtenida antes de realizar la acción, y \emph{factor} equivale a un valor numérico fijo establecido en función de si se le quiere dar más importancia a las recompensas positivas y/o negativas (en nuestro caso es de 1'05 sólo para las recompensas negativas). El orden de magnitud trabajado para esta diferencia se encuentra en torno a las unidades, por ello, se establece el caso de que el dron salga del mapa con una recompensa fija de \emph{``-10''}, que escala al orden de las decenas, lo que nos permite penalizar más dichas decisiones, tal y como se puede apreciar en el código~\ref{cod:reward_python}.\\
+Donde $P_f$ representa el valor leido de la potencia de la señal en la nueva posición (tras haber realizado la acción), $P_o$ es el valor de la lectura obtenida antes de realizar la acción, y \emph{factor} equivale a un valor numérico fijo establecido en función de si se le quiere dar más importancia a las recompensas positivas y/o negativas (en nuestro caso es de 1'05 sólo para las recompensas negativas). El orden de magnitud trabajado para esta diferencia se encuentra en torno a las unidades, por ello, se establece el caso de que el dron salga del mapa con una recompensa fija de \emph{``-10''}, que escala al orden de las decenas, lo que nos permite penalizar más dichas decisiones, tal y como se puede apreciar en el código~\ref{cod:reward_python}.
 
-\begin{code}[tp]
+\begin{code}[hp]
     \begin{lstlisting}[language=Python]
     if pwr_next == NOT_VALID_POWER:
         reward = -10
@@ -407,7 +415,10 @@ Durante todos los experimentos realizados, los parámetros de la señal siempre 
 
 \begin{table} [t]
     \centering
-    \begin{tabular}{ll}
+    \begin{tabular}{|l|l|}
+    \hline
+    Característica          & Valor \\
+    \hline
     Potencia del transmisor & 1 W            \\
     Ganancia del transmisor & 1 W            \\
     Ganancia del receptor   & 1 W            \\
@@ -415,6 +426,7 @@ Durante todos los experimentos realizados, los parámetros de la señal siempre 
     Factor de pérdidas (L)  & 2.4            \\
     Exponente n             & 2              \\
     Resolución              & 1              \\
+    \hline
     \end{tabular}
     \caption[Características de la señal por defecto]{Características de la señal por defecto}
     \label{table:compare_graph}
@@ -446,7 +458,7 @@ En el caso del transmisor cerca de la esquina, se sitúa en las coordenadas (3, 
 \subsubsection{Experimento 2 - Desempeño del algoritmo Q-Learning para dos señales distintas}
 \label{subsubsec:experimentos_1}
 
-En este caso, se ha realizado un experimento en el cual se entrena al modelo de Q-Learning con los parámetros especificados en la tabla~\ref{table:params}, donde el transmisor emite con las características de señal mencionadas en la tabla~\ref{table:compare_graph} (en gráficas comparativas hace referencia a \emph{``Q-Learning''}). A continuación se realiza inferencia, y posteriormente se modifican las características de la señal, aumentando la potencia del transmisor al doble (2 W) y cambiando la frecuencia (de 2'4 GHz a 5 GHz), de modo que en las gráficas comparativas se nombra como \emph{``Q-Learning 2''}. Nuevamente se realiza inferencia y se extraen resultados. Las coordenadas en las que se sitúa el transmisor están en (5, 3) y no son modificadas en ningún momento. Además, los puntos de entrenamiento seleccionados se pueden ver en el mapa de puntos de la figura~\ref{fig:map_p_diff_30}.\\
+En este caso, se ha realizado un experimento en el cual se entrena al modelo de Q-Learning con los parámetros especificados en la tabla~\ref{table:params}, donde el transmisor emite con las características de señal mencionadas en la tabla~\ref{table:compare_graph} (en gráficas comparativas hace referencia a \emph{``Q-Learning''}). A continuación se realiza inferencia, y posteriormente se modifican las características de la señal, aumentando la potencia del transmisor al doble (2 W) y cambiando la frecuencia (de 2.4 GHz a 5 GHz), de modo que en las gráficas comparativas se nombra como \emph{``Q-Learning 2''}. Nuevamente se realiza inferencia y se extraen resultados. Las coordenadas en las que se sitúa el transmisor están en (5, 3) y no son modificadas en ningún momento. Además, los puntos de entrenamiento seleccionados se pueden ver en el mapa de puntos de la figura~\ref{fig:map_p_diff_30}.\\
 
 \begin{figure} [tp]
 	\centering
@@ -469,7 +481,7 @@ Para este caso, el problema se resuelve de igual forma para ambos casos, con una
 
 \begin{figure} [tp]
     \begin{center}
-    \includegraphics[height=8cm]{imagenes/cap4/13_trayectorias_12.png}
+    \includegraphics[height=9cm]{imagenes/cap4/13_trayectorias_12.png}
     \end{center}
     \caption[Trayectorias seguidas durante la inferencia]{Trayectorias seguidas durante la inferencia}
     \label{fig:12_traj}
@@ -482,16 +494,17 @@ Para este caso, el problema se resuelve de igual forma para ambos casos, con una
 \label{subsec:intro_sfo}
 
 \begin{figure} [tp]
-    \begin{center}
-    \includegraphics[height=10cm]{imagenes/cap4/34_hm.png}
-    \end{center}
-    \caption[Mapa de calor con obstáculo]{Mapa de calor con obstáculo}
-    \label{fig:obshm}
+	\centering
+	\subfigure[Mapa de puntos]{\includegraphics[height=5.25cm]{imagenes/cap4/35_points.png}}
+	\quad
+	\subfigure[Mapa de calor]{\includegraphics[height=5cm]{imagenes/cap4/34_hm.png}}
+	\caption{Escenario con obstáculos (30x30)}
+	\label{fig:fig:obshm}
 \end{figure}
 
 El escenario planteado anteriormente, es una aproximación poco realista, es decir, en un entorno real se esperan perturbaciones y obstáculos. Por ello, se ha implementado un escenario con muros que distorsionan la señal.\\
 
-Inicialmente, se ha simulado el degradado de la señal en presencia de obstáculos (ver figura~\ref{fig:obshm}), es decir, se han sobreescrito los valores degradados de la señal sobre el mapa original.\\
+Inicialmente, se ha simulado el degradado de la señal en presencia de obstáculos (ver figura~\ref{fig:obshm}), es decir, se ha añadido un muro al mapa original, lo que en consecuencia ha derivado en una degradación de la señal, por lo que se han sobreescrito los valores originales de la señal por valores afectados con un factor de pérdidas (en este caso 1.015 para valores negativos).\\
 
 \subsection{Algoritmos}
 \label{subsec:algoritmo_sfo}
@@ -508,48 +521,47 @@ Por ello se distinguen dos casos:
 \subsection{Experimentos y resultados}
 \label{subsec:experimentos_sfo}
 
-Por ello, se observa que para el primer caso donde el dron sobrevuela cualquier muro, no existe inconveniente, puesto que el dron toma el camino que tomaría si no hubiera obstáculos. Esto es debido a que en inferencia, tan solo se tiene en cuenta su posición con respecto al mapa de calor, y por tanto no identifica si hay o no obstáculos. Sin embargo, sí es relevante a la hora de abordar la condición de finalización, ya que al modificar el mapa de señal, se pueden dar falsos positivos y generar mínimos locales. Por ello, se ha empleado una técnica que analiza, por pares, las coordenadas visitadas, de modo que se tiene la coordenada actual y la nueva, y por iteración se compara con la siguiente actual y la siguiente nueva, y si coinciden, se cumple la condición pasando al análisis de los vecinos cercanos, como en todos los casos anteriores. Por último cabe destacar que esta condición funciona para desplazamientos de 1 m, o dicho de otro modo, de celdilla en celdilla.\\
+Por ello, se observa que para el primer caso donde el dron sobrevuela cualquier muro, no existe inconveniente, puesto que el dron toma el camino que tomaría si no hubiera obstáculos. Esto es debido a que en inferencia, tan solo se tiene en cuenta su posición con respecto al mapa de calor, y por tanto no identifica si hay o no obstáculos, lo que a efectos prácticos, es cómo si no existiera para el dron. Debido a esto, no se muestran resultados, ya que el comportamiento es idéntico a los casos estudiados en las secciones anteriores. Sin embargo, sí es relevante a la hora de abordar la condición de finalización, ya que al modificar el mapa de señal, se pueden dar falsos positivos y generar mínimos locales. Por ello, se ha empleado una técnica que analiza, por pares, las coordenadas visitadas, de modo que se tiene la coordenada actual y la nueva, y por iteración se compara con la siguiente actual y la siguiente nueva, y si coinciden, se cumple la condición pasando al análisis de los vecinos cercanos, como en todos los casos anteriores. Por último cabe destacar que esta condición funciona para desplazamientos de 1 m, o dicho de otro modo, de celdilla en celdilla.\\
 
 En el otro escenario, donde el dron vuela a la altura de los obstáculos, se debe implementar un método de detección de obstáculos. En general, se puede generar un caso realista usando un láser LiDAR o una cámara 3D, pero para simplificar el problema, se ha empleado la información del mapa realizando una simulación del comportamiento que tendría un sensor genérico de este tipo. Por ello, primero se prueba excluyendo las acciones que desemboquen en colisión, donde se presupone que el entrenamiento evitará acciones que alejen al dron de la señal, tal y cómo se observa en la figura~\ref{fig:pseudosensor}.\\
 
 \begin{figure} [tp]
     \begin{center}
-    \includegraphics[height=9cm]{imagenes/cap4/28_pseudosensor.png}
+    \includegraphics[height=10cm]{imagenes/cap4/28_pseudosensor.png}
     \end{center}
     \caption[Simulación de sensor para obstáculo]{Simulación de sensor para obstáculo}
     \label{fig:pseudosensor}
 \end{figure}
 
+Sin embargo y siguiendo el esquema de la figura~\ref{fig:pseudosensor}, los resultados no son concluyentes, de modo que en ocasiones sortea el obstáculo, pero en otras simplemente retrocede o alcanza un mínimo local. De este modo, y volviendo a la conclusión extraida del primer escenario, se ve la necesidad de aplicar un comportamiento híbrido, de modo que se navegue hacia la señal, hasta topar con un obstáculo lo suficientemente cercano, como para que cambie el modo de actuación para evitarlo. Una vez sorteado, se vuelve modo de navegación normal, hasta llegar a la señal o a otro obstáculo (ver figura~\ref{fig:hyb}).\\
+
 \begin{figure} [tp]
     \begin{center}
-    \includegraphics[height=8cm]{imagenes/cap4/29_hyb.png}
+    \includegraphics[height=10cm]{imagenes/cap4/29_hyb.png}
     \end{center}
     \caption[Diagrama de funcionamiento híbrido]{Diagrama de funcionamiento híbrido}
     \label{fig:hyb}
 \end{figure}
 
-Sin embargo, los resultados no son concluyentes, de modo que en ocasiones sortea el obstáculo, pero en otras simplemente retrocede o alcanza un mínimo local. De este modo, y volviendo a la conclusión extraida del primer escenario, se ve la necesidad de aplicar un comportamiento híbrido, de modo que se navegue hacia la señal, hasta topar con un obstáculo lo suficientemente cercano, como para que cambie el modo de actuación para evitarlo. Una vez sorteado, se vuelve modo de navegación normal, hasta llegar a la señal o a otro obstáculo (ver figura~\ref{fig:hyb}).\\
-
+Por ello, se opta por emplear un algoritmo basado en \ac{VFF} (ver figura~\ref{fig:vffwork}), que consiste en generar un comportamiento basado en vectores de fuerzas virtuales, de modo que se alcanzen subobjetivos cercanos, evitando colisiones con obstáculos (ver figura). Para nuestro caso concreto, se ha decidido adaptar de modo que: los obstáculos son dispuestos en el mapa por celdillas ocupadas, de modo que cada celdilla genera un vector inversamente proporcional a la distancia, desde la celdilla a la posición del dron, generando un vector de repulsión; los subobjetivos que generarían el vector de fuerza atractiva, son sustituidos por un vector basado en la tendencia seguida por el dron, durante la navegación basada en Q-Learning, es decir, se obtiene un vector unitario resultante de todas las posiciones visitadas por el dron, previamente. Todo esto, se ajusta siguiendo la ecuación~\ref{eq:vff}, que traducido a comandos para el dron son velocidades en x, y, ya que es lo que mejor se ajusta al comportamiento reactivo buscado.
 \begin{figure} [tp]
     \begin{center}
-    \includegraphics[height=10cm]{imagenes/cap4/30_vff.png}
+    \includegraphics[height=14cm]{imagenes/cap4/30_vff.png}
     \end{center}
     \caption[Funcionamiento general del algoritmo \ac{VFF}]{Funcionamiento general del algoritmo \ac{VFF}}
     \label{fig:vffwork}
 \end{figure}
 
-Por ello, se opta por emplear un algoritmo basado en \ac{VFF} (ver figura~\ref{fig:vffwork}), que consiste en generar un comportamiento basado en vectores de fuerzas virtuales, de modo que se alcanzen subobjetivos cercanos, evitando colisiones con obstáculos (ver figura). Para nuestro caso concreto, se ha decidido adaptar de modo que: los obstáculos son dispuestos en el mapa por celdillas ocupadas, de modo que cada celdilla genera un vector inversamente proporcional a la distancia, desde la celdilla a la posición del dron, generando un vector de repulsión; los subobjetivos que generarían el vector de fuerza atractiva, son sustituidos por un vector basado en la tendencia seguida por el dron, durante la navegación basada en Q-Learning, es decir, se obtiene un vector unitario resultante de todas las posiciones visitadas por el dron, previamente. Todo esto, se ajusta siguiendo la ecuación~\ref{eq:vff}, que traducido a comandos para el dron son velocidades en x, y, ya que es lo que mejor se ajusta al comportamiento reactivo buscado.
 \begin{equation}
     F_{res} = \alpha \cdot F_{atr} + \beta \cdot F_{rep}
     \label{eq:vff}
 \end{equation}
-Donde tras el ajuste por experimentación, $\alpha$ (que determina la importancia que tendrá la fuerza atractiva en la ejecución) toma el valor de 2'5, y $\beta$ (que por contra determina la importancia de la fuerza repulsiva) toma el valor de 0'05. Adicionalmente, es necesario comentar un problema derivado del diseño a la hora de simular el escenario. A causa de que el transmisor se sitúa esquinado y el obstáculo también, y dado que el dron solo actuaba sobre el muro, si el algoritmo \ac{VFF} desplazaba al dron fuera de las coordenadas del mapa de calor, se generaban comportamientos impredecibles (lo cual en la realidad no sucedería, ya que la señal se propagaría en todas direcciones). Para solucionarlo, se agregaron muros virtuales que actúan como obstáculos, con el fin de delimitar estas áreas fuera del mapa de calor. El resultado final es satisfactorio, ya que se consigue navegar hacia la señal, evitando obstáculos. En la figura~\ref{fig:hybrid}, se puede ver una representación gráfica del escenario y su funcionamiento, donde se dispone un muro, el transmisor y el algoritmo funcionando en ambos modos.
-
-\begin{figure} [tp]
+Donde tras el ajuste por experimentación, $\alpha$ (que determina la importancia que tendrá la fuerza atractiva en la ejecución) toma el valor de 2.5, y $\beta$ (que por contra determina la importancia de la fuerza repulsiva) toma el valor de 0.05. Adicionalmente, es necesario comentar un problema derivado del diseño a la hora de simular el escenario. A causa de que el transmisor se sitúa esquinado y el obstáculo también, y dado que el dron solo actuaba sobre el muro, si el algoritmo \ac{VFF} desplazaba al dron fuera de las coordenadas del mapa de calor, se generaban comportamientos impredecibles (lo cual en la realidad no sucedería, ya que la señal se propagaría en todas direcciones). Para solucionarlo, se agregaron muros virtuales que actúan como obstáculos, con el fin de delimitar estas áreas fuera del mapa de calor. El resultado final es satisfactorio, ya que se consigue navegar hacia la señal, evitando obstáculos. En la figura~\ref{fig:hybrid}, se puede ver una representación gráfica del escenario y su funcionamiento, donde se dispone un muro, el transmisor y el algoritmo funcionando en ambos modos.
+\begin{figure} [hp]
 	\centering
-	\subfigure[Q-Learning]{\includegraphics[height=11cm]{imagenes/cap4/0_ql.png}}
+	\subfigure[Q-Learning]{\includegraphics[height=7.25cm]{imagenes/cap4/0_ql.png}}
 	\quad
-	\subfigure[VFF]{\includegraphics[height=11cm]{imagenes/cap4/0_vff.png}}
+	\subfigure[VFF]{\includegraphics[height=7.25cm]{imagenes/cap4/0_vff.png}}
 	\caption{Enfoque híbrido}
 	\label{fig:hybrid}
 \end{figure}
